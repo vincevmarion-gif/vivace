@@ -1,0 +1,1038 @@
+import React, { useState, useEffect } from "react";
+import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu } from "lucide-react";
+
+// ---------- Shared bottle / can SVGs ----------
+function BottleSVG({ size = 110 }) {
+  const h = size * (380 / 110);
+  return (
+    <svg width={size} height={h} viewBox="0 0 110 380" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        {/* Clear glass with liquid */}
+        <linearGradient id="bGlass" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#e8e4d0" stopOpacity="0.35" />
+          <stop offset="15%" stopColor="#f5f2e4" stopOpacity="0.15" />
+          <stop offset="50%" stopColor="#e8d98a" stopOpacity="0.55" />
+          <stop offset="85%" stopColor="#d4c468" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#b8a84a" stopOpacity="0.8" />
+        </linearGradient>
+        <linearGradient id="bLiquid" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#f0d050" />
+          <stop offset="50%" stopColor="#f7dc6f" />
+          <stop offset="100%" stopColor="#d4af2a" />
+        </linearGradient>
+        {/* Cream label */}
+        <linearGradient id="bLabelBg" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#f7f3e8" />
+          <stop offset="100%" stopColor="#efe8d8" />
+        </linearGradient>
+        {/* Sky for colosseum scene */}
+        <linearGradient id="bSky" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#2c5f8a" />
+          <stop offset="100%" stopColor="#4a85ab" />
+        </linearGradient>
+        <linearGradient id="bShine" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="white" stopOpacity="0" />
+          <stop offset="38%" stopColor="white" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="white" stopOpacity="0" />
+        </linearGradient>
+        <clipPath id="bClip">
+          <path d="M38,30 L38,16 Q38,8 45,6 L65,6 Q72,8 72,16 L72,30 Q85,38 88,55 L88,340 Q88,355 75,358 L35,358 Q22,355 22,340 L22,55 Q25,38 38,30 Z" />
+        </clipPath>
+        <clipPath id="bSceneClip">
+          <rect x="26" y="142" width="58" height="34" />
+        </clipPath>
+      </defs>
+
+      {/* Glass bottle body */}
+      <path d="M38,30 L38,16 Q38,8 45,6 L65,6 Q72,8 72,16 L72,30 Q85,38 88,55 L88,340 Q88,355 75,358 L35,358 Q22,355 22,340 L22,55 Q25,38 38,30 Z" fill="url(#bLiquid)" />
+      <path d="M38,30 L38,16 Q38,8 45,6 L65,6 Q72,8 72,16 L72,30 Q85,38 88,55 L88,340 Q88,355 75,358 L35,358 Q22,355 22,340 L22,55 Q25,38 38,30 Z" fill="url(#bShine)" />
+
+      {/* Label background - cream */}
+      <rect x="24" y="96" width="62" height="190" rx="2" fill="url(#bLabelBg)" clipPath="url(#bClip)" />
+      <rect x="24" y="96" width="62" height="190" rx="2" fill="none" stroke="#2c5f8a" strokeWidth="1.5" clipPath="url(#bClip)" />
+
+      {/* Colosseum illustrated scene */}
+      <g clipPath="url(#bSceneClip)">
+        <rect x="26" y="142" width="58" height="22" fill="url(#bSky)" />
+        {/* Colosseum structure */}
+        <rect x="32" y="152" width="46" height="14" fill="#c98a52" />
+        {Array.from({ length: 11 }).map((_, i) => (
+          <rect key={i} x={34 + i * 4} y="154" width="2" height="9" fill="#7a4f28" />
+        ))}
+        <rect x="32" y="150" width="46" height="2.5" fill="#e8c896" />
+        {/* golden rocky foreground */}
+        <rect x="26" y="164" width="58" height="12" fill="#c9a23a" />
+        <polygon points="28,176 33,166 38,176" fill="#b3892e" />
+        <polygon points="40,176 46,167 52,176" fill="#bf9433" />
+        <polygon points="54,176 60,168 66,176" fill="#b3892e" />
+        <polygon points="68,176 74,166 80,176" fill="#bf9433" />
+      </g>
+      <rect x="26" y="142" width="58" height="34" fill="none" stroke="#2c5f8a" strokeWidth="1" clipPath="url(#bClip)" />
+
+      {/* VIVACE wordmark */}
+      <text x="55" y="195" textAnchor="middle" fontFamily="Georgia, serif" fontSize="13" fontWeight="bold" fill="#1f3a4d" letterSpacing="2.5" clipPath="url(#bClip)">VIVACE</text>
+      <text x="55" y="207" textAnchor="middle" fontFamily="Georgia, serif" fontSize="5.5" fill="#5a5240" letterSpacing="2" clipPath="url(#bClip)">LIMONCELLO</text>
+
+      <line x1="32" y1="214" x2="78" y2="214" stroke="#2c5f8a" strokeWidth="0.6" opacity="0.4" clipPath="url(#bClip)" />
+
+      <text x="55" y="226" textAnchor="middle" fontFamily="Georgia, serif" fontStyle="italic" fontSize="5" fill="#5a5240" letterSpacing="1" clipPath="url(#bClip)">Italiano · 30% VOL · 500ml</text>
+      <text x="55" y="237" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="4" fill="#7a7260" letterSpacing="0.3" clipPath="url(#bClip)">218 kcal/100ml · 75 kcal per shot (35ml)</text>
+
+      {/* Lower blue accent band */}
+      <rect x="24" y="266" width="62" height="16" fill="#2c5f8a" clipPath="url(#bClip)" />
+      <text x="55" y="277" textAnchor="middle" fontFamily="Georgia, serif" fontSize="4.5" fill="#f0e8cc" letterSpacing="1.5" clipPath="url(#bClip)">100% WINST NAAR GOED DOEL</text>
+
+      {/* Cap & neck */}
+      <rect x="38" y="0" width="34" height="22" rx="2" fill="#c8c8c8" />
+      <rect x="38" y="0" width="34" height="22" rx="2" fill="none" stroke="#999" strokeWidth="0.5" />
+      <text x="55" y="13" textAnchor="middle" fontFamily="Georgia, serif" fontSize="4" fill="#666" letterSpacing="1">VIVACE</text>
+    </svg>
+  );
+}
+
+function CanSVG({ size = 90 }) {
+  const h = size * (220 / 90);
+  return (
+    <svg width={size} height={h} viewBox="0 0 90 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="cBody" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#e0d9c0" />
+          <stop offset="15%" stopColor="#f7f3e8" />
+          <stop offset="50%" stopColor="#fbf8ee" />
+          <stop offset="85%" stopColor="#efe8d8" />
+          <stop offset="100%" stopColor="#d8cfb0" />
+        </linearGradient>
+        <linearGradient id="cSky" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#2c5f8a" />
+          <stop offset="100%" stopColor="#4a85ab" />
+        </linearGradient>
+        <linearGradient id="cTopGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#d4d4d4" />
+          <stop offset="100%" stopColor="#a8a8a8" />
+        </linearGradient>
+        <clipPath id="cClip">
+          <rect x="10" y="18" width="70" height="186" rx="8" />
+        </clipPath>
+        <clipPath id="cSceneClip">
+          <rect x="14" y="56" width="62" height="36" />
+        </clipPath>
+      </defs>
+
+      {/* Can body - cream */}
+      <rect x="10" y="18" width="70" height="186" rx="8" fill="url(#cBody)" />
+
+      {/* Blue accent stripes */}
+      <rect x="10" y="44" width="70" height="2.5" fill="#2c5f8a" clipPath="url(#cClip)" />
+      <rect x="10" y="186" width="70" height="2.5" fill="#2c5f8a" clipPath="url(#cClip)" />
+
+      {/* Colosseum illustrated scene */}
+      <g clipPath="url(#cSceneClip)">
+        <rect x="14" y="56" width="62" height="24" fill="url(#cSky)" />
+        <rect x="20" y="68" width="50" height="14" fill="#c98a52" />
+        {Array.from({ length: 12 }).map((_, i) => (
+          <rect key={i} x={22 + i * 4} y="70" width="2" height="9" fill="#7a4f28" />
+        ))}
+        <rect x="20" y="66" width="50" height="2.5" fill="#e8c896" />
+        <rect x="14" y="80" width="62" height="12" fill="#c9a23a" />
+        <polygon points="18,92 24,82 30,92" fill="#b3892e" />
+        <polygon points="32,92 39,83 46,92" fill="#bf9433" />
+        <polygon points="48,92 55,81 62,92" fill="#b3892e" />
+        <polygon points="64,92 71,83 78,92" fill="#bf9433" />
+      </g>
+      <rect x="14" y="56" width="62" height="36" fill="none" stroke="#2c5f8a" strokeWidth="0.8" clipPath="url(#cClip)" />
+
+      {/* VIVACE wordmark */}
+      <text x="45" y="108" textAnchor="middle" fontFamily="Georgia, serif" fontSize="11" fontWeight="bold" fill="#1f3a4d" letterSpacing="2" clipPath="url(#cClip)">VIVACE</text>
+      <text x="45" y="119" textAnchor="middle" fontFamily="Georgia, serif" fontSize="5" fill="#5a5240" letterSpacing="1.8" clipPath="url(#cClip)">LIMONCELLO SPRITZ</text>
+
+      <line x1="22" y1="127" x2="68" y2="127" stroke="#2c5f8a" strokeWidth="0.5" opacity="0.4" clipPath="url(#cClip)" />
+
+      <text x="45" y="138" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="4.5" fill="#5a5240" letterSpacing="0.8" clipPath="url(#cClip)">7% VOL · 250ml</text>
+      <text x="45" y="147" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="4" fill="#7a7260" letterSpacing="0.3" clipPath="url(#cClip)">95 kcal per blikje</text>
+
+      {/* Lower blue band */}
+      <rect x="10" y="160" width="70" height="14" fill="#2c5f8a" clipPath="url(#cClip)" />
+      <text x="45" y="170" textAnchor="middle" fontFamily="Georgia, serif" fontSize="4" fill="#f0e8cc" letterSpacing="1" clipPath="url(#cClip)">100% WINST NAAR GOED DOEL</text>
+
+      {/* Top & bottom */}
+      <ellipse cx="45" cy="18" rx="35" ry="7" fill="url(#cTopGrad)" />
+      <ellipse cx="45" cy="12" rx="8" ry="3" fill="#999" />
+      <rect x="43" y="9" width="4" height="8" rx="2" fill="#888" />
+      <ellipse cx="45" cy="204" rx="35" ry="7" fill="#999" />
+    </svg>
+  );
+}
+
+// ---------- Product data ----------
+const PRODUCTS = {
+  limoncello: {
+    id: "limoncello",
+    name: "Vivace Limoncello",
+    type: "Onze Signature Fles",
+    price: 24.95,
+    abv: "30% VOL",
+    size: "500ml",
+    kcal: "218 kcal / 100ml · 75 kcal per shot (35ml)",
+    onlineSellable: false,
+    description:
+      "Echte Italiaanse limoncello, gemaakt door een ambachtelijke distilleerderij hier in Nederland. Citrus, romig en ijskoud het lekkerst.",
+    backLabel: '"Wij maken het. Jij drinkt het. Iemand eet vanavond."',
+  },
+  spritz: {
+    id: "spritz",
+    name: "Vivace Spritz",
+    type: "De Toekomst ⚡",
+    price: 3.25,
+    abv: "7% VOL",
+    size: "250ml",
+    kcal: "95 kcal per blikje (250ml)",
+    onlineSellable: false,
+    comingSoon: true,
+    description:
+      "Limoncello ontmoet bruisend water. Direct klaar om te drinken, recht uit het blikje. Fris, helder en onmiskenbaar Italiaans.",
+    backLabel: '"Nu opentrekken."',
+  },
+};
+
+const STOCKISTS = [
+  { name: "Lokale supermarkt", area: "Bij jou in de buurt", type: "Supermarkt", products: ["limoncello"] },
+  { name: "Italiaans restaurant", area: "Bij jou in de buurt", type: "Restaurant", products: ["limoncello"] },
+];
+
+// ---------- Cart context (simple prop-drill, no localStorage) ----------
+function useCart() {
+  const [items, setItems] = useState({});
+
+  const add = (id) => setItems((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+  const remove = (id) =>
+    setItems((prev) => {
+      const next = { ...prev };
+      if (next[id] > 1) next[id] -= 1;
+      else delete next[id];
+      return next;
+    });
+  const clear = () => setItems({});
+
+  const count = Object.values(items).reduce((a, b) => a + b, 0);
+  const total = Object.entries(items).reduce(
+    (sum, [id, qty]) => sum + PRODUCTS[id].price * qty,
+    0
+  );
+
+  return { items, add, remove, clear, count, total };
+}
+
+// ---------- Nav ----------
+function Nav({ page, setPage, cart, setCartOpen }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const links = [
+    { id: "home", label: "Home" },
+    { id: "products", label: "Producten" },
+    { id: "stores", label: "Verkooppunten" },
+    { id: "about", label: "Over ons" },
+    { id: "contact", label: "Contact" },
+  ];
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        scrolled ? "bg-[#0a1628]/95 border-b border-[#1c3450]" : "bg-gradient-to-b from-[#0a1628]/90 to-transparent"
+      }`}
+    >
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-5">
+        <button
+          onClick={() => setPage("home")}
+          className="font-serif text-2xl font-bold tracking-[0.2em] text-yellow-400 uppercase"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+        >
+          Vivace
+        </button>
+
+        <ul className="hidden md:flex gap-10">
+          {links.map((l) => (
+            <li key={l.id}>
+              <button
+                onClick={() => setPage(l.id)}
+                className={`text-[11px] uppercase tracking-[0.16em] transition-colors ${
+                  page === l.id ? "text-yellow-400" : "text-white/50 hover:text-white"
+                }`}
+              >
+                {l.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setCartOpen(true)}
+            className="relative text-white/80 hover:text-yellow-400 transition-colors"
+            aria-label="Winkelwagen"
+          >
+            <ShoppingBag size={20} />
+            {cart.count > 0 && (
+              <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                {cart.count}
+              </span>
+            )}
+          </button>
+          <button className="md:hidden text-white/80" onClick={() => setMobileOpen(!mobileOpen)}>
+            <Menu size={22} />
+          </button>
+        </div>
+      </div>
+
+      {mobileOpen && (
+        <div className="md:hidden bg-[#0a1628] border-t border-[#1c3450] px-6 py-4 flex flex-col gap-4">
+          {links.map((l) => (
+            <button
+              key={l.id}
+              onClick={() => {
+                setPage(l.id);
+                setMobileOpen(false);
+              }}
+              className="text-left text-sm uppercase tracking-wider text-white/70"
+            >
+              {l.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+}
+
+// ---------- Cart Drawer ----------
+function CartDrawer({ open, onClose, cart }) {
+  if (!open) return null;
+  const entries = Object.entries(cart.items);
+
+  return (
+    <div className="fixed inset-0 z-[100]">
+      <div className="absolute inset-0 bg-[#050b14]/80" onClick={onClose} />
+      <div className="absolute right-0 top-0 h-full w-full max-w-sm bg-[#0f1f33] border-l border-[#234060] flex flex-col">
+        <div className="flex items-center justify-between p-6 border-b border-[#234060]">
+          <h3 className="font-serif text-xl text-yellow-400" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Winkelwagen
+          </h3>
+          <button onClick={onClose} className="text-white/50 hover:text-white">
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {entries.length === 0 && (
+            <p className="text-white/40 text-sm">Je winkelwagen is leeg. Online bestellen volgt binnenkort.</p>
+          )}
+          {entries.map(([id, qty]) => {
+            const p = PRODUCTS[id];
+            return (
+              <div key={id} className="flex gap-4 items-center">
+                <div className="flex-shrink-0">
+                  <CanSVG size={40} />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm text-white/90">{p.name}</p>
+                  <p className="text-xs text-white/40">€{p.price.toFixed(2)}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => cart.remove(id)}
+                    className="w-6 h-6 flex items-center justify-center border border-white/20 text-white/60 hover:border-yellow-400 hover:text-yellow-400"
+                  >
+                    <Minus size={12} />
+                  </button>
+                  <span className="text-sm w-4 text-center">{qty}</span>
+                  <button
+                    onClick={() => cart.add(id)}
+                    className="w-6 h-6 flex items-center justify-center border border-white/20 text-white/60 hover:border-yellow-400 hover:text-yellow-400"
+                  >
+                    <Plus size={12} />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {entries.length > 0 && (
+          <div className="p-6 border-t border-[#234060] space-y-4">
+            <div className="flex justify-between text-sm">
+              <span className="text-white/50">Subtotaal</span>
+              <span className="text-white">€{cart.total.toFixed(2)}</span>
+            </div>
+            <p className="text-[11px] text-yellow-400/70 italic">100% van de winst gaat naar Voedselbanken Nederland.</p>
+            <button className="w-full bg-yellow-400 text-black py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-yellow-300 transition-colors">
+              Afrekenen
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ---------- Age gate ----------
+function AgeGate({ onConfirm }) {
+  return (
+    <div className="fixed inset-0 z-[200] bg-[#0a1628] flex items-center justify-center px-6" style={{ backgroundColor: "#0a1628" }}>
+      <div className="max-w-sm text-center">
+        <p className="font-serif text-3xl text-yellow-400 tracking-[0.2em] uppercase mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Vivace
+        </p>
+        <p className="text-white/70 text-sm mb-2">Ben je 18 jaar of ouder?</p>
+        <p className="text-white/30 text-xs mb-8">We vragen dit omdat onze producten alcohol bevatten.</p>
+        <div className="flex gap-4 justify-center">
+          <button
+            onClick={() => onConfirm(true)}
+            className="bg-yellow-400 text-black px-8 py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-yellow-300"
+          >
+            Ja, ik ben 18+
+          </button>
+          <button
+            onClick={() => onConfirm(false)}
+            className="border border-white/20 text-white/50 px-8 py-3 text-xs uppercase tracking-[0.15em]"
+          >
+            Nee
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function UnderageBlock() {
+  return (
+    <div className="fixed inset-0 z-[200] bg-[#0a1628] flex items-center justify-center px-6 text-center" style={{ backgroundColor: "#0a1628" }}>
+      <p className="text-white/50 text-sm max-w-sm">
+        Je moet 18 jaar of ouder zijn om deze website te bezoeken. Drink geen alcohol als je jonger bent.
+      </p>
+    </div>
+  );
+}
+
+// ---------- Donation Counter ----------
+// Shows €0 until you wire this to real sales data (e.g. from a backend or
+// payment provider). Currently just displays a static placeholder value.
+function DonationCounter() {
+  const total = 0; // TODO: connect to real sales/donation data later
+
+  return (
+    <div className="text-center">
+      <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Actueel</p>
+      <p
+        className="font-serif text-yellow-400"
+        style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(48px, 8vw, 90px)", fontWeight: 700, lineHeight: 1 }}
+      >
+        {`€${total.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`}
+      </p>
+      <p className="text-white/35 text-sm mt-4 max-w-sm mx-auto">
+        Opgehaald voor Voedselbanken Nederland — sinds de lancering van Vivace.
+      </p>
+      <p className="text-white/15 text-[11px] mt-3 italic">
+        Teller wordt binnenkort live gekoppeld aan onze verkoopdata.
+      </p>
+    </div>
+  );
+}
+
+function Reveal({ children, delay = 0 }) {
+  const [visible, setVisible] = useState(false);
+  const ref = React.useRef(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.15 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        transitionDelay: `${delay}ms`,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : "translateY(28px)",
+        transition: "opacity 0.8s ease, transform 0.8s ease",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+function HomePage({ setPage }) {
+  return (
+    <div>
+      <section className="min-h-screen grid md:grid-cols-2 items-center px-6 md:px-14 pt-32 pb-20 relative overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 55% 65% at 72% 48%, rgba(62,207,0,0.06) 0%, transparent 70%), radial-gradient(ellipse 45% 55% at 28% 58%, rgba(255,215,0,0.07) 0%, transparent 65%)",
+          }}
+        />
+        <div className="relative z-10">
+          <p className="text-[11px] tracking-[0.35em] uppercase text-amber-300 mb-7">
+            Gemaakt in Nederland · Italiaanse ziel
+          </p>
+          <h1
+            className="font-serif text-6xl md:text-7xl lg:text-8xl leading-[0.95] mb-9"
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
+          >
+            <span className="font-semibold block">Drink</span>
+            <em className="italic text-yellow-400 block">anders.</em>
+            Geef alles.
+          </h1>
+          <p className="text-white/50 text-base leading-relaxed max-w-md mb-12">
+            Vivace is een limoncello geboren uit een belofte die we elkaar deden. Wie we zijn is
+            minder belangrijk dan waarom we dit doen:
+            <strong className="text-white/85 font-medium"> elke euro winst gaat naar mensen die het nodig hebben.</strong> Niet
+            een deel. Alles.
+          </p>
+          <div className="flex gap-5 items-center flex-wrap">
+            <button
+              onClick={() => setPage("products")}
+              className="bg-yellow-400 text-black px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-yellow-300 transition-colors"
+            >
+              Ontdek Vivace
+            </button>
+            <button
+              onClick={() => setPage("about")}
+              className="text-white/45 text-[11px] uppercase tracking-[0.14em] border-b border-white/20 pb-1 hover:text-white hover:border-white transition-colors"
+            >
+              Ons verhaal
+            </button>
+          </div>
+        </div>
+
+        <div className="relative z-10 flex items-end justify-center gap-12 mt-16 md:mt-0">
+          <div className="flex flex-col items-center gap-4">
+            <BottleSVG size={100} />
+            <span className="text-[10px] tracking-[0.2em] uppercase text-white/30">Limoncello · Fles</span>
+          </div>
+          <div className="flex flex-col items-center gap-4">
+            <CanSVG size={85} />
+            <span className="text-[10px] tracking-[0.2em] uppercase text-white/30">Spritz · Blik</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Golden Hour Scene — the feeling, without a posed model */}
+      <section className="relative overflow-hidden" style={{ height: "640px" }}>
+        {/* Sky */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, #1a3a5c 0%, #3d6a8a 22%, #d98a4a 48%, #f0b25a 58%, #2c5f7a 70%, #1c4356 100%)",
+          }}
+        />
+        {/* Distant coastline */}
+        <svg className="absolute bottom-[42%] left-0 w-full" height="120" viewBox="0 0 1000 120" preserveAspectRatio="none">
+          <polygon points="0,120 0,70 120,40 260,75 420,30 600,68 780,45 1000,80 1000,120" fill="#3a5f70" opacity="0.55" />
+          <polygon points="0,120 0,90 180,60 380,95 560,55 760,90 1000,65 1000,120" fill="#2c4a58" opacity="0.7" />
+        </svg>
+        {/* Water */}
+        <div
+          className="absolute left-0 right-0"
+          style={{
+            top: "58%",
+            bottom: "30%",
+            background: "linear-gradient(to bottom, #2c6a85 0%, #1e4f66 60%, #173e50 100%)",
+          }}
+        />
+        {/* Soft glow on water */}
+        <div
+          className="absolute"
+          style={{
+            width: "160px",
+            height: "180px",
+            left: "50%",
+            top: "58%",
+            transform: "translateX(-50%)",
+            background: "linear-gradient(to bottom, rgba(255,217,138,0.28), rgba(255,217,138,0))",
+            filter: "blur(6px)",
+          }}
+        />
+        {/* Pool edge / terrace stone */}
+        <div
+          className="absolute left-0 right-0 bottom-0"
+          style={{
+            top: "70%",
+            background: "linear-gradient(to bottom, #e8dcc4 0%, #d9c9a6 40%, #c9b78f 100%)",
+          }}
+        />
+        <div className="absolute left-0 right-0" style={{ top: "70%", height: "4px", background: "#1e4f66" }} />
+
+        {/* Table with two glasses + lemons, foreground, off to one side */}
+        <div className="absolute" style={{ right: "8%", bottom: "6%" }}>
+          <svg width="260" height="140" viewBox="0 0 260 140">
+            {/* Table surface */}
+            <ellipse cx="130" cy="118" rx="120" ry="18" fill="#caa86a" opacity="0.9" />
+            <ellipse cx="130" cy="116" rx="120" ry="16" fill="#d9bb82" />
+
+            {/* Lemons */}
+            <circle cx="60" cy="106" r="13" fill="#f0c43a" />
+            <circle cx="78" cy="112" r="11" fill="#f3cd4f" />
+            <ellipse cx="58" cy="101" rx="3" ry="2" fill="#7a9c3e" />
+
+            {/* Glass 1 */}
+            <path d="M150,60 L156,108 L172,108 L178,60 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
+            <path d="M152,75 L156,108 L172,108 L176,75 Z" fill="#f0d24a" opacity="0.85" />
+            <line x1="164" y1="108" x2="164" y2="120" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
+            <ellipse cx="164" cy="121" rx="10" ry="2.5" fill="rgba(255,255,255,0.3)" />
+
+            {/* Glass 2 */}
+            <path d="M190,60 L196,108 L212,108 L218,60 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
+            <path d="M192,75 L196,108 L212,108 L216,75 Z" fill="#f0d24a" opacity="0.85" />
+            <line x1="204" y1="108" x2="204" y2="120" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
+            <ellipse cx="204" cy="121" rx="10" ry="2.5" fill="rgba(255,255,255,0.3)" />
+
+            {/* Mint sprig */}
+            <ellipse cx="168" cy="64" rx="3" ry="6" fill="#5a8a3e" transform="rotate(-20 168 64)" />
+            <ellipse cx="208" cy="64" rx="3" ry="6" fill="#5a8a3e" transform="rotate(15 208 64)" />
+          </svg>
+        </div>
+
+        {/* Warm overlay tint */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.25), transparent 40%)" }}
+        />
+
+        {/* Caption */}
+        <div className="absolute left-6 md:left-14 bottom-10 md:bottom-14 z-10 max-w-md">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-yellow-200/80 mb-3">Het gouden uur</p>
+          <p
+            className="font-serif italic text-2xl md:text-3xl text-white/95 leading-snug"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
+            Twee glazen.<br />Een terras.<br />Een avond die niet eindigt.
+          </p>
+        </div>
+      </section>
+
+      {/* Mission ticker */}
+      <div className="bg-yellow-400 overflow-hidden">
+        <div className="flex whitespace-nowrap py-4" style={{ animation: "ticker 22s linear infinite" }}>
+          {[...Array(2)].flatMap((_, rep) =>
+            ["Drink anders", "100% winst naar goed doel", "Liever anoniem dan opvallend", "Armoede bestrijden", "Italiaanse ziel · Nederlands hart", "Geef alles"].map(
+              (txt, i) => (
+                <span key={`${rep}-${i}`} className="inline-flex items-center gap-4 px-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-black">
+                  {txt}
+                  <span className="w-1 h-1 rounded-full bg-black/25" />
+                </span>
+              )
+            )
+          )}
+        </div>
+      </div>
+
+      {/* The number */}
+      <div className="bg-yellow-400 text-center py-24 px-6">
+        <Reveal>
+          <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(100px, 18vw, 200px)", lineHeight: 0.85 }}>
+            100%
+          </span>
+          <p className="text-black/50 text-[13px] font-semibold tracking-[0.3em] uppercase mt-6">
+            Van onze winst gaat naar het bestrijden van armoede en honger
+          </p>
+        </Reveal>
+      </div>
+
+      {/* Donation counter */}
+      <div className="bg-[#0a1628] py-24 px-6 border-b border-[#1c3450]" style={{ backgroundColor: "#0a1628" }}>
+        <Reveal>
+          <DonationCounter />
+        </Reveal>
+      </div>
+
+      {/* Quick links to stockists */}
+      <section className="px-6 md:px-14 py-24 max-w-5xl mx-auto">
+        <Reveal>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Nu te koop</p>
+          <h2 className="font-serif text-3xl md:text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Te vinden bij supermarkten en restaurants
+          </h2>
+        </Reveal>
+        <div className="grid md:grid-cols-2 gap-4">
+          {STOCKISTS.map((s, i) => (
+            <Reveal key={s.name} delay={i * 100}>
+              <div className="border border-[#234060] p-6 flex items-center gap-4 hover:border-yellow-400/30 transition-colors">
+                <MapPin className="text-yellow-400 flex-shrink-0" size={20} />
+                <div>
+                  <p className="text-white/90 text-sm font-medium">{s.name}</p>
+                  <p className="text-white/40 text-xs">{s.type} · {s.area}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <style>{`@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }`}</style>
+    </div>
+  );
+}
+
+function ProductsPage({ cart, setPage }) {
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">De Producten</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Twee manieren om Vivace te drinken
+        </h1>
+      </Reveal>
+
+      <div className="grid md:grid-cols-2 gap-px bg-white/5">
+        {Object.values(PRODUCTS).map((p, i) => (
+          <Reveal key={p.id} delay={i * 120}>
+            <div className="bg-[#102338] p-10 md:p-12 flex flex-col items-center text-center gap-6 h-full">
+              {p.id === "limoncello" ? <BottleSVG size={90} /> : <CanSVG size={75} />}
+
+              <div>
+                <p className="text-[10px] tracking-[0.25em] uppercase text-amber-300 mb-2">{p.type}</p>
+                <h3 className="font-serif text-2xl text-yellow-400 mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  {p.name}
+                </h3>
+                <p className="text-white/45 text-sm leading-relaxed mb-4 max-w-xs">{p.description}</p>
+                <p className="text-yellow-400/60 text-xs italic mb-4">{p.backLabel}</p>
+                <p className="text-white/20 text-[11px] tracking-wide mb-1">
+                  {p.abv} · {p.size}
+                </p>
+                <p className="text-white/15 text-[10px] tracking-wide mb-6">{p.kcal}</p>
+              </div>
+
+              <div className="w-full">
+                {p.comingSoon ? (
+                  <button
+                    disabled
+                    className="border border-white/15 text-white/35 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] cursor-not-allowed inline-flex items-center gap-2"
+                  >
+                    Binnenkort
+                  </button>
+                ) : p.onlineSellable ? (
+                  <div className="flex items-center justify-center gap-4">
+                    <span className="text-white font-medium">€{p.price.toFixed(2)}</span>
+                    <button
+                      onClick={() => cart.add(p.id)}
+                      className="bg-yellow-400 text-black px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-yellow-300 transition-colors"
+                    >
+                      Voeg toe
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setPage("stores")}
+                    className="border border-yellow-400/40 text-yellow-400 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-yellow-400 hover:text-black transition-colors inline-flex items-center gap-2"
+                  >
+                    Vind in winkel <ChevronRight size={14} />
+                  </button>
+                )}
+              </div>
+              {p.comingSoon && (
+                <p className="text-white/25 text-[10px] max-w-xs">
+                  Vivace Spritz is in ontwikkeling. Binnenkort beschikbaar.
+                </p>
+              )}
+              {!p.onlineSellable && !p.comingSoon && (
+                <p className="text-white/25 text-[10px] max-w-xs">
+                  Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een
+                  erkende slijterij. Vivace Limoncello is daarom te koop bij onze partners.
+                </p>
+              )}
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StoresPage() {
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Verkooppunten</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Vind Vivace bij jou in de buurt
+        </h1>
+        <p className="text-white/45 max-w-lg mb-14">
+          Vivace Limoncello is te koop bij supermarkten en restaurants. Vivace Spritz in blik is
+          in ontwikkeling en volgt later.
+        </p>
+      </Reveal>
+
+      <div className="space-y-4">
+        {STOCKISTS.map((s, i) => (
+          <Reveal key={s.name} delay={i * 100}>
+            <div className="border border-[#234060] p-6 flex items-center justify-between flex-wrap gap-4">
+              <div className="flex items-center gap-4">
+                <MapPin className="text-yellow-400" size={22} />
+                <div>
+                  <p className="text-white/90 font-medium">{s.name}</p>
+                  <p className="text-white/40 text-sm">{s.type} · {s.area}</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                {s.products.map((pid) => (
+                  <span key={pid} className="text-[10px] uppercase tracking-wider text-amber-300 border border-amber-300/30 px-3 py-1">
+                    {PRODUCTS[pid].name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AboutPage() {
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Ons Verhaal</p>
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          De meeste merken doneren een beetje en houden <span className="text-yellow-400 font-semibold">veel.</span>
+        </h1>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
+          <p>
+            Wij doen het anders. Vivace is geboren uit een simpele vraag: <strong className="text-white/85">wat
+            als een drankje echt iets betekent?</strong>
+          </p>
+          <p>
+            Wie er precies achter Vivace staan, houden we liever klein. Geen poserende oprichters,
+            geen perfecte foto's met een verhaal erbij. Alleen het product en waar het geld naartoe
+            gaat — dat is wat telt.
+          </p>
+          <p>
+            We maken Italiaanse limoncello en werken aan een limoncello spritz in blik — want alcohol
+            in blik is razend populair in Nederland. En alles wat we verdienen, geven we weg. Aan
+            mensen die honger hebben. Aan mensen die niets hebben.
+          </p>
+          <p className="text-yellow-400/80 font-medium">Dat is Vivace.</p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={200}>
+        <div className="bg-[#102338] border border-yellow-400/10 p-10 mb-16">
+          <p className="font-serif italic text-xl text-white/85 leading-relaxed mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            "We wilden niet zomaar een drankenmerk bouwen. We wilden dat elke slok iets teruggeeft —
+            en tegelijkertijd ongelofelijk lekker is."
+          </p>
+          <p className="text-[11px] tracking-[0.18em] uppercase text-white/30">— Anoniem, namens Vivace</p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={300}>
+        <div className="grid grid-cols-2 gap-6 text-center border-t border-[#234060] pt-12 mb-20 max-w-md mx-auto">
+          <div>
+            <p className="font-serif text-4xl text-yellow-400" style={{ fontFamily: "'Cormorant Garamond', serif" }}>100%</p>
+            <p className="text-[10px] uppercase tracking-wider text-white/35 mt-2">Winst naar goed doel</p>
+          </div>
+          <div>
+            <p className="font-serif text-4xl text-yellow-400" style={{ fontFamily: "'Cormorant Garamond', serif" }}>2</p>
+            <p className="text-[10px] uppercase tracking-wider text-white/35 mt-2">Producten op de roadmap</p>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Charity partner */}
+      <Reveal delay={400}>
+        <div className="border-t border-[#234060] pt-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Ons goede doel</p>
+          <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Voedselbanken Nederland
+          </h2>
+          <div className="grid md:grid-cols-2 gap-10 items-start">
+            <p className="text-white/55 leading-relaxed text-[15px]">
+              100% van onze winst gaat naar Voedselbanken Nederland — het landelijke netwerk van
+              voedselbanken dat al sinds 2002 mensen in armoede helpt aan goed, gezond eten. Geen
+              ingewikkelde constructies, geen tussenpartijen. Gewoon: wij verkopen limoncello, zij
+              vullen voedselpakketten.
+            </p>
+            <div className="bg-[#102338] border border-[#234060] p-8">
+              <p className="text-yellow-400 text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>178+</p>
+              <p className="text-white/35 text-xs uppercase tracking-wider mb-6">Lokale voedselbanken in Nederland</p>
+              <p className="text-yellow-400 text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>1.000.000+</p>
+              <p className="text-white/35 text-xs uppercase tracking-wider">Nederlanders die onder de armoedegrens leven</p>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+function ContactPage() {
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+
+  // Replace YOUR_FORM_ID below with the ID Formspree gives you after creating
+  // a form at formspree.io (free account, takes ~2 minutes, no credit card).
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    const form = e.target;
+    const data = new FormData(form);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        setStatus("sent");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-2xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Contact</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Laten we praten
+        </h1>
+        <p className="text-white/45 mb-12">
+          Vragen over Vivace, interesse als verkooppunt, of gewoon nieuwsgierig? Stuur een bericht.
+        </p>
+      </Reveal>
+
+      <Reveal delay={100}>
+        {status === "sent" ? (
+          <div className="border border-amber-300/30 p-8 text-center">
+            <p className="text-amber-300 font-medium mb-2">Bedankt voor je bericht!</p>
+            <p className="text-white/40 text-sm">We nemen zo snel mogelijk contact met je op.</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <input
+              type="text"
+              name="naam"
+              placeholder="Naam"
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-yellow-400/50"
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="E-mailadres"
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-yellow-400/50"
+            />
+            <textarea
+              name="bericht"
+              placeholder="Je bericht"
+              required
+              rows={5}
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-yellow-400/50"
+            />
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="bg-yellow-400 text-black px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-yellow-300 transition-colors disabled:opacity-50"
+            >
+              {status === "sending" ? "Versturen..." : "Verstuur bericht"}
+            </button>
+            {status === "error" && (
+              <p className="text-red-400 text-xs">
+                Er ging iets mis. Probeer het opnieuw of mail direct naar info@vivace.nl.
+              </p>
+            )}
+          </form>
+        )}
+      </Reveal>
+
+      <Reveal delay={200}>
+        <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
+          <p>info@vivace.nl</p>
+          <p>Nederland</p>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+function Footer({ setPage }) {
+  return (
+    <footer className="border-t border-[#1c3450] px-6 md:px-14 py-14">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-3 items-center gap-8 text-center md:text-left">
+        <p className="font-serif text-xl font-bold tracking-[0.2em] text-yellow-400 uppercase" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Vivace
+        </p>
+        <p className="font-serif italic text-sm text-white/20 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          "Drink anders. Geef alles."
+        </p>
+        <ul className="flex gap-7 justify-center md:justify-end text-[11px] uppercase tracking-wider text-white/25">
+          {["home", "products", "stores", "about", "contact"].map((p) => (
+            <li key={p}>
+              <button onClick={() => setPage(p)} className="hover:text-yellow-400 transition-colors">
+                {p === "home" ? "Home" : p === "products" ? "Producten" : p === "stores" ? "Verkooppunten" : p === "about" ? "Over ons" : "Contact"}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p className="text-center text-[11px] text-white/15 mt-10 pt-8 border-t border-[#1c3450]">
+        © 2026 Vivace · Drink verantwoord. 18+
+      </p>
+    </footer>
+  );
+}
+
+// ---------- App ----------
+export default function VivaceApp() {
+  const [ageConfirmed, setAgeConfirmed] = useState(null); // null | true | false
+  const [page, setPage] = useState("home");
+  const [cartOpen, setCartOpen] = useState(false);
+  const cart = useCart();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
+
+  if (ageConfirmed === null) return <AgeGate onConfirm={setAgeConfirmed} />;
+  if (ageConfirmed === false) return <UnderageBlock />;
+
+  return (
+    <div className="bg-[#0a1628] text-white min-h-screen font-sans" style={{ fontFamily: "'DM Sans', sans-serif", backgroundColor: "#0a1628" }}>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <Nav page={page} setPage={setPage} cart={cart} setCartOpen={setCartOpen} />
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} />
+
+      {page === "home" && <HomePage setPage={setPage} />}
+      {page === "products" && <ProductsPage cart={cart} setPage={setPage} />}
+      {page === "stores" && <StoresPage />}
+      {page === "about" && <AboutPage />}
+      {page === "contact" && <ContactPage />}
+
+      <Footer setPage={setPage} />
+    </div>
+  );
+}
