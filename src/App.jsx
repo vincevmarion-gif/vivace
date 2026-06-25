@@ -252,7 +252,7 @@ function Nav({ page, setPage, cart, setCartOpen }) {
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-5">
         <button
           onClick={() => setPage("home")}
-          className="font-serif text-2xl font-bold tracking-[0.2em] text-yellow-400 uppercase"
+          className="font-serif text-2xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
           Vivace
@@ -264,7 +264,7 @@ function Nav({ page, setPage, cart, setCartOpen }) {
               <button
                 onClick={() => setPage(l.id)}
                 className={`text-[11px] uppercase tracking-[0.16em] transition-colors ${
-                  page === l.id ? "text-yellow-400" : "text-white/50 hover:text-white"
+                  page === l.id ? "text-[#D4AF37]" : "text-white/50 hover:text-white"
                 }`}
               >
                 {l.label}
@@ -276,12 +276,12 @@ function Nav({ page, setPage, cart, setCartOpen }) {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setCartOpen(true)}
-            className="relative text-white/80 hover:text-yellow-400 transition-colors"
+            className="relative text-white/80 hover:text-[#D4AF37] transition-colors"
             aria-label="Winkelwagen"
           >
             <ShoppingBag size={20} />
             {cart.count > 0 && (
-              <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                 {cart.count}
               </span>
             )}
@@ -322,7 +322,7 @@ function CartDrawer({ open, onClose, cart }) {
       <div className="absolute inset-0 bg-[#050b14]/80" onClick={onClose} />
       <div className="absolute right-0 top-0 h-full w-full max-w-sm bg-[#0f1f33] border-l border-[#234060] flex flex-col">
         <div className="flex items-center justify-between p-6 border-b border-[#234060]">
-          <h3 className="font-serif text-xl text-yellow-400" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          <h3 className="font-serif text-xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Winkelwagen
           </h3>
           <button onClick={onClose} className="text-white/50 hover:text-white">
@@ -348,14 +348,14 @@ function CartDrawer({ open, onClose, cart }) {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => cart.remove(id)}
-                    className="w-6 h-6 flex items-center justify-center border border-white/20 text-white/60 hover:border-yellow-400 hover:text-yellow-400"
+                    className="w-6 h-6 flex items-center justify-center border border-white/20 text-white/60 hover:border-[#D4AF37] hover:text-[#D4AF37]"
                   >
                     <Minus size={12} />
                   </button>
                   <span className="text-sm w-4 text-center">{qty}</span>
                   <button
                     onClick={() => cart.add(id)}
-                    className="w-6 h-6 flex items-center justify-center border border-white/20 text-white/60 hover:border-yellow-400 hover:text-yellow-400"
+                    className="w-6 h-6 flex items-center justify-center border border-white/20 text-white/60 hover:border-[#D4AF37] hover:text-[#D4AF37]"
                   >
                     <Plus size={12} />
                   </button>
@@ -371,8 +371,8 @@ function CartDrawer({ open, onClose, cart }) {
               <span className="text-white/50">Subtotaal</span>
               <span className="text-white">€{cart.total.toFixed(2)}</span>
             </div>
-            <p className="text-[11px] text-yellow-400/70 italic">100% van de winst gaat naar Voedselbanken Nederland.</p>
-            <button className="w-full bg-yellow-400 text-black py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-yellow-300 transition-colors">
+            <p className="text-[11px] text-[#D4AF37]/70 italic">100% van de winst gaat naar Voedselbanken Nederland.</p>
+            <button className="w-full bg-[#D4AF37] text-black py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-[#E0C158] transition-colors">
               Afrekenen
             </button>
           </div>
@@ -387,7 +387,7 @@ function AgeGate({ onConfirm }) {
   return (
     <div className="fixed inset-0 z-[200] bg-[#0a1628] flex items-center justify-center px-6" style={{ backgroundColor: "#0a1628" }}>
       <div className="max-w-sm text-center">
-        <p className="font-serif text-3xl text-yellow-400 tracking-[0.2em] uppercase mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <p className="font-serif text-3xl text-[#D4AF37] tracking-[0.2em] uppercase mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Vivace
         </p>
         <p className="text-white/70 text-sm mb-2">Ben je 18 jaar of ouder?</p>
@@ -395,7 +395,7 @@ function AgeGate({ onConfirm }) {
         <div className="flex gap-4 justify-center">
           <button
             onClick={() => onConfirm(true)}
-            className="bg-yellow-400 text-black px-8 py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-yellow-300"
+            className="bg-[#D4AF37] text-black px-8 py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-[#E0C158]"
           >
             Ja, ik ben 18+
           </button>
@@ -429,9 +429,9 @@ function DonationCounter() {
 
   return (
     <div className="text-center">
-      <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Actueel</p>
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Actueel</p>
       <p
-        className="font-serif text-yellow-400"
+        className="font-serif text-[#D4AF37]"
         style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(48px, 8vw, 90px)", fontWeight: 700, lineHeight: 1 }}
       >
         {`€${total.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`}
@@ -487,7 +487,7 @@ function HomePage({ setPage }) {
           }}
         />
         <div className="relative z-10">
-          <p className="text-[11px] tracking-[0.35em] uppercase text-amber-300 mb-7">
+          <p className="text-[11px] tracking-[0.35em] uppercase text-[#C9A04E] mb-7">
             Gemaakt in Nederland · Italiaanse ziel
           </p>
           <h1
@@ -495,7 +495,7 @@ function HomePage({ setPage }) {
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
           >
             <span className="font-semibold block">Drink</span>
-            <em className="italic text-yellow-400 block">anders.</em>
+            <em className="italic text-[#D4AF37] block">anders.</em>
             Geef alles.
           </h1>
           <p className="text-white/50 text-base leading-relaxed max-w-md mb-12">
@@ -507,7 +507,7 @@ function HomePage({ setPage }) {
           <div className="flex gap-5 items-center flex-wrap">
             <button
               onClick={() => setPage("products")}
-              className="bg-yellow-400 text-black px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-yellow-300 transition-colors"
+              className="bg-[#D4AF37] text-black px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-[#E0C158] transition-colors"
             >
               Ontdek Vivace
             </button>
@@ -617,7 +617,7 @@ function HomePage({ setPage }) {
 
         {/* Caption */}
         <div className="absolute left-6 md:left-14 bottom-10 md:bottom-14 z-10 max-w-md">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-yellow-200/80 mb-3">Het gouden uur</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#E8D38A]/80 mb-3">Het gouden uur</p>
           <p
             className="font-serif italic text-2xl md:text-3xl text-white/95 leading-snug"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
@@ -628,7 +628,7 @@ function HomePage({ setPage }) {
       </section>
 
       {/* Mission ticker */}
-      <div className="bg-yellow-400 overflow-hidden">
+      <div className="bg-[#D4AF37] overflow-hidden">
         <div className="flex whitespace-nowrap py-4" style={{ animation: "ticker 22s linear infinite" }}>
           {[...Array(2)].flatMap((_, rep) =>
             ["Drink anders", "100% winst naar goed doel", "Liever anoniem dan opvallend", "Armoede bestrijden", "Italiaanse ziel · Nederlands hart", "Geef alles"].map(
@@ -644,7 +644,7 @@ function HomePage({ setPage }) {
       </div>
 
       {/* The number */}
-      <div className="bg-yellow-400 text-center py-24 px-6">
+      <div className="bg-[#D4AF37] text-center py-24 px-6">
         <Reveal>
           <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(100px, 18vw, 200px)", lineHeight: 0.85 }}>
             100%
@@ -665,7 +665,7 @@ function HomePage({ setPage }) {
       {/* Quick links to stockists */}
       <section className="px-6 md:px-14 py-24 max-w-5xl mx-auto">
         <Reveal>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Nu te koop</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Nu te koop</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Te vinden bij supermarkten en restaurants
           </h2>
@@ -673,8 +673,8 @@ function HomePage({ setPage }) {
         <div className="grid md:grid-cols-2 gap-4">
           {STOCKISTS.map((s, i) => (
             <Reveal key={s.name} delay={i * 100}>
-              <div className="border border-[#234060] p-6 flex items-center gap-4 hover:border-yellow-400/30 transition-colors">
-                <MapPin className="text-yellow-400 flex-shrink-0" size={20} />
+              <div className="border border-[#234060] p-6 flex items-center gap-4 hover:border-[#D4AF37]/30 transition-colors">
+                <MapPin className="text-[#D4AF37] flex-shrink-0" size={20} />
                 <div>
                   <p className="text-white/90 text-sm font-medium">{s.name}</p>
                   <p className="text-white/40 text-xs">{s.type} · {s.area}</p>
@@ -694,7 +694,7 @@ function ProductsPage({ cart, setPage }) {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">De Producten</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">De Producten</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Twee manieren om Vivace te drinken
         </h1>
@@ -707,12 +707,12 @@ function ProductsPage({ cart, setPage }) {
               {p.id === "limoncello" ? <BottleSVG size={90} /> : <CanSVG size={75} />}
 
               <div>
-                <p className="text-[10px] tracking-[0.25em] uppercase text-amber-300 mb-2">{p.type}</p>
-                <h3 className="font-serif text-2xl text-yellow-400 mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-2">{p.type}</p>
+                <h3 className="font-serif text-2xl text-[#D4AF37] mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {p.name}
                 </h3>
                 <p className="text-white/45 text-sm leading-relaxed mb-4 max-w-xs">{p.description}</p>
-                <p className="text-yellow-400/60 text-xs italic mb-4">{p.backLabel}</p>
+                <p className="text-[#D4AF37]/60 text-xs italic mb-4">{p.backLabel}</p>
                 <p className="text-white/20 text-[11px] tracking-wide mb-1">
                   {p.abv} · {p.size}
                 </p>
@@ -732,7 +732,7 @@ function ProductsPage({ cart, setPage }) {
                     <span className="text-white font-medium">€{p.price.toFixed(2)}</span>
                     <button
                       onClick={() => cart.add(p.id)}
-                      className="bg-yellow-400 text-black px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-yellow-300 transition-colors"
+                      className="bg-[#D4AF37] text-black px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#E0C158] transition-colors"
                     >
                       Voeg toe
                     </button>
@@ -740,7 +740,7 @@ function ProductsPage({ cart, setPage }) {
                 ) : (
                   <button
                     onClick={() => setPage("stores")}
-                    className="border border-yellow-400/40 text-yellow-400 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-yellow-400 hover:text-black transition-colors inline-flex items-center gap-2"
+                    className="border border-[#D4AF37]/40 text-[#D4AF37] px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#D4AF37] hover:text-black transition-colors inline-flex items-center gap-2"
                   >
                     Vind in winkel <ChevronRight size={14} />
                   </button>
@@ -769,7 +769,7 @@ function StoresPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Verkooppunten</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Verkooppunten</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Vind Vivace bij jou in de buurt
         </h1>
@@ -784,7 +784,7 @@ function StoresPage() {
           <Reveal key={s.name} delay={i * 100}>
             <div className="border border-[#234060] p-6 flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-4">
-                <MapPin className="text-yellow-400" size={22} />
+                <MapPin className="text-[#D4AF37]" size={22} />
                 <div>
                   <p className="text-white/90 font-medium">{s.name}</p>
                   <p className="text-white/40 text-sm">{s.type} · {s.area}</p>
@@ -792,7 +792,7 @@ function StoresPage() {
               </div>
               <div className="flex gap-2">
                 {s.products.map((pid) => (
-                  <span key={pid} className="text-[10px] uppercase tracking-wider text-amber-300 border border-amber-300/30 px-3 py-1">
+                  <span key={pid} className="text-[10px] uppercase tracking-wider text-[#C9A04E] border border-[#C9A04E]/30 px-3 py-1">
                     {PRODUCTS[pid].name}
                   </span>
                 ))}
@@ -809,9 +809,9 @@ function AboutPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Ons Verhaal</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Ons Verhaal</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          De meeste merken doneren een beetje en houden <span className="text-yellow-400 font-semibold">veel.</span>
+          De meeste merken doneren een beetje en houden <span className="text-[#D4AF37] font-semibold">veel.</span>
         </h1>
       </Reveal>
 
@@ -831,12 +831,12 @@ function AboutPage() {
             in blik is razend populair in Nederland. En alles wat we verdienen, geven we weg. Aan
             mensen die honger hebben. Aan mensen die niets hebben.
           </p>
-          <p className="text-yellow-400/80 font-medium">Dat is Vivace.</p>
+          <p className="text-[#D4AF37]/80 font-medium">Dat is Vivace.</p>
         </div>
       </Reveal>
 
       <Reveal delay={200}>
-        <div className="bg-[#102338] border border-yellow-400/10 p-10 mb-16">
+        <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 mb-16">
           <p className="font-serif italic text-xl text-white/85 leading-relaxed mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             "We wilden niet zomaar een drankenmerk bouwen. We wilden dat elke slok iets teruggeeft —
             en tegelijkertijd ongelofelijk lekker is."
@@ -848,11 +848,11 @@ function AboutPage() {
       <Reveal delay={300}>
         <div className="grid grid-cols-2 gap-6 text-center border-t border-[#234060] pt-12 mb-20 max-w-md mx-auto">
           <div>
-            <p className="font-serif text-4xl text-yellow-400" style={{ fontFamily: "'Cormorant Garamond', serif" }}>100%</p>
+            <p className="font-serif text-4xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>100%</p>
             <p className="text-[10px] uppercase tracking-wider text-white/35 mt-2">Winst naar goed doel</p>
           </div>
           <div>
-            <p className="font-serif text-4xl text-yellow-400" style={{ fontFamily: "'Cormorant Garamond', serif" }}>2</p>
+            <p className="font-serif text-4xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>2</p>
             <p className="text-[10px] uppercase tracking-wider text-white/35 mt-2">Producten op de roadmap</p>
           </div>
         </div>
@@ -861,7 +861,7 @@ function AboutPage() {
       {/* Charity partner */}
       <Reveal delay={400}>
         <div className="border-t border-[#234060] pt-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Ons goede doel</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Ons goede doel</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Voedselbanken Nederland
           </h2>
@@ -873,9 +873,9 @@ function AboutPage() {
               vullen voedselpakketten.
             </p>
             <div className="bg-[#102338] border border-[#234060] p-8">
-              <p className="text-yellow-400 text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>178+</p>
+              <p className="text-[#D4AF37] text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>178+</p>
               <p className="text-white/35 text-xs uppercase tracking-wider mb-6">Lokale voedselbanken in Nederland</p>
-              <p className="text-yellow-400 text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>1.000.000+</p>
+              <p className="text-[#D4AF37] text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>1.000.000+</p>
               <p className="text-white/35 text-xs uppercase tracking-wider">Nederlanders die onder de armoedegrens leven</p>
             </div>
           </div>
@@ -917,7 +917,7 @@ function ContactPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-2xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Contact</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Contact</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Laten we praten
         </h1>
@@ -928,8 +928,8 @@ function ContactPage() {
 
       <Reveal delay={100}>
         {status === "sent" ? (
-          <div className="border border-amber-300/30 p-8 text-center">
-            <p className="text-amber-300 font-medium mb-2">Bedankt voor je bericht!</p>
+          <div className="border border-[#C9A04E]/30 p-8 text-center">
+            <p className="text-[#C9A04E] font-medium mb-2">Bedankt voor je bericht!</p>
             <p className="text-white/40 text-sm">We nemen zo snel mogelijk contact met je op.</p>
           </div>
         ) : (
@@ -939,32 +939,32 @@ function ContactPage() {
               name="naam"
               placeholder="Naam"
               required
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-yellow-400/50"
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <input
               type="email"
               name="email"
               placeholder="E-mailadres"
               required
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-yellow-400/50"
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <textarea
               name="bericht"
               placeholder="Je bericht"
               required
               rows={5}
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-yellow-400/50"
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <button
               type="submit"
               disabled={status === "sending"}
-              className="bg-yellow-400 text-black px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-yellow-300 transition-colors disabled:opacity-50"
+              className="bg-[#D4AF37] text-black px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
             >
               {status === "sending" ? "Versturen..." : "Verstuur bericht"}
             </button>
             {status === "error" && (
               <p className="text-red-400 text-xs">
-                Er ging iets mis. Probeer het opnieuw of mail direct naar info@vivace.nl.
+                Er ging iets mis. Probeer het opnieuw of mail direct naar info@drinkvivace.nl.
               </p>
             )}
           </form>
@@ -973,7 +973,7 @@ function ContactPage() {
 
       <Reveal delay={200}>
         <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
-          <p>info@vivace.nl</p>
+          <p>info@drinkvivace.nl</p>
           <p>Nederland</p>
         </div>
       </Reveal>
@@ -994,7 +994,7 @@ function FAQItem({ q, a }) {
         <span className="font-serif text-white/90 text-base md:text-lg leading-snug pr-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {q}
         </span>
-        <span className={`text-yellow-400 flex-shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
+        <span className={`text-[#D4AF37] flex-shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
           <ChevronRight size={16} className="rotate-90" />
         </span>
       </button>
@@ -1077,7 +1077,7 @@ function FAQPage({ setPage }) {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Vragen</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Vragen</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Veelgestelde vragen
         </h1>
@@ -1089,7 +1089,7 @@ function FAQPage({ setPage }) {
       {FAQ_SECTIONS.map((section, i) => (
         <Reveal key={section.title} delay={i * 100}>
           <div className={i > 0 ? "mt-12" : ""}>
-            <h2 className="font-serif text-2xl text-yellow-400 mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="font-serif text-2xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               {section.title}
             </h2>
             <div className="h-px w-full bg-[#1c3450] mb-2" />
@@ -1107,7 +1107,7 @@ function FAQPage({ setPage }) {
           <p className="text-white/40 text-sm mb-3">Staat je vraag er niet bij?</p>
           <button
             onClick={() => setPage("contact")}
-            className="text-yellow-400 font-serif italic text-lg border-b border-yellow-400/40 hover:border-yellow-400 transition-colors"
+            className="text-[#D4AF37] font-serif italic text-lg border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             Neem contact met ons op
@@ -1193,7 +1193,7 @@ function ReceptPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Recept</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Recept</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Maak je eigen Limoncello Spritz
         </h1>
@@ -1210,8 +1210,8 @@ function ReceptPage() {
               onClick={() => setActive(r.id)}
               className={`px-5 py-2 text-[11px] uppercase tracking-[0.14em] border transition-colors ${
                 active === r.id
-                  ? "bg-yellow-400 text-black border-yellow-400"
-                  : "text-white/50 border-[#234060] hover:border-yellow-400/40 hover:text-white"
+                  ? "bg-[#D4AF37] text-black border-[#D4AF37]"
+                  : "text-white/50 border-[#234060] hover:border-[#D4AF37]/40 hover:text-white"
               }`}
             >
               {r.label}
@@ -1224,7 +1224,7 @@ function ReceptPage() {
         <div className="bg-[#102338] border border-[#234060] p-8 md:p-12">
           <div className="flex items-center justify-between mb-10 flex-wrap gap-4">
             <div>
-              <h2 className="font-serif text-2xl md:text-3xl text-yellow-400 mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              <h2 className="font-serif text-2xl md:text-3xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                 {recipe.name}
               </h2>
               <p className="text-white/45 text-sm leading-relaxed max-w-md">{recipe.description}</p>
@@ -1235,17 +1235,17 @@ function ReceptPage() {
               <div className="flex items-center gap-3 border border-[#234060]">
                 <button
                   onClick={() => setServings(Math.max(1, servings - 1))}
-                  className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-yellow-400 transition-colors"
+                  className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
                   aria-label="Minder glazen"
                 >
                   <Minus size={14} />
                 </button>
-                <span className="font-serif text-yellow-400 text-base w-5 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                <span className="font-serif text-[#D4AF37] text-base w-5 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {servings}
                 </span>
                 <button
                   onClick={() => setServings(servings + 1)}
-                  className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-yellow-400 transition-colors"
+                  className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
                   aria-label="Meer glazen"
                 >
                   <Plus size={14} />
@@ -1256,13 +1256,13 @@ function ReceptPage() {
 
           <div className="grid md:grid-cols-2 gap-10">
             <div>
-              <p className="text-[10px] tracking-[0.25em] uppercase text-amber-300 mb-4">Ingrediënten</p>
+              <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Ingrediënten</p>
               <ul className="space-y-3">
                 {recipe.ingredients.map((ing, i) => (
                   <li key={i} className="flex items-baseline justify-between gap-4 text-white/80 text-sm border-b border-[#1c3450] pb-3">
                     <span>{ing.name}</span>
                     {ing.amount !== null && (
-                      <span className="font-serif text-yellow-400 whitespace-nowrap" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                      <span className="font-serif text-[#D4AF37] whitespace-nowrap" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                         {formatSpritzAmount(ing.amount, servings)} {ing.unit}
                       </span>
                     )}
@@ -1272,11 +1272,11 @@ function ReceptPage() {
             </div>
 
             <div>
-              <p className="text-[10px] tracking-[0.25em] uppercase text-amber-300 mb-4">Bereiding</p>
+              <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Bereiding</p>
               <ol className="space-y-4">
                 {recipe.steps.map((step, i) => (
                   <li key={i} className="flex gap-4 text-sm text-white/55 leading-relaxed">
-                    <span className="font-serif text-yellow-400 flex-shrink-0" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                    <span className="font-serif text-[#D4AF37] flex-shrink-0" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span>{step}</span>
@@ -1304,7 +1304,7 @@ function Footer({ setPage }) {
   return (
     <footer className="border-t border-[#1c3450] px-6 md:px-14 py-14">
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 items-center gap-8 text-center md:text-left">
-        <p className="font-serif text-xl font-bold tracking-[0.2em] text-yellow-400 uppercase" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <p className="font-serif text-xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Vivace
         </p>
         <p className="font-serif italic text-sm text-white/20 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -1313,7 +1313,7 @@ function Footer({ setPage }) {
         <ul className="flex gap-7 justify-center md:justify-end text-[11px] uppercase tracking-wider text-white/25 flex-wrap">
           {["home", "products", "stores", "recept", "faq", "about", "contact"].map((p) => (
             <li key={p}>
-              <button onClick={() => setPage(p)} className="hover:text-yellow-400 transition-colors">
+              <button onClick={() => setPage(p)} className="hover:text-[#D4AF37] transition-colors">
                 {p === "home" ? "Home" : p === "products" ? "Producten" : p === "stores" ? "Verkooppunten" : p === "recept" ? "Recept" : p === "faq" ? "FAQ" : p === "about" ? "Over ons" : "Contact"}
               </button>
             </li>
