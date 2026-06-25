@@ -237,6 +237,8 @@ function Nav({ page, setPage, cart, setCartOpen }) {
     { id: "home", label: "Home" },
     { id: "products", label: "Producten" },
     { id: "stores", label: "Verkooppunten" },
+    { id: "recept", label: "Recept" },
+    { id: "faq", label: "FAQ" },
     { id: "about", label: "Over ons" },
     { id: "contact", label: "Contact" },
   ];
@@ -979,6 +981,325 @@ function ContactPage() {
   );
 }
 
+// ---------- FAQ Page ----------
+function FAQItem({ q, a }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="border-b border-[#234060]">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between gap-4 py-5 text-left"
+      >
+        <span className="font-serif text-white/90 text-base md:text-lg leading-snug pr-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {q}
+        </span>
+        <span className={`text-yellow-400 flex-shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
+          <ChevronRight size={16} className="rotate-90" />
+        </span>
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <p className="pb-6 pr-8 text-white/45 text-sm md:text-base leading-relaxed">
+          {a}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+const FAQ_SECTIONS = [
+  {
+    title: "Het product",
+    items: [
+      {
+        q: "Wat is Vivace Limoncello precies?",
+        a: "Vivace is een limoncello van 30% ALC/VOL, gemaakt volgens een authentiek Italiaans recept. Geproduceerd in Nederland bij een ambachtelijke distilleerderij, met smaken die recht doen aan de Italiaanse traditie.",
+      },
+      {
+        q: "Is Vivace in Italië gemaakt?",
+        a: "Het recept is Italiaans, maar Vivace wordt geproduceerd in Nederland. Daarom staat op het etiket 'Prelibatezza Italiana' (Italiaanse lekkernij), in plaats van een claim dat het product zelf uit Italië komt.",
+      },
+      {
+        q: "Welke ingrediënten zitten er in?",
+        a: "Vivace bevat citroenschil, alcohol, water en suiker. Voor exacte ingrediënten en allergenen verwijzen we naar het etiket op de fles.",
+      },
+      {
+        q: "Hoe drink je Vivace het beste?",
+        a: "Traditioneel goed gekoeld als digestief, direct uit de vriezer. Vivace is ook heerlijk als basis voor een spritz: limoncello met prosecco en bruiswater over ijs.",
+      },
+      {
+        q: "Hoeveel calorieën heeft Vivace?",
+        a: "218 kcal per 100ml, wat neerkomt op ongeveer 75 kcal per shot van 35ml.",
+      },
+    ],
+  },
+  {
+    title: "Bestellen & verkooppunten",
+    items: [
+      {
+        q: "Waar kan ik Vivace kopen?",
+        a: "Bekijk onze Verkooppunten-pagina voor een actueel overzicht van winkels en restaurants waar Vivace verkrijgbaar is.",
+      },
+      {
+        q: "Kan ik Vivace direct via de website bestellen?",
+        a: "Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een erkende slijterij. Daarom verkopen we via onze fysieke verkooppunten in plaats van rechtstreeks via de site.",
+      },
+      {
+        q: "Ben je een winkel of horecazaak en wil je Vivace verkopen?",
+        a: "Mooi! Neem contact met ons op via de contactpagina met wat informatie over je zaak, dan nemen we snel contact op.",
+      },
+      {
+        q: "Is er een minimumleeftijd om Vivace te kopen?",
+        a: "Ja. Vivace is alleen bestemd voor personen van 18 jaar en ouder, zoals wettelijk vereist voor alcoholhoudende dranken in Nederland.",
+      },
+    ],
+  },
+  {
+    title: "Vivace & goede doelen",
+    items: [
+      {
+        q: "Waarom gaat 100% van de winst naar een goed doel?",
+        a: "Vivace is opgericht met één duidelijk doel: iets terugdoen. Elke euro winst die we maken doneren we volledig aan Voedselbanken Nederland.",
+      },
+      {
+        q: "Hoe weet ik dat de winst echt gedoneerd wordt?",
+        a: "Transparantie vinden we belangrijk. Heb je vragen over hoe we dit bijhouden, neem dan gerust contact met ons op.",
+      },
+    ],
+  },
+];
+
+function FAQPage({ setPage }) {
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Vragen</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Veelgestelde vragen
+        </h1>
+        <p className="text-white/45 max-w-lg mb-14">
+          Alles wat je wilt weten over Vivace — van het product tot ons donatiemodel.
+        </p>
+      </Reveal>
+
+      {FAQ_SECTIONS.map((section, i) => (
+        <Reveal key={section.title} delay={i * 100}>
+          <div className={i > 0 ? "mt-12" : ""}>
+            <h2 className="font-serif text-2xl text-yellow-400 mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              {section.title}
+            </h2>
+            <div className="h-px w-full bg-[#1c3450] mb-2" />
+            <div>
+              {section.items.map((item) => (
+                <FAQItem key={item.q} q={item.q} a={item.a} />
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      ))}
+
+      <Reveal delay={400}>
+        <div className="mt-16 text-center border-t border-[#234060] pt-10">
+          <p className="text-white/40 text-sm mb-3">Staat je vraag er niet bij?</p>
+          <button
+            onClick={() => setPage("contact")}
+            className="text-yellow-400 font-serif italic text-lg border-b border-yellow-400/40 hover:border-yellow-400 transition-colors"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
+            Neem contact met ons op
+          </button>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+// ---------- Recipe Page ----------
+const SPRITZ_RECIPES = [
+  {
+    id: "classic",
+    label: "Klassiek",
+    name: "Vivace Limoncello Spritz",
+    description: "De originele: fris, lichtzoet en gevuld met bubbels.",
+    ingredients: [
+      { amount: 5, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 10, unit: "cl", name: "prosecco, goed gekoeld" },
+      { amount: 3, unit: "cl", name: "bruiswater" },
+      { amount: null, unit: "", name: "schijfje citroen" },
+      { amount: null, unit: "", name: "takje munt (optioneel)" },
+    ],
+    steps: [
+      "Vul een groot wijnglas met ijsklontjes.",
+      "Schenk de Vivace Limoncello erover.",
+      "Voeg de prosecco toe, langzaam, om de bubbels te behouden.",
+      "Maak af met een scheutje bruiswater.",
+      "Garneer met een schijfje citroen en eventueel een takje munt. Direct serveren.",
+    ],
+  },
+  {
+    id: "light",
+    label: "Light",
+    name: "Vivace Spritz Light",
+    description: "Iets lichter en langer, met meer bruiswater.",
+    ingredients: [
+      { amount: 4, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 8, unit: "cl", name: "prosecco, goed gekoeld" },
+      { amount: 8, unit: "cl", name: "bruiswater" },
+      { amount: null, unit: "", name: "schijfje citroen" },
+    ],
+    steps: [
+      "Vul een groot longdrinkglas met ijsklontjes.",
+      "Schenk de Vivace Limoncello erover.",
+      "Voeg de prosecco toe.",
+      "Vul aan met ruim bruiswater voor een lichtere, langere drank.",
+      "Garneer met een schijfje citroen.",
+    ],
+  },
+  {
+    id: "strong",
+    label: "Stevig",
+    name: "Vivace Spritz Intenso",
+    description: "Voor wie de limoncello echt wil proeven.",
+    ingredients: [
+      { amount: 7, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 7, unit: "cl", name: "prosecco, goed gekoeld" },
+      { amount: null, unit: "", name: "schijfje citroen" },
+      { amount: null, unit: "", name: "takje rozemarijn (optioneel)" },
+    ],
+    steps: [
+      "Vul een tumbler of groot wijnglas met ijsklontjes.",
+      "Schenk de Vivace Limoncello erover.",
+      "Voeg de prosecco toe, langzaam.",
+      "Garneer met een schijfje citroen en eventueel een takje rozemarijn.",
+    ],
+  },
+];
+
+function formatSpritzAmount(amount, servings) {
+  if (amount === null) return null;
+  const scaled = Math.round(amount * servings * 10) / 10;
+  return scaled % 1 === 0 ? scaled.toString() : scaled.toFixed(1);
+}
+
+function ReceptPage() {
+  const [active, setActive] = useState("classic");
+  const [servings, setServings] = useState(1);
+  const recipe = SPRITZ_RECIPES.find((r) => r.id === active);
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-amber-300 mb-4">Recept</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Maak je eigen Limoncello Spritz
+        </h1>
+        <p className="text-white/45 max-w-lg mb-12">
+          Drie manieren om Vivace te serveren — kies je stijl en pas het aantal glazen aan.
+        </p>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <div className="flex items-center gap-2 mb-12 flex-wrap">
+          {SPRITZ_RECIPES.map((r) => (
+            <button
+              key={r.id}
+              onClick={() => setActive(r.id)}
+              className={`px-5 py-2 text-[11px] uppercase tracking-[0.14em] border transition-colors ${
+                active === r.id
+                  ? "bg-yellow-400 text-black border-yellow-400"
+                  : "text-white/50 border-[#234060] hover:border-yellow-400/40 hover:text-white"
+              }`}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal delay={150}>
+        <div className="bg-[#102338] border border-[#234060] p-8 md:p-12">
+          <div className="flex items-center justify-between mb-10 flex-wrap gap-4">
+            <div>
+              <h2 className="font-serif text-2xl md:text-3xl text-yellow-400 mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                {recipe.name}
+              </h2>
+              <p className="text-white/45 text-sm leading-relaxed max-w-md">{recipe.description}</p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span className="text-white/35 text-[10px] uppercase tracking-[0.15em]">Glazen</span>
+              <div className="flex items-center gap-3 border border-[#234060]">
+                <button
+                  onClick={() => setServings(Math.max(1, servings - 1))}
+                  className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-yellow-400 transition-colors"
+                  aria-label="Minder glazen"
+                >
+                  <Minus size={14} />
+                </button>
+                <span className="font-serif text-yellow-400 text-base w-5 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  {servings}
+                </span>
+                <button
+                  onClick={() => setServings(servings + 1)}
+                  className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-yellow-400 transition-colors"
+                  aria-label="Meer glazen"
+                >
+                  <Plus size={14} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-10">
+            <div>
+              <p className="text-[10px] tracking-[0.25em] uppercase text-amber-300 mb-4">Ingrediënten</p>
+              <ul className="space-y-3">
+                {recipe.ingredients.map((ing, i) => (
+                  <li key={i} className="flex items-baseline justify-between gap-4 text-white/80 text-sm border-b border-[#1c3450] pb-3">
+                    <span>{ing.name}</span>
+                    {ing.amount !== null && (
+                      <span className="font-serif text-yellow-400 whitespace-nowrap" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                        {formatSpritzAmount(ing.amount, servings)} {ing.unit}
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-[10px] tracking-[0.25em] uppercase text-amber-300 mb-4">Bereiding</p>
+              <ol className="space-y-4">
+                {recipe.steps.map((step, i) => (
+                  <li key={i} className="flex gap-4 text-sm text-white/55 leading-relaxed">
+                    <span className="font-serif text-yellow-400 flex-shrink-0" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={250}>
+        <div className="text-center mt-12">
+          <p className="font-serif italic text-white/40 text-sm" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Tip: bewaar je Vivace in de vriezer voor het koudste, meest verfrissende resultaat.
+          </p>
+          <p className="text-white/20 text-[11px] mt-4">Drink met aandacht, drink met mate. 18+.</p>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
 function Footer({ setPage }) {
   return (
     <footer className="border-t border-[#1c3450] px-6 md:px-14 py-14">
@@ -989,11 +1310,11 @@ function Footer({ setPage }) {
         <p className="font-serif italic text-sm text-white/20 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           "Drink anders. Geef alles."
         </p>
-        <ul className="flex gap-7 justify-center md:justify-end text-[11px] uppercase tracking-wider text-white/25">
-          {["home", "products", "stores", "about", "contact"].map((p) => (
+        <ul className="flex gap-7 justify-center md:justify-end text-[11px] uppercase tracking-wider text-white/25 flex-wrap">
+          {["home", "products", "stores", "recept", "faq", "about", "contact"].map((p) => (
             <li key={p}>
               <button onClick={() => setPage(p)} className="hover:text-yellow-400 transition-colors">
-                {p === "home" ? "Home" : p === "products" ? "Producten" : p === "stores" ? "Verkooppunten" : p === "about" ? "Over ons" : "Contact"}
+                {p === "home" ? "Home" : p === "products" ? "Producten" : p === "stores" ? "Verkooppunten" : p === "recept" ? "Recept" : p === "faq" ? "FAQ" : p === "about" ? "Over ons" : "Contact"}
               </button>
             </li>
           ))}
@@ -1031,6 +1352,8 @@ export default function VivaceApp() {
       {page === "stores" && <StoresPage />}
       {page === "about" && <AboutPage />}
       {page === "contact" && <ContactPage />}
+      {page === "recept" && <ReceptPage />}
+      {page === "faq" && <FAQPage setPage={setPage} />}
 
       <Footer setPage={setPage} />
     </div>
