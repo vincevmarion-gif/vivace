@@ -80,7 +80,7 @@ function BottleSVG({ size = 110 }) {
 
       {/* Lower blue accent band */}
       <rect x="24" y="266" width="62" height="16" fill="#2c5f8a" clipPath="url(#bClip)" />
-      <text x="55" y="277" textAnchor="middle" fontFamily="Georgia, serif" fontSize="4.5" fill="#f0e8cc" letterSpacing="1.5" clipPath="url(#bClip)">100% WINST NAAR GOED DOEL</text>
+      <text x="55" y="277" textAnchor="middle" fontFamily="Georgia, serif" fontSize="4.5" fill="#f0e8cc" letterSpacing="1.5" clipPath="url(#bClip)">€2 PER FLES NAAR IMPACT</text>
 
       {/* Cap & neck */}
       <rect x="38" y="0" width="34" height="22" rx="2" fill="#c8c8c8" />
@@ -152,7 +152,7 @@ function CanSVG({ size = 90 }) {
 
       {/* Lower blue band */}
       <rect x="10" y="160" width="70" height="14" fill="#2c5f8a" clipPath="url(#cClip)" />
-      <text x="45" y="170" textAnchor="middle" fontFamily="Georgia, serif" fontSize="4" fill="#f0e8cc" letterSpacing="1" clipPath="url(#cClip)">100% WINST NAAR GOED DOEL</text>
+      <text x="45" y="170" textAnchor="middle" fontFamily="Georgia, serif" fontSize="4" fill="#f0e8cc" letterSpacing="1" clipPath="url(#cClip)">€2 PER FLES NAAR IMPACT</text>
 
       {/* Top & bottom */}
       <ellipse cx="45" cy="18" rx="35" ry="7" fill="url(#cTopGrad)" />
@@ -176,7 +176,7 @@ const PRODUCTS = {
     onlineSellable: false,
     description:
       "Echte Italiaanse limoncello, gemaakt door een ambachtelijke distilleerderij hier in Nederland. Citrus, romig en ijskoud het lekkerst.",
-    backLabel: '"Wij maken het. Jij drinkt het. Iemand eet vanavond."',
+    backLabel: '"Wij maken het. Jij drinkt het. Samen geven we door."',
   },
   spritz: {
     id: "spritz",
@@ -371,7 +371,7 @@ function CartDrawer({ open, onClose, cart }) {
               <span className="text-white/50">Subtotaal</span>
               <span className="text-white">€{cart.total.toFixed(2)}</span>
             </div>
-            <p className="text-[11px] text-[#D4AF37]/70 italic">100% van de winst gaat naar Voedselbanken Nederland.</p>
+            <p className="text-[11px] text-[#D4AF37]/70 italic">€2 per fles naar impactprojecten — €{(cart.count * 2).toFixed(2)} bij deze bestelling.</p>
             <button className="w-full bg-[#D4AF37] text-black py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-[#E0C158] transition-colors">
               Afrekenen
             </button>
@@ -421,23 +421,39 @@ function UnderageBlock() {
   );
 }
 
-// ---------- Donation Counter ----------
-// Shows €0 until you wire this to real sales data (e.g. from a backend or
-// payment provider). Currently just displays a static placeholder value.
-function DonationCounter() {
-  const total = 0; // TODO: connect to real sales/donation data later
+// ---------- Impact Counter ----------
+// bottlesSold connects to real sales data later (e.g. backend or payment
+// provider webhook). totalDonated is always derived from it — never set
+// independently — so the €2-per-bottle math stays correct everywhere.
+function ImpactCounter() {
+  const [bottlesSold] = useState(0); // TODO: connect to real sales data later
+  const totalDonated = bottlesSold * 2;
 
   return (
     <div className="text-center">
       <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Actueel</p>
-      <p
-        className="font-serif text-[#D4AF37]"
-        style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(48px, 8vw, 90px)", fontWeight: 700, lineHeight: 1 }}
-      >
-        {`€${total.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`}
-      </p>
-      <p className="text-white/35 text-sm mt-4 max-w-sm mx-auto">
-        Opgehaald voor Voedselbanken Nederland — sinds de lancering van Vivace.
+      <div className="grid grid-cols-2 gap-8 max-w-md mx-auto">
+        <div>
+          <p
+            className="font-serif text-[#D4AF37]"
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 700, lineHeight: 1 }}
+          >
+            {bottlesSold.toLocaleString("nl-NL")}
+          </p>
+          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">Flessen verkocht</p>
+        </div>
+        <div>
+          <p
+            className="font-serif text-[#D4AF37]"
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 700, lineHeight: 1 }}
+          >
+            {`€${totalDonated.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`}
+          </p>
+          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">Totaal gedoneerd</p>
+        </div>
+      </div>
+      <p className="text-white/35 text-sm mt-8 max-w-sm mx-auto">
+        €2 per verkochte fles, rechtstreeks naar geselecteerde impactprojecten.
       </p>
       <p className="text-white/15 text-[11px] mt-3 italic">
         Teller wordt binnenkort live gekoppeld aan onze verkoopdata.
@@ -496,13 +512,13 @@ function HomePage({ setPage }) {
           >
             <span className="font-semibold block">Drink</span>
             <em className="italic text-[#D4AF37] block">anders.</em>
-            Geef alles.
+            Doe mee.
           </h1>
           <p className="text-white/50 text-base leading-relaxed max-w-md mb-12">
-            Vivace is een limoncello geboren uit een belofte die we elkaar deden. Wie we zijn is
-            minder belangrijk dan waarom we dit doen:
-            <strong className="text-white/85 font-medium"> elke euro winst gaat naar mensen die het nodig hebben.</strong> Niet
-            een deel. Alles.
+            Vivace is een premium limoncello, gemaakt met een Italiaans recept en een Nederlands hart.
+            Wie we zijn is minder belangrijk dan wat elke fles teweegbrengt:
+            <strong className="text-white/85 font-medium"> €2 van elke verkochte fles gaat rechtstreeks naar geselecteerde impactprojecten.</strong> Transparant,
+            schaalbaar, en onderdeel van elke aankoop.
           </p>
           <div className="flex gap-5 items-center flex-wrap">
             <button
@@ -631,7 +647,7 @@ function HomePage({ setPage }) {
       <div className="bg-[#D4AF37] overflow-hidden">
         <div className="flex whitespace-nowrap py-4" style={{ animation: "ticker 22s linear infinite" }}>
           {[...Array(2)].flatMap((_, rep) =>
-            ["Drink anders", "100% winst naar goed doel", "Liever anoniem dan opvallend", "Armoede bestrijden", "Italiaanse ziel · Nederlands hart", "Geef alles"].map(
+            ["Drink anders", "€2 per fles naar impact", "Premium Italiaans recept", "Transparant en schaalbaar", "Italiaanse ziel · Nederlands hart", "Doe mee"].map(
               (txt, i) => (
                 <span key={`${rep}-${i}`} className="inline-flex items-center gap-4 px-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-black">
                   {txt}
@@ -647,18 +663,18 @@ function HomePage({ setPage }) {
       <div className="bg-[#D4AF37] text-center py-24 px-6">
         <Reveal>
           <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(100px, 18vw, 200px)", lineHeight: 0.85 }}>
-            100%
+            €2
           </span>
           <p className="text-black/50 text-[13px] font-semibold tracking-[0.3em] uppercase mt-6">
-            Van onze winst gaat naar het bestrijden van armoede en honger
+            Per verkochte fles, naar geselecteerde impactprojecten
           </p>
         </Reveal>
       </div>
 
-      {/* Donation counter */}
+      {/* Impact counter */}
       <div className="bg-[#0a1628] py-24 px-6 border-b border-[#1c3450]" style={{ backgroundColor: "#0a1628" }}>
         <Reveal>
-          <DonationCounter />
+          <ImpactCounter />
         </Reveal>
       </div>
 
@@ -811,25 +827,26 @@ function AboutPage() {
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Ons Verhaal</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          De meeste merken doneren een beetje en houden <span className="text-[#D4AF37] font-semibold">veel.</span>
+          Een premium limoncello, met een <span className="text-[#D4AF37] font-semibold">vast doel</span> in elke fles.
         </h1>
       </Reveal>
 
       <Reveal delay={100}>
         <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
           <p>
-            Wij doen het anders. Vivace is geboren uit een simpele vraag: <strong className="text-white/85">wat
-            als een drankje echt iets betekent?</strong>
+            Vivace is geboren uit een simpele vraag: <strong className="text-white/85">wat als een drankje
+            van topkwaliteit ook structureel iets teruggeeft?</strong>
           </p>
           <p>
             Wie er precies achter Vivace staan, houden we liever klein. Geen poserende oprichters,
-            geen perfecte foto's met een verhaal erbij. Alleen het product en waar het geld naartoe
-            gaat — dat is wat telt.
+            geen perfecte foto's met een verhaal erbij. Alleen het product, en een heldere belofte
+            die bij elke fles hoort.
           </p>
           <p>
-            We maken Italiaanse limoncello en werken aan een limoncello spritz in blik — want alcohol
-            in blik is razend populair in Nederland. En alles wat we verdienen, geven we weg. Aan
-            mensen die honger hebben. Aan mensen die niets hebben.
+            We maken Italiaanse limoncello volgens een authentiek recept, en werken aan een limoncello
+            spritz in blik. Voor elke verkochte fles doneren we €2 aan geselecteerde impactprojecten —
+            een vast, voorspelbaar bedrag, los van marges of een goed kwartaal. Zo blijft het model
+            kloppen, hoe groot Vivace ook wordt.
           </p>
           <p className="text-[#D4AF37]/80 font-medium">Dat is Vivace.</p>
         </div>
@@ -838,8 +855,8 @@ function AboutPage() {
       <Reveal delay={200}>
         <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 mb-16">
           <p className="font-serif italic text-xl text-white/85 leading-relaxed mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            "We wilden niet zomaar een drankenmerk bouwen. We wilden dat elke slok iets teruggeeft —
-            en tegelijkertijd ongelofelijk lekker is."
+            "We wilden een merk bouwen dat zowel op het schap als in de cijfers overtuigt — en
+            waarbij impact geen marketingclaim is, maar een vast onderdeel van het verdienmodel."
           </p>
           <p className="text-[11px] tracking-[0.18em] uppercase text-white/30">— Anoniem, namens Vivace</p>
         </div>
@@ -848,8 +865,8 @@ function AboutPage() {
       <Reveal delay={300}>
         <div className="grid grid-cols-2 gap-6 text-center border-t border-[#234060] pt-12 mb-20 max-w-md mx-auto">
           <div>
-            <p className="font-serif text-4xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>100%</p>
-            <p className="text-[10px] uppercase tracking-wider text-white/35 mt-2">Winst naar goed doel</p>
+            <p className="font-serif text-4xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€2</p>
+            <p className="text-[10px] uppercase tracking-wider text-white/35 mt-2">Per fles naar impact</p>
           </div>
           <div>
             <p className="font-serif text-4xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>2</p>
@@ -858,25 +875,25 @@ function AboutPage() {
         </div>
       </Reveal>
 
-      {/* Charity partner */}
+      {/* Impact model */}
       <Reveal delay={400}>
         <div className="border-t border-[#234060] pt-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Ons goede doel</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Ons impactmodel</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Voedselbanken Nederland
+            €2 per fles, naar geselecteerde impactprojecten
           </h2>
           <div className="grid md:grid-cols-2 gap-10 items-start">
             <p className="text-white/55 leading-relaxed text-[15px]">
-              100% van onze winst gaat naar Voedselbanken Nederland — het landelijke netwerk van
-              voedselbanken dat al sinds 2002 mensen in armoede helpt aan goed, gezond eten. Geen
-              ingewikkelde constructies, geen tussenpartijen. Gewoon: wij verkopen limoncello, zij
-              vullen voedselpakketten.
+              Voor elke fles Vivace die verkocht wordt, doneren we €2 aan een selectie van
+              impactprojecten. Geen vage belofte, geen ingewikkelde constructies: een vast bedrag,
+              per fles, transparant te herleiden. Dat maakt het model net zo schaalbaar als het merk
+              zelf — voor de consument thuis, én voor onze partners in retail en horeca.
             </p>
             <div className="bg-[#102338] border border-[#234060] p-8">
-              <p className="text-[#D4AF37] text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>178+</p>
-              <p className="text-white/35 text-xs uppercase tracking-wider mb-6">Lokale voedselbanken in Nederland</p>
-              <p className="text-[#D4AF37] text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>1.000.000+</p>
-              <p className="text-white/35 text-xs uppercase tracking-wider">Nederlanders die onder de armoedegrens leven</p>
+              <p className="text-[#D4AF37] text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€2,00</p>
+              <p className="text-white/35 text-xs uppercase tracking-wider mb-6">Vast donatiebedrag per fles</p>
+              <p className="text-[#D4AF37] text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>100%</p>
+              <p className="text-white/35 text-xs uppercase tracking-wider">Transparant herleidbaar naar verkochte flessen</p>
             </div>
           </div>
         </div>
@@ -1059,14 +1076,22 @@ const FAQ_SECTIONS = [
     ],
   },
   {
-    title: "Vivace & goede doelen",
+    title: "Vivace & impact",
     items: [
       {
-        q: "Waarom gaat 100% van de winst naar een goed doel?",
-        a: "Vivace is opgericht met één duidelijk doel: iets terugdoen. Elke euro winst die we maken doneren we volledig aan Voedselbanken Nederland.",
+        q: "Hoe werkt het donatiemodel van Vivace?",
+        a: "Voor elke verkochte fles Vivace doneren we €2 aan geselecteerde impactprojecten. Een vast bedrag, per fles, onafhankelijk van marge of omzet.",
       },
       {
-        q: "Hoe weet ik dat de winst echt gedoneerd wordt?",
+        q: "Waarom een vast bedrag per fles, in plaats van een percentage van de winst?",
+        a: "Een vast bedrag is transparant en voorspelbaar — voor onszelf, voor onze partners in retail en horeca, en voor jou als consument. Het maakt het model ook schaalbaar: hoe meer flessen we verkopen, hoe meer impact we maken, zonder dat dit afhangt van hoe een kwartaal er financieel uitziet.",
+      },
+      {
+        q: "Welke projecten steunt Vivace?",
+        a: "We doneren aan een selectie van impactprojecten. Voor de meest actuele informatie hierover kun je contact met ons opnemen.",
+      },
+      {
+        q: "Hoe weet ik dat de donatie echt gebeurt?",
         a: "Transparantie vinden we belangrijk. Heb je vragen over hoe we dit bijhouden, neem dan gerust contact met ons op.",
       },
     ],
@@ -1308,7 +1333,7 @@ function Footer({ setPage }) {
           Vivace
         </p>
         <p className="font-serif italic text-sm text-white/20 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          "Drink anders. Geef alles."
+          "Drink anders. Doe mee."
         </p>
         <ul className="flex gap-7 justify-center md:justify-end text-[11px] uppercase tracking-wider text-white/25 flex-wrap">
           {["home", "products", "stores", "recept", "faq", "about", "contact"].map((p) => (
