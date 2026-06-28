@@ -1522,7 +1522,7 @@ function PrivacyPage() {
           Privacybeleid
         </h1>
         <p className="text-white/45 max-w-lg mb-14">
-          Laatst bijgewerkt: [DATUM]. Dit privacybeleid legt uit welke gegevens Vivace verzamelt,
+          Laatst bijgewerkt: 28 juni 2026. Dit privacybeleid legt uit welke gegevens Vivace verzamelt,
           waarom, en welke rechten je hebt.
         </p>
       </Reveal>
@@ -1530,8 +1530,8 @@ function PrivacyPage() {
       <Reveal delay={100}>
         <LegalSection title="1. Wie zijn wij">
           <p>
-            Vivace wordt geëxploiteerd door [BEDRIJFSNAAM / EENMANSZAAK NAAM], ingeschreven bij de
-            Kamer van Koophandel onder nummer [KVK-NUMMER], gevestigd op [VOLLEDIG ADRES],
+            Vivace wordt geëxploiteerd door VVM Trading (eenmanszaak), ingeschreven bij de
+            Kamer van Koophandel onder nummer 86618806, gevestigd op Loevestein 18, 3171JD Poortugaal,
             Nederland. Voor vragen over dit privacybeleid kun je contact opnemen via
             info@drinkvivace.nl.
           </p>
@@ -1562,7 +1562,7 @@ function PrivacyPage() {
         <LegalSection title="4. Hoe lang we gegevens bewaren">
           <p>
             Berichten via het contactformulier bewaren we niet langer dan noodzakelijk om je vraag
-            te kunnen afhandelen, en in elk geval niet langer dan [BEWAARTERMIJN, bv. 24 maanden]
+            te kunnen afhandelen, en in elk geval niet langer dan 24 maanden
             na het laatste contact, tenzij we wettelijk verplicht zijn gegevens langer te bewaren.
           </p>
         </LegalSection>
@@ -1614,7 +1614,7 @@ function TermsPage() {
           Algemene voorwaarden
         </h1>
         <p className="text-white/45 max-w-lg mb-14">
-          Laatst bijgewerkt: [DATUM]. Deze voorwaarden zijn van toepassing op het gebruik van deze
+          Laatst bijgewerkt: 28 juni 2026. Deze voorwaarden zijn van toepassing op het gebruik van deze
           website en op de informatie die hierop wordt aangeboden.
         </p>
       </Reveal>
@@ -1622,9 +1622,9 @@ function TermsPage() {
       <Reveal delay={100}>
         <LegalSection title="1. Wie zijn wij">
           <p>
-            Deze website wordt geëxploiteerd door [BEDRIJFSNAAM / EENMANSZAAK NAAM], ingeschreven
-            bij de Kamer van Koophandel onder nummer [KVK-NUMMER], gevestigd op [VOLLEDIG ADRES],
-            Nederland. BTW-identificatienummer: [BTW-NUMMER].
+            Deze website wordt geëxploiteerd door VVM Trading (eenmanszaak), ingeschreven
+            bij de Kamer van Koophandel onder nummer 86618806, gevestigd op Loevestein 18, 3171JD
+            Poortugaal, Nederland. BTW-identificatienummer: [BTW-NUMMER — nog aan te vullen].
           </p>
         </LegalSection>
 
@@ -1661,7 +1661,7 @@ function TermsPage() {
         <LegalSection title="5. Intellectueel eigendom">
           <p>
             Alle content op deze website — waaronder teksten, het Vivace-logo, productfoto's,
-            illustraties en de vormgeving van het etiket — is eigendom van [BEDRIJFSNAAM] of wordt
+            illustraties en de vormgeving van het etiket — is eigendom van VVM Trading of wordt
             gebruikt met toestemming van de rechthebbende. Niets van deze website mag worden
             gekopieerd, verspreid of commercieel gebruikt zonder voorafgaande schriftelijke
             toestemming.
@@ -1672,7 +1672,7 @@ function TermsPage() {
           <p>
             We doen ons best om de informatie op deze website actueel en correct te houden, maar
             kunnen niet garanderen dat alle informatie op elk moment volledig juist of up-to-date
-            is. [BEDRIJFSNAAM] is niet aansprakelijk voor schade die voortvloeit uit het gebruik van
+            is. VVM Trading is niet aansprakelijk voor schade die voortvloeit uit het gebruik van
             deze website of uit het gebruik van het product, behalve in gevallen van opzet of grove
             schuld, of voor zover dwingend Nederlands recht anders bepaalt.
           </p>
