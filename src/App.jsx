@@ -576,7 +576,67 @@ function HomePage({ setPage }) {
         </div>
       </section>
 
-      {/* Golden Hour Scene — the feeling, without a posed model */}
+      {/* Mission ticker */}
+      <div className="bg-[#D4AF37] overflow-hidden">
+        <div className="flex whitespace-nowrap py-4" style={{ animation: "ticker 22s linear infinite" }}>
+          {[...Array(2)].flatMap((_, rep) =>
+            ["Drink anders", "€2 per fles naar impact", "Premium Italiaans recept", "Transparant en schaalbaar", "Italiaanse ziel · Nederlands hart", "Doe mee"].map(
+              (txt, i) => (
+                <span key={`${rep}-${i}`} className="inline-flex items-center gap-4 px-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-black">
+                  {txt}
+                  <span className="w-1 h-1 rounded-full bg-black/25" />
+                </span>
+              )
+            )
+          )}
+        </div>
+      </div>
+
+      {/* The number */}
+      <div className="bg-[#D4AF37] text-center py-24 px-6">
+        <Reveal>
+          <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(100px, 18vw, 200px)", lineHeight: 0.85 }}>
+            €2
+          </span>
+          <p className="text-black/50 text-[13px] font-semibold tracking-[0.3em] uppercase mt-6">
+            Per verkochte fles, naar geselecteerde impactprojecten
+          </p>
+        </Reveal>
+      </div>
+
+      {/* Impact counter */}
+      <div className="bg-[#0a1628] py-24 px-6 border-b border-[#1c3450]" style={{ backgroundColor: "#0a1628" }}>
+        <Reveal>
+          <ImpactCounter />
+        </Reveal>
+      </div>
+
+      {/* Quick links to stockists */}
+      <section className="px-6 md:px-14 py-24 max-w-5xl mx-auto">
+        <Reveal>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Nu te koop</p>
+          <h2 className="font-serif text-3xl md:text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Te vinden bij supermarkten en restaurants
+          </h2>
+        </Reveal>
+        <div className="grid md:grid-cols-2 gap-4">
+          {STOCKISTS.map((s, i) => (
+            <Reveal key={s.name} delay={i * 100}>
+              <div className="border border-[#234060] p-6 flex items-center gap-4 hover:border-[#D4AF37]/30 transition-colors">
+                <MapPin className="text-[#D4AF37] flex-shrink-0" size={20} />
+                <div>
+                  <p className="text-white/90 text-sm font-medium">{s.name}</p>
+                  <p className="text-white/40 text-xs">{s.type} · {s.city}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Golden Hour Scene — the feeling, without a posed model. Moved to the
+          end of the homepage so the impact model and stockists lead, and this
+          atmospheric closer comes last. */}
       <section className="relative overflow-hidden" style={{ height: "640px" }}>
         {/* Sky */}
         <div
@@ -668,64 +728,6 @@ function HomePage({ setPage }) {
           >
             Twee glazen.<br />Een terras.<br />Een avond die niet eindigt.
           </p>
-        </div>
-      </section>
-
-      {/* Mission ticker */}
-      <div className="bg-[#D4AF37] overflow-hidden">
-        <div className="flex whitespace-nowrap py-4" style={{ animation: "ticker 22s linear infinite" }}>
-          {[...Array(2)].flatMap((_, rep) =>
-            ["Drink anders", "€2 per fles naar impact", "Premium Italiaans recept", "Transparant en schaalbaar", "Italiaanse ziel · Nederlands hart", "Doe mee"].map(
-              (txt, i) => (
-                <span key={`${rep}-${i}`} className="inline-flex items-center gap-4 px-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-black">
-                  {txt}
-                  <span className="w-1 h-1 rounded-full bg-black/25" />
-                </span>
-              )
-            )
-          )}
-        </div>
-      </div>
-
-      {/* The number */}
-      <div className="bg-[#D4AF37] text-center py-24 px-6">
-        <Reveal>
-          <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(100px, 18vw, 200px)", lineHeight: 0.85 }}>
-            €2
-          </span>
-          <p className="text-black/50 text-[13px] font-semibold tracking-[0.3em] uppercase mt-6">
-            Per verkochte fles, naar geselecteerde impactprojecten
-          </p>
-        </Reveal>
-      </div>
-
-      {/* Impact counter */}
-      <div className="bg-[#0a1628] py-24 px-6 border-b border-[#1c3450]" style={{ backgroundColor: "#0a1628" }}>
-        <Reveal>
-          <ImpactCounter />
-        </Reveal>
-      </div>
-
-      {/* Quick links to stockists */}
-      <section className="px-6 md:px-14 py-24 max-w-5xl mx-auto">
-        <Reveal>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Nu te koop</p>
-          <h2 className="font-serif text-3xl md:text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Te vinden bij supermarkten en restaurants
-          </h2>
-        </Reveal>
-        <div className="grid md:grid-cols-2 gap-4">
-          {STOCKISTS.map((s, i) => (
-            <Reveal key={s.name} delay={i * 100}>
-              <div className="border border-[#234060] p-6 flex items-center gap-4 hover:border-[#D4AF37]/30 transition-colors">
-                <MapPin className="text-[#D4AF37] flex-shrink-0" size={20} />
-                <div>
-                  <p className="text-white/90 text-sm font-medium">{s.name}</p>
-                  <p className="text-white/40 text-xs">{s.type} · {s.city}</p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
         </div>
       </section>
 
