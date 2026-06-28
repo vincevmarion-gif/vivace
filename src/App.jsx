@@ -536,14 +536,13 @@ function HomePage({ setPage }) {
           </div>
         </div>
 
-        <div className="relative z-10 flex items-end justify-center gap-12 mt-16 md:mt-0">
-          <div className="flex flex-col items-center gap-4">
-            <BottleSVG size={100} />
-            <span className="text-[10px] tracking-[0.2em] uppercase text-white/30">Limoncello · Fles</span>
-          </div>
-          <div className="flex flex-col items-center gap-4">
-            <CanSVG size={85} />
-            <span className="text-[10px] tracking-[0.2em] uppercase text-white/30">Spritz · Blik</span>
+        <div className="relative z-10 flex items-center justify-center mt-16 md:mt-0">
+          <div className="w-full max-w-md md:max-w-lg">
+            <img
+              src="/images/vivace-bottle-hero.jpg"
+              alt="Vivace Limoncello fles voor het Colosseum"
+              className="w-full h-auto rounded-sm shadow-2xl shadow-black/40"
+            />
           </div>
         </div>
       </section>
@@ -1325,6 +1324,201 @@ function ReceptPage() {
   );
 }
 
+function LegalSection({ title, children }) {
+  return (
+    <div className="mb-10">
+      <h2 className="font-serif text-xl text-[#D4AF37] mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        {title}
+      </h2>
+      <div className="text-white/55 text-sm leading-relaxed space-y-3">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function PrivacyPage() {
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Juridisch</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Privacybeleid
+        </h1>
+        <p className="text-white/45 max-w-lg mb-14">
+          Laatst bijgewerkt: [DATUM]. Dit privacybeleid legt uit welke gegevens Vivace verzamelt,
+          waarom, en welke rechten je hebt.
+        </p>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <LegalSection title="1. Wie zijn wij">
+          <p>
+            Vivace wordt geëxploiteerd door [BEDRIJFSNAAM / EENMANSZAAK NAAM], ingeschreven bij de
+            Kamer van Koophandel onder nummer [KVK-NUMMER], gevestigd op [VOLLEDIG ADRES],
+            Nederland. Voor vragen over dit privacybeleid kun je contact opnemen via
+            info@drinkvivace.nl.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="2. Welke gegevens we verzamelen">
+          <p>Wij verzamelen alleen de gegevens die je zelf actief met ons deelt, namelijk via het contactformulier op onze website:</p>
+          <ul className="list-disc list-inside space-y-1 ml-2">
+            <li>Naam</li>
+            <li>E-mailadres</li>
+            <li>De inhoud van je bericht</li>
+          </ul>
+          <p>
+            Wij gebruiken geen trackingcookies, geen advertentiepixels en verzamelen geen
+            gegevens voor profilering of marketingdoeleinden zonder jouw expliciete toestemming.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="3. Waarom we deze gegevens verzamelen">
+          <p>
+            We gebruiken de gegevens uit het contactformulier uitsluitend om je vraag, opmerking of
+            verzoek (bijvoorbeeld als potentiële verkooppartner) te kunnen beantwoorden. We gebruiken
+            je gegevens niet voor geautomatiseerde besluitvorming en delen ze niet met derden voor
+            commerciële doeleinden.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="4. Hoe lang we gegevens bewaren">
+          <p>
+            Berichten via het contactformulier bewaren we niet langer dan noodzakelijk om je vraag
+            te kunnen afhandelen, en in elk geval niet langer dan [BEWAARTERMIJN, bv. 24 maanden]
+            na het laatste contact, tenzij we wettelijk verplicht zijn gegevens langer te bewaren.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="5. Derde partijen">
+          <p>
+            Ons contactformulier wordt verwerkt via Formspree, een derde partij die berichten van
+            het formulier naar ons doorstuurt. Voor meer informatie over hoe Formspree gegevens
+            verwerkt, verwijzen we naar hun eigen privacybeleid.
+          </p>
+          <p>
+            Onze website wordt gehost via Vercel. Standaard servertechnische gegevens (zoals
+            IP-adres en tijdstip van bezoek) kunnen door onze hostingpartij worden gelogd voor
+            beveiligings- en technische doeleinden.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="6. Jouw rechten">
+          <p>Onder de AVG (GDPR) heb je het recht om:</p>
+          <ul className="list-disc list-inside space-y-1 ml-2">
+            <li>Inzage te krijgen in de gegevens die we van je hebben</li>
+            <li>Je gegevens te laten corrigeren of verwijderen</li>
+            <li>Bezwaar te maken tegen de verwerking van je gegevens</li>
+            <li>Een klacht in te dienen bij de Autoriteit Persoonsgegevens</li>
+          </ul>
+          <p>
+            Wil je gebruikmaken van een van deze rechten? Stuur een e-mail naar
+            info@drinkvivace.nl.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="7. Wijzigingen in dit beleid">
+          <p>
+            We kunnen dit privacybeleid van tijd tot tijd aanpassen. De meest recente versie is
+            altijd te vinden op deze pagina, met de datum van de laatste wijziging hierboven.
+          </p>
+        </LegalSection>
+      </Reveal>
+    </div>
+  );
+}
+
+function TermsPage() {
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Juridisch</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Algemene voorwaarden
+        </h1>
+        <p className="text-white/45 max-w-lg mb-14">
+          Laatst bijgewerkt: [DATUM]. Deze voorwaarden zijn van toepassing op het gebruik van deze
+          website en op de informatie die hierop wordt aangeboden.
+        </p>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <LegalSection title="1. Wie zijn wij">
+          <p>
+            Deze website wordt geëxploiteerd door [BEDRIJFSNAAM / EENMANSZAAK NAAM], ingeschreven
+            bij de Kamer van Koophandel onder nummer [KVK-NUMMER], gevestigd op [VOLLEDIG ADRES],
+            Nederland. BTW-identificatienummer: [BTW-NUMMER].
+          </p>
+        </LegalSection>
+
+        <LegalSection title="2. Leeftijdsgrens">
+          <p>
+            Vivace Limoncello is een alcoholhoudend product (30% ALC/VOL) en is uitsluitend bestemd
+            voor personen van 18 jaar en ouder. Door deze website te gebruiken bevestig je dat je
+            18 jaar of ouder bent. Het is verboden alcohol te verkopen aan, of te laten consumeren
+            door, personen onder de 18 jaar, conform de Nederlandse Alcoholwet.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="3. Verkoop via derde partijen">
+          <p>
+            Vivace Limoncello wordt niet rechtstreeks via deze website verkocht. Sterke drank (30%
+            ALC/VOL of hoger) mag in Nederland alleen online verkocht worden door een hiervoor
+            erkende slijterij. Vivace is daarom uitsluitend verkrijgbaar via de fysieke
+            verkooppunten die op deze website worden vermeld. Voor vragen over prijs,
+            beschikbaarheid of voorraad bij een specifiek verkooppunt verwijzen we je naar dat
+            verkooppunt zelf.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="4. Impact- en donatiemodel">
+          <p>
+            Vivace doneert €2 per verkochte fles aan geselecteerde impactprojecten. Dit bedrag is
+            vast en wordt niet beïnvloed door de verkoopprijs die door individuele verkooppunten
+            wordt gehanteerd. De op deze website weergegeven tellers (aantal verkochte flessen en
+            totaal gedoneerd bedrag) zijn indicatief en worden periodiek bijgewerkt; zie ook onze
+            Onze Impact-pagina voor meer toelichting.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="5. Intellectueel eigendom">
+          <p>
+            Alle content op deze website — waaronder teksten, het Vivace-logo, productfoto's,
+            illustraties en de vormgeving van het etiket — is eigendom van [BEDRIJFSNAAM] of wordt
+            gebruikt met toestemming van de rechthebbende. Niets van deze website mag worden
+            gekopieerd, verspreid of commercieel gebruikt zonder voorafgaande schriftelijke
+            toestemming.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="6. Aansprakelijkheid">
+          <p>
+            We doen ons best om de informatie op deze website actueel en correct te houden, maar
+            kunnen niet garanderen dat alle informatie op elk moment volledig juist of up-to-date
+            is. [BEDRIJFSNAAM] is niet aansprakelijk voor schade die voortvloeit uit het gebruik van
+            deze website of uit het gebruik van het product, behalve in gevallen van opzet of grove
+            schuld, of voor zover dwingend Nederlands recht anders bepaalt.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="7. Toepasselijk recht">
+          <p>
+            Op deze voorwaarden is Nederlands recht van toepassing. Eventuele geschillen worden
+            voorgelegd aan de bevoegde rechter in Nederland.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="8. Contact">
+          <p>
+            Vragen over deze voorwaarden? Neem contact met ons op via info@drinkvivace.nl.
+          </p>
+        </LegalSection>
+      </Reveal>
+    </div>
+  );
+}
+
 function Footer({ setPage }) {
   return (
     <footer className="border-t border-[#1c3450] px-6 md:px-14 py-14">
@@ -1348,6 +1542,14 @@ function Footer({ setPage }) {
       <p className="text-center text-[11px] text-white/15 mt-10 pt-8 border-t border-[#1c3450]">
         © 2026 Vivace · Drink verantwoord. 18+
       </p>
+      <div className="flex gap-6 justify-center text-[10px] uppercase tracking-wider text-white/20 mt-4">
+        <button onClick={() => setPage("privacy")} className="hover:text-[#D4AF37] transition-colors">
+          Privacybeleid
+        </button>
+        <button onClick={() => setPage("terms")} className="hover:text-[#D4AF37] transition-colors">
+          Algemene voorwaarden
+        </button>
+      </div>
     </footer>
   );
 }
@@ -1379,6 +1581,8 @@ export default function VivaceApp() {
       {page === "contact" && <ContactPage />}
       {page === "recept" && <ReceptPage />}
       {page === "faq" && <FAQPage setPage={setPage} />}
+      {page === "privacy" && <PrivacyPage />}
+      {page === "terms" && <TermsPage />}
 
       <Footer setPage={setPage} />
     </div>
