@@ -194,10 +194,39 @@ const PRODUCTS = {
   },
 };
 
+// PLACEHOLDER DATA — replace name, address, city, and postcode with your
+// real stockists' details. Once you have them, this is the only place you
+// need to edit; the page below builds itself from this array automatically.
 const STOCKISTS = [
-  { name: "Lokale supermarkt", area: "Bij jou in de buurt", type: "Supermarkt", products: ["limoncello"] },
-  { name: "Italiaans restaurant", area: "Bij jou in de buurt", type: "Restaurant", products: ["limoncello"] },
+  {
+    name: "[Naam supermarkt]",
+    type: "Supermarkt",
+    address: "[Straat + huisnummer]",
+    postcode: "[Postcode]",
+    city: "[Plaats]",
+    products: ["limoncello"],
+  },
+  {
+    name: "[Naam restaurant]",
+    type: "Restaurant",
+    address: "[Straat + huisnummer]",
+    postcode: "[Postcode]",
+    city: "[Plaats]",
+    products: ["limoncello"],
+  },
 ];
+
+// Builds a Google Maps embed URL from an address string. No API key needed
+// for this basic embed format.
+function mapsEmbedUrl(stockist) {
+  const query = encodeURIComponent(`${stockist.name}, ${stockist.address}, ${stockist.postcode} ${stockist.city}`);
+  return `https://www.google.com/maps?q=${query}&output=embed`;
+}
+
+function mapsLinkUrl(stockist) {
+  const query = encodeURIComponent(`${stockist.name}, ${stockist.address}, ${stockist.postcode} ${stockist.city}`);
+  return `https://www.google.com/maps/search/?api=1&query=${query}`;
+}
 
 // ---------- Cart context (simple prop-drill, no localStorage) ----------
 function useCart() {
@@ -692,7 +721,7 @@ function HomePage({ setPage }) {
                 <MapPin className="text-[#D4AF37] flex-shrink-0" size={20} />
                 <div>
                   <p className="text-white/90 text-sm font-medium">{s.name}</p>
-                  <p className="text-white/40 text-xs">{s.type} · {s.area}</p>
+                  <p className="text-white/40 text-xs">{s.type} · {s.city}</p>
                 </div>
               </div>
             </Reveal>
@@ -794,28 +823,55 @@ function StoresPage() {
         </p>
       </Reveal>
 
-      <div className="space-y-4">
+      <div className="space-y-10">
         {STOCKISTS.map((s, i) => (
           <Reveal key={s.name} delay={i * 100}>
-            <div className="border border-[#234060] p-6 flex items-center justify-between flex-wrap gap-4">
-              <div className="flex items-center gap-4">
-                <MapPin className="text-[#D4AF37]" size={22} />
-                <div>
-                  <p className="text-white/90 font-medium">{s.name}</p>
-                  <p className="text-white/40 text-sm">{s.type} · {s.area}</p>
+            <div className="border border-[#234060] overflow-hidden">
+              <div className="p-6 flex items-center justify-between flex-wrap gap-4">
+                <div className="flex items-center gap-4">
+                  <MapPin className="text-[#D4AF37] flex-shrink-0" size={22} />
+                  <div>
+                    <p className="text-white/90 font-medium">{s.name}</p>
+                    <p className="text-white/40 text-sm">
+                      {s.type} · {s.address}, {s.postcode} {s.city}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 flex-wrap">
+                  {s.products.map((pid) => (
+                    <span key={pid} className="text-[10px] uppercase tracking-wider text-[#C9A04E] border border-[#C9A04E]/30 px-3 py-1">
+                      {PRODUCTS[pid].name}
+                    </span>
+                  ))}
+                  <a
+                    href={mapsLinkUrl(s)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] uppercase tracking-wider text-white/50 border border-white/20 px-3 py-1.5 hover:border-[#D4AF37]/50 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
+                  >
+                    Open in Maps <ChevronRight size={12} />
+                  </a>
                 </div>
               </div>
-              <div className="flex gap-2">
-                {s.products.map((pid) => (
-                  <span key={pid} className="text-[10px] uppercase tracking-wider text-[#C9A04E] border border-[#C9A04E]/30 px-3 py-1">
-                    {PRODUCTS[pid].name}
-                  </span>
-                ))}
-              </div>
+              <iframe
+                title={`Kaart ${s.name}`}
+                src={mapsEmbedUrl(s)}
+                className="w-full h-64 border-t border-[#234060]"
+                style={{ border: 0 }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </Reveal>
         ))}
       </div>
+
+      <Reveal delay={STOCKISTS.length * 100}>
+        <p className="text-white/25 text-xs mt-10 italic">
+          Sta je hier nog niet bij en wil je Vivace verkopen? Neem contact met ons op via de
+          contactpagina.
+        </p>
+      </Reveal>
     </div>
   );
 }
@@ -1570,7 +1626,6 @@ export default function VivaceApp() {
 
   return (
     <div className="bg-[#0a1628] text-white min-h-screen font-sans" style={{ fontFamily: "'DM Sans', sans-serif", backgroundColor: "#0a1628" }}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
       <Nav page={page} setPage={setPage} cart={cart} setCartOpen={setCartOpen} />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} />
 
