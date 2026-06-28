@@ -266,7 +266,7 @@ function Nav({ page, setPage, cart, setCartOpen }) {
     { id: "home", label: "Home" },
     { id: "products", label: "Producten" },
     { id: "stores", label: "Verkooppunten" },
-    { id: "recept", label: "Recept" },
+    { id: "blog", label: "Blog" },
     { id: "faq", label: "FAQ" },
     { id: "about", label: "Over ons" },
     { id: "contact", label: "Contact" },
@@ -368,7 +368,15 @@ function CartDrawer({ open, onClose, cart }) {
             return (
               <div key={id} className="flex gap-4 items-center">
                 <div className="flex-shrink-0">
-                  <CanSVG size={40} />
+                  {id === "limoncello" ? (
+                    <img
+                      src="/images/vivace-bottle-hero.jpg"
+                      alt="Vivace Limoncello"
+                      className="w-10 h-10 object-cover rounded-sm"
+                    />
+                  ) : (
+                    <CanSVG size={40} />
+                  )}
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-white/90">{p.name}</p>
@@ -750,7 +758,15 @@ function ProductsPage({ cart, setPage }) {
         {Object.values(PRODUCTS).map((p, i) => (
           <Reveal key={p.id} delay={i * 120}>
             <div className="bg-[#102338] p-10 md:p-12 flex flex-col items-center text-center gap-6 h-full">
-              {p.id === "limoncello" ? <BottleSVG size={90} /> : <CanSVG size={75} />}
+              {p.id === "limoncello" ? (
+                <img
+                  src="/images/vivace-bottle-hero.jpg"
+                  alt="Vivace Limoncello fles"
+                  className="w-full max-w-[180px] h-auto rounded-sm shadow-xl shadow-black/30"
+                />
+              ) : (
+                <CanSVG size={75} />
+              )}
 
               <div>
                 <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-2">{p.type}</p>
@@ -1201,12 +1217,24 @@ function FAQPage({ setPage }) {
 }
 
 // ---------- Recipe Page ----------
-const SPRITZ_RECIPES = [
+// ---------- Blog ----------
+// Unified blog covering three post types: recept (recipe), nieuws (news),
+// verkooppunt (new stockist announcement). Recipe posts carry the full
+// ingredients/steps/serving-adjuster data; other types are simpler articles.
+const BLOG_CATEGORIES = [
+  { id: "alle", label: "Alle" },
+  { id: "recept", label: "Recept" },
+  { id: "nieuws", label: "Nieuws" },
+  { id: "verkooppunt", label: "Verkooppunten" },
+];
+
+const BLOG_POSTS = [
   {
-    id: "classic",
-    label: "Klassiek",
-    name: "Vivace Limoncello Spritz",
-    description: "De originele: fris, lichtzoet en gevuld met bubbels.",
+    id: "spritz-klassiek",
+    type: "recept",
+    title: "Vivace Limoncello Spritz — het klassieke recept",
+    date: "2026-06-01",
+    excerpt: "De originele: fris, lichtzoet en gevuld met bubbels. Het recept waarmee alles begon.",
     ingredients: [
       { amount: 5, unit: "cl", name: "Vivace Limoncello" },
       { amount: 10, unit: "cl", name: "prosecco, goed gekoeld" },
@@ -1223,10 +1251,11 @@ const SPRITZ_RECIPES = [
     ],
   },
   {
-    id: "light",
-    label: "Light",
-    name: "Vivace Spritz Light",
-    description: "Iets lichter en langer, met meer bruiswater.",
+    id: "spritz-light",
+    type: "recept",
+    title: "Vivace Spritz Light — lichter en langer",
+    date: "2026-06-01",
+    excerpt: "Iets lichter en langer, met meer bruiswater. Perfect voor een lange, warme middag.",
     ingredients: [
       { amount: 4, unit: "cl", name: "Vivace Limoncello" },
       { amount: 8, unit: "cl", name: "prosecco, goed gekoeld" },
@@ -1242,10 +1271,11 @@ const SPRITZ_RECIPES = [
     ],
   },
   {
-    id: "strong",
-    label: "Stevig",
-    name: "Vivace Spritz Intenso",
-    description: "Voor wie de limoncello echt wil proeven.",
+    id: "spritz-intenso",
+    type: "recept",
+    title: "Vivace Spritz Intenso — voor de echte liefhebber",
+    date: "2026-06-01",
+    excerpt: "Voor wie de limoncello echt wil proeven: een stevigere pour met minder verdunning.",
     ingredients: [
       { amount: 7, unit: "cl", name: "Vivace Limoncello" },
       { amount: 7, unit: "cl", name: "prosecco, goed gekoeld" },
@@ -1259,125 +1289,213 @@ const SPRITZ_RECIPES = [
       "Garneer met een schijfje citroen en eventueel een takje rozemarijn.",
     ],
   },
+  {
+    id: "nieuw-impactmodel",
+    type: "nieuws",
+    title: "Vivace gaat over op een vast donatiebedrag: €2 per fles",
+    date: "2026-06-20",
+    excerpt: "We hebben ons impactmodel aangescherpt. In plaats van een percentage van de winst, doneren we nu een vast bedrag van €2 per verkochte fles — transparant en schaalbaar.",
+    body: [
+      "Vanaf nu doneert Vivace €2 voor elke verkochte fles aan geselecteerde impactprojecten. Dit vervangt ons eerdere model, waarbij we een deel van de winst doneerden.",
+      "Waarom de verandering? Een vast bedrag per fles is voorspelbaar en transparant — voor onszelf, voor onze partners in retail en horeca, en voor jou als consument. Het maakt ons model ook schaalbaar: hoe meer flessen we verkopen, hoe meer impact we maken, onafhankelijk van marges of hoe een kwartaal er financieel uitziet.",
+      "Op onze website vind je een live teller die het aantal verkochte flessen en het totaal gedoneerde bedrag laat zien. Deze teller wordt de komende tijd gekoppeld aan onze echte verkoopdata.",
+    ],
+  },
+  {
+    id: "nieuwe-verkooppunt",
+    type: "verkooppunt",
+    title: "Vivace nu ook te koop bij een nieuw verkooppunt",
+    date: "2026-06-15",
+    excerpt: "We breiden uit! Vivace Limoncello is sinds deze week te koop bij een nieuw verkooppunt.",
+    body: [
+      "We zijn verheugd om aan te kondigen dat Vivace Limoncello vanaf deze week verkrijgbaar is bij een nieuw verkooppunt. Bekijk de volledige lijst en adressen op onze Verkooppunten-pagina.",
+      "Ben je zelf een winkel, slijterij of horecazaak en wil je Vivace in je assortiment? Neem contact met ons op via de contactpagina — we denken graag mee.",
+    ],
+  },
 ];
 
-function formatSpritzAmount(amount, servings) {
+function formatRecipeAmount(amount, servings) {
   if (amount === null) return null;
   const scaled = Math.round(amount * servings * 10) / 10;
   return scaled % 1 === 0 ? scaled.toString() : scaled.toFixed(1);
 }
 
-function ReceptPage() {
-  const [active, setActive] = useState("classic");
+function formatBlogDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
+}
+
+function BlogCard({ post, onOpen }) {
+  return (
+    <button
+      onClick={() => onOpen(post.id)}
+      className="text-left border border-[#234060] p-6 hover:border-[#D4AF37]/40 transition-colors flex flex-col gap-3 h-full"
+    >
+      <span className="text-[10px] uppercase tracking-[0.2em] text-[#C9A04E]">
+        {BLOG_CATEGORIES.find((c) => c.id === post.type)?.label || post.type}
+      </span>
+      <h3 className="font-serif text-xl text-white/90 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        {post.title}
+      </h3>
+      <p className="text-white/45 text-sm leading-relaxed flex-1">{post.excerpt}</p>
+      <span className="text-white/25 text-xs">{formatBlogDate(post.date)}</span>
+    </button>
+  );
+}
+
+function RecipeBody({ post }) {
   const [servings, setServings] = useState(1);
-  const recipe = SPRITZ_RECIPES.find((r) => r.id === active);
+  return (
+    <div className="bg-[#102338] border border-[#234060] p-8 md:p-12">
+      <div className="flex items-center justify-end mb-10">
+        <div className="flex items-center gap-4">
+          <span className="text-white/35 text-[10px] uppercase tracking-[0.15em]">Glazen</span>
+          <div className="flex items-center gap-3 border border-[#234060]">
+            <button
+              onClick={() => setServings(Math.max(1, servings - 1))}
+              className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
+              aria-label="Minder glazen"
+            >
+              <Minus size={14} />
+            </button>
+            <span className="font-serif text-[#D4AF37] text-base w-5 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              {servings}
+            </span>
+            <button
+              onClick={() => setServings(servings + 1)}
+              className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
+              aria-label="Meer glazen"
+            >
+              <Plus size={14} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-10">
+        <div>
+          <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Ingrediënten</p>
+          <ul className="space-y-3">
+            {post.ingredients.map((ing, i) => (
+              <li key={i} className="flex items-baseline justify-between gap-4 text-white/80 text-sm border-b border-[#1c3450] pb-3">
+                <span>{ing.name}</span>
+                {ing.amount !== null && (
+                  <span className="font-serif text-[#D4AF37] whitespace-nowrap" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                    {formatRecipeAmount(ing.amount, servings)} {ing.unit}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Bereiding</p>
+          <ol className="space-y-4">
+            {post.steps.map((step, i) => (
+              <li key={i} className="flex gap-4 text-sm text-white/55 leading-relaxed">
+                <span className="font-serif text-[#D4AF37] flex-shrink-0" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <div className="text-center mt-12 pt-8 border-t border-[#1c3450]">
+        <p className="font-serif italic text-white/40 text-sm" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Tip: bewaar je Vivace in de vriezer voor het koudste, meest verfrissende resultaat.
+        </p>
+        <p className="text-white/20 text-[11px] mt-4">Drink met aandacht, drink met mate. 18+.</p>
+      </div>
+    </div>
+  );
+}
+
+function ArticleBody({ post }) {
+  return (
+    <div className="bg-[#102338] border border-[#234060] p-8 md:p-12 space-y-5">
+      {post.body.map((para, i) => (
+        <p key={i} className="text-white/55 text-sm leading-relaxed">
+          {para}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+function BlogPage() {
+  const [filter, setFilter] = useState("alle");
+  const [openId, setOpenId] = useState(null);
+
+  const filtered = filter === "alle" ? BLOG_POSTS : BLOG_POSTS.filter((p) => p.type === filter);
+  const openPost = openId ? BLOG_POSTS.find((p) => p.id === openId) : null;
+
+  if (openPost) {
+    return (
+      <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+        <button
+          onClick={() => setOpenId(null)}
+          className="text-white/40 text-[11px] uppercase tracking-wider mb-10 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
+        >
+          ← Terug naar blog
+        </button>
+        <Reveal>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#C9A04E]">
+            {BLOG_CATEGORIES.find((c) => c.id === openPost.type)?.label}
+          </span>
+          <h1 className="font-serif text-3xl md:text-4xl mt-3 mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {openPost.title}
+          </h1>
+          <p className="text-white/30 text-xs mb-10">{formatBlogDate(openPost.date)}</p>
+        </Reveal>
+        <Reveal delay={100}>
+          {openPost.type === "recept" ? <RecipeBody post={openPost} /> : <ArticleBody post={openPost} />}
+        </Reveal>
+      </div>
+    );
+  }
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Recept</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Blog</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          Maak je eigen Limoncello Spritz
+          Recepten, nieuws & verkooppunten
         </h1>
         <p className="text-white/45 max-w-lg mb-12">
-          Drie manieren om Vivace te serveren — kies je stijl en pas het aantal glazen aan.
+          Alles op één plek: nieuwe manieren om Vivace te serveren, updates over ons impactmodel, en
+          waar je Vivace als eerste kunt vinden.
         </p>
       </Reveal>
 
       <Reveal delay={100}>
         <div className="flex items-center gap-2 mb-12 flex-wrap">
-          {SPRITZ_RECIPES.map((r) => (
+          {BLOG_CATEGORIES.map((c) => (
             <button
-              key={r.id}
-              onClick={() => setActive(r.id)}
+              key={c.id}
+              onClick={() => setFilter(c.id)}
               className={`px-5 py-2 text-[11px] uppercase tracking-[0.14em] border transition-colors ${
-                active === r.id
+                filter === c.id
                   ? "bg-[#D4AF37] text-black border-[#D4AF37]"
                   : "text-white/50 border-[#234060] hover:border-[#D4AF37]/40 hover:text-white"
               }`}
             >
-              {r.label}
+              {c.label}
             </button>
           ))}
         </div>
       </Reveal>
 
-      <Reveal delay={150}>
-        <div className="bg-[#102338] border border-[#234060] p-8 md:p-12">
-          <div className="flex items-center justify-between mb-10 flex-wrap gap-4">
-            <div>
-              <h2 className="font-serif text-2xl md:text-3xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                {recipe.name}
-              </h2>
-              <p className="text-white/45 text-sm leading-relaxed max-w-md">{recipe.description}</p>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <span className="text-white/35 text-[10px] uppercase tracking-[0.15em]">Glazen</span>
-              <div className="flex items-center gap-3 border border-[#234060]">
-                <button
-                  onClick={() => setServings(Math.max(1, servings - 1))}
-                  className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
-                  aria-label="Minder glazen"
-                >
-                  <Minus size={14} />
-                </button>
-                <span className="font-serif text-[#D4AF37] text-base w-5 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                  {servings}
-                </span>
-                <button
-                  onClick={() => setServings(servings + 1)}
-                  className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
-                  aria-label="Meer glazen"
-                >
-                  <Plus size={14} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-10">
-            <div>
-              <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Ingrediënten</p>
-              <ul className="space-y-3">
-                {recipe.ingredients.map((ing, i) => (
-                  <li key={i} className="flex items-baseline justify-between gap-4 text-white/80 text-sm border-b border-[#1c3450] pb-3">
-                    <span>{ing.name}</span>
-                    {ing.amount !== null && (
-                      <span className="font-serif text-[#D4AF37] whitespace-nowrap" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                        {formatSpritzAmount(ing.amount, servings)} {ing.unit}
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Bereiding</p>
-              <ol className="space-y-4">
-                {recipe.steps.map((step, i) => (
-                  <li key={i} className="flex gap-4 text-sm text-white/55 leading-relaxed">
-                    <span className="font-serif text-[#D4AF37] flex-shrink-0" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </div>
-      </Reveal>
-
-      <Reveal delay={250}>
-        <div className="text-center mt-12">
-          <p className="font-serif italic text-white/40 text-sm" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Tip: bewaar je Vivace in de vriezer voor het koudste, meest verfrissende resultaat.
-          </p>
-          <p className="text-white/20 text-[11px] mt-4">Drink met aandacht, drink met mate. 18+.</p>
-        </div>
-      </Reveal>
+      <div className="grid md:grid-cols-2 gap-6">
+        {filtered.map((post, i) => (
+          <Reveal key={post.id} delay={150 + i * 80}>
+            <BlogCard post={post} onOpen={setOpenId} />
+          </Reveal>
+        ))}
+      </div>
     </div>
   );
 }
@@ -1588,10 +1706,10 @@ function Footer({ setPage }) {
           "Drink anders. Doe mee."
         </p>
         <ul className="flex gap-7 justify-center md:justify-end text-[11px] uppercase tracking-wider text-white/25 flex-wrap">
-          {["home", "products", "stores", "recept", "faq", "about", "contact"].map((p) => (
+          {["home", "products", "stores", "blog", "faq", "about", "contact"].map((p) => (
             <li key={p}>
               <button onClick={() => setPage(p)} className="hover:text-[#D4AF37] transition-colors">
-                {p === "home" ? "Home" : p === "products" ? "Producten" : p === "stores" ? "Verkooppunten" : p === "recept" ? "Recept" : p === "faq" ? "FAQ" : p === "about" ? "Over ons" : "Contact"}
+                {p === "home" ? "Home" : p === "products" ? "Producten" : p === "stores" ? "Verkooppunten" : p === "blog" ? "Blog" : p === "faq" ? "FAQ" : p === "about" ? "Over ons" : "Contact"}
               </button>
             </li>
           ))}
@@ -1636,7 +1754,7 @@ export default function VivaceApp() {
       {page === "stores" && <StoresPage />}
       {page === "about" && <AboutPage />}
       {page === "contact" && <ContactPage />}
-      {page === "recept" && <ReceptPage />}
+      {page === "blog" && <BlogPage />}
       {page === "faq" && <FAQPage setPage={setPage} />}
       {page === "privacy" && <PrivacyPage />}
       {page === "terms" && <TermsPage />}
