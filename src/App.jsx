@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+ import React, { useState, useEffect } from "react";
 import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu } from "lucide-react";
 
 // ---------- Shared bottle / can SVGs ----------
@@ -375,7 +375,11 @@ function CartDrawer({ open, onClose, cart }) {
                       className="w-10 h-10 object-cover rounded-sm"
                     />
                   ) : (
-                    <CanSVG size={40} />
+                    <img
+                      src="/images/vivace-can-hero.jpg"
+                      alt="Vivace Limoncello Spritz"
+                      className="w-10 h-10 object-cover rounded-sm"
+                    />
                   )}
                 </div>
                 <div className="flex-1">
@@ -765,7 +769,11 @@ function ProductsPage({ cart, setPage }) {
                   className="w-full max-w-[180px] h-auto rounded-sm shadow-xl shadow-black/30"
                 />
               ) : (
-                <CanSVG size={75} />
+                <img
+                  src="/images/vivace-can-hero.jpg"
+                  alt="Vivace Limoncello Spritz blikje"
+                  className="w-full max-w-[150px] h-auto rounded-sm shadow-xl shadow-black/30"
+                />
               )}
 
               <div>
