@@ -485,37 +485,72 @@ function UnderageBlock() {
 }
 
 // ---------- Welcome banner ----------
-// Shows briefly right after someone confirms they're 18+, thanking them and
-// reinforcing the impact model. Auto-dismisses, and can also be closed manually.
+// Shows right after someone confirms they're 18+: a centered, prominent
+// modal thanking them and confirming their purchase already contributes to
+// an impact project. Auto-dismisses, and can also be closed manually.
+function HeartIcon({ size = 40 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="#D4AF37">
+      <path d="M12 21s-7.5-4.6-10-9.1C0.4 8.6 1.8 5 5.4 5c2 0 3.4 1 4.6 2.6C11.2 6 12.6 5 14.6 5 18.2 5 19.6 8.6 18 11.9 16.5 16.4 12 21 12 21z" />
+    </svg>
+  );
+}
+
 function WelcomeBanner({ onClose }) {
   useEffect(() => {
-    const timer = setTimeout(onClose, 5000);
+    const timer = setTimeout(onClose, 7000);
     return () => clearTimeout(timer);
   }, [onClose]);
 
   return (
-    <div className="fixed top-24 left-0 right-0 z-[150] px-6 flex justify-center pointer-events-none">
-      <div className="pointer-events-auto bg-[#0F1F33] border border-[#D4AF37]/40 shadow-2xl shadow-black/40 px-6 py-4 md:px-8 md:py-5 max-w-md w-full flex items-center gap-4 animate-[fadeSlideIn_0.5s_ease-out]">
-        <div className="flex-1">
-          <p className="font-serif italic text-[#D4AF37] text-base md:text-lg leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Drink anders. Doe mee.
-          </p>
-          <p className="text-white/60 text-xs md:text-sm mt-1">
-            Bedankt voor je impact — welkom bij Vivace.
-          </p>
+    <div className="fixed inset-0 z-[150] flex items-center justify-center px-6">
+      <div
+        className="absolute inset-0 bg-[#050b14]/70 animate-[fadeIn_0.4s_ease-out]"
+        onClick={onClose}
+      />
+      <div className="relative pointer-events-auto bg-[#0F1F33] border border-[#D4AF37]/50 shadow-2xl shadow-black/60 px-8 py-10 md:px-14 md:py-12 max-w-lg w-full text-center animate-[popIn_0.45s_cubic-bezier(0.16,1,0.3,1)]">
+        {/* Subtle Italian tricolor accent line */}
+        <div className="absolute top-0 left-0 right-0 h-1 flex">
+          <div className="flex-1 bg-[#3A7A4E]" />
+          <div className="flex-1 bg-[#F4EFE3]" />
+          <div className="flex-1 bg-[#B5402E]" />
         </div>
+
         <button
           onClick={onClose}
-          className="text-white/30 hover:text-white/70 transition-colors flex-shrink-0"
+          className="absolute top-5 right-5 text-white/30 hover:text-white/70 transition-colors"
           aria-label="Sluiten"
         >
-          <X size={18} />
+          <X size={22} />
         </button>
+
+        <div className="flex justify-center mb-6">
+          <HeartIcon size={48} />
+        </div>
+
+        <p
+          className="font-serif italic text-[#D4AF37] text-2xl md:text-3xl leading-snug mb-4"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+        >
+          Drink anders. Doe mee.
+        </p>
+
+        <p className="text-white/75 text-sm md:text-base leading-relaxed max-w-sm mx-auto mb-2">
+          Welkom bij Vivace. Met elke fles die wordt verkocht, draag je al bij aan een
+          geselecteerd impactproject.
+        </p>
+        <p className="text-white/40 text-xs md:text-sm">
+          €2 per fles, transparant en zonder omwegen.
+        </p>
       </div>
       <style>{`
-        @keyframes fadeSlideIn {
-          from { opacity: 0; transform: translateY(-12px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes popIn {
+          from { opacity: 0; transform: scale(0.92) translateY(8px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
         }
       `}</style>
     </div>
@@ -1122,7 +1157,7 @@ function ContactPage() {
             </button>
             {status === "error" && (
               <p className="text-red-400 text-xs">
-                Er ging iets mis. Probeer het opnieuw of mail direct naar info@drinkvivace.nl.
+                Er ging iets mis. Probeer het opnieuw of mail direct naar drinkvivace@gmail.com.
               </p>
             )}
           </form>
@@ -1132,6 +1167,7 @@ function ContactPage() {
       <Reveal delay={200}>
         <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
           <p>info@drinkvivace.nl</p>
+          <p>drinkvivace@gmail.com <span className="text-white/20 text-xs">(tijdelijk, werkt al)</span></p>
           <p>Nederland</p>
         </div>
       </Reveal>
@@ -1715,7 +1751,7 @@ function TermsPage() {
           <p>
             Deze website wordt geëxploiteerd door VVM Trading (eenmanszaak), ingeschreven
             bij de Kamer van Koophandel onder nummer 86618806, gevestigd op Loevestein 18, 3171JD
-            Poortugaal, Nederland. BTW-identificatienummer: [BTW-NUMMER — nog aan te vullen].
+            Poortugaal, Nederland. BTW-identificatienummer: NL004279162B10.
           </p>
         </LegalSection>
 
