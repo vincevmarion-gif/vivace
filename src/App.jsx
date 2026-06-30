@@ -1,7 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu, Instagram } from "lucide-react";
+import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu } from "lucide-react";
 
 // ---------- Shared bottle / can SVGs ----------
+// Self-contained Instagram icon (inline SVG) — not from lucide-react, since
+// that icon name isn't exported by the installed package version.
+function InstagramIcon({ size = 18, className = "" }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  );
+}
+
 function BottleSVG({ size = 110 }) {
   const h = size * (380 / 110);
   return (
@@ -1780,7 +1802,7 @@ function Footer({ setPage }) {
             className="text-white/30 hover:text-[#D4AF37] transition-colors"
             aria-label="Vivace op Instagram"
           >
-            <Instagram size={18} />
+            <InstagramIcon size={18} />
           </a>
         </div>
         <p className="font-serif italic text-sm text-white/20 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
