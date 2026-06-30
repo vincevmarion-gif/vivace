@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://drinkvivace.nl/sitemap.xml
