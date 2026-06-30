@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu } from "lucide-react";
 
 // ---------- Shared bottle / can SVGs ----------
@@ -274,9 +275,10 @@ function useCart() {
 }
 
 // ---------- Nav ----------
-function Nav({ page, setPage, cart, setCartOpen }) {
+function Nav({ cart, setCartOpen }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -285,13 +287,13 @@ function Nav({ page, setPage, cart, setCartOpen }) {
   }, []);
 
   const links = [
-    { id: "home", label: "Home" },
-    { id: "products", label: "Producten" },
-    { id: "stores", label: "Verkooppunten" },
-    { id: "blog", label: "Blog" },
-    { id: "faq", label: "FAQ" },
-    { id: "about", label: "Over ons" },
-    { id: "contact", label: "Contact" },
+    { path: "/", label: "Home" },
+    { path: "/producten", label: "Producten" },
+    { path: "/verkooppunten", label: "Verkooppunten" },
+    { path: "/blog", label: "Blog" },
+    { path: "/faq", label: "FAQ" },
+    { path: "/over-ons", label: "Over ons" },
+    { path: "/contact", label: "Contact" },
   ];
 
   return (
@@ -301,25 +303,25 @@ function Nav({ page, setPage, cart, setCartOpen }) {
       }`}
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-5">
-        <button
-          onClick={() => setPage("home")}
+        <Link
+          to="/"
           className="font-serif text-2xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
           Vivace
-        </button>
+        </Link>
 
         <ul className="hidden md:flex gap-10">
           {links.map((l) => (
-            <li key={l.id}>
-              <button
-                onClick={() => setPage(l.id)}
+            <li key={l.path}>
+              <Link
+                to={l.path}
                 className={`text-[11px] uppercase tracking-[0.16em] transition-colors ${
-                  page === l.id ? "text-[#D4AF37]" : "text-white/50 hover:text-white"
+                  location.pathname === l.path ? "text-[#D4AF37]" : "text-white/50 hover:text-white"
                 }`}
               >
                 {l.label}
-              </button>
+              </Link>
             </li>
           ))}
         </ul>
@@ -346,16 +348,14 @@ function Nav({ page, setPage, cart, setCartOpen }) {
       {mobileOpen && (
         <div className="md:hidden bg-[#0a1628] border-t border-[#1c3450] px-6 py-4 flex flex-col gap-4">
           {links.map((l) => (
-            <button
-              key={l.id}
-              onClick={() => {
-                setPage(l.id);
-                setMobileOpen(false);
-              }}
+            <Link
+              key={l.path}
+              to={l.path}
+              onClick={() => setMobileOpen(false)}
               className="text-left text-sm uppercase tracking-wider text-white/70"
             >
               {l.label}
-            </button>
+            </Link>
           ))}
         </div>
       )}
@@ -627,7 +627,7 @@ function Reveal({ children, delay = 0 }) {
     </div>
   );
 }
-function HomePage({ setPage }) {
+function HomePage() {
   return (
     <div>
       <section className="min-h-screen grid md:grid-cols-2 items-center px-6 md:px-14 pt-32 pb-20 relative overflow-hidden">
@@ -657,18 +657,18 @@ function HomePage({ setPage }) {
             schaalbaar, en onderdeel van elke aankoop.
           </p>
           <div className="flex gap-5 items-center flex-wrap">
-            <button
-              onClick={() => setPage("products")}
+            <Link
+              to="/producten"
               className="bg-[#D4AF37] text-black px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-[#E0C158] transition-colors"
             >
               Ontdek Vivace
-            </button>
-            <button
-              onClick={() => setPage("about")}
+            </Link>
+            <Link
+              to="/over-ons"
               className="text-white/45 text-[11px] uppercase tracking-[0.14em] border-b border-white/20 pb-1 hover:text-white hover:border-white transition-colors"
             >
               Ons verhaal
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -843,7 +843,7 @@ function HomePage({ setPage }) {
   );
 }
 
-function ProductsPage({ cart, setPage }) {
+function ProductsPage({ cart }) {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <Reveal>
@@ -903,12 +903,12 @@ function ProductsPage({ cart, setPage }) {
                     </button>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => setPage("stores")}
+                  <Link
+                    to="/verkooppunten"
                     className="border border-[#D4AF37]/40 text-[#D4AF37] px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#D4AF37] hover:text-black transition-colors inline-flex items-center gap-2"
                   >
                     Vind in winkel <ChevronRight size={14} />
-                  </button>
+                  </Link>
                 )}
               </div>
               {p.comingSoon && (
@@ -1282,7 +1282,7 @@ const FAQ_SECTIONS = [
   },
 ];
 
-function FAQPage({ setPage }) {
+function FAQPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
@@ -1314,13 +1314,13 @@ function FAQPage({ setPage }) {
       <Reveal delay={400}>
         <div className="mt-16 text-center border-t border-[#234060] pt-10">
           <p className="text-white/40 text-sm mb-3">Staat je vraag er niet bij?</p>
-          <button
-            onClick={() => setPage("contact")}
+          <Link
+            to="/contact"
             className="text-[#D4AF37] font-serif italic text-lg border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             Neem contact met ons op
-          </button>
+          </Link>
         </div>
       </Reveal>
     </div>
@@ -1829,7 +1829,17 @@ function TermsPage() {
   );
 }
 
-function Footer({ setPage }) {
+function Footer() {
+  const footerLinks = [
+    { path: "/", label: "Home" },
+    { path: "/producten", label: "Producten" },
+    { path: "/verkooppunten", label: "Verkooppunten" },
+    { path: "/blog", label: "Blog" },
+    { path: "/faq", label: "FAQ" },
+    { path: "/over-ons", label: "Over ons" },
+    { path: "/contact", label: "Contact" },
+  ];
+
   return (
     <footer className="border-t border-[#1c3450] px-6 md:px-14 py-14">
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 items-center gap-8 text-center md:text-left">
@@ -1837,7 +1847,6 @@ function Footer({ setPage }) {
           <p className="font-serif text-xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Vivace
           </p>
-          {/* TODO: confirm real Instagram handle and update the URL below */}
           <a
             href="https://instagram.com/drinkvivace"
             target="_blank"
@@ -1852,11 +1861,11 @@ function Footer({ setPage }) {
           "Drink anders. Doe mee."
         </p>
         <ul className="flex gap-7 justify-center md:justify-end text-[11px] uppercase tracking-wider text-white/25 flex-wrap">
-          {["home", "products", "stores", "blog", "faq", "about", "contact"].map((p) => (
-            <li key={p}>
-              <button onClick={() => setPage(p)} className="hover:text-[#D4AF37] transition-colors">
-                {p === "home" ? "Home" : p === "products" ? "Producten" : p === "stores" ? "Verkooppunten" : p === "blog" ? "Blog" : p === "faq" ? "FAQ" : p === "about" ? "Over ons" : "Contact"}
-              </button>
+          {footerLinks.map((l) => (
+            <li key={l.path}>
+              <Link to={l.path} className="hover:text-[#D4AF37] transition-colors">
+                {l.label}
+              </Link>
             </li>
           ))}
         </ul>
@@ -1865,28 +1874,33 @@ function Footer({ setPage }) {
         © 2026 Vivace · Drink verantwoord. 18+
       </p>
       <div className="flex gap-6 justify-center text-[10px] uppercase tracking-wider text-white/20 mt-4">
-        <button onClick={() => setPage("privacy")} className="hover:text-[#D4AF37] transition-colors">
+        <Link to="/privacybeleid" className="hover:text-[#D4AF37] transition-colors">
           Privacybeleid
-        </button>
-        <button onClick={() => setPage("terms")} className="hover:text-[#D4AF37] transition-colors">
+        </Link>
+        <Link to="/algemene-voorwaarden" className="hover:text-[#D4AF37] transition-colors">
           Algemene voorwaarden
-        </button>
+        </Link>
       </div>
     </footer>
   );
 }
 
 // ---------- App ----------
-export default function VivaceApp() {
-  const [ageConfirmed, setAgeConfirmed] = useState(null); // null | true | false
-  const [showWelcome, setShowWelcome] = useState(false);
-  const [page, setPage] = useState("home");
-  const [cartOpen, setCartOpen] = useState(false);
-  const cart = useCart();
-
+// Scrolls to top whenever the route changes, replacing the old
+// useEffect([page]) behavior now that navigation uses real URLs.
+function ScrollToTop() {
+  const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [page]);
+  }, [location.pathname]);
+  return null;
+}
+
+function AppShell() {
+  const [ageConfirmed, setAgeConfirmed] = useState(null); // null | true | false
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const cart = useCart();
 
   const handleAgeConfirm = (confirmed) => {
     setAgeConfirmed(confirmed);
@@ -1898,21 +1912,33 @@ export default function VivaceApp() {
 
   return (
     <div className="bg-[#0a1628] text-white min-h-screen font-sans" style={{ fontFamily: "'DM Sans', sans-serif", backgroundColor: "#0a1628" }}>
+      <ScrollToTop />
       {showWelcome && <WelcomeBanner onClose={() => setShowWelcome(false)} />}
-      <Nav page={page} setPage={setPage} cart={cart} setCartOpen={setCartOpen} />
+      <Nav cart={cart} setCartOpen={setCartOpen} />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} />
 
-      {page === "home" && <HomePage setPage={setPage} />}
-      {page === "products" && <ProductsPage cart={cart} setPage={setPage} />}
-      {page === "stores" && <StoresPage />}
-      {page === "about" && <AboutPage />}
-      {page === "contact" && <ContactPage />}
-      {page === "blog" && <BlogPage />}
-      {page === "faq" && <FAQPage setPage={setPage} />}
-      {page === "privacy" && <PrivacyPage />}
-      {page === "terms" && <TermsPage />}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/producten" element={<ProductsPage cart={cart} />} />
+        <Route path="/verkooppunten" element={<StoresPage />} />
+        <Route path="/over-ons" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/privacybeleid" element={<PrivacyPage />} />
+        <Route path="/algemene-voorwaarden" element={<TermsPage />} />
+      </Routes>
 
-      <Footer setPage={setPage} />
+      <Footer />
     </div>
+  );
+}
+
+// ---------- App ----------
+export default function VivaceApp() {
+  return (
+    <BrowserRouter>
+      <AppShell />
+    </BrowserRouter>
   );
 }
