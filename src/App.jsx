@@ -1,5 +1,5 @@
- import React, { useState, useEffect } from "react";
-import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu, Instagram } from "lucide-react";
 
 // ---------- Shared bottle / can SVGs ----------
 function BottleSVG({ size = 110 }) {
@@ -458,6 +458,44 @@ function UnderageBlock() {
       <p className="text-white/50 text-sm max-w-sm">
         Je moet 18 jaar of ouder zijn om deze website te bezoeken. Drink geen alcohol als je jonger bent.
       </p>
+    </div>
+  );
+}
+
+// ---------- Welcome banner ----------
+// Shows briefly right after someone confirms they're 18+, thanking them and
+// reinforcing the impact model. Auto-dismisses, and can also be closed manually.
+function WelcomeBanner({ onClose }) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 5000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div className="fixed top-24 left-0 right-0 z-[150] px-6 flex justify-center pointer-events-none">
+      <div className="pointer-events-auto bg-[#0F1F33] border border-[#D4AF37]/40 shadow-2xl shadow-black/40 px-6 py-4 md:px-8 md:py-5 max-w-md w-full flex items-center gap-4 animate-[fadeSlideIn_0.5s_ease-out]">
+        <div className="flex-1">
+          <p className="font-serif italic text-[#D4AF37] text-base md:text-lg leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Drink anders. Doe mee.
+          </p>
+          <p className="text-white/60 text-xs md:text-sm mt-1">
+            Bedankt voor je impact — welkom bij Vivace.
+          </p>
+        </div>
+        <button
+          onClick={onClose}
+          className="text-white/30 hover:text-white/70 transition-colors flex-shrink-0"
+          aria-label="Sluiten"
+        >
+          <X size={18} />
+        </button>
+      </div>
+      <style>{`
+        @keyframes fadeSlideIn {
+          from { opacity: 0; transform: translateY(-12px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
@@ -1298,6 +1336,19 @@ const BLOG_POSTS = [
     ],
   },
   {
+    id: "instagram-launch",
+    type: "nieuws",
+    title: "Vivace is live op Instagram",
+    date: "2026-06-29",
+    image: "/images/vivace-instagram-launch.png",
+    excerpt: "Vivace is nu ook te volgen op Instagram. Volg @drinkvivace voor nieuwe recepten, verkooppunten en updates over ons impactmodel.",
+    body: [
+      "Vivace is nu ook te volgen op Instagram via @drinkvivace. Daar delen we als eerste nieuwe Spritz-recepten, aankondigingen van nieuwe verkooppunten, en updates over ons impactmodel.",
+      "€2 van elke verkochte fles gaat naar geselecteerde impactprojecten — premium kwaliteit met een heldere belofte, bij elke borrel.",
+      "Volg ons om op de hoogte te blijven, en laat gerust weten met wie jij je eerste glas Vivace zou delen.",
+    ],
+  },
+  {
     id: "nieuw-impactmodel",
     type: "nieuws",
     title: "Vivace gaat over op een vast donatiebedrag: €2 per fles",
@@ -1337,16 +1388,21 @@ function BlogCard({ post, onOpen }) {
   return (
     <button
       onClick={() => onOpen(post.id)}
-      className="text-left border border-[#234060] p-6 hover:border-[#D4AF37]/40 transition-colors flex flex-col gap-3 h-full"
+      className="text-left border border-[#234060] hover:border-[#D4AF37]/40 transition-colors flex flex-col h-full overflow-hidden"
     >
-      <span className="text-[10px] uppercase tracking-[0.2em] text-[#C9A04E]">
-        {BLOG_CATEGORIES.find((c) => c.id === post.type)?.label || post.type}
-      </span>
-      <h3 className="font-serif text-xl text-white/90 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-        {post.title}
-      </h3>
-      <p className="text-white/45 text-sm leading-relaxed flex-1">{post.excerpt}</p>
-      <span className="text-white/25 text-xs">{formatBlogDate(post.date)}</span>
+      {post.image && (
+        <img src={post.image} alt={post.title} className="w-full h-44 object-cover" />
+      )}
+      <div className="p-6 flex flex-col gap-3 flex-1">
+        <span className="text-[10px] uppercase tracking-[0.2em] text-[#C9A04E]">
+          {BLOG_CATEGORIES.find((c) => c.id === post.type)?.label || post.type}
+        </span>
+        <h3 className="font-serif text-xl text-white/90 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {post.title}
+        </h3>
+        <p className="text-white/45 text-sm leading-relaxed flex-1">{post.excerpt}</p>
+        <span className="text-white/25 text-xs">{formatBlogDate(post.date)}</span>
+      </div>
     </button>
   );
 }
@@ -1424,12 +1480,17 @@ function RecipeBody({ post }) {
 
 function ArticleBody({ post }) {
   return (
-    <div className="bg-[#102338] border border-[#234060] p-8 md:p-12 space-y-5">
-      {post.body.map((para, i) => (
-        <p key={i} className="text-white/55 text-sm leading-relaxed">
-          {para}
-        </p>
-      ))}
+    <div className="bg-[#102338] border border-[#234060] overflow-hidden">
+      {post.image && (
+        <img src={post.image} alt={post.title} className="w-full h-auto" />
+      )}
+      <div className="p-8 md:p-12 space-y-5">
+        {post.body.map((para, i) => (
+          <p key={i} className="text-white/55 text-sm leading-relaxed">
+            {para}
+          </p>
+        ))}
+      </div>
     </div>
   );
 }
@@ -1707,9 +1768,21 @@ function Footer({ setPage }) {
   return (
     <footer className="border-t border-[#1c3450] px-6 md:px-14 py-14">
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 items-center gap-8 text-center md:text-left">
-        <p className="font-serif text-xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          Vivace
-        </p>
+        <div className="flex items-center gap-3 justify-center md:justify-start">
+          <p className="font-serif text-xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Vivace
+          </p>
+          {/* TODO: confirm real Instagram handle and update the URL below */}
+          <a
+            href="https://instagram.com/drinkvivace"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/30 hover:text-[#D4AF37] transition-colors"
+            aria-label="Vivace op Instagram"
+          >
+            <Instagram size={18} />
+          </a>
+        </div>
         <p className="font-serif italic text-sm text-white/20 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           "Drink anders. Doe mee."
         </p>
@@ -1741,6 +1814,7 @@ function Footer({ setPage }) {
 // ---------- App ----------
 export default function VivaceApp() {
   const [ageConfirmed, setAgeConfirmed] = useState(null); // null | true | false
+  const [showWelcome, setShowWelcome] = useState(false);
   const [page, setPage] = useState("home");
   const [cartOpen, setCartOpen] = useState(false);
   const cart = useCart();
@@ -1749,11 +1823,17 @@ export default function VivaceApp() {
     window.scrollTo(0, 0);
   }, [page]);
 
-  if (ageConfirmed === null) return <AgeGate onConfirm={setAgeConfirmed} />;
+  const handleAgeConfirm = (confirmed) => {
+    setAgeConfirmed(confirmed);
+    if (confirmed) setShowWelcome(true);
+  };
+
+  if (ageConfirmed === null) return <AgeGate onConfirm={handleAgeConfirm} />;
   if (ageConfirmed === false) return <UnderageBlock />;
 
   return (
     <div className="bg-[#0a1628] text-white min-h-screen font-sans" style={{ fontFamily: "'DM Sans', sans-serif", backgroundColor: "#0a1628" }}>
+      {showWelcome && <WelcomeBanner onClose={() => setShowWelcome(false)} />}
       <Nav page={page} setPage={setPage} cart={cart} setCartOpen={setCartOpen} />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} />
 
