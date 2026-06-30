@@ -1003,26 +1003,32 @@ function AboutPage() {
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Ons Verhaal</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          Een premium limoncello, met een <span className="text-[#D4AF37] font-semibold">vast doel</span> in elke fles.
+          Het begon met een reis naar Rome — en een vraag die bleef hangen.
         </h1>
       </Reveal>
 
       <Reveal delay={100}>
         <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
           <p>
-            Vivace is geboren uit een simpele vraag: <strong className="text-white/85">wat als een drankje
-            van topkwaliteit ook structureel iets teruggeeft?</strong>
+            In 2022 reisde onze oprichter met zijn vader naar Rome, als afsluiting van zijn
+            middelbare schooltijd. Tussen de zuilen van het Colosseum — groter, ouder en
+            indrukwekkender dan op elke foto — werd daar een fascinatie geboren die bleef hangen.
+            Diezelfde reis proefde hij voor het eerst echte, authentieke limoncello: fris, citrus,
+            precies de juiste balans tussen zoet en scherp. <strong className="text-white/85">Twee
+            dingen die zich op die reis vermengden, kwamen jaren later weer samen.</strong>
           </p>
           <p>
-            Wie er precies achter Vivace staan, houden we liever klein. Geen poserende oprichters,
-            geen perfecte foto's met een verhaal erbij. Alleen het product, en een heldere belofte
-            die bij elke fles hoort.
+            Het idee voor een eigen limoncellomerk bleef hangen. Maar het werd pas echt concreet
+            toen er een andere vraag bij kwam: <strong className="text-white/85">als ik dit toch ga
+            bouwen, waar moet het dan om gaan?</strong> Winst alleen voelde niet als een goede reden.
+            Onze oprichter besefte dat als een merk geld kan verdienen, dat geld net zo goed kan
+            worden ingezet voor mensen die het harder nodig hebben.
           </p>
           <p>
-            We maken Italiaanse limoncello volgens een authentiek recept, en werken aan een limoncello
-            spritz in blik. Voor elke verkochte fles doneren we €2 aan geselecteerde impactprojecten —
-            een vast, voorspelbaar bedrag, los van marges of een goed kwartaal. Zo blijft het model
-            kloppen, hoe groot Vivace ook wordt.
+            Zo ontstond Vivace: een premium limoncello, gemaakt volgens een authentiek Italiaans
+            recept, met een Nederlands hart — en met een vast bedrag van €2 per verkochte fles dat
+            rechtstreeks naar geselecteerde impactprojecten gaat. Geen toeval, geen bijzaak. Het was
+            vanaf het begin de reden om Vivace te bouwen.
           </p>
           <p className="text-[#D4AF37]/80 font-medium">Dat is Vivace.</p>
         </div>
@@ -1031,10 +1037,11 @@ function AboutPage() {
       <Reveal delay={200}>
         <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 mb-16">
           <p className="font-serif italic text-xl text-white/85 leading-relaxed mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            "We wilden een merk bouwen dat zowel op het schap als in de cijfers overtuigt — en
-            waarbij impact geen marketingclaim is, maar een vast onderdeel van het verdienmodel."
+            "Ik stond bij het Colosseum met mijn vader en wist nog niet wat ik ermee zou doen. Pas
+            jaren later besefte ik: het ging nooit alleen om de limoncello. Het ging om wat je
+            ermee kunt doen voor een ander."
           </p>
-          <p className="text-[11px] tracking-[0.18em] uppercase text-white/30">— Anoniem, namens Vivace</p>
+          <p className="text-[11px] tracking-[0.18em] uppercase text-white/30">— De oprichter van Vivace</p>
         </div>
       </Reveal>
 
