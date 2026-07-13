@@ -1003,45 +1003,42 @@ function AboutPage() {
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Ons Verhaal</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          Het begon met een reis naar Rome — en een vraag die bleef hangen.
+          Vivace bestaat om iets terug te geven.
         </h1>
       </Reveal>
 
       <Reveal delay={100}>
         <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
           <p>
-            In 2022 reisde onze oprichter met zijn vader naar Rome, als afsluiting van zijn
-            middelbare schooltijd. Tussen de zuilen van het Colosseum — groter, ouder en
-            indrukwekkender dan op elke foto — werd daar een fascinatie geboren die bleef hangen.
-            Diezelfde reis proefde hij voor het eerst echte, authentieke limoncello: fris, citrus,
-            precies de juiste balans tussen zoet en scherp. <strong className="text-white/85">Twee
-            dingen die zich op die reis vermengden, kwamen jaren later weer samen.</strong>
+            Voor elke fles die we verkopen, gaat <strong className="text-white/85">€2 rechtstreeks
+            naar geselecteerde impactprojecten.</strong> Geen bijzaak, geen marketingtruc die later is
+            bedacht: het was vanaf het begin de reden om Vivace te bouwen.
           </p>
           <p>
-            Het idee voor een eigen limoncellomerk bleef hangen. Maar het werd pas echt concreet
-            toen er een andere vraag bij kwam: <strong className="text-white/85">als ik dit toch ga
-            bouwen, waar moet het dan om gaan?</strong> Winst alleen voelde niet als een goede reden.
-            Onze oprichter besefte dat als een merk geld kan verdienen, dat geld net zo goed kan
-            worden ingezet voor mensen die het harder nodig hebben.
+            Het idee is ontstaan tijdens een reis naar Rome, waar het Colosseum en de kennismaking
+            met authentieke Italiaanse limoncello samenkwamen. Maar winst alleen voelde nooit als
+            een goede reden om een merk te starten. Dus werd de vraag simpel:{" "}
+            <strong className="text-white/85">
+              als dit geld kan opleveren, waarom zou dat geld dan niet net zo goed ergens anders
+              voor werken?
+            </strong>
           </p>
           <p>
-            Zo ontstond Vivace: een premium limoncello, gemaakt volgens een authentiek Italiaans
-            recept, met een Nederlands hart — en met een vast bedrag van €2 per verkochte fles dat
-            rechtstreeks naar geselecteerde impactprojecten gaat. Geen toeval, geen bijzaak. Het was
-            vanaf het begin de reden om Vivace te bouwen.
+            Zo werd Vivace een premium limoncello met een Italiaans recept en een Nederlands hart,
+            gebouwd rond één vast principe: €2 per fles, transparant herleidbaar, naar mensen voor
+            wie het leven zwaarder is dan het zou moeten zijn.
           </p>
-          <p className="text-[#D4AF37]/80 font-medium">Dat is Vivace.</p>
+          <p className="text-[#D4AF37]/80 font-medium">
+            Dat is Vivace. Niet voor ons. Voor jou, en voor hen.
+          </p>
         </div>
       </Reveal>
 
       <Reveal delay={200}>
-        <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 mb-16">
-          <p className="font-serif italic text-xl text-white/85 leading-relaxed mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            "Ik stond bij het Colosseum met mijn vader en wist nog niet wat ik ermee zou doen. Pas
-            jaren later besefte ik: het ging nooit alleen om de limoncello. Het ging om wat je
-            ermee kunt doen voor een ander."
+        <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 mb-16 text-center">
+          <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Voor het leven, van jou en van hen.
           </p>
-          <p className="text-[11px] tracking-[0.18em] uppercase text-white/30">— De oprichter van Vivace</p>
         </div>
       </Reveal>
 
