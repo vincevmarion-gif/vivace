@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
 
 // ---------- Shared bottle / can SVGs ----------
 // Self-contained Instagram icon (inline SVG) — not from lucide-react, since
@@ -1963,6 +1964,7 @@ export default function VivaceApp() {
   return (
     <BrowserRouter>
       <AppShell />
+      <Analytics />
     </BrowserRouter>
   );
 }
