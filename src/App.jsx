@@ -1461,6 +1461,33 @@ const BLOG_POSTS = [
       "Ben je zelf een winkel, slijterij of horecazaak en wil je Vivace in je assortiment? Neem contact met ons op via de contactpagina — we denken graag mee.",
     ],
   },
+  {
+    id: "het-moment",
+    type: "nieuws",
+    title: "Voor het aperitief. Of gewoon omdat het kan.",
+    date: "2026-07-18",
+    image: "/images/vivace-instagram-het-moment.png",
+    excerpt: "Je hoeft niet te wachten op een speciale gelegenheid. Vivace maakt gewone momenten een beetje beter.",
+    body: [
+      "Je hoeft niet te wachten op een speciale gelegenheid. Vivace is er voor het aperitief voor het eten, voor een rustige avond op het balkon, of voor geen enkele reden behalve dat het weekend is.",
+      "Gekoeld uit de vriezer, puur in een klein glas, is vaak al genoeg.",
+      "We zien Vivace niet als iets voor speciale momenten. We zien het als iets dat gewone momenten een beetje beter maakt. Een druppel Italiaanse zomer, ook op een doordeweekse dinsdag.",
+    ],
+  },
+  {
+    id: "waarom-eenmaal-per-jaar-doneren",
+    type: "nieuws",
+    title: "Waarom we €2 per fles sparen, niet meteen weggeven",
+    date: "2026-07-18",
+    image: "/images/vivace-instagram-giveback-jaarlijks.png",
+    excerpt: "Elke fles legt €2 opzij. Aan het einde van het jaar doneren we het volledige bedrag in één keer, niet per verkoop.",
+    body: [
+      "Bij elke fles Vivace die verkocht wordt, leggen we €2 opzij voor impactprojecten. Niet als losse donatie bij elke verkoop, maar als onderdeel van een pot die het hele jaar door groeit.",
+      "Aan het einde van het jaar tellen we alles op en maken we het volledige bedrag in één keer over aan de projecten die we dat jaar hebben geselecteerd.",
+      "We kozen bewust voor deze aanpak, om twee redenen. Ten eerste schaal: honderd losse donaties van een paar euro verdwijnen, terwijl één substantieel bedrag een project echt vooruit kan helpen. Ten tweede zorgvuldigheid: door te wachten tot het einde van het jaar hebben we tijd om de juiste projecten te vinden en te beoordelen, in plaats van overhaaste keuzes te maken bij elke losse verkoop.",
+      "Aan het einde van het jaar laten we precies zien waar het geld naartoe is gegaan: welk project, hoeveel, en waarom.",
+    ],
+  },
 ];
 
 function formatRecipeAmount(amount, servings) {
