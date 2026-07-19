@@ -1343,6 +1343,7 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Limoncello Spritz — het klassieke recept",
     date: "2026-06-01",
+    image: "/images/vivace-instagram-recepten-spritz.png",
     excerpt: "De originele: fris, lichtzoet en gevuld met bubbels. Het recept waarmee alles begon.",
     ingredients: [
       { amount: 5, unit: "cl", name: "Vivace Limoncello" },
@@ -1527,7 +1528,11 @@ function BlogCard({ post, onOpen }) {
 function RecipeBody({ post }) {
   const [servings, setServings] = useState(1);
   return (
-    <div className="bg-[#102338] border border-[#234060] p-8 md:p-12">
+    <div className="bg-[#102338] border border-[#234060] overflow-hidden">
+      {post.image && (
+        <img src={post.image} alt={post.title} className="w-full h-auto" />
+      )}
+      <div className="p-8 md:p-12">
       <div className="flex items-center justify-end mb-10">
         <div className="flex items-center gap-4">
           <span className="text-white/35 text-[10px] uppercase tracking-[0.15em]">Glazen</span>
@@ -1590,6 +1595,7 @@ function RecipeBody({ post }) {
           Tip: bewaar je Vivace in de vriezer voor het koudste, meest verfrissende resultaat.
         </p>
         <p className="text-white/20 text-[11px] mt-4">Drink met aandacht, drink met mate. 18+.</p>
+      </div>
       </div>
     </div>
   );
