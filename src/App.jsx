@@ -533,7 +533,7 @@ function WelcomeBanner({ onClose }) {
           className="font-serif italic text-[#D4AF37] text-2xl md:text-3xl leading-snug mb-4"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
-          Drink anders. Doe mee.
+          Doe anders, geniet anders.
         </p>
 
         <p className="text-white/75 text-sm md:text-base leading-relaxed max-w-sm mx-auto mb-2">
@@ -647,9 +647,9 @@ function HomePage() {
             className="font-serif text-6xl md:text-7xl lg:text-8xl leading-[0.95] mb-9"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
           >
-            <span className="font-semibold block">Drink</span>
-            <em className="italic text-[#D4AF37] block">anders.</em>
-            Doe mee.
+            <span className="font-semibold block">Doe</span>
+            <em className="italic text-[#D4AF37] block">anders,</em>
+            geniet anders.
           </h1>
           <p className="text-white/50 text-base leading-relaxed max-w-md mb-12">
             Vivace is een premium limoncello, gemaakt met een Italiaans recept en een Nederlands hart.
@@ -688,7 +688,7 @@ function HomePage() {
       <div className="bg-[#D4AF37] overflow-hidden">
         <div className="flex whitespace-nowrap py-4" style={{ animation: "ticker 22s linear infinite" }}>
           {[...Array(2)].flatMap((_, rep) =>
-            ["Drink anders", "€2 per fles naar impact", "Premium Italiaans recept", "Transparant en schaalbaar", "Italiaanse ziel · Nederlands hart", "Doe mee"].map(
+            ["Doe anders", "€2 per fles naar impact", "Premium Italiaans recept", "Transparant en schaalbaar", "Italiaanse ziel · Nederlands hart", "Geniet anders"].map(
               (txt, i) => (
                 <span key={`${rep}-${i}`} className="inline-flex items-center gap-4 px-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-black">
                   {txt}
@@ -1916,7 +1916,7 @@ function Footer() {
           </a>
         </div>
         <p className="font-serif italic text-sm text-white/20 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          "Drink anders. Doe mee."
+          "Doe anders, geniet anders."
         </p>
         <ul className="flex gap-7 justify-center md:justify-end text-[11px] uppercase tracking-wider text-white/25 flex-wrap">
           {footerLinks.map((l) => (
