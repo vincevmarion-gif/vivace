@@ -965,6 +965,45 @@ function AboutPage() {
         </div>
       </Reveal>
 
+      {/* The product itself: real ingredients, real distillery, now that both are settled */}
+      <Reveal delay={250}>
+        <div className="border-t border-[#234060] pt-16 mb-20">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">De limoncello zelf</p>
+          <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Drie ingrediënten. Geen omwegen.
+          </h2>
+          <div className="grid md:grid-cols-2 gap-10 items-start">
+            <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+              <p>
+                Vivace bestaat uit de schil van biologische Sorrento-citroenen van de Amalfikust,
+                pure suiker en graanalcohol. Geen kunstmatige kleur- of smaakstoffen, geen omwegen
+                — gewoon de citroenschil die het werk doet, zoals in het originele Italiaanse recept.
+              </p>
+              <p>
+                Vivace wordt ambachtelijk gedistilleerd door{" "}
+                <strong className="text-white/85">Stokerij Klopman</strong> in Rotterdam: een
+                distilleerderij die het hele proces verzorgt, van citroenschil tot afgevulde fles.
+                Italiaans recept, Nederlands vakmanschap.
+              </p>
+            </div>
+            <div className="bg-[#0f1f33] border border-[#234060] p-8 space-y-5">
+              <div>
+                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">Ingrediënten</p>
+                <p className="text-white/70 text-sm">Schil van (biologische) Sorrento-citroenen, suiker, graanalcohol</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">Gedistilleerd door</p>
+                <p className="text-white/70 text-sm">Stokerij Klopman, Rotterdam</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">Land van oorsprong</p>
+                <p className="text-white/70 text-sm">Geproduceerd in Nederland</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
       <Reveal delay={300}>
         <div className="grid grid-cols-2 gap-6 text-center border-t border-[#234060] pt-12 mb-20 max-w-md mx-auto">
           <div>
@@ -1149,15 +1188,19 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "Wat is Vivace Limoncello precies?",
-        a: "Vivace is een limoncello van 30% ALC/VOL, gemaakt volgens een authentiek Italiaans recept. Geproduceerd in Nederland bij een ambachtelijke distilleerderij, met smaken die recht doen aan de Italiaanse traditie.",
+        a: "Vivace is een limoncello van 30% ALC/VOL, gemaakt volgens een authentiek Italiaans recept. Vivace wordt ambachtelijk gedistilleerd door Stokerij Klopman in Rotterdam, met smaken die recht doen aan de Italiaanse traditie.",
       },
       {
         q: "Is Vivace in Italië gemaakt?",
-        a: "Het recept is Italiaans, maar Vivace wordt geproduceerd in Nederland. Daarom staat op het etiket 'Prelibatezza Italiana' (Italiaanse lekkernij), in plaats van een claim dat het product zelf uit Italië komt.",
+        a: "Het recept is Italiaans, maar Vivace wordt geproduceerd in Nederland, bij Stokerij Klopman in Rotterdam. Daarom staat op het etiket 'Prelibatezza Italiana' (Italiaanse lekkernij), in plaats van een claim dat het product zelf uit Italië komt.",
       },
       {
         q: "Welke ingrediënten zitten er in?",
-        a: "Vivace bevat citroenschil, alcohol, water en suiker. Voor exacte ingrediënten en allergenen verwijzen we naar het etiket op de fles.",
+        a: "Vivace bevat drie ingrediënten: de schil van biologische Sorrento-citroenen van de Amalfikust, pure suiker en graanalcohol. Geen kunstmatige kleur- of smaakstoffen. Voor de volledige, actuele ingrediëntenlijst en allergeneninformatie verwijzen we naar het etiket op de fles.",
+      },
+      {
+        q: "Waar wordt Vivace gedistilleerd?",
+        a: "Bij Stokerij Klopman, Van Nelleweg 1, Kelder 3, 3044 BC Rotterdam. Een ambachtelijke distilleerderij die het hele productieproces verzorgt, van citroenschil tot afgevulde fles.",
       },
       {
         q: "Hoe drink je Vivace het beste?",
