@@ -355,6 +355,28 @@ function useCart() {
   return { items, add, remove, clear, count, total };
 }
 
+// ---------- SEO ----------
+// Lightweight per-route SEO helper. No react-helmet dependency: directly
+// updates document.title and the meta description tag on mount / when the
+// route's SEO data changes. Falls back to a sensible default description
+// tag if one isn't already present in index.html.
+function useSEO({ title, description }) {
+  useEffect(() => {
+    if (title) {
+      document.title = title;
+    }
+    if (description) {
+      let tag = document.querySelector('meta[name="description"]');
+      if (!tag) {
+        tag = document.createElement("meta");
+        tag.setAttribute("name", "description");
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute("content", description);
+    }
+  }, [title, description]);
+}
+
 // ---------- Nav ----------
 function Nav({ cart, setCartOpen }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -710,6 +732,12 @@ function Reveal({ children, delay = 0 }) {
   );
 }
 function HomePage() {
+  useSEO({
+    title: "Vivace Limoncello — Doe anders, geniet anders",
+    description:
+      "Vivace is premium Italiaanse limoncello, geproduceerd in Nederland. Voor elke fles die wordt verkocht, gaat €1 naar geselecteerde impactprojecten.",
+  });
+
   return (
     <div>
       <section className="min-h-screen grid md:grid-cols-2 items-center px-6 md:px-14 pt-32 pb-20 relative overflow-hidden">
@@ -732,12 +760,16 @@ function HomePage() {
             <em className="italic text-[#D4AF37] block">anders,</em>
             geniet anders.
           </h1>
-          <p className="text-white/50 text-base leading-relaxed max-w-md mb-12">
+          <p className="text-white/50 text-base leading-relaxed max-w-md mb-8">
             Vivace is een premium limoncello, gemaakt met een Italiaans recept en een Nederlands hart.
-            Wie we zijn is minder belangrijk dan wat elke fles teweegbrengt:
-            <strong className="text-white/85 font-medium"> €1 van elke verkochte fles gaat rechtstreeks naar geselecteerde impactprojecten.</strong> Transparant,
-            schaalbaar, en onderdeel van elke aankoop.
+            <strong className="text-white/85 font-medium"> €1 van elke verkochte fles gaat naar geselecteerde impactprojecten.</strong>
           </p>
+          <Link
+            to="/onze-impact"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1 mb-8"
+          >
+            Ontdek ons impactmodel <ChevronRight size={14} />
+          </Link>
           <div className="flex gap-5 items-center flex-wrap">
             <Link
               to="/producten"
@@ -781,7 +813,7 @@ function HomePage() {
         </div>
       </div>
 
-      {/* The number */}
+      {/* The number — short teaser only; full impact story lives on /onze-impact */}
       <div className="bg-[#D4AF37] text-center py-24 px-6">
         <Reveal>
           <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(100px, 18vw, 200px)", lineHeight: 0.85 }}>
@@ -790,21 +822,12 @@ function HomePage() {
           <p className="text-black/50 text-[13px] font-semibold tracking-[0.3em] uppercase mt-6">
             Per verkochte fles, naar geselecteerde impactprojecten
           </p>
-        </Reveal>
-      </div>
-
-      {/* Impact counter */}
-      <div className="bg-[#0a1628] py-24 px-6 border-b border-[#1c3450]" style={{ backgroundColor: "#0a1628" }}>
-        <Reveal>
-          <ImpactCounter />
-          <div className="text-center mt-8">
-            <Link
-              to="/onze-impact"
-              className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
-            >
-              Ontdek ons volledige impactmodel <ChevronRight size={14} />
-            </Link>
-          </div>
+          <Link
+            to="/onze-impact"
+            className="inline-flex items-center gap-1.5 text-black text-[11px] font-bold uppercase tracking-[0.14em] border-b-2 border-black/40 hover:border-black transition-colors pb-1 mt-6"
+          >
+            Lees over ons impactmodel <ChevronRight size={14} />
+          </Link>
         </Reveal>
       </div>
 
@@ -864,6 +887,12 @@ function HomePage() {
 }
 
 function ProductsPage({ cart }) {
+  useSEO({
+    title: "Producten — Vivace Limoncello",
+    description:
+      "Ontdek Vivace Limoncello (30% VOL, 500ml) en de aankomende Vivace Spritz in blik. Premium Italiaans recept, geproduceerd in Nederland.",
+  });
+
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <Reveal>
@@ -951,6 +980,12 @@ function ProductsPage({ cart }) {
 }
 
 function StoresPage() {
+  useSEO({
+    title: "Verkooppunten — Vivace Limoncello",
+    description:
+      "Vind Vivace Limoncello bij supermarkten, slijterijen en restaurants bij jou in de buurt. Bekijk alle verkooppunten op de kaart.",
+  });
+
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
@@ -1025,6 +1060,12 @@ function StoresPage() {
 }
 
 function AboutPage() {
+  useSEO({
+    title: "Over ons — Vivace Limoncello",
+    description:
+      "Het verhaal achter Vivace: premium Italiaanse limoncello, ambachtelijk geproduceerd in Nederland, met een impactmodel dat vanaf het begin is meegebouwd.",
+  });
+
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
@@ -1037,23 +1078,14 @@ function AboutPage() {
       <Reveal delay={100}>
         <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
           <p>
-            Voor elke fles die we verkopen, gaat <strong className="text-white/85">€1 rechtstreeks
-            naar geselecteerde impactprojecten.</strong> Geen bijzaak, geen marketingtruc die later is
-            bedacht: het was vanaf het begin de reden om Vivace te bouwen.
-          </p>
-          <p>
             Het idee is ontstaan tijdens een reis naar Rome, waar het Colosseum en de kennismaking
             met authentieke Italiaanse limoncello samenkwamen. Maar winst alleen voelde nooit als
-            een goede reden om een merk te starten. Dus werd de vraag simpel:{" "}
-            <strong className="text-white/85">
-              als dit geld kan opleveren, waarom zou dat geld dan niet net zo goed ergens anders
-              voor werken?
-            </strong>
+            een goede reden om een merk te starten.
           </p>
           <p>
-            Zo werd Vivace een premium limoncello met een Italiaans recept en een Nederlands hart,
-            gebouwd rond één vast principe: €1 per fles, transparant herleidbaar, naar mensen voor
-            wie het leven zwaarder is dan het zou moeten zijn.
+            Zo werd Vivace een premium limoncello met een Italiaans recept en een Nederlands hart —
+            gebouwd rond één vast principe: <strong className="text-white/85">€1 per verkochte fles gaat naar
+            geselecteerde impactprojecten,</strong> transparant en herleidbaar.
           </p>
           <p className="text-[#D4AF37]/80 font-medium">
             Dat is Vivace. Niet voor ons. Voor jou, en voor hen.
@@ -1084,7 +1116,7 @@ function AboutPage() {
                 — gewoon de citroenschil die het werk doet, zoals in het originele Italiaanse recept.
               </p>
               <p>
-                Vivace wordt ambachtelijk gedistilleerd door{" "}
+                Vivace wordt ambachtelijk geproduceerd door{" "}
                 <strong className="text-white/85">Stokerij Klopman</strong> in Rotterdam: een
                 distilleerderij die het hele proces verzorgt, van citroenschil tot afgevulde fles.
                 Italiaans recept, Nederlands vakmanschap.
@@ -1096,7 +1128,7 @@ function AboutPage() {
                 <p className="text-white/70 text-sm">Schil van (biologische) Sorrento-citroenen, suiker, graanalcohol</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">Gedistilleerd door</p>
+                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">Geproduceerd door</p>
                 <p className="text-white/70 text-sm">Stokerij Klopman, Rotterdam</p>
               </div>
               <div>
@@ -1114,9 +1146,8 @@ function AboutPage() {
           <p className="font-serif text-4xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
           <p className="text-[10px] uppercase tracking-wider text-white/35 mb-8">Per fles naar impact</p>
           <p className="text-white/55 leading-relaxed text-[15px] max-w-lg mx-auto mb-6">
-            Hoe het donatiemodel precies werkt, waarom we voor een vast bedrag per fles kozen, en
-            waarom we één keer per jaar doneren in plaats van per verkoop — dat staat allemaal op
-            onze Impact-pagina.
+            Waarom we voor een vast bedrag per fles kozen, hoe het donatiemodel werkt, en waar we
+            nu in dat proces staan — dat staat allemaal op onze Impact-pagina.
           </p>
           <Link
             to="/onze-impact"
@@ -1131,10 +1162,16 @@ function AboutPage() {
 }
 
 function ImpactPage() {
+  useSEO({
+    title: "Onze Impact — €1 per fles naar sociale impact | Vivace Limoncello",
+    description:
+      "Ontdek hoe Vivace premium limoncello combineert met sociale impact: €1 van elke verkochte fles gaat naar geselecteerde impactprojecten. Transparant duurzaam ondernemen, geen omwegen.",
+  });
+
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Impact</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Onze Impact</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           €1 per fles. Geen omwegen, geen kleine lettertjes.
         </h1>
@@ -1144,7 +1181,7 @@ function ImpactPage() {
         <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
           <p>
             Voor elke fles Vivace die verkocht wordt, leggen we <strong className="text-white/85">€1
-            opzij voor geselecteerde impactprojecten.</strong> Geen percentage van de winst, geen
+            opzij voor zorgvuldig geselecteerde impactprojecten.</strong> Geen percentage van de winst, geen
             constructie die verandert als een kwartaal tegenzit: een vast bedrag, per fles,
             ongeacht de verkoopprijs die een winkel of horecazaak hanteert.
           </p>
@@ -1179,7 +1216,33 @@ function ImpactPage() {
               paar euro verdwijnen, terwijl één substantieel bedrag een project echt vooruit kan
               helpen. En zorgvuldigheid: door te wachten tot het einde van het jaar hebben we tijd
               om de juiste projecten te vinden en te beoordelen, in plaats van overhaaste keuzes te
-              maken bij elke losse verkoop.
+              maken bij elke losse verkoop. Zo zorgen we voor een grotere, betekenisvollere impact
+              dan wanneer we elk bedrag los zouden wegschenken.
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={225}>
+        <div className="border-t border-[#234060] pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Impactprojecten</p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Onze eerste projecten: binnenkort bekend
+          </h2>
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] mb-8">
+            <p>
+              We hebben er bewust voor gekozen om nog geen specifieke projecten te noemen. Zodra we
+              onze selectie zorgvuldig hebben afgerond, maken we hier — en op onze{" "}
+              <Link to="/blog" className="text-[#D4AF37] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
+                blog
+              </Link>{" "}
+              — bekend welke projecten we steunen, en waarom.
+            </p>
+          </div>
+          <div className="border border-dashed border-[#D4AF37]/30 p-10 text-center">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">Binnenkort</p>
+            <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Onze impactprojecten worden hier zichtbaar zodra ze zijn geselecteerd.
             </p>
           </div>
         </div>
@@ -1209,7 +1272,52 @@ function ImpactPage() {
         </div>
       </Reveal>
 
+      <Reveal delay={275}>
+        <div className="border-t border-[#234060] pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Waarom premium en impact samengaan</p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Kwaliteit en betekenis hoeven geen tegenpolen te zijn
+          </h2>
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+            <p>
+              Vivace is er niet ondanks het premium karakter van het product, maar juist dankzij
+              een merk dat op eigen kracht kan bestaan. Een zorgvuldig recept, ambachtelijke
+              productie en een eerlijke prijs zijn wat Vivace laat groeien — en die groei is precies
+              wat het mogelijk maakt om structureel iets terug te geven.
+            </p>
+            <p>
+              We geloven dat genieten en teruggeven elkaar niet hoeven uit te sluiten. Een goed
+              glas limoncello en een zinvolle bijdrage aan iemand anders' leven kunnen prima naast
+              elkaar bestaan — en dat is precies wat Vivace wil laten zien: dat duurzaam
+              ondernemen en een premium ervaring hand in hand kunnen gaan.
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
       <Reveal delay={300}>
+        <div className="border-t border-[#234060] pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Voor retailers en partners</p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Een model waar je op kunt bouwen
+          </h2>
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+            <p>
+              Voor supermarkten, slijterijen, horecazaken en andere partners is voorspelbaarheid
+              belangrijk. Daarom houden we het donatiemodel eenvoudig en consistent: een vast
+              bedrag per fles, ongeacht de verkoopprijs die jij hanteert, en communicatie die
+              nooit verder gaat dan wat we daadwerkelijk hebben gedaan.
+            </p>
+            <p>
+              We claimen geen donaties die nog niet zijn gedaan, en noemen geen projecten die nog
+              niet zijn geselecteerd. Wat we wél beloven: zodra er resultaten zijn, delen we ze
+              openlijk — met jou, en met de consument die de fles bij jou koopt.
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={325}>
         <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 text-center">
           <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Voor het leven, van jou en van hen.
@@ -1228,6 +1336,12 @@ function ImpactPage() {
 }
 
 function ContactPage() {
+  useSEO({
+    title: "Contact — Vivace Limoncello",
+    description:
+      "Vragen over Vivace, interesse als verkooppunt, of gewoon nieuwsgierig? Neem contact op met VVM Trading, de exploitant van Vivace Limoncello.",
+  });
+
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
 
   // Replace YOUR_FORM_ID below with the ID Formspree gives you after creating
@@ -1323,14 +1437,20 @@ function ContactPage() {
 
       <Reveal delay={250}>
         <div className="mt-10 pt-10 border-t border-[#234060]">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">Over Vivace</p>
+          <p className="text-white/70 text-sm leading-relaxed mb-6">
+            Vivace Limoncello wordt geëxploiteerd door VVM Trading. Productie vindt plaats in
+            Nederland, via onze geselecteerde productiepartner.
+          </p>
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">Geproduceerd door</p>
           <p className="text-white/45 text-sm leading-relaxed mb-4">
             Stokerij Klopman<br />
             Van Nelleweg 1, Kelder 3<br />
             3044 BC Rotterdam
           </p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">Geëxploiteerd door</p>
           <p className="text-white/45 text-sm leading-relaxed">
-            Vivace wordt geëxploiteerd door VVM Trading<br />
+            VVM Trading<br />
             KvK 86618806 · Loevestein 18 · 3171 JD Poortugaal
           </p>
         </div>
@@ -1375,7 +1495,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "Wat is Vivace Limoncello precies?",
-        a: "Vivace is een limoncello van 30% ALC/VOL, gemaakt volgens een authentiek Italiaans recept. Vivace wordt ambachtelijk gedistilleerd door Stokerij Klopman in Rotterdam, met smaken die recht doen aan de Italiaanse traditie.",
+        a: "Vivace is een limoncello van 30% ALC/VOL, gemaakt volgens een authentiek Italiaans recept. Vivace wordt ambachtelijk geproduceerd door Stokerij Klopman in Rotterdam, met smaken die recht doen aan de Italiaanse traditie.",
       },
       {
         q: "Is Vivace in Italië gemaakt?",
@@ -1386,8 +1506,8 @@ const FAQ_SECTIONS = [
         a: "Vivace bevat drie ingrediënten: de schil van biologische Sorrento-citroenen van de Amalfikust, pure suiker en graanalcohol. Geen kunstmatige kleur- of smaakstoffen. Voor de volledige, actuele ingrediëntenlijst en allergeneninformatie verwijzen we naar het etiket op de fles.",
       },
       {
-        q: "Waar wordt Vivace gedistilleerd?",
-        a: "Bij Stokerij Klopman, Van Nelleweg 1, Kelder 3, 3044 BC Rotterdam. Een ambachtelijke distilleerderij die het hele productieproces verzorgt, van citroenschil tot afgevulde fles.",
+        q: "Waar wordt Vivace geproduceerd?",
+        a: "Bij Stokerij Klopman, Van Nelleweg 1, Kelder 3, 3044 BC Rotterdam. Een ambachtelijke distilleerderij die het hele productieproces verzorgt, van citroenschil tot afgevulde fles. Vivace zelf wordt geëxploiteerd door VVM Trading.",
       },
       {
         q: "Hoe drink je Vivace het beste?",
@@ -1425,7 +1545,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "Hoe werkt het donatiemodel van Vivace?",
-        a: "Voor elke verkochte fles Vivace doneren we €1 aan geselecteerde impactprojecten. Een vast bedrag, per fles, onafhankelijk van marge of omzet.",
+        a: "Voor elke verkochte fles Vivace doneren we €1 aan geselecteerde impactprojecten. Een vast bedrag, per fles, onafhankelijk van marge of omzet. Lees meer op onze Onze Impact-pagina.",
       },
       {
         q: "Waarom een vast bedrag per fles, in plaats van een percentage van de winst?",
@@ -1433,17 +1553,23 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Welke projecten steunt Vivace?",
-        a: "We doneren aan een selectie van impactprojecten. Voor de meest actuele informatie hierover kun je contact met ons opnemen.",
+        a: "We zijn op dit moment bezig met het zorgvuldig selecteren van onze eerste impactprojecten. Zodra deze selectie is afgerond, delen we dit op onze Onze Impact-pagina en via onze blog.",
       },
       {
-        q: "Hoe weet ik dat de donatie echt gebeurt?",
-        a: "Transparantie vinden we belangrijk. Heb je vragen over hoe we dit bijhouden, neem dan gerust contact met ons op.",
+        q: "Is er al een donatie gedaan?",
+        a: "Nog niet. We doneren eenmaal per jaar het volledige, opgespaarde bedrag in één keer, zodat de impact groter en betekenisvoller is. De eerste donatie volgt aan het einde van ons eerste volledige verkoopjaar.",
       },
     ],
   },
 ];
 
 function FAQPage() {
+  useSEO({
+    title: "Veelgestelde vragen — Vivace Limoncello",
+    description:
+      "Antwoorden op veelgestelde vragen over Vivace Limoncello: het product, verkooppunten en ons impactmodel.",
+  });
+
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
@@ -1782,6 +1908,12 @@ function ArticleBody({ post }) {
 }
 
 function BlogPage() {
+  useSEO({
+    title: "Blog — Recepten, nieuws & verkooppunten | Vivace Limoncello",
+    description:
+      "Recepten voor Vivace Spritz, nieuws over ons impactmodel, en updates over nieuwe verkooppunten. Alles op één plek.",
+  });
+
   const [filter, setFilter] = useState("alle");
   const [openId, setOpenId] = useState(null);
 
@@ -1869,6 +2001,11 @@ function LegalSection({ title, children }) {
 }
 
 function PrivacyPage() {
+  useSEO({
+    title: "Privacybeleid — Vivace Limoncello",
+    description: "Lees hoe Vivace Limoncello, geëxploiteerd door VVM Trading, omgaat met jouw persoonsgegevens.",
+  });
+
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
@@ -1885,7 +2022,7 @@ function PrivacyPage() {
       <Reveal delay={100}>
         <LegalSection title="1. Wie zijn wij">
           <p>
-            Vivace wordt geëxploiteerd door VVM Trading (eenmanszaak), ingeschreven bij de
+            Vivace Limoncello wordt geëxploiteerd door VVM Trading (eenmanszaak), ingeschreven bij de
             Kamer van Koophandel onder nummer 86618806, gevestigd op Loevestein 18, 3171JD Poortugaal,
             Nederland. Voor vragen over dit privacybeleid kun je contact opnemen via
             info@drinkvivace.nl.
@@ -1961,6 +2098,11 @@ function PrivacyPage() {
 }
 
 function TermsPage() {
+  useSEO({
+    title: "Algemene voorwaarden — Vivace Limoncello",
+    description: "De algemene voorwaarden voor het gebruik van de Vivace Limoncello website, geëxploiteerd door VVM Trading.",
+  });
+
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
@@ -1977,7 +2119,7 @@ function TermsPage() {
       <Reveal delay={100}>
         <LegalSection title="1. Wie zijn wij">
           <p>
-            Deze website wordt geëxploiteerd door VVM Trading (eenmanszaak), ingeschreven
+            Vivace Limoncello wordt geëxploiteerd door VVM Trading (eenmanszaak), ingeschreven
             bij de Kamer van Koophandel onder nummer 86618806, gevestigd op Loevestein 18, 3171JD
             Poortugaal, Nederland. BTW-identificatienummer: NL004279162B10.
           </p>
@@ -2010,7 +2152,7 @@ function TermsPage() {
             wordt gehanteerd. De op deze website weergegeven tellers (aantal verkochte flessen en
             totaal gedoneerd bedrag) zijn indicatief en worden periodiek bijgewerkt; zie ook onze{" "}
             <Link to="/onze-impact" className="text-[#D4AF37] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
-              Impact-pagina
+              Onze Impact-pagina
             </Link>{" "}
             voor meer toelichting.
           </p>
