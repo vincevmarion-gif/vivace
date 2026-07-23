@@ -260,6 +260,13 @@ const STOCKISTS = [
   },
 ];
 
+// Detects placeholder entries in STOCKISTS (bracketed names like
+// "[Naam supermarkt]") so the UI can show an honest "coming soon" state
+// instead of fake-looking store names until real stockists are filled in.
+function isPlaceholderStockist(s) {
+  return typeof s.name === "string" && s.name.trim().startsWith("[");
+}
+
 // Builds a Google Maps embed URL from an address string. No API key needed
 // for this basic embed format.
 function mapsEmbedUrl(stockist) {
@@ -839,19 +846,30 @@ function HomePage() {
             Te vinden bij supermarkten, slijterijen en restaurants
           </h2>
         </Reveal>
-        <div className="grid md:grid-cols-2 gap-4">
-          {STOCKISTS.map((s, i) => (
-            <Reveal key={s.name} delay={i * 100}>
-              <div className="border border-[#234060] p-6 flex items-center gap-4 hover:border-[#D4AF37]/30 transition-colors">
-                <MapPin className="text-[#D4AF37] flex-shrink-0" size={20} />
-                <div>
-                  <p className="text-white/90 text-sm font-medium">{s.name}</p>
-                  <p className="text-white/40 text-xs">{s.type} · {s.city}</p>
+        {STOCKISTS.every(isPlaceholderStockist) ? (
+          <Reveal delay={100}>
+            <div className="border border-dashed border-[#D4AF37]/30 p-10 text-center">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">Binnenkort</p>
+              <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                Onze eerste verkooppunten worden hier binnenkort zichtbaar.
+              </p>
+            </div>
+          </Reveal>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-4">
+            {STOCKISTS.filter((s) => !isPlaceholderStockist(s)).map((s, i) => (
+              <Reveal key={s.name} delay={i * 100}>
+                <div className="border border-[#234060] p-6 flex items-center gap-4 hover:border-[#D4AF37]/30 transition-colors">
+                  <MapPin className="text-[#D4AF37] flex-shrink-0" size={20} />
+                  <div>
+                    <p className="text-white/90 text-sm font-medium">{s.name}</p>
+                    <p className="text-white/40 text-xs">{s.type} · {s.city}</p>
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+              </Reveal>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Golden Hour Scene — real photo of the mood instead of a hand-drawn
@@ -999,57 +1017,74 @@ function StoresPage() {
         </p>
       </Reveal>
 
-      <Reveal delay={50}>
-        <div className="mb-14">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Alle verkooppunten op de kaart</p>
-          <StoresMap stockists={STOCKISTS} />
-        </div>
-      </Reveal>
-
-      <div className="space-y-10">
-        {STOCKISTS.map((s, i) => (
-          <Reveal key={s.name} delay={i * 100}>
-            <div className="border border-[#234060] overflow-hidden">
-              <div className="p-6 flex items-center justify-between flex-wrap gap-4">
-                <div className="flex items-center gap-4">
-                  <MapPin className="text-[#D4AF37] flex-shrink-0" size={22} />
-                  <div>
-                    <p className="text-white/90 font-medium">{s.name}</p>
-                    <p className="text-white/40 text-sm">
-                      {s.type} · {s.address}, {s.postcode} {s.city}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 flex-wrap">
-                  {s.products.map((pid) => (
-                    <span key={pid} className="text-[10px] uppercase tracking-wider text-[#C9A04E] border border-[#C9A04E]/30 px-3 py-1">
-                      {PRODUCTS[pid].name}
-                    </span>
-                  ))}
-                  <a
-                    href={mapsLinkUrl(s)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[11px] uppercase tracking-wider text-white/50 border border-white/20 px-3 py-1.5 hover:border-[#D4AF37]/50 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
-                  >
-                    Open in Maps <ChevronRight size={12} />
-                  </a>
-                </div>
-              </div>
-              <iframe
-                title={`Kaart ${s.name}`}
-                src={mapsEmbedUrl(s)}
-                className="w-full h-64 border-t border-[#234060]"
-                style={{ border: 0 }}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+      {STOCKISTS.every(isPlaceholderStockist) ? (
+        <Reveal delay={50}>
+          <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">Binnenkort</p>
+            <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80 mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Onze eerste verkooppunten worden hier binnenkort zichtbaar.
+            </p>
+            <p className="text-white/35 text-sm max-w-md mx-auto">
+              We werken aan onze eerste plekken bij supermarkten, slijterijen en restaurants. Zodra
+              deze bekend zijn, vind je ze hier terug — inclusief een overzichtskaart.
+            </p>
+          </div>
+        </Reveal>
+      ) : (
+        <>
+          <Reveal delay={50}>
+            <div className="mb-14">
+              <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Alle verkooppunten op de kaart</p>
+              <StoresMap stockists={STOCKISTS.filter((s) => !isPlaceholderStockist(s))} />
             </div>
           </Reveal>
-        ))}
-      </div>
 
-      <Reveal delay={STOCKISTS.length * 100}>
+          <div className="space-y-10">
+            {STOCKISTS.filter((s) => !isPlaceholderStockist(s)).map((s, i) => (
+              <Reveal key={s.name} delay={i * 100}>
+                <div className="border border-[#234060] overflow-hidden">
+                  <div className="p-6 flex items-center justify-between flex-wrap gap-4">
+                    <div className="flex items-center gap-4">
+                      <MapPin className="text-[#D4AF37] flex-shrink-0" size={22} />
+                      <div>
+                        <p className="text-white/90 font-medium">{s.name}</p>
+                        <p className="text-white/40 text-sm">
+                          {s.type} · {s.address}, {s.postcode} {s.city}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {s.products.map((pid) => (
+                        <span key={pid} className="text-[10px] uppercase tracking-wider text-[#C9A04E] border border-[#C9A04E]/30 px-3 py-1">
+                          {PRODUCTS[pid].name}
+                        </span>
+                      ))}
+                      <a
+                        href={mapsLinkUrl(s)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] uppercase tracking-wider text-white/50 border border-white/20 px-3 py-1.5 hover:border-[#D4AF37]/50 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
+                      >
+                        Open in Maps <ChevronRight size={12} />
+                      </a>
+                    </div>
+                  </div>
+                  <iframe
+                    title={`Kaart ${s.name}`}
+                    src={mapsEmbedUrl(s)}
+                    className="w-full h-64 border-t border-[#234060]"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </>
+      )}
+
+      <Reveal delay={200}>
         <p className="text-white/25 text-xs mt-10 italic">
           Sta je hier nog niet bij en wil je Vivace verkopen? Neem contact met ons op via de
           contactpagina.
