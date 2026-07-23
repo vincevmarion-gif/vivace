@@ -230,14 +230,6 @@ const STOCKISTS = [
     city: "[Plaats]",
     products: ["limoncello"],
   },
-  {
-    name: "[Naam restaurant]",
-    type: "Restaurant",
-    address: "[Straat + huisnummer]",
-    postcode: "[Postcode]",
-    city: "[Plaats]",
-    products: ["limoncello"],
-  },
 ];
 
 // Builds a Google Maps embed URL from an address string. No API key needed
@@ -724,7 +716,7 @@ function HomePage() {
         <Reveal>
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Nu te koop</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Te vinden bij supermarkten en restaurants
+            Te vinden bij supermarkten
           </h2>
         </Reveal>
         <div className="grid md:grid-cols-2 gap-4">
@@ -940,7 +932,7 @@ function StoresPage() {
           Vind Vivace bij jou in de buurt
         </h1>
         <p className="text-white/45 max-w-lg mb-14">
-          Vivace Limoncello is te koop bij supermarkten en restaurants. Vivace Spritz in blik is
+          Vivace Limoncello is te koop bij supermarkten. Vivace Spritz in blik is
           in ontwikkeling en volgt later.
         </p>
       </Reveal>
