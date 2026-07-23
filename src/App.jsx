@@ -758,7 +758,7 @@ function HomePage() {
           >
             <span className="font-semibold block">Doe</span>
             <em className="italic text-[#D4AF37] block">anders,</em>
-            geniet anders.
+            geniet <span className="text-[#D4AF37]">anders</span>.
           </h1>
           <p className="text-white/50 text-base leading-relaxed max-w-md mb-8">
             Vivace is een premium limoncello, gemaakt met een Italiaans recept en een Nederlands hart.
