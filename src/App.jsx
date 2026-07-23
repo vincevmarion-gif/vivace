@@ -370,6 +370,7 @@ function Nav({ cart, setCartOpen }) {
   const links = [
     { path: "/", label: "Home" },
     { path: "/producten", label: "Producten" },
+    { path: "/onze-impact", label: "Impact" },
     { path: "/verkooppunten", label: "Verkooppunten" },
     { path: "/blog", label: "Blog" },
     { path: "/faq", label: "FAQ" },
@@ -796,6 +797,14 @@ function HomePage() {
       <div className="bg-[#0a1628] py-24 px-6 border-b border-[#1c3450]" style={{ backgroundColor: "#0a1628" }}>
         <Reveal>
           <ImpactCounter />
+          <div className="text-center mt-8">
+            <Link
+              to="/onze-impact"
+              className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+            >
+              Ontdek ons volledige impactmodel <ChevronRight size={14} />
+            </Link>
+          </div>
         </Reveal>
       </div>
 
@@ -1099,40 +1108,119 @@ function AboutPage() {
         </div>
       </Reveal>
 
+      {/* Impact model lives on its own page now — short teaser + link here */}
       <Reveal delay={300}>
-        <div className="grid grid-cols-2 gap-6 text-center border-t border-[#234060] pt-12 mb-20 max-w-md mx-auto">
-          <div>
-            <p className="font-serif text-4xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
-            <p className="text-[10px] uppercase tracking-wider text-white/35 mt-2">Per fles naar impact</p>
-          </div>
-          <div>
-            <p className="font-serif text-4xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>2</p>
-            <p className="text-[10px] uppercase tracking-wider text-white/35 mt-2">Producten op de roadmap</p>
+        <div className="border-t border-[#234060] pt-16 text-center">
+          <p className="font-serif text-4xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
+          <p className="text-[10px] uppercase tracking-wider text-white/35 mb-8">Per fles naar impact</p>
+          <p className="text-white/55 leading-relaxed text-[15px] max-w-lg mx-auto mb-6">
+            Hoe het donatiemodel precies werkt, waarom we voor een vast bedrag per fles kozen, en
+            waarom we één keer per jaar doneren in plaats van per verkoop — dat staat allemaal op
+            onze Impact-pagina.
+          </p>
+          <Link
+            to="/onze-impact"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+          >
+            Bekijk ons impactmodel <ChevronRight size={14} />
+          </Link>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+function ImpactPage() {
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Impact</p>
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          €1 per fles. Geen omwegen, geen kleine lettertjes.
+        </h1>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
+          <p>
+            Voor elke fles Vivace die verkocht wordt, leggen we <strong className="text-white/85">€1
+            opzij voor geselecteerde impactprojecten.</strong> Geen percentage van de winst, geen
+            constructie die verandert als een kwartaal tegenzit: een vast bedrag, per fles,
+            ongeacht de verkoopprijs die een winkel of horecazaak hanteert.
+          </p>
+          <p>
+            Dat vaste bedrag is een bewuste keuze. Het is voorspelbaar voor onszelf, transparant
+            voor onze partners in retail en horeca, en schaalbaar met het merk: hoe meer flessen we
+            verkopen, hoe meer impact we maken.
+          </p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={150}>
+        <div className="bg-[#0a1628] border border-[#1c3450] py-16 px-6 mb-16 -mx-6 md:-mx-14">
+          <ImpactCounter />
+        </div>
+      </Reveal>
+
+      <Reveal delay={200}>
+        <div className="border-t border-[#234060] pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Waarom we jaarlijks doneren</p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Eén keer per jaar, in plaats van per verkoop
+          </h2>
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+            <p>
+              Bij elke fles die verkocht wordt, leggen we €1 opzij in een pot die het hele jaar
+              door groeit. Aan het einde van het jaar tellen we alles op en maken we het volledige
+              bedrag in één keer over aan de projecten die we dat jaar hebben geselecteerd.
+            </p>
+            <p>
+              Dat is een bewuste keuze, om twee redenen. Schaal: honderd losse donaties van een
+              paar euro verdwijnen, terwijl één substantieel bedrag een project echt vooruit kan
+              helpen. En zorgvuldigheid: door te wachten tot het einde van het jaar hebben we tijd
+              om de juiste projecten te vinden en te beoordelen, in plaats van overhaaste keuzes te
+              maken bij elke losse verkoop.
+            </p>
           </div>
         </div>
       </Reveal>
 
-      {/* Impact model */}
-      <Reveal delay={400}>
-        <div className="border-t border-[#234060] pt-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Ons impactmodel</p>
-          <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            €1 per fles, naar geselecteerde impactprojecten
+      <Reveal delay={250}>
+        <div className="border-t border-[#234060] pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Waar we nu staan</p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Eerlijk over waar we in het proces zitten
           </h2>
-          <div className="grid md:grid-cols-2 gap-10 items-start">
-            <p className="text-white/55 leading-relaxed text-[15px]">
-              Voor elke fles Vivace die verkocht wordt, doneren we €1 aan een selectie van
-              impactprojecten. Geen vage belofte, geen ingewikkelde constructies: een vast bedrag,
-              per fles, transparant te herleiden. Dat maakt het model net zo schaalbaar als het merk
-              zelf — voor de consument thuis, én voor onze partners in retail en horeca.
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+            <p>
+              Vivace is jong, en dat geldt ook voor ons impactmodel. We zijn nog niet zo ver dat we
+              een specifiek project kunnen noemen of een eerste donatiebedrag kunnen laten zien —
+              dat komt aan het einde van dit eerste volledige verkoopjaar. Wat we nu al vastleggen
+              is hóe het werkt, zodat we onszelf daar later aan kunnen houden.
             </p>
-            <div className="bg-[#102338] border border-[#234060] p-8">
-              <p className="text-[#D4AF37] text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1,00</p>
-              <p className="text-white/35 text-xs uppercase tracking-wider mb-6">Vast donatiebedrag per fles</p>
-              <p className="text-[#D4AF37] text-3xl font-serif mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>100%</p>
-              <p className="text-white/35 text-xs uppercase tracking-wider">Transparant herleidbaar naar verkochte flessen</p>
-            </div>
+            <p>
+              Zodra de eerste donatie een feit is, delen we hier en via onze{" "}
+              <Link to="/blog" className="text-[#D4AF37] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
+                blog
+              </Link>{" "}
+              precies welk project we steunen, hoeveel we hebben gedoneerd, en waarom.
+            </p>
           </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={300}>
+        <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 text-center">
+          <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Voor het leven, van jou en van hen.
+          </p>
+          <p className="text-white/40 text-sm mb-6">Vragen over ons impactmodel? We beantwoorden ze graag.</p>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+          >
+            Neem contact op <ChevronRight size={14} />
+          </Link>
         </div>
       </Reveal>
     </div>
@@ -1235,11 +1323,15 @@ function ContactPage() {
 
       <Reveal delay={250}>
         <div className="mt-10 pt-10 border-t border-[#234060]">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">Gedistilleerd door</p>
-          <p className="text-white/45 text-sm leading-relaxed">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">Geproduceerd door</p>
+          <p className="text-white/45 text-sm leading-relaxed mb-4">
             Stokerij Klopman<br />
             Van Nelleweg 1, Kelder 3<br />
             3044 BC Rotterdam
+          </p>
+          <p className="text-white/45 text-sm leading-relaxed">
+            Vivace wordt geëxploiteerd door VVM Trading<br />
+            KvK 86618806 · Loevestein 18 · 3171 JD Poortugaal
           </p>
         </div>
       </Reveal>
@@ -1916,8 +2008,11 @@ function TermsPage() {
             Vivace doneert €1 per verkochte fles aan geselecteerde impactprojecten. Dit bedrag is
             vast en wordt niet beïnvloed door de verkoopprijs die door individuele verkooppunten
             wordt gehanteerd. De op deze website weergegeven tellers (aantal verkochte flessen en
-            totaal gedoneerd bedrag) zijn indicatief en worden periodiek bijgewerkt; zie ook onze
-            Onze Impact-pagina voor meer toelichting.
+            totaal gedoneerd bedrag) zijn indicatief en worden periodiek bijgewerkt; zie ook onze{" "}
+            <Link to="/onze-impact" className="text-[#D4AF37] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
+              Impact-pagina
+            </Link>{" "}
+            voor meer toelichting.
           </p>
         </LegalSection>
 
@@ -1962,6 +2057,7 @@ function Footer() {
   const footerLinks = [
     { path: "/", label: "Home" },
     { path: "/producten", label: "Producten" },
+    { path: "/onze-impact", label: "Impact" },
     { path: "/verkooppunten", label: "Verkooppunten" },
     { path: "/blog", label: "Blog" },
     { path: "/faq", label: "FAQ" },
@@ -2051,6 +2147,7 @@ function AppShell() {
         <Route path="/producten" element={<ProductsPage cart={cart} />} />
         <Route path="/verkooppunten" element={<StoresPage />} />
         <Route path="/over-ons" element={<AboutPage />} />
+        <Route path="/onze-impact" element={<ImpactPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/faq" element={<FAQPage />} />
