@@ -218,9 +218,15 @@ const PRODUCTS = {
   },
 };
 
-// PLACEHOLDER DATA — replace name, address, city, and postcode with your
-// real stockists' details. Once you have them, this is the only place you
-// need to edit; the page below builds itself from this array automatically.
+// PLACEHOLDER DATA — replace name, address, city, postcode, lat, and lng with
+// your real stockists' details. Once you have them, this is the only place
+// you need to edit; both the list below and the combined map build themselves
+// from this array automatically.
+//
+// To find lat/lng for a real address: search the address on Google Maps,
+// right-click the exact pin location, and tap the coordinates that appear
+// at the top of the menu (they copy straight to your clipboard) — then
+// paste the two numbers in as lat and lng below.
 const STOCKISTS = [
   {
     name: "[Naam supermarkt]",
@@ -228,6 +234,28 @@ const STOCKISTS = [
     address: "[Straat + huisnummer]",
     postcode: "[Postcode]",
     city: "[Plaats]",
+    lat: null,
+    lng: null,
+    products: ["limoncello"],
+  },
+  {
+    name: "[Naam slijterij]",
+    type: "Slijterij",
+    address: "[Straat + huisnummer]",
+    postcode: "[Postcode]",
+    city: "[Plaats]",
+    lat: null,
+    lng: null,
+    products: ["limoncello"],
+  },
+  {
+    name: "[Naam restaurant]",
+    type: "Restaurant",
+    address: "[Straat + huisnummer]",
+    postcode: "[Postcode]",
+    city: "[Plaats]",
+    lat: null,
+    lng: null,
     products: ["limoncello"],
   },
 ];
@@ -242,6 +270,66 @@ function mapsEmbedUrl(stockist) {
 function mapsLinkUrl(stockist) {
   const query = encodeURIComponent(`${stockist.name}, ${stockist.address}, ${stockist.postcode} ${stockist.city}`);
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
+}
+
+// Combined overview map showing every stockist at once. Uses Leaflet with
+// OpenStreetMap tiles — no Google Maps API key needed, no cost, no key to
+// manage. Reads lat/lng straight from STOCKISTS; entries without coordinates
+// yet are simply skipped until they're filled in.
+function StoresMap({ stockists }) {
+  const mapRef = React.useRef(null);
+  const mapInstance = React.useRef(null);
+  const markersRef = React.useRef([]);
+
+  useEffect(() => {
+    if (!window.L || !mapRef.current) return;
+
+    if (!mapInstance.current) {
+      mapInstance.current = window.L.map(mapRef.current, { scrollWheelZoom: false }).setView([52.15, 5.3], 7);
+      window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 18,
+      }).addTo(mapInstance.current);
+    }
+
+    markersRef.current.forEach((m) => mapInstance.current.removeLayer(m));
+    markersRef.current = [];
+
+    const goldIcon = window.L.divIcon({
+      className: "",
+      html: '<div style="width:16px;height:16px;border-radius:50%;background:#D4AF37;border:2px solid #0C1526;box-shadow:0 0 0 2px rgba(212,175,55,0.35);"></div>',
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+    });
+
+    const valid = stockists.filter((s) => typeof s.lat === "number" && typeof s.lng === "number");
+
+    valid.forEach((s) => {
+      const marker = window.L.marker([s.lat, s.lng], { icon: goldIcon })
+        .addTo(mapInstance.current)
+        .bindPopup(`<strong>${s.name}</strong><br/>${s.type}<br/>${s.address}, ${s.postcode} ${s.city}`);
+      markersRef.current.push(marker);
+    });
+
+    if (valid.length > 0) {
+      const bounds = window.L.latLngBounds(valid.map((s) => [s.lat, s.lng]));
+      mapInstance.current.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
+    }
+  }, [stockists]);
+
+  const hasAnyCoords = stockists.some((s) => typeof s.lat === "number" && typeof s.lng === "number");
+
+  return (
+    <div>
+      <div ref={mapRef} className="w-full h-96 border border-[#234060]" style={{ background: "#102338" }} />
+      {!hasAnyCoords && (
+        <p className="text-white/25 text-xs mt-3 italic">
+          Kaart vult zich automatisch zodra er lat/lng-coördinaten zijn ingevuld bij je
+          verkooppunten (zie de STOCKISTS-lijst in de code).
+        </p>
+      )}
+    </div>
+  );
 }
 
 // ---------- Cart context (simple prop-drill, no localStorage) ----------
@@ -716,7 +804,7 @@ function HomePage() {
         <Reveal>
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Nu te koop</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Te vinden bij supermarkten
+            Te vinden bij supermarkten, slijterijen en restaurants
           </h2>
         </Reveal>
         <div className="grid md:grid-cols-2 gap-4">
@@ -862,9 +950,16 @@ function StoresPage() {
           Vind Vivace bij jou in de buurt
         </h1>
         <p className="text-white/45 max-w-lg mb-14">
-          Vivace Limoncello is te koop bij supermarkten. Vivace Spritz in blik is
-          in ontwikkeling en volgt later.
+          Vivace Limoncello is te koop bij supermarkten, slijterijen en restaurants. Vivace Spritz
+          in blik is in ontwikkeling en volgt later.
         </p>
+      </Reveal>
+
+      <Reveal delay={50}>
+        <div className="mb-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Alle verkooppunten op de kaart</p>
+          <StoresMap stockists={STOCKISTS} />
+        </div>
       </Reveal>
 
       <div className="space-y-10">
