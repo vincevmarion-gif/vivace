@@ -1438,8 +1438,14 @@ function ContactPage() {
       <Reveal delay={250}>
         <div className="mt-10 pt-10 border-t border-[#234060]">
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">Geleverd door</p>
-          <p className="text-white/70 text-sm leading-relaxed">
+          <p className="text-white/70 text-sm leading-relaxed mb-6">
             Vivace wordt geëxploiteerd door VVM Trading.
+          </p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">Geproduceerd door</p>
+          <p className="text-white/45 text-sm leading-relaxed">
+            Stokerij Klopman<br />
+            Van Nelleweg 1, Kelder 3<br />
+            3044 BC Rotterdam
           </p>
         </div>
       </Reveal>
