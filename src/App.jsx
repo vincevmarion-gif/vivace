@@ -734,89 +734,19 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Golden Hour Scene — the feeling, without a posed model. Moved to the
-          end of the homepage so the impact model and stockists lead, and this
-          atmospheric closer comes last. */}
+      {/* Golden Hour Scene — real photo of the mood instead of a hand-drawn
+          illustration. Sits last on the homepage as an atmospheric closer. */}
       <section className="relative overflow-hidden" style={{ height: "640px" }}>
-        {/* Sky */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, #1a3a5c 0%, #3d6a8a 22%, #d98a4a 48%, #f0b25a 58%, #2c5f7a 70%, #1c4356 100%)",
-          }}
+        <img
+          src="/images/vivace-golden-hour.jpg"
+          alt="Twee glazen Vivace spritz bij zonsondergang op een terras in Rome"
+          className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* Distant coastline */}
-        <svg className="absolute bottom-[42%] left-0 w-full" height="120" viewBox="0 0 1000 120" preserveAspectRatio="none">
-          <polygon points="0,120 0,70 120,40 260,75 420,30 600,68 780,45 1000,80 1000,120" fill="#3a5f70" opacity="0.55" />
-          <polygon points="0,120 0,90 180,60 380,95 560,55 760,90 1000,65 1000,120" fill="#2c4a58" opacity="0.7" />
-        </svg>
-        {/* Water */}
-        <div
-          className="absolute left-0 right-0"
-          style={{
-            top: "58%",
-            bottom: "30%",
-            background: "linear-gradient(to bottom, #2c6a85 0%, #1e4f66 60%, #173e50 100%)",
-          }}
-        />
-        {/* Soft glow on water */}
-        <div
-          className="absolute"
-          style={{
-            width: "160px",
-            height: "180px",
-            left: "50%",
-            top: "58%",
-            transform: "translateX(-50%)",
-            background: "linear-gradient(to bottom, rgba(255,217,138,0.28), rgba(255,217,138,0))",
-            filter: "blur(6px)",
-          }}
-        />
-        {/* Pool edge / terrace stone */}
-        <div
-          className="absolute left-0 right-0 bottom-0"
-          style={{
-            top: "70%",
-            background: "linear-gradient(to bottom, #e8dcc4 0%, #d9c9a6 40%, #c9b78f 100%)",
-          }}
-        />
-        <div className="absolute left-0 right-0" style={{ top: "70%", height: "4px", background: "#1e4f66" }} />
 
-        {/* Table with two glasses + lemons, foreground, off to one side */}
-        <div className="absolute" style={{ right: "8%", bottom: "6%" }}>
-          <svg width="260" height="140" viewBox="0 0 260 140">
-            {/* Table surface */}
-            <ellipse cx="130" cy="118" rx="120" ry="18" fill="#caa86a" opacity="0.9" />
-            <ellipse cx="130" cy="116" rx="120" ry="16" fill="#d9bb82" />
-
-            {/* Lemons */}
-            <circle cx="60" cy="106" r="13" fill="#f0c43a" />
-            <circle cx="78" cy="112" r="11" fill="#f3cd4f" />
-            <ellipse cx="58" cy="101" rx="3" ry="2" fill="#7a9c3e" />
-
-            {/* Glass 1 */}
-            <path d="M150,60 L156,108 L172,108 L178,60 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
-            <path d="M152,75 L156,108 L172,108 L176,75 Z" fill="#f0d24a" opacity="0.85" />
-            <line x1="164" y1="108" x2="164" y2="120" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
-            <ellipse cx="164" cy="121" rx="10" ry="2.5" fill="rgba(255,255,255,0.3)" />
-
-            {/* Glass 2 */}
-            <path d="M190,60 L196,108 L212,108 L218,60 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
-            <path d="M192,75 L196,108 L212,108 L216,75 Z" fill="#f0d24a" opacity="0.85" />
-            <line x1="204" y1="108" x2="204" y2="120" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
-            <ellipse cx="204" cy="121" rx="10" ry="2.5" fill="rgba(255,255,255,0.3)" />
-
-            {/* Mint sprig */}
-            <ellipse cx="168" cy="64" rx="3" ry="6" fill="#5a8a3e" transform="rotate(-20 168 64)" />
-            <ellipse cx="208" cy="64" rx="3" ry="6" fill="#5a8a3e" transform="rotate(15 208 64)" />
-          </svg>
-        </div>
-
-        {/* Warm overlay tint */}
+        {/* Warm overlay tint for text legibility */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.25), transparent 40%)" }}
+          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0.05) 45%, transparent 65%)" }}
         />
 
         {/* Caption */}
