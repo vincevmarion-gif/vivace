@@ -42,6 +42,11 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+    <!-- Leaflet (map for Verkooppunten page): CDN only, no API key or npm
+         install needed. Loaded as a blocking script so window.L is ready
+         before the app renders. -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
   <body>
     <div id="root"></div>
