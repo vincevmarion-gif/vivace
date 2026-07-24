@@ -1381,7 +1381,7 @@ function ContactPage() {
 
   // Replace YOUR_FORM_ID below with the ID Formspree gives you after creating
   // a form at formspree.io (free account, takes ~2 minutes, no credit card).
-  const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mzdnjavv";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
