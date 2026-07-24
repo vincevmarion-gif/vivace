@@ -643,7 +643,7 @@ function WelcomeBanner({ onClose }) {
           className="font-serif italic text-[#D4AF37] text-2xl md:text-3xl leading-snug mb-4"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
-          Doe anders, geniet anders.
+          Drink anders. Geniet anders.
         </p>
 
         <p className="text-white/75 text-sm md:text-base leading-relaxed max-w-sm mx-auto mb-2">
@@ -740,7 +740,7 @@ function Reveal({ children, delay = 0 }) {
 }
 function HomePage() {
   useSEO({
-    title: "Vivace Limoncello — Doe anders, geniet anders",
+    title: "Vivace Limoncello — Drink anders. Geniet anders.",
     description:
       "Vivace is premium Italiaanse limoncello, geproduceerd in Nederland. Voor elke fles die wordt verkocht, gaat €1 naar geselecteerde impactprojecten.",
   });
@@ -763,9 +763,9 @@ function HomePage() {
             className="font-serif text-6xl md:text-7xl lg:text-8xl leading-[0.95] mb-9"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
           >
-            <span className="font-semibold block">Doe</span>
-            <em className="italic text-[#D4AF37] block">anders,</em>
-            geniet <em className="italic text-[#D4AF37]">anders</em>.
+            <span className="font-semibold block">Drink</span>
+            <em className="italic text-[#D4AF37] block">anders.</em>
+            Geniet <em className="italic text-[#D4AF37]">anders</em>.
           </h1>
           <p className="text-white/50 text-base leading-relaxed max-w-md mb-8">
             Vivace is een premium limoncello, gemaakt met een Italiaans recept en een Nederlands hart.
@@ -808,7 +808,7 @@ function HomePage() {
       <div className="bg-[#D4AF37] overflow-hidden">
         <div className="flex whitespace-nowrap py-4" style={{ animation: "ticker 22s linear infinite" }}>
           {[...Array(2)].flatMap((_, rep) =>
-            ["Doe anders", "€1 per fles naar impact", "Premium Italiaans recept", "Transparant en schaalbaar", "Italiaanse ziel · Nederlands hart", "Geniet anders"].map(
+            ["Drink anders", "€1 per fles naar impact", "Premium Italiaans recept", "Transparant en schaalbaar", "Italiaanse ziel · Nederlands hart", "Geniet anders"].map(
               (txt, i) => (
                 <span key={`${rep}-${i}`} className="inline-flex items-center gap-4 px-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-black">
                   {txt}
@@ -2254,7 +2254,7 @@ function Footer() {
           </a>
         </div>
         <p className="font-serif italic text-sm text-white/20 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          "Doe anders, geniet anders."
+          "Drink anders. Geniet anders."
         </p>
         <ul className="flex gap-7 justify-center md:justify-end text-[11px] uppercase tracking-wider text-white/25 flex-wrap">
           {footerLinks.map((l) => (
