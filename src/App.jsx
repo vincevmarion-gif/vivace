@@ -1717,96 +1717,6 @@ const BLOG_POSTS = [
       "Garneer met een schijfje citroen en eventueel een takje rozemarijn.",
     ],
   },
-  {
-    id: "instagram-launch",
-    type: "nieuws",
-    title: "Vivace is live op Instagram",
-    date: "2026-06-29",
-    image: "/images/vivace-instagram-launch.png",
-    excerpt: "Vivace is nu ook te volgen op Instagram. Volg @drinkvivace voor nieuwe recepten, verkooppunten en updates over ons impactmodel.",
-    body: [
-      "Vivace is nu ook te volgen op Instagram via @drinkvivace. Daar delen we als eerste nieuwe Spritz-recepten, aankondigingen van nieuwe verkooppunten, en updates over ons impactmodel.",
-      "€1 van elke verkochte fles gaat naar geselecteerde impactprojecten — premium kwaliteit met een heldere belofte, bij elke borrel.",
-      "Volg ons om op de hoogte te blijven, en laat gerust weten met wie jij je eerste glas Vivace zou delen.",
-    ],
-  },
-  {
-    id: "instagram-label-onthulling",
-    type: "nieuws",
-    title: "Het Vivace-etiket, onthuld",
-    date: "2026-07-03",
-    image: "/images/vivace-instagram-label-reveal.png",
-    excerpt: "Simpel, met opzet. Geen opgevulde tekst over ons verhaal, wel een QR-code naar de rest. Zo ziet het etiket eruit dat straks op elke fles staat.",
-    body: [
-      "Deze week deelden we op Instagram het definitieve ontwerp van het Vivace-etiket.",
-      "Bewust simpel: geen lange tekst over ons verhaal of ons impactmodel op de fles zelf. In plaats daarvan een kleine QR-code die rechtstreeks naar drinkvivace.nl leidt, waar het hele verhaal wel te lezen is.",
-      "Het resultaat is een etiket dat op de plank meteen opvalt, zonder dat het overvol aanvoelt. Binnenkort te zien op echte flessen bij onze verkooppunten.",
-    ],
-  },
-  {
-    id: "voor-het-leven-van-jou-en-van-hen",
-    type: "nieuws",
-    title: "Voor het leven, van jou en van hen",
-    date: "2026-07-11",
-    image: "/images/vivace-instagram-giveback.png",
-    excerpt: "Vivace is meer dan een likeur. €1 van elke fles gaat naar impactprojecten, geen bijzaak, maar de reden dat we bestaan.",
-    body: [
-      "Vivace is meer dan een likeur. Voor elke fles die we verkopen, geven we €1 terug aan mensen voor wie het leven zwaarder is dan het zou moeten zijn.",
-      "Vivace betekent levendig, vol leven. Dat is wat we vieren: de avonden die te lang duren, de tafels die te vol staan, het gevoel dat er even niets anders hoeft te bestaan dan dit moment. Geïnspireerd door Rome, gemaakt in Nederland, gebouwd rond één simpel idee: het goede leven is pas compleet als je het deelt.",
-      "Dus wanneer je een fles Vivace opent, doe je meer dan proosten. Je geeft iets door.",
-      "Voor het leven, van jou en van hen.",
-    ],
-  },
-  {
-    id: "nieuw-impactmodel",
-    type: "nieuws",
-    title: "Vivace gaat over op een vast donatiebedrag: €1 per fles",
-    date: "2026-06-20",
-    excerpt: "We hebben ons impactmodel aangescherpt. In plaats van een percentage van de winst, doneren we nu een vast bedrag van €1 per verkochte fles — transparant en schaalbaar.",
-    body: [
-      "Vanaf nu doneert Vivace €1 voor elke verkochte fles aan geselecteerde impactprojecten. Dit vervangt ons eerdere model, waarbij we een deel van de winst doneerden.",
-      "Waarom de verandering? Een vast bedrag per fles is voorspelbaar en transparant — voor onszelf, voor onze partners in retail en horeca, en voor jou als consument. Het maakt ons model ook schaalbaar: hoe meer flessen we verkopen, hoe meer impact we maken, onafhankelijk van marges of hoe een kwartaal er financieel uitziet.",
-      "Op onze website vind je een live teller die het aantal verkochte flessen en het totaal gedoneerde bedrag laat zien. Deze teller wordt de komende tijd gekoppeld aan onze echte verkoopdata.",
-    ],
-  },
-  {
-    id: "nieuwe-verkooppunt",
-    type: "verkooppunt",
-    title: "Vivace nu ook te koop bij een nieuw verkooppunt",
-    date: "2026-06-15",
-    excerpt: "We breiden uit! Vivace Limoncello is sinds deze week te koop bij een nieuw verkooppunt.",
-    body: [
-      "We zijn verheugd om aan te kondigen dat Vivace Limoncello vanaf deze week verkrijgbaar is bij een nieuw verkooppunt. Bekijk de volledige lijst en adressen op onze Verkooppunten-pagina.",
-      "Ben je zelf een winkel, slijterij of horecazaak en wil je Vivace in je assortiment? Neem contact met ons op via de contactpagina — we denken graag mee.",
-    ],
-  },
-  {
-    id: "het-moment",
-    type: "nieuws",
-    title: "Voor het aperitief. Of gewoon omdat het kan.",
-    date: "2026-07-18",
-    image: "/images/vivace-instagram-het-moment.png",
-    excerpt: "Je hoeft niet te wachten op een speciale gelegenheid. Vivace maakt gewone momenten een beetje beter.",
-    body: [
-      "Je hoeft niet te wachten op een speciale gelegenheid. Vivace is er voor het aperitief voor het eten, voor een rustige avond op het balkon, of voor geen enkele reden behalve dat het weekend is.",
-      "Gekoeld uit de vriezer, puur in een klein glas, is vaak al genoeg.",
-      "We zien Vivace niet als iets voor speciale momenten. We zien het als iets dat gewone momenten een beetje beter maakt. Een druppel Italiaanse zomer, ook op een doordeweekse dinsdag.",
-    ],
-  },
-  {
-    id: "waarom-eenmaal-per-jaar-doneren",
-    type: "nieuws",
-    title: "Waarom we €1 per fles sparen, niet meteen weggeven",
-    date: "2026-07-18",
-    image: "/images/vivace-instagram-giveback-jaarlijks.png",
-    excerpt: "Elke fles legt €1 opzij. Aan het einde van het jaar doneren we het volledige bedrag in één keer, niet per verkoop.",
-    body: [
-      "Bij elke fles Vivace die verkocht wordt, leggen we €1 opzij voor impactprojecten. Niet als losse donatie bij elke verkoop, maar als onderdeel van een pot die het hele jaar door groeit.",
-      "Aan het einde van het jaar tellen we alles op en maken we het volledige bedrag in één keer over aan de projecten die we dat jaar hebben geselecteerd.",
-      "We kozen bewust voor deze aanpak, om twee redenen. Ten eerste schaal: honderd losse donaties van een paar euro verdwijnen, terwijl één substantieel bedrag een project echt vooruit kan helpen. Ten tweede zorgvuldigheid: door te wachten tot het einde van het jaar hebben we tijd om de juiste projecten te vinden en te beoordelen, in plaats van overhaaste keuzes te maken bij elke losse verkoop.",
-      "Aan het einde van het jaar laten we precies zien waar het geld naartoe is gegaan: welk project, hoeveel, en waarom.",
-    ],
-  },
 ];
 
 function formatRecipeAmount(amount, servings) {
@@ -2005,13 +1915,24 @@ function BlogPage() {
         </div>
       </Reveal>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {filtered.map((post, i) => (
-          <Reveal key={post.id} delay={150 + i * 80}>
-            <BlogCard post={post} onOpen={setOpenId} />
-          </Reveal>
-        ))}
-      </div>
+      {filtered.length === 0 ? (
+        <Reveal delay={150}>
+          <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">Binnenkort</p>
+            <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Hier verschijnen binnenkort nieuwe updates.
+            </p>
+          </div>
+        </Reveal>
+      ) : (
+        <div className="grid md:grid-cols-2 gap-6">
+          {filtered.map((post, i) => (
+            <Reveal key={post.id} delay={150 + i * 80}>
+              <BlogCard post={post} onOpen={setOpenId} />
+            </Reveal>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
