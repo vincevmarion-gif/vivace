@@ -599,9 +599,11 @@ function UnderageBlock() {
 // Shows right after someone confirms they're 18+: a centered, prominent
 // modal thanking them and confirming their purchase already contributes to
 // an impact project. Auto-dismisses, and can also be closed manually.
-function HeartIcon({ size = 40 }) {
+// Colors are intentionally reversed from the rest of the site (gold
+// background, navy text/accents) so this moment pops instead of blending in.
+function HeartIcon({ size = 40, color = "#D4AF37" }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="#D4AF37">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
       <path d="M12 21s-7.5-4.6-10-9.1C0.4 8.6 1.8 5 5.4 5c2 0 3.4 1 4.6 2.6C11.2 6 12.6 5 14.6 5 18.2 5 19.6 8.6 18 11.9 16.5 16.4 12 21 12 21z" />
     </svg>
   );
@@ -619,7 +621,7 @@ function WelcomeBanner({ onClose }) {
         className="absolute inset-0 bg-[#050b14]/70 animate-[fadeIn_0.4s_ease-out]"
         onClick={onClose}
       />
-      <div className="relative pointer-events-auto bg-[#0F1F33] border border-[#D4AF37]/50 shadow-2xl shadow-black/60 px-8 py-10 md:px-14 md:py-12 max-w-lg w-full text-center animate-[popIn_0.45s_cubic-bezier(0.16,1,0.3,1)]">
+      <div className="relative pointer-events-auto bg-[#D4AF37] border border-[#0F1F33]/40 shadow-2xl shadow-black/60 px-8 py-10 md:px-14 md:py-12 max-w-lg w-full text-center animate-[popIn_0.45s_cubic-bezier(0.16,1,0.3,1)]">
         {/* Subtle Italian tricolor accent line */}
         <div className="absolute top-0 left-0 right-0 h-1 flex">
           <div className="flex-1 bg-[#3A7A4E]" />
@@ -629,28 +631,28 @@ function WelcomeBanner({ onClose }) {
 
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-white/30 hover:text-white/70 transition-colors"
+          className="absolute top-5 right-5 text-black/30 hover:text-black/70 transition-colors"
           aria-label="Sluiten"
         >
           <X size={22} />
         </button>
 
         <div className="flex justify-center mb-6">
-          <HeartIcon size={48} />
+          <HeartIcon size={48} color="#0F1F33" />
         </div>
 
         <p
-          className="font-serif italic text-[#D4AF37] text-2xl md:text-3xl leading-snug mb-4"
+          className="font-serif italic text-[#0F1F33] text-2xl md:text-3xl leading-snug mb-4"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
           Drink anders. Geniet anders.
         </p>
 
-        <p className="text-white/75 text-sm md:text-base leading-relaxed max-w-sm mx-auto mb-2">
+        <p className="text-[#0F1F33]/80 text-sm md:text-base leading-relaxed max-w-sm mx-auto mb-2">
           Welkom bij Vivace. Met elke fles die wordt verkocht, draag je al bij aan een
           geselecteerd impactproject.
         </p>
-        <p className="text-white/40 text-xs md:text-sm">
+        <p className="text-[#0F1F33]/50 text-xs md:text-sm">
           €1 per fles, transparant en zonder omwegen.
         </p>
       </div>
@@ -1643,7 +1645,6 @@ function FAQPage() {
   );
 }
 
-// ---------- Recipe Page ----------
 // ---------- Blog ----------
 // Unified blog covering three post types: recept (recipe), nieuws (news),
 // verkooppunt (new stockist announcement). Recipe posts carry the full
