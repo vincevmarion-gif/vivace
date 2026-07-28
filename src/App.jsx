@@ -1134,7 +1134,7 @@ function AboutPage() {
       <Reveal delay={200}>
         <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 mb-16 text-center">
           <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Voor het leven, van jou en van hen.
+            Drink anders. Geniet anders.
           </p>
         </div>
       </Reveal>
@@ -1358,7 +1358,7 @@ function ImpactPage() {
       <Reveal delay={325}>
         <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 text-center">
           <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Voor het leven, van jou en van hen.
+            Drink anders. Geniet anders.
           </p>
           <p className="text-white/40 text-sm mb-6">Vragen over ons impactmodel? We beantwoorden ze graag.</p>
           <Link
