@@ -503,7 +503,7 @@ function CartDrawer({ open, onClose, cart }) {
                 <div className="flex-shrink-0">
                   {id === "limoncello" ? (
                     <img
-                      src="/images/vivace-bottle-hero.jpg"
+                      src="/images/vivace-bottle-hero-v2.jpg"
                       alt="Vivace Limoncello"
                       className="w-10 h-10 object-cover rounded-sm"
                     />
@@ -798,8 +798,8 @@ function HomePage() {
         <div className="relative z-10 flex items-center justify-center mt-16 md:mt-0">
           <div className="w-full max-w-md md:max-w-lg">
             <img
-              src="/images/vivace-bottle-hero.jpg"
-              alt="Vivace Limoncello fles voor het Colosseum"
+              src="/images/vivace-bottle-hero-v2.jpg"
+              alt="Vivace Limoncello fles met citroenen en uitzicht op de Amalfikust"
               className="w-full h-auto rounded-sm shadow-2xl shadow-black/40"
             />
           </div>
@@ -929,7 +929,7 @@ function ProductsPage({ cart }) {
             <div className="bg-[#102338] p-10 md:p-12 flex flex-col items-center text-center gap-6 h-full">
               {p.id === "limoncello" ? (
                 <img
-                  src="/images/vivace-bottle-hero.jpg"
+                  src="/images/vivace-bottle-hero-v2.jpg"
                   alt="Vivace Limoncello fles"
                   className="w-full max-w-[180px] h-auto rounded-sm shadow-xl shadow-black/30"
                 />
