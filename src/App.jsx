@@ -874,12 +874,13 @@ function HomePage() {
         )}
       </section>
 
-      {/* Golden Hour Scene — real photo of the mood instead of a hand-drawn
-          illustration. Sits last on the homepage as an atmospheric closer. */}
+      {/* The Colosseum / brand meaning — replaces the earlier golden-hour
+          terrace photo. Sits last on the homepage as an atmospheric closer
+          that ties back to where the name Vivace comes from. */}
       <section className="relative overflow-hidden" style={{ height: "640px" }}>
         <img
-          src="/images/vivace-golden-hour.jpg"
-          alt="Twee glazen Vivace spritz bij zonsondergang op een terras in Rome"
+          src="/images/vivace-colosseum-banner.jpg"
+          alt="Het Colosseum in Rome, de inspiratie achter Vivace"
           className="absolute inset-0 w-full h-full object-cover"
         />
 
@@ -891,12 +892,12 @@ function HomePage() {
 
         {/* Caption */}
         <div className="absolute left-6 md:left-14 bottom-10 md:bottom-14 z-10 max-w-md">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#E8D38A]/80 mb-3">Het gouden uur</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#E8D38A]/80 mb-3">De naam</p>
           <p
             className="font-serif italic text-2xl md:text-3xl text-white/95 leading-snug"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
-            Twee glazen.<br />Een terras.<br />Een avond die niet eindigt.
+            Vivace. Italiaans voor<br />"speel met leven<br />en energie."
           </p>
         </div>
       </section>
@@ -1716,6 +1717,48 @@ const BLOG_POSTS = [
       "Schenk de Vivace Limoncello erover.",
       "Voeg de prosecco toe, langzaam.",
       "Garneer met een schijfje citroen en eventueel een takje rozemarijn.",
+    ],
+  },
+  {
+    id: "vivace-launch",
+    type: "nieuws",
+    title: "Vivace is gelanceerd",
+    date: "2026-07-27",
+    image: "/images/vivace-instagram-launch-announcement.png",
+    excerpt: "Drink anders. Geniet anders. Vivace is nu officieel gelanceerd op Instagram.",
+    body: [
+      "Drink anders. Geniet anders.",
+      "Maak kennis met Vivace: een premium limoncello, gemaakt volgens een authentiek Italiaans recept, met een Nederlands hart.",
+      "Vivace is meer dan een drankje. Voor elke fles die verkocht wordt, doneren we €1 aan geselecteerde impactprojecten. Geen vage belofte, gewoon een vast bedrag, per fles, transparant te herleiden.",
+      "Premium kwaliteit. Een heldere belofte. Bij elke borrel.",
+      "Binnenkort te vinden bij geselecteerde verkooppunten bij jou in de buurt.",
+    ],
+  },
+  {
+    id: "etiket-reveal",
+    type: "nieuws",
+    title: "Het etiket: luxe tot in de laatste letter",
+    date: "2026-07-27",
+    image: "/images/vivace-instagram-etiket-reveal.png",
+    excerpt: "Van biologische Sorrento-citroenen tot het kleinste lettertje — een kijkje achter het label.",
+    body: [
+      "Luxe, tot in de laatste letter.",
+      "Van biologische Sorrento-citroenen tot het kleinste lettertje, alles even verzorgd. Scan de QR-code voor het volledige verhaal.",
+      "Binnenkort verkrijgbaar. 🍋",
+    ],
+  },
+  {
+    id: "drink-anders-geniet-anders",
+    type: "nieuws",
+    title: "Drink anders. Geniet anders.",
+    date: "2026-07-27",
+    image: "/images/vivace-instagram-mission-colosseum.png",
+    excerpt: "Vivace is Italiaans voor \"speel met leven en energie.\" Precies wat we willen dat je voelt bij elk glas.",
+    body: [
+      "Drink anders. Geniet anders.",
+      "Vivace is Italiaans voor \"speel met leven en energie.\" Precies wat we willen dat je voelt bij elk glas.",
+      "Maar er zit meer achter dan alleen smaak. €1 van elke fles gaat naar geselecteerde impactprojecten. Geen bijzaak, de reden dat we bestaan.",
+      "Premium limoncello, gemaakt volgens een Italiaans recept, met een Nederlands hart.",
     ],
   },
 ];
