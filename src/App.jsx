@@ -1121,12 +1121,13 @@ function AboutPage() {
             een goede reden om een merk te starten.
           </p>
           <p>
+            De naam komt uit de muziek: <em className="text-white/70">vivace</em> is Italiaans voor
+            "speel met leven en energie" — precies wat we willen dat je voelt bij elk glas.
+          </p>
+          <p>
             Zo werd Vivace een premium limoncello met een Italiaans recept en een Nederlands hart —
             gebouwd rond één vast principe: <strong className="text-white/85">€1 per verkochte fles gaat naar
             geselecteerde impactprojecten,</strong> transparant en herleidbaar.
-          </p>
-          <p className="text-[#D4AF37]/80 font-medium">
-            Dat is Vivace. Niet voor ons. Voor jou, en voor hen.
           </p>
         </div>
       </Reveal>
