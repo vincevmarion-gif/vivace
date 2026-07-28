@@ -887,7 +887,7 @@ function HomePage() {
         {/* Warm overlay tint for text legibility */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0.05) 45%, transparent 65%)" }}
+          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.1) 70%)" }}
         />
 
         {/* Caption */}
@@ -1722,7 +1722,7 @@ const BLOG_POSTS = [
   {
     id: "vivace-launch",
     type: "nieuws",
-    title: "Vivace is gelanceerd",
+    title: "Vivace is live op Instagram",
     date: "2026-07-27",
     image: "/images/vivace-instagram-launch-announcement.png",
     excerpt: "Drink anders. Geniet anders. Vivace is nu officieel gelanceerd op Instagram.",
