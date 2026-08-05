@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
-import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu } from "lucide-react";
+import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu, Leaf, Award, Factory, Sparkles } from "lucide-react";
 import { Analytics } from "@vercel/analytics/react";
 
 // ---------- Shared bottle / can SVGs ----------
@@ -747,6 +747,58 @@ function Reveal({ children, delay = 0 }) {
     </div>
   );
 }
+// ---------- "What makes Vivace unique" strip ----------
+const USPS = [
+  {
+    icon: Leaf,
+    title: "Biologische Sorrento citroenen",
+    subtitle: "IGP-kwaliteit",
+  },
+  {
+    icon: Sparkles,
+    title: "Ambachtelijk gemaakt",
+    subtitle: "Kleine oplages",
+  },
+  {
+    icon: Factory,
+    title: "Geproduceerd in de Van Nelle Fabriek",
+    subtitle: "Rotterdam",
+  },
+  {
+    icon: HeartIcon,
+    title: "€1 per fles",
+    subtitle: "Naar Stichting Ambulance Wens",
+  },
+  {
+    icon: Award,
+    title: "100% natuurlijke ingrediënten",
+    subtitle: "Geen concessies",
+  },
+];
+
+function USPStrip() {
+  return (
+    <section className="px-6 md:px-14 py-16 border-t border-b border-[#234060]">
+      <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-10">
+        {USPS.map((item, i) => {
+          const Icon = item.icon;
+          return (
+            <Reveal key={item.title} delay={i * 80}>
+              <div className="flex flex-col items-center text-center gap-3">
+                <Icon size={28} color="#D4AF37" strokeWidth={1.5} />
+                <div>
+                  <p className="text-white/85 text-[13px] font-medium leading-snug">{item.title}</p>
+                  <p className="text-white/40 text-[11px] mt-1">{item.subtitle}</p>
+                </div>
+              </div>
+            </Reveal>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   useSEO({
     title: "Vivace Limoncello — Drink anders. Geniet anders.",
@@ -812,6 +864,8 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <USPStrip />
 
       {/* Mission ticker */}
       <div className="bg-[#D4AF37] overflow-hidden">
