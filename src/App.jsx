@@ -1150,8 +1150,10 @@ function StoresPage() {
 
       <Reveal delay={200}>
         <p className="text-white/25 text-xs mt-10 italic">
-          Sta je hier nog niet bij en wil je Vivace verkopen? Neem contact met ons op via de
-          contactpagina.
+          Sta je hier nog niet bij en wil je Vivace verkopen?{" "}
+          <Link to="/horeca" className="text-[#D4AF37]/70 not-italic border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
+            Meld je aan als verkooppunt
+          </Link>.
         </p>
       </Reveal>
     </div>
@@ -1465,6 +1467,137 @@ function ImpactPage() {
   );
 }
 
+function HorecaPage() {
+  useSEO({
+    title: "Vivace bij jou in de zaak — Horeca & Retail | Vivace Limoncello",
+    description:
+      "Wil je Vivace Limoncello serveren of verkopen in jouw restaurant, bar, slijterij of winkel? Meld je aan als verkooppunt en we nemen snel contact op.",
+  });
+
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+
+  // Reuses the same Formspree endpoint as the contact form, with a hidden
+  // subject line so horeca/retail aanvragen zijn direct herkenbaar in je inbox.
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mzdnjavv";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    const form = e.target;
+    const data = new FormData(form);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        setStatus("sent");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-2xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Voor horeca & retail</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Vivace bij jou in de zaak
+        </h1>
+        <p className="text-white/45 mb-12">
+          Restaurant, bar, slijterij of supermarkt en interesse om Vivace te serveren of te
+          verkopen? Vul onderstaand formulier in — we nemen binnen een paar dagen contact met je op.
+        </p>
+      </Reveal>
+
+      <Reveal delay={100}>
+        {status === "sent" ? (
+          <div className="border border-[#C9A04E]/30 p-8 text-center">
+            <p className="text-[#C9A04E] font-medium mb-2">Bedankt voor je aanvraag!</p>
+            <p className="text-white/40 text-sm">We nemen zo snel mogelijk contact met je op.</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <input type="hidden" name="_subject" value="Nieuwe horeca/retail aanvraag — Vivace" />
+            <input
+              type="text"
+              name="naam"
+              placeholder="Naam"
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <input
+              type="text"
+              name="zaak"
+              placeholder="Naam van je zaak"
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <select
+              name="type_zaak"
+              required
+              defaultValue=""
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white/70 focus:outline-none focus:border-[#D4AF37]/50"
+            >
+              <option value="" disabled>
+                Type zaak
+              </option>
+              <option value="Restaurant">Restaurant</option>
+              <option value="Bar / cafe">Bar / café</option>
+              <option value="Slijterij">Slijterij</option>
+              <option value="Supermarkt">Supermarkt</option>
+              <option value="Anders">Anders</option>
+            </select>
+            <input
+              type="text"
+              name="plaats"
+              placeholder="Plaats"
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="E-mailadres"
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <textarea
+              name="bericht"
+              placeholder="Vertel ons iets over je zaak (optioneel)"
+              rows={4}
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="bg-[#D4AF37] text-black px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
+            >
+              {status === "sending" ? "Versturen..." : "Verstuur aanvraag"}
+            </button>
+            {status === "error" && (
+              <p className="text-red-400 text-xs">
+                Er ging iets mis. Probeer het opnieuw of mail direct naar drinkvivace@gmail.com.
+              </p>
+            )}
+          </form>
+        )}
+      </Reveal>
+
+      <Reveal delay={200}>
+        <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
+          <p>Liever direct mailen? drinkvivace@gmail.com</p>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
 function ContactPage() {
   useSEO({
     title: "Contact — Vivace Limoncello",
@@ -1656,7 +1789,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Ben je een winkel of horecazaak en wil je Vivace verkopen?",
-        a: "Mooi! Neem contact met ons op via de contactpagina met wat informatie over je zaak, dan nemen we snel contact op.",
+        a: "Mooi! Vul het aanmeldformulier op onze horeca-pagina in met wat informatie over je zaak, dan nemen we snel contact op.",
       },
       {
         q: "Is er een minimumleeftijd om Vivace te kopen?",
@@ -2300,6 +2433,7 @@ function Footer() {
     { path: "/producten", label: "Producten" },
     { path: "/onze-impact", label: "Impact" },
     { path: "/verkooppunten", label: "Verkooppunten" },
+    { path: "/horeca", label: "Horeca" },
     { path: "/blog", label: "Blog" },
     { path: "/faq", label: "FAQ" },
     { path: "/over-ons", label: "Over ons" },
@@ -2400,6 +2534,7 @@ function AppShell() {
         <Route path="/verkooppunten" element={<StoresPage />} />
         <Route path="/over-ons" element={<AboutPage />} />
         <Route path="/onze-impact" element={<ImpactPage />} />
+        <Route path="/horeca" element={<HorecaPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/faq" element={<FAQPage />} />
