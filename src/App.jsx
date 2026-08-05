@@ -1221,6 +1221,14 @@ function AboutPage() {
                 distilleerderij die het hele proces verzorgt, van citroenschil tot afgevulde fles.
                 Italiaans recept, Nederlands vakmanschap.
               </p>
+              <p>
+                Die productie vindt plaats in de{" "}
+                <strong className="text-white/85">iconische Van Nelle Fabriek</strong>, een
+                voormalige koffie-, thee- en tabaksfabriek en UNESCO-werelderfgoed die inmiddels
+                onderdak biedt aan ambachtelijke makers zoals Stokerij Klopman. Industriële
+                geschiedenis, opnieuw tot leven gebracht — precies de laag die Vivace zijn
+                Rotterdamse hart geeft.
+              </p>
             </div>
             <div className="bg-[#0f1f33] border border-[#234060] p-8 space-y-5">
               <div>
@@ -1229,7 +1237,7 @@ function AboutPage() {
               </div>
               <div>
                 <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">Geproduceerd door</p>
-                <p className="text-white/70 text-sm">Stokerij Klopman, Rotterdam</p>
+                <p className="text-white/70 text-sm">Stokerij Klopman, Van Nelle Fabriek, Rotterdam</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">Land van oorsprong</p>
@@ -1747,7 +1755,6 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Limoncello Spritz — het klassieke recept",
     date: "2026-06-01",
-    image: "/images/vivace-instagram-recepten-spritz.png",
     excerpt: "De originele: fris, lichtzoet en gevuld met bubbels. Het recept waarmee alles begon.",
     ingredients: [
       { amount: 5, unit: "cl", name: "Vivace Limoncello" },
