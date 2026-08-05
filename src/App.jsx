@@ -1607,8 +1607,6 @@ function ContactPage() {
 
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
 
-  // Replace YOUR_FORM_ID below with the ID Formspree gives you after creating
-  // a form at formspree.io (free account, takes ~2 minutes, no credit card).
   const FORMSPREE_ENDPOINT = "https://formspree.io/f/mzdnjavv";
 
   const handleSubmit = async (e) => {
