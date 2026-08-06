@@ -782,9 +782,10 @@ function USPStrip() {
       <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-10">
         {USPS.map((item, i) => {
           const Icon = item.icon;
+          const isLastOdd = i === USPS.length - 1;
           return (
             <Reveal key={item.title} delay={i * 80}>
-              <div className="flex flex-col items-center text-center gap-3">
+              <div className={`flex flex-col items-center text-center gap-3 ${isLastOdd ? "col-span-2 md:col-span-1" : ""}`}>
                 <Icon size={28} color="#D4AF37" strokeWidth={1.5} />
                 <div>
                   <p className="text-white/85 text-[13px] font-medium leading-snug">{item.title}</p>
