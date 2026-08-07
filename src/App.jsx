@@ -1014,13 +1014,13 @@ function ProductsPage({ cart }) {
               {p.id === "limoncello" ? (
                 <img
                   src="/images/vivace-bottle-hero-v2.jpg"
-                  alt="Vivace Limoncello fles"
+                  alt="Vivace Limoncello fles, 500ml, ambachtelijk geproduceerd van biologische Sorrento-citroenen"
                   className="w-full max-w-[180px] h-auto rounded-sm shadow-xl shadow-black/30"
                 />
               ) : (
                 <img
                   src="/images/vivace-can-hero.jpg"
-                  alt="Vivace Limoncello Spritz blikje"
+                  alt="Vivace Limoncello Spritz blikje, kant-en-klare aperitief op basis van limoncello"
                   className="w-full max-w-[150px] h-auto rounded-sm shadow-xl shadow-black/30"
                 />
               )}
@@ -2315,7 +2315,43 @@ function BlogPostPage() {
       <Reveal delay={100}>
         {post.type === "recept" ? <RecipeBody post={post} /> : <ArticleBody post={post} />}
       </Reveal>
+      <RelatedPosts currentPost={post} />
     </div>
+  );
+}
+
+// Picks related posts for internal linking: prioritizes same type (e.g. more
+// recipes after a recipe) so a reader browsing serves stays on recipe
+// content, then fills any remaining slots from the rest of the blog.
+function RelatedPosts({ currentPost }) {
+  const sameType = BLOG_POSTS.filter((p) => p.id !== currentPost.id && p.type === currentPost.type);
+  const otherType = BLOG_POSTS.filter((p) => p.id !== currentPost.id && p.type !== currentPost.type);
+  const related = [...sameType, ...otherType].slice(0, 3);
+
+  if (related.length === 0) return null;
+
+  return (
+    <Reveal delay={200}>
+      <div className="mt-16 pt-10 border-t border-[#234060]">
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">Ontdek ook</p>
+        <div className="grid sm:grid-cols-3 gap-4">
+          {related.map((p) => (
+            <Link
+              key={p.id}
+              to={`/blog/${p.id}`}
+              className="border border-[#234060] hover:border-[#D4AF37]/40 transition-colors p-5 flex flex-col gap-2"
+            >
+              <span className="text-[9px] uppercase tracking-[0.2em] text-[#C9A04E]">
+                {BLOG_CATEGORIES.find((c) => c.id === p.type)?.label}
+              </span>
+              <span className="font-serif text-white/85 text-base leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                {p.title}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </Reveal>
   );
 }
 
