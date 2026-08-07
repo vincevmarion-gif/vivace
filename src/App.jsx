@@ -375,6 +375,7 @@ function useCart() {
 // route's SEO data changes. Falls back to a sensible default description
 // tag if one isn't already present in index.html.
 function useSEO({ title, description }) {
+  const location = useLocation();
   useEffect(() => {
     if (title) {
       document.title = title;
@@ -388,7 +389,28 @@ function useSEO({ title, description }) {
       }
       tag.setAttribute("content", description);
     }
-  }, [title, description]);
+
+    // Canonical + og:url were previously hardcoded to the homepage in
+    // index.html, which told search engines every route was a duplicate of
+    // "/". Keep both in sync with the actual current path instead.
+    const canonicalUrl = `https://drinkvivace.nl${location.pathname}`;
+
+    let canonicalTag = document.querySelector('link[rel="canonical"]');
+    if (!canonicalTag) {
+      canonicalTag = document.createElement("link");
+      canonicalTag.setAttribute("rel", "canonical");
+      document.head.appendChild(canonicalTag);
+    }
+    canonicalTag.setAttribute("href", canonicalUrl);
+
+    let ogUrlTag = document.querySelector('meta[property="og:url"]');
+    if (!ogUrlTag) {
+      ogUrlTag = document.createElement("meta");
+      ogUrlTag.setAttribute("property", "og:url");
+      document.head.appendChild(ogUrlTag);
+    }
+    ogUrlTag.setAttribute("content", canonicalUrl);
+  }, [title, description, location.pathname]);
 }
 
 // ---------- Nav ----------
