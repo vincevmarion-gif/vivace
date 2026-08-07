@@ -2046,6 +2046,7 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Tiramisu — een Italiaans dessert met een twist",
     date: "2026-08-06",
+    servingUnit: "Personen",
     excerpt: "Klassieke tiramisu, verrijkt met een scheut Vivace door de koffie. Romig, fris en net zo makkelijk als het origineel.",
     ingredients: [
       { amount: 250, unit: "g", name: "mascarpone" },
@@ -2160,6 +2161,7 @@ function BlogCard({ post, onOpen }) {
 
 function RecipeBody({ post }) {
   const [servings, setServings] = useState(1);
+  const unit = post.servingUnit || "Glazen"; // e.g. "Personen" for food recipes like desserts
   return (
     <div className="bg-[#102338] border border-[#234060] overflow-hidden">
       {post.image && (
@@ -2168,12 +2170,12 @@ function RecipeBody({ post }) {
       <div className="p-8 md:p-12">
       <div className="flex items-center justify-end mb-10">
         <div className="flex items-center gap-4">
-          <span className="text-white/35 text-[10px] uppercase tracking-[0.15em]">Glazen</span>
+          <span className="text-white/35 text-[10px] uppercase tracking-[0.15em]">{unit}</span>
           <div className="flex items-center gap-3 border border-[#234060]">
             <button
               onClick={() => setServings(Math.max(1, servings - 1))}
               className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
-              aria-label="Minder glazen"
+              aria-label={`Minder ${unit.toLowerCase()}`}
             >
               <Minus size={14} />
             </button>
@@ -2183,7 +2185,7 @@ function RecipeBody({ post }) {
             <button
               onClick={() => setServings(servings + 1)}
               className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
-              aria-label="Meer glazen"
+              aria-label={`Meer ${unit.toLowerCase()}`}
             >
               <Plus size={14} />
             </button>
