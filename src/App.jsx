@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu, Leaf, Award, Factory, Sparkles } from "lucide-react";
 import { Analytics } from "@vercel/analytics/react";
 
@@ -2158,10 +2158,10 @@ function formatBlogDate(dateStr) {
   return d.toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
 }
 
-function BlogCard({ post, onOpen }) {
+function BlogCard({ post }) {
   return (
-    <button
-      onClick={() => onOpen(post.id)}
+    <Link
+      to={`/blog/${post.id}`}
       className="text-left border border-[#234060] hover:border-[#D4AF37]/40 transition-colors flex flex-col h-full overflow-hidden"
     >
       {post.image && (
@@ -2177,7 +2177,7 @@ function BlogCard({ post, onOpen }) {
         <p className="text-white/45 text-sm leading-relaxed flex-1">{post.excerpt}</p>
         <span className="text-white/25 text-xs">{formatBlogDate(post.date)}</span>
       </div>
-    </button>
+    </Link>
   );
 }
 
@@ -2275,6 +2275,50 @@ function ArticleBody({ post }) {
   );
 }
 
+function BlogPostPage() {
+  const { id } = useParams();
+  const post = BLOG_POSTS.find((p) => p.id === id);
+
+  useSEO({
+    title: post ? `${post.title} | Vivace Limoncello` : "Niet gevonden | Vivace Limoncello",
+    description: post ? post.excerpt : "Deze pagina kon niet worden gevonden.",
+  });
+
+  if (!post) {
+    return (
+      <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto text-center">
+        <p className="text-white/45 mb-6">Deze pagina kon niet worden gevonden.</p>
+        <Link to="/blog" className="text-[#D4AF37] text-[11px] uppercase tracking-wider border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
+          ← Terug naar blog
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Link
+        to="/blog"
+        className="text-white/40 text-[11px] uppercase tracking-wider mb-10 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
+      >
+        ← Terug naar blog
+      </Link>
+      <Reveal>
+        <span className="text-[10px] uppercase tracking-[0.2em] text-[#C9A04E]">
+          {BLOG_CATEGORIES.find((c) => c.id === post.type)?.label}
+        </span>
+        <h1 className="font-serif text-3xl md:text-4xl mt-3 mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {post.title}
+        </h1>
+        <p className="text-white/30 text-xs mb-10">{formatBlogDate(post.date)}</p>
+      </Reveal>
+      <Reveal delay={100}>
+        {post.type === "recept" ? <RecipeBody post={post} /> : <ArticleBody post={post} />}
+      </Reveal>
+    </div>
+  );
+}
+
 function BlogPage() {
   useSEO({
     title: "Blog — Recepten, nieuws & verkooppunten | Vivace Limoncello",
@@ -2283,35 +2327,8 @@ function BlogPage() {
   });
 
   const [filter, setFilter] = useState("alle");
-  const [openId, setOpenId] = useState(null);
 
   const filtered = filter === "alle" ? BLOG_POSTS : BLOG_POSTS.filter((p) => p.type === filter);
-  const openPost = openId ? BLOG_POSTS.find((p) => p.id === openId) : null;
-
-  if (openPost) {
-    return (
-      <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
-        <button
-          onClick={() => setOpenId(null)}
-          className="text-white/40 text-[11px] uppercase tracking-wider mb-10 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
-        >
-          ← Terug naar blog
-        </button>
-        <Reveal>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#C9A04E]">
-            {BLOG_CATEGORIES.find((c) => c.id === openPost.type)?.label}
-          </span>
-          <h1 className="font-serif text-3xl md:text-4xl mt-3 mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            {openPost.title}
-          </h1>
-          <p className="text-white/30 text-xs mb-10">{formatBlogDate(openPost.date)}</p>
-        </Reveal>
-        <Reveal delay={100}>
-          {openPost.type === "recept" ? <RecipeBody post={openPost} /> : <ArticleBody post={openPost} />}
-        </Reveal>
-      </div>
-    );
-  }
 
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
@@ -2357,7 +2374,7 @@ function BlogPage() {
         <div className="grid md:grid-cols-2 gap-6">
           {filtered.map((post, i) => (
             <Reveal key={post.id} delay={150 + i * 80}>
-              <BlogCard post={post} onOpen={setOpenId} />
+              <BlogCard post={post} />
             </Reveal>
           ))}
         </div>
@@ -2685,6 +2702,7 @@ function AppShell() {
         <Route path="/horeca" element={<HorecaPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:id" element={<BlogPostPage />} />
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/privacybeleid" element={<PrivacyPage />} />
         <Route path="/algemene-voorwaarden" element={<TermsPage />} />
