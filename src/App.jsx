@@ -1538,7 +1538,7 @@ function PressPage() {
           over Vivace. Liever alles in één keer? Download de volledige perskit hieronder.
         </p>
         <a
-          href="/downloads/vivace-perskit.zip"
+          href="/images/vivace-perskit.zip"
           download
           className="inline-flex items-center gap-2 bg-[#D4AF37] text-black px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors"
         >
