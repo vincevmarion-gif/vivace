@@ -2719,8 +2719,15 @@ function AppShell() {
     if (confirmed) setShowWelcome(true);
   };
 
-  if (ageConfirmed === null) return <AgeGate onConfirm={handleAgeConfirm} />;
-  if (ageConfirmed === false) return <UnderageBlock />;
+  // Lock scroll on the real page while the age gate (or the underage block)
+  // is covering it, so it behaves exactly like before for real visitors —
+  // the difference is purely that the actual page now stays mounted in the
+  // DOM underneath instead of being replaced, so crawlers and link-preview
+  // bots (which don't click through interstitials) can still read real
+  // content, titles, and descriptions instead of only ever seeing the gate.
+  useEffect(() => {
+    document.body.style.overflow = ageConfirmed === true ? "" : "hidden";
+  }, [ageConfirmed]);
 
   return (
     <div className="bg-[#0a1628] text-white min-h-screen font-sans" style={{ fontFamily: "'DM Sans', sans-serif", backgroundColor: "#0a1628" }}>
@@ -2745,6 +2752,9 @@ function AppShell() {
       </Routes>
 
       <Footer />
+
+      {ageConfirmed === null && <AgeGate onConfirm={handleAgeConfirm} />}
+      {ageConfirmed === false && <UnderageBlock />}
     </div>
   );
 }
