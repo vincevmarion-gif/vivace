@@ -393,7 +393,7 @@ function useSEO({ title, description }) {
     // Canonical + og:url were previously hardcoded to the homepage in
     // index.html, which told search engines every route was a duplicate of
     // "/". Keep both in sync with the actual current path instead.
-    const canonicalUrl = `https://drinkvivace.nl${location.pathname}`;
+    const canonicalUrl = `https://www.drinkvivace.nl${location.pathname}`;
 
     let canonicalTag = document.querySelector('link[rel="canonical"]');
     if (!canonicalTag) {
@@ -2477,7 +2477,7 @@ function BlogPostPage() {
           "@type": "Recipe",
           name: post.title,
           description: post.excerpt,
-          image: `https://drinkvivace.nl${post.image || "/images/vivace-bottle-hero-v2.jpg"}`,
+          image: `https://www.drinkvivace.nl${post.image || "/images/vivace-bottle-hero-v2.jpg"}`,
           datePublished: post.date,
           recipeYield: post.servingUnit === "Personen" ? "1 portie" : "1 glas",
           recipeCategory: post.servingUnit === "Personen" ? "Dessert" : "Drank",
