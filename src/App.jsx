@@ -2477,15 +2477,21 @@ function BlogPostPage() {
           "@type": "Recipe",
           name: post.title,
           description: post.excerpt,
+          image: `https://drinkvivace.nl${post.image || "/images/vivace-bottle-hero-v2.jpg"}`,
+          datePublished: post.date,
+          recipeYield: post.servingUnit === "Personen" ? "1 portie" : "1 glas",
+          recipeCategory: post.servingUnit === "Personen" ? "Dessert" : "Drank",
+          recipeCuisine: "Italiaans",
+          keywords: `${post.title}, limoncello, Vivace`,
           recipeIngredient: post.ingredients.map((ing) => {
             const amt = formatRecipeAmount(ing.amount, 1);
             return amt ? `${amt} ${ing.unit} ${ing.name}`.replace(/\s+/g, " ").trim() : ing.name;
           }),
-          recipeInstructions: post.steps.map((step) => ({
+          recipeInstructions: post.steps.map((step, i) => ({
             "@type": "HowToStep",
+            position: i + 1,
             text: step,
           })),
-          ...(post.image ? { image: `https://drinkvivace.nl${post.image}` } : {}),
           author: { "@type": "Organization", name: "Vivace" },
         }
       : null
