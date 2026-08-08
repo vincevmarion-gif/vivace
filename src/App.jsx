@@ -413,6 +413,23 @@ function useSEO({ title, description }) {
   }, [title, description, location.pathname]);
 }
 
+// Injects page-specific JSON-LD structured data (e.g. FAQPage, Recipe) for
+// rich results in Google search. Cleans up on unmount/navigation so schema
+// from one page never lingers into another.
+function useJsonLd(data) {
+  const serialized = data ? JSON.stringify(data) : null;
+  useEffect(() => {
+    if (!serialized) return;
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = serialized;
+    document.head.appendChild(script);
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [serialized]);
+}
+
 // ---------- Nav ----------
 function Nav({ cart, setCartOpen }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -1848,6 +1865,19 @@ function FAQPage() {
       "Antwoorden op veelgestelde vragen over Vivace Limoncello: het product, verkooppunten en ons impactmodel.",
   });
 
+  useJsonLd({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_SECTIONS.flatMap((section) => section.items).map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
+  });
+
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
@@ -2283,6 +2313,27 @@ function BlogPostPage() {
     title: post ? `${post.title} | Vivace Limoncello` : "Niet gevonden | Vivace Limoncello",
     description: post ? post.excerpt : "Deze pagina kon niet worden gevonden.",
   });
+
+  useJsonLd(
+    post && post.type === "recept"
+      ? {
+          "@context": "https://schema.org",
+          "@type": "Recipe",
+          name: post.title,
+          description: post.excerpt,
+          recipeIngredient: post.ingredients.map((ing) => {
+            const amt = formatRecipeAmount(ing.amount, 1);
+            return amt ? `${amt} ${ing.unit} ${ing.name}`.replace(/\s+/g, " ").trim() : ing.name;
+          }),
+          recipeInstructions: post.steps.map((step) => ({
+            "@type": "HowToStep",
+            text: step,
+          })),
+          ...(post.image ? { image: `https://drinkvivace.nl${post.image}` } : {}),
+          author: { "@type": "Organization", name: "Vivace" },
+        }
+      : null
+  );
 
   if (!post) {
     return (
