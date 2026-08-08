@@ -1507,6 +1507,151 @@ function ImpactPage() {
   );
 }
 
+function PressPage() {
+  useSEO({
+    title: "Pers & Media — Vivace Limoncello",
+    description:
+      "Perskit voor Vivace Limoncello: logo's, productfoto's en een brand backgrounder. Alles op één plek voor pers en reviewers.",
+  });
+
+  const photos = [
+    { src: "/images/vivace-bottle-hero-v2.jpg", label: "Vivace Limoncello, flesfoto" },
+    { src: "/images/vivace-can-hero.jpg", label: "Vivace Limoncello Spritz, blikje" },
+    { src: "/images/vivace-colosseum-banner.jpg", label: "Colosseum, merkbeeld" },
+    { src: "/images/vivace-golden-hour.jpg", label: "Sfeerbeeld, golden hour" },
+  ];
+
+  const logos = [
+    { src: "/images/vivace-logo-transparent.png", label: "Logo — transparante achtergrond" },
+    { src: "/images/vivace-logo-navy-bg.png", label: "Logo — navy achtergrond" },
+  ];
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Pers &amp; Media</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Alles voor pers en reviewers, op één plek
+        </h1>
+        <p className="text-white/45 max-w-lg mb-10">
+          Logo's, productfoto's en een korte brand backgrounder — vrij te gebruiken bij het schrijven
+          over Vivace. Liever alles in één keer? Download de volledige perskit hieronder.
+        </p>
+        <a
+          href="/downloads/vivace-perskit.zip"
+          download
+          className="inline-flex items-center gap-2 bg-[#D4AF37] text-black px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors"
+        >
+          Download volledige perskit (.zip) <ChevronRight size={14} />
+        </a>
+      </Reveal>
+
+      {/* Backgrounder */}
+      <Reveal delay={100}>
+        <div className="border-t border-[#234060] mt-16 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Backgrounder</p>
+          <div className="space-y-5 text-white/55 leading-relaxed text-[15px] max-w-2xl">
+            <p>
+              Vivace is een premium Italiaanse limoncello, ambachtelijk geproduceerd door{" "}
+              <strong className="text-white/85">Stokerij Klopman</strong> in de iconische{" "}
+              <strong className="text-white/85">Van Nelle Fabriek</strong> in Rotterdam. Gemaakt van
+              de schil van biologische Sorrento-citroenen, suiker en graanalcohol — zonder
+              kunstmatige kleur- of smaakstoffen.
+            </p>
+            <p>
+              Voor elke verkochte fles gaat <strong className="text-white/85">€1 naar Stichting
+              Ambulance Wens</strong>, die de laatste wens van terminale, bedlegerige patiënten
+              vervult met kosteloos ambulancevervoer. Een vast bedrag per fles, transparant en
+              onafhankelijk van de verkoopprijs.
+            </p>
+            <p>
+              Het idee voor Vivace ontstond tijdens een reis naar Rome. De naam komt uit de muziek:
+              "vivace" is Italiaans voor "speel met leven en energie."
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Key facts */}
+      <Reveal delay={150}>
+        <div className="border-t border-[#234060] mt-14 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">Kernfeiten</p>
+          <div className="grid sm:grid-cols-2 gap-x-10 gap-y-4 max-w-2xl">
+            {[
+              ["Product", "Vivace Limoncello, 500ml, 30% ALC/VOL"],
+              ["Ingrediënten", "Biologische Sorrento-citroenen, suiker, graanalcohol"],
+              ["Geproduceerd door", "Stokerij Klopman, Van Nelle Fabriek, Rotterdam"],
+              ["Bedrijf", "VVM Trading (eenmanszaak), KVK 86618806"],
+              ["Impactmodel", "€1 per fles naar Stichting Ambulance Wens"],
+              ["Tagline", "Drink anders. Geniet anders."],
+            ].map(([label, value]) => (
+              <div key={label} className="border-b border-[#1c3450] pb-3">
+                <p className="text-[10px] uppercase tracking-wider text-white/35 mb-1">{label}</p>
+                <p className="text-white/75 text-sm">{value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Logos */}
+      <Reveal delay={200}>
+        <div className="border-t border-[#234060] mt-14 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">Logo</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {logos.map((logo) => (
+              <div key={logo.src} className="border border-[#234060]">
+                <div className={`flex items-center justify-center p-8 ${logo.src.includes("navy") ? "bg-[#0C1526]" : "bg-white"}`}>
+                  <img src={logo.src} alt={logo.label} className="max-h-16 w-auto" />
+                </div>
+                <a
+                  href={logo.src}
+                  download
+                  className="flex items-center justify-between px-4 py-3 text-[11px] uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#234060]"
+                >
+                  {logo.label} <ChevronRight size={12} />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Photos */}
+      <Reveal delay={250}>
+        <div className="border-t border-[#234060] mt-14 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">Productfoto's</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {photos.map((photo) => (
+              <div key={photo.src} className="border border-[#234060] overflow-hidden">
+                <img src={photo.src} alt={photo.label} className="w-full h-48 object-cover" />
+                <a
+                  href={photo.src}
+                  download
+                  className="flex items-center justify-between px-4 py-3 text-[11px] uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#234060]"
+                >
+                  {photo.label} <ChevronRight size={12} />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Contact */}
+      <Reveal delay={300}>
+        <div className="border-t border-[#234060] mt-14 pt-14 text-center">
+          <p className="font-serif italic text-2xl text-[#D4AF37] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Vragen voor een artikel of review?
+          </p>
+          <p className="text-white/40 text-sm mb-2">drinkvivace@gmail.com</p>
+          <p className="text-white/40 text-sm">+31 6 12 33 94 85</p>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
 function HorecaPage() {
   useSEO({
     title: "Vivace bij jou in de zaak — Horeca & Retail | Vivace Limoncello",
@@ -2686,6 +2831,7 @@ function Footer() {
     { path: "/onze-impact", label: "Impact" },
     { path: "/verkooppunten", label: "Verkooppunten" },
     { path: "/horeca", label: "Horeca" },
+    { path: "/pers", label: "Pers" },
     { path: "/blog", label: "Blog" },
     { path: "/faq", label: "FAQ" },
     { path: "/over-ons", label: "Over ons" },
@@ -2794,6 +2940,7 @@ function AppShell() {
         <Route path="/over-ons" element={<AboutPage />} />
         <Route path="/onze-impact" element={<ImpactPage />} />
         <Route path="/horeca" element={<HorecaPage />} />
+        <Route path="/pers" element={<PressPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:id" element={<BlogPostPage />} />
