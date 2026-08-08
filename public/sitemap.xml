@@ -5,6 +5,7 @@
   <url><loc>https://drinkvivace.nl/onze-impact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://drinkvivace.nl/verkooppunten</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://drinkvivace.nl/horeca</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://drinkvivace.nl/pers</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://drinkvivace.nl/over-ons</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://drinkvivace.nl/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://drinkvivace.nl/blog/spritz-klassiek</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
