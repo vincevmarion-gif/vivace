@@ -2331,6 +2331,22 @@ const BLOG_POSTS = [
       "Vanaf nu gaat €1 per verkochte fles Vivace naar Stichting Ambulance Wens. Aan het einde van ons eerste volledige verkoopjaar delen we hier precies hoeveel dat geworden is.",
     ],
   },
+  {
+    id: "achter-de-schermen-productie",
+    type: "nieuws",
+    title: "Achter de schermen: waar Vivace wordt gemaakt",
+    date: "2026-08-08",
+    image: "/images/vivace-van-nelle-fabriek.jpg",
+    excerpt: "Vivace ontstaat niet in een anonieme fabriekshal, maar op een van de meest bijzondere plekken van Rotterdam.",
+    body: [
+      "Vivace wordt niet gemaakt in een anonieme fabriekshal. Onze limoncello ontstaat op een van de meest bijzondere plekken van Rotterdam: de Van Nelle Fabriek.",
+      "De Van Nelle Fabriek werd in de vorige eeuw gebouwd voor de productie van koffie, thee en tabak. Tegenwoordig is het gebouw UNESCO Werelderfgoed en een broedplaats voor makers, ontwerpers en — in ons geval — een ambachtelijke stokerij.",
+      "Vivace wordt geproduceerd door Stokerij Klopman, een kleine, ambachtelijke distilleerderij die in 2017 begon in Haarlem. In 2022 verhuisde de stokerij naar de Van Nelle Fabriek, waar nu geproefd, geproduceerd en samengewerkt wordt met merken zoals Vivace.",
+      "Wat ons aansprak was niet alleen de locatie, maar ook de manier van werken. Kleine productiebatches. Korte lijnen. En een gezamenlijke receptuurbepaling — waarbij wij niet zomaar een label op andermans fles plakken, maar echt meedenken over hoe Vivace moet smaken.",
+      "Zo blijft elke fles Vivace herleidbaar tot een echte plek en een klein team vakmensen — geen anonieme toeleverancier, maar een partner die net zo veel om smaak en kwaliteit geeft als wij.",
+      "Ambachtelijk gemaakt. In het hart van Rotterdam. Drink anders. Geniet anders.",
+    ],
+  },
 ];
 
 function formatRecipeAmount(amount, servings) {
