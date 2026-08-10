@@ -1517,6 +1517,7 @@ function PressPage() {
   const photos = [
     { src: "/images/vivace-bottle-hero-v2.jpg", label: "Vivace Limoncello, flesfoto" },
     { src: "/images/vivace-can-hero.jpg", label: "Vivace Limoncello Spritz, blikje" },
+    { src: "/images/vivace-van-nelle-fabriek.jpg", label: "Van Nelle Fabriek, productielocatie" },
     { src: "/images/vivace-colosseum-banner.jpg", label: "Colosseum, merkbeeld" },
     { src: "/images/vivace-golden-hour.jpg", label: "Sfeerbeeld, golden hour" },
   ];
@@ -1567,6 +1568,11 @@ function PressPage() {
             <p>
               Het idee voor Vivace ontstond tijdens een reis naar Rome. De naam komt uit de muziek:
               "vivace" is Italiaans voor "speel met leven en energie."
+            </p>
+            <p>
+              <Link to="/blog/achter-de-schermen-productie" className="text-[#D4AF37] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
+                Lees het volledige verhaal over onze productielocatie →
+              </Link>
             </p>
           </div>
         </div>
@@ -1709,6 +1715,12 @@ function HorecaPage() {
           </svg>
           Liever appen?
         </a>
+        <p className="text-white/35 text-sm mb-12 -mt-8">
+          Benieuwd hoe Vivace wordt gemaakt?{" "}
+          <Link to="/blog/achter-de-schermen-productie" className="text-[#D4AF37]/80 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
+            Lees ons verhaal over Stokerij Klopman en de Van Nelle Fabriek
+          </Link>.
+        </p>
       </Reveal>
 
       <Reveal delay={100}>
