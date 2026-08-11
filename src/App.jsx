@@ -2335,6 +2335,7 @@ const BLOG_POSTS = [
     type: "nieuws",
     title: "Ons impactproject is bekend: Stichting Ambulance Wens",
     date: "2026-07-30",
+    image: "/images/stichting-ambulance-wens-logo.png",
     excerpt: "Vivace verbindt zich aan Stichting Ambulance Wens. Voortaan gaat €1 per verkochte fles naar hun werk.",
     body: [
       "We zijn trots om te delen welk impactproject Vivace steunt: Stichting Ambulance Wens.",
