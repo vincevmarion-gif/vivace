@@ -2107,6 +2107,7 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Limoncello Spritz — het klassieke recept",
     date: "2026-06-01",
+    image: "/images/vivace-spritz-klassiek-hero.jpg",
     excerpt: "De originele: fris, lichtzoet en gevuld met bubbels. Het recept waarmee alles begon.",
     ingredients: [
       { amount: 5, unit: "cl", name: "Vivace Limoncello" },
@@ -2128,6 +2129,7 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Spritz Light — lichter en langer",
     date: "2026-06-01",
+    image: "/images/vivace-spritz-light-hero.jpg",
     excerpt: "Iets lichter en langer, met meer bruiswater. Perfect voor een lange, warme middag.",
     ingredients: [
       { amount: 4, unit: "cl", name: "Vivace Limoncello" },
@@ -2148,6 +2150,7 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Spritz Intenso — voor de echte liefhebber",
     date: "2026-06-01",
+    image: "/images/vivace-spritz-intenso-hero.jpg",
     excerpt: "Voor wie de limoncello echt wil proeven: een stevigere pour met minder verdunning.",
     ingredients: [
       { amount: 7, unit: "cl", name: "Vivace Limoncello" },
@@ -2167,6 +2170,7 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Sour — romig en fris",
     date: "2026-08-05",
+    image: "/images/vivace-sour-hero.jpg",
     excerpt: "Een klassieke sour-twist: romig van schuim, fris van citrus, met Vivace als hoofdrolspeler.",
     ingredients: [
       { amount: 5, unit: "cl", name: "Vivace Limoncello" },
@@ -2189,6 +2193,7 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Tonic — de simpelste manier",
     date: "2026-08-05",
+    image: "/images/vivace-tonic-hero.jpg",
     excerpt: "Twee ingrediënten, één minuut werk. De makkelijkste manier om Vivace te ontdekken.",
     ingredients: [
       { amount: 5, unit: "cl", name: "Vivace Limoncello" },
@@ -2224,6 +2229,7 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Basil Smash — kruidig en verrassend",
     date: "2026-08-06",
+    image: "/images/vivace-basil-smash-hero.jpg",
     excerpt: "Verse basilicum en citrus, stevig geplet voor een geurige, verfrissende twist op de klassieke smash.",
     ingredients: [
       { amount: 5, unit: "cl", name: "Vivace Limoncello" },
@@ -2246,6 +2252,7 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Mule — pittig en bruisend",
     date: "2026-08-06",
+    image: "/images/vivace-mule-hero.jpg",
     excerpt: "Gemberbier en limoencello, met een vleugje pit. Een frisse twist op de klassieke mule.",
     ingredients: [
       { amount: 5, unit: "cl", name: "Vivace Limoncello" },
@@ -2267,6 +2274,7 @@ const BLOG_POSTS = [
     title: "Vivace Tiramisu — een Italiaans dessert met een twist",
     date: "2026-08-06",
     servingUnit: "Personen",
+    image: "/images/vivace-tiramisu-hero.jpg",
     excerpt: "Klassieke tiramisu, verrijkt met een scheut Vivace door de koffie. Romig, fris en net zo makkelijk als het origineel.",
     ingredients: [
       { amount: 250, unit: "g", name: "mascarpone" },
