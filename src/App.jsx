@@ -2525,6 +2525,23 @@ function BlogPostPage() {
             url: `https://www.drinkvivace.nl/blog/${post.id}#stap-${i + 1}`,
           })),
           author: { "@type": "Organization", name: "Vivace" },
+          ...(post.reviews && post.reviews.length > 0
+            ? {
+                aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue: (
+                    post.reviews.reduce((sum, r) => sum + r.rating, 0) / post.reviews.length
+                  ).toFixed(1),
+                  reviewCount: post.reviews.length,
+                },
+                review: post.reviews.map((r) => ({
+                  "@type": "Review",
+                  author: { "@type": "Person", name: r.name },
+                  reviewRating: { "@type": "Rating", ratingValue: r.rating },
+                  reviewBody: r.text,
+                })),
+              }
+            : {}),
         }
       : null
   );
@@ -2560,6 +2577,12 @@ function BlogPostPage() {
       <Reveal delay={100}>
         {post.type === "recept" ? <RecipeBody post={post} /> : <ArticleBody post={post} />}
       </Reveal>
+      {post.type === "recept" && (
+        <Reveal delay={150}>
+          <ReviewsDisplay post={post} />
+          <ReviewForm post={post} />
+        </Reveal>
+      )}
       <RelatedPosts currentPost={post} />
     </div>
   );
@@ -2568,6 +2591,126 @@ function BlogPostPage() {
 // Picks related posts for internal linking: prioritizes same type (e.g. more
 // recipes after a recipe) so a reader browsing serves stays on recipe
 // content, then fills any remaining slots from the rest of the blog.
+function ReviewStars({ rating, size = 14 }) {
+  return (
+    <span className="inline-flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((n) => (
+        <svg key={n} width={size} height={size} viewBox="0 0 24 24" fill={n <= rating ? "#D4AF37" : "none"} stroke="#D4AF37" strokeWidth="1.5">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+      ))}
+    </span>
+  );
+}
+
+// Reviews are manually curated, not auto-published — see ReviewForm below for
+// why. Each recipe post can carry an optional `reviews` array:
+// { name: "...", rating: 5, text: "..." }. Posts without real reviews yet
+// simply render nothing here, and are excluded from the Recipe schema's
+// aggregateRating entirely (no fabricated ratings).
+function ReviewsDisplay({ post }) {
+  if (!post.reviews || post.reviews.length === 0) return null;
+
+  return (
+    <div className="mt-12 pt-10 border-t border-[#234060]">
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">
+        Reviews ({post.reviews.length})
+      </p>
+      <div className="space-y-6">
+        {post.reviews.map((r, i) => (
+          <div key={i} className="border border-[#234060] p-5">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-white/85 text-sm font-medium">{r.name}</span>
+              <ReviewStars rating={r.rating} />
+            </div>
+            <p className="text-white/50 text-sm leading-relaxed">{r.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ReviewForm({ post }) {
+  const [status, setStatus] = useState("idle");
+  const [rating, setRating] = useState(5);
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mzdnjavv";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    const form = e.target;
+    const data = new FormData(form);
+    data.set("rating", String(rating));
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        setStatus("sent");
+        form.reset();
+        setRating(5);
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div className="mt-12 pt-10 border-t border-[#234060]">
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">Zelf geprobeerd?</p>
+      {status === "sent" ? (
+        <p className="text-[#C9A04E] text-sm">Bedankt voor je review! We plaatsen 'm binnenkort.</p>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+          <input type="hidden" name="_subject" value={`Nieuwe review — ${post.title}`} />
+          <input type="hidden" name="recept" value={post.title} />
+          <div className="flex items-center gap-3">
+            <span className="text-white/40 text-xs uppercase tracking-wider">Jouw beoordeling</span>
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button key={n} type="button" onClick={() => setRating(n)} aria-label={`${n} sterren`}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill={n <= rating ? "#D4AF37" : "none"} stroke="#D4AF37" strokeWidth="1.5">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                </button>
+              ))}
+            </div>
+          </div>
+          <input
+            type="text"
+            name="naam"
+            placeholder="Naam"
+            required
+            className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+          />
+          <textarea
+            name="review"
+            placeholder="Wat vond je ervan?"
+            required
+            rows={3}
+            className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+          />
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className="bg-[#D4AF37] text-black px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
+          >
+            {status === "sending" ? "Versturen..." : "Verstuur review"}
+          </button>
+          {status === "error" && (
+            <p className="text-red-400 text-xs">Er ging iets mis. Probeer het opnieuw.</p>
+          )}
+        </form>
+      )}
+    </div>
+  );
+}
+
 function RelatedPosts({ currentPost }) {
   const sameType = BLOG_POSTS.filter((p) => p.id !== currentPost.id && p.type === currentPost.type);
   const otherType = BLOG_POSTS.filter((p) => p.id !== currentPost.id && p.type !== currentPost.type);
