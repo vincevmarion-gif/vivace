@@ -2213,6 +2213,7 @@ const BLOG_POSTS = [
     type: "recept",
     title: "Vivace Puur — zo drink je hem traditioneel",
     date: "2026-08-05",
+    image: "/images/vivace-puur-hero.jpg",
     excerpt: "Geen cocktail, geen mixer. Zo serveren ze limoncello in Sorrento, en zo smaakt hij het best.",
     ingredients: [
       { amount: 4, unit: "cl", name: "Vivace Limoncello, ijskoud uit de vriezer" },
