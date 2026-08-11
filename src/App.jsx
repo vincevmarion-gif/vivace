@@ -2451,7 +2451,7 @@ function RecipeBody({ post }) {
           <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Bereiding</p>
           <ol className="space-y-4">
             {post.steps.map((step, i) => (
-              <li key={i} className="flex gap-4 text-sm text-white/55 leading-relaxed">
+              <li key={i} id={`stap-${i + 1}`} className="flex gap-4 text-sm text-white/55 leading-relaxed scroll-mt-32">
                 <span className="font-serif text-[#D4AF37] flex-shrink-0" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -2511,6 +2511,7 @@ function BlogPostPage() {
           recipeYield: post.servingUnit === "Personen" ? "1 portie" : "1 glas",
           recipeCategory: post.servingUnit === "Personen" ? "Dessert" : "Drank",
           recipeCuisine: "Italiaans",
+          cookTime: "PT0M",
           keywords: `${post.title}, limoncello, Vivace`,
           recipeIngredient: post.ingredients.map((ing) => {
             const amt = formatRecipeAmount(ing.amount, 1);
@@ -2519,7 +2520,9 @@ function BlogPostPage() {
           recipeInstructions: post.steps.map((step, i) => ({
             "@type": "HowToStep",
             position: i + 1,
+            name: `Stap ${i + 1}`,
             text: step,
+            url: `https://www.drinkvivace.nl/blog/${post.id}#stap-${i + 1}`,
           })),
           author: { "@type": "Organization", name: "Vivace" },
         }
