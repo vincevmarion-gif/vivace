@@ -2273,8 +2273,9 @@ const BLOG_POSTS = [
     id: "vivace-tiramisu",
     type: "recept",
     title: "Vivace Limoncello Tiramisu — het echte familierecept",
-    date: "2026-08-06",
+    date: "2026-08-08",
     servingUnit: "Personen",
+    baseServings: 6,
     recipeYield: "6 porties",
     image: "/images/vivace-tiramisu-hero.jpg",
     excerpt: "Ons eigen tiramisu-recept, al jaren gemaakt thuis — nu met een vleugje Vivace Limoncello in plaats van Marsala.",
@@ -2411,7 +2412,8 @@ function BlogCard({ post }) {
 }
 
 function RecipeBody({ post }) {
-  const [servings, setServings] = useState(1);
+  const baseServings = post.baseServings || 1; // e.g. 6 for a recipe whose listed amounts already serve 6
+  const [servings, setServings] = useState(baseServings);
   const unit = post.servingUnit || "Glazen"; // e.g. "Personen" for food recipes like desserts
   return (
     <div className="bg-[#102338] border border-[#234060] overflow-hidden">
@@ -2453,7 +2455,7 @@ function RecipeBody({ post }) {
                 <span>{ing.name}</span>
                 {ing.amount !== null && (
                   <span className="font-serif text-[#D4AF37] whitespace-nowrap" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                    {formatRecipeAmount(ing.amount, servings)} {ing.unit}
+                    {formatRecipeAmount(ing.amount, servings / baseServings)} {ing.unit}
                   </span>
                 )}
               </li>
