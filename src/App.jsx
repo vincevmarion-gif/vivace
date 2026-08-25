@@ -1397,10 +1397,9 @@ function ImpactPage() {
 
           <div className="space-y-4 text-white/55 leading-relaxed text-[15px] mb-8">
             <p>
-              Deze keuze is persoonlijk. Toen mijn vader vijftig werd, vroeg hij zijn gasten geen
-              cadeaus, maar een donatie aan Stichting Ambulance Wens. Dat moment is me altijd
-              bijgebleven, en het raakt precies waar Vivace voor staat: het leven vieren en
-              betekenisvolle momenten mogelijk maken, hoe klein of groot ook.
+              Deze keuze is bewust. Een laatste wens vervullen, nog één keer naar het strand, het
+              stadion, of gewoon nog één keer thuis — het raakt precies waar Vivace voor staat: het
+              leven vieren en betekenisvolle momenten mogelijk maken, hoe klein of groot ook.
             </p>
             <p>
               Vanaf nu gaat €1 per verkochte fles Vivace naar Stichting Ambulance Wens. Aan het
@@ -2355,7 +2354,7 @@ const BLOG_POSTS = [
     body: [
       "We zijn trots om te delen welk impactproject Vivace steunt: Stichting Ambulance Wens.",
       "Stichting Ambulance Wens vervult de laatste wens van terminale, bedlegerige patiënten, kosteloos en vaak al binnen één dag. Met speciaal gebouwde ambulances en honderden vrijwilligers maken zij nog één bijzondere dag mogelijk: het strand, het stadion, of gewoon nog één keer thuis.",
-      "Deze keuze is persoonlijk. Toen mijn vader vijftig werd, vroeg hij zijn gasten geen cadeaus, maar een donatie aan Stichting Ambulance Wens. Dat moment is me altijd bijgebleven, en het is precies waarom we deze samenwerking zijn aangegaan.",
+      "Deze keuze is bewust. Een laatste wens vervullen, hoe klein of groot ook, raakt precies waar Vivace voor staat: het leven vieren en betekenisvolle momenten mogelijk maken.",
       "Vanaf nu gaat €1 per verkochte fles Vivace naar Stichting Ambulance Wens. Aan het einde van ons eerste volledige verkoopjaar delen we hier precies hoeveel dat geworden is.",
     ],
   },
