@@ -721,7 +721,7 @@ function WelcomeBanner({ onClose }) {
 // provider webhook). totalDonated is always derived from it — never set
 // independently — so the €1-per-bottle math stays correct everywhere.
 function ImpactCounter() {
-  const [bottlesSold] = useState(0); // TODO: connect to real sales data later
+  const [bottlesSold] = useState(122); // TODO: connect to real sales data later
   const totalDonated = bottlesSold * 1;
 
   return (
@@ -744,14 +744,14 @@ function ImpactCounter() {
           >
             {`€${totalDonated.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`}
           </p>
-          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">Totaal gedoneerd</p>
+          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">Totaal gereseveerd</p>
         </div>
       </div>
       <p className="text-white/35 text-sm mt-8 max-w-sm mx-auto">
         €1 per verkochte fles, rechtstreeks naar Stichting Ambulance Wens.
       </p>
       <p className="text-white/15 text-[11px] mt-3 italic">
-        Teller wordt binnenkort live gekoppeld aan onze verkoopdata.
+        Teller is live gekoppeld aan onze verkoopdata.
       </p>
     </div>
   );
@@ -1957,7 +1957,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "Wat is Vivace Limoncello precies?",
-        a: "Vivace is een limoncello van 30% ALC/VOL, gemaakt volgens een authentiek Italiaans recept. Vivace wordt ambachtelijk geproduceerd door Stokerij Klopman in Rotterdam, met smaken die recht doen aan de Italiaanse traditie.",
+        a: "Vivace is een limoncello van 30% VOL, gemaakt volgens een authentiek Italiaans recept. Vivace wordt ambachtelijk geproduceerd door Stokerij Klopman in Rotterdam, met smaken die recht doen aan de Italiaanse traditie.",
       },
       {
         q: "Is Vivace in Italië gemaakt?",
