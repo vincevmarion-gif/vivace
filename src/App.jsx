@@ -1093,7 +1093,8 @@ function StoresPage() {
   });
 
   const realStockists = STOCKISTS.filter((s) => !isPlaceholderStockist(s));
-  const hasAnyCoords = realStockists.some((s) => typeof s.lat === "number" && typeof s.lng === "number");
+  const hasAnyCoords =
+    realStockists.filter((s) => typeof s.lat === "number" && typeof s.lng === "number").length >= 2;
 
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
