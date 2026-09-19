@@ -243,8 +243,8 @@ const STOCKISTS = [
     address: "Waalstraat 2a",
     postcode: "3171 AH",
     city: "Poortugaal",
-    lat: null,
-    lng: null,
+    lat: 51.856901,
+    lng: 4.391035,
     products: ["limoncello"],
   },
 ];
