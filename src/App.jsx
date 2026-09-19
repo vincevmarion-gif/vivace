@@ -225,10 +225,12 @@ const IMPACT_PARTNER = {
   logo: "/images/stichting-ambulance-wens-logo.png",
 };
 
-// PLACEHOLDER DATA — replace name, address, city, postcode, lat, and lng with
-// your real stockists' details. Once you have them, this is the only place
-// you need to edit; both the list below and the combined map build themselves
-// from this array automatically.
+// Verkooppunten. Voeg hier nieuwe verkooppunten toe; zowel de lijst als de
+// overzichtskaart bouwen zichzelf automatisch op vanuit deze array.
+//
+// lat/lng zijn optioneel. Zolang ze null zijn, toont de pagina wel de
+// verkooppunt-kaart met Google Maps-embed (op basis van het adres) en de
+// "Open in Maps"-knop, maar wordt de gecombineerde overzichtskaart verborgen.
 //
 // To find lat/lng for a real address: search the address on Google Maps,
 // right-click the exact pin location, and tap the coordinates that appear
@@ -236,31 +238,11 @@ const IMPACT_PARTNER = {
 // paste the two numbers in as lat and lng below.
 const STOCKISTS = [
   {
-    name: "[Naam supermarkt]",
+    name: "PLUS Rick Hoogendoorn",
     type: "Supermarkt",
-    address: "[Straat + huisnummer]",
-    postcode: "[Postcode]",
-    city: "[Plaats]",
-    lat: null,
-    lng: null,
-    products: ["limoncello"],
-  },
-  {
-    name: "[Naam slijterij]",
-    type: "Slijterij",
-    address: "[Straat + huisnummer]",
-    postcode: "[Postcode]",
-    city: "[Plaats]",
-    lat: null,
-    lng: null,
-    products: ["limoncello"],
-  },
-  {
-    name: "[Naam restaurant]",
-    type: "Restaurant",
-    address: "[Straat + huisnummer]",
-    postcode: "[Postcode]",
-    city: "[Plaats]",
+    address: "Waalstraat 2a",
+    postcode: "3171 AH",
+    city: "Poortugaal",
     lat: null,
     lng: null,
     products: ["limoncello"],
@@ -946,7 +928,9 @@ function HomePage() {
         <Reveal>
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Nu te koop</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Te vinden bij supermarkten, slijterijen en restaurants
+            {STOCKISTS.filter((s) => !isPlaceholderStockist(s)).length === 1
+              ? "Nu verkrijgbaar bij ons eerste verkooppunt"
+              : "Te vinden bij supermarkten, slijterijen en restaurants"}
           </h2>
         </Reveal>
         {STOCKISTS.every(isPlaceholderStockist) ? (
@@ -1108,6 +1092,9 @@ function StoresPage() {
       "Vind Vivace Limoncello bij supermarkten, slijterijen en restaurants bij jou in de buurt. Bekijk alle verkooppunten op de kaart.",
   });
 
+  const realStockists = STOCKISTS.filter((s) => !isPlaceholderStockist(s));
+  const hasAnyCoords = realStockists.some((s) => typeof s.lat === "number" && typeof s.lng === "number");
+
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
@@ -1136,15 +1123,17 @@ function StoresPage() {
         </Reveal>
       ) : (
         <>
-          <Reveal delay={50}>
-            <div className="mb-14">
-              <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Alle verkooppunten op de kaart</p>
-              <StoresMap stockists={STOCKISTS.filter((s) => !isPlaceholderStockist(s))} />
-            </div>
-          </Reveal>
+          {hasAnyCoords && (
+            <Reveal delay={50}>
+              <div className="mb-14">
+                <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Alle verkooppunten op de kaart</p>
+                <StoresMap stockists={realStockists} />
+              </div>
+            </Reveal>
+          )}
 
           <div className="space-y-10">
-            {STOCKISTS.filter((s) => !isPlaceholderStockist(s)).map((s, i) => (
+            {realStockists.map((s, i) => (
               <Reveal key={s.name} delay={i * 100}>
                 <div className="border border-[#234060] overflow-hidden">
                   <div className="p-6 flex items-center justify-between flex-wrap gap-4">
@@ -2101,6 +2090,19 @@ const BLOG_CATEGORIES = [
 ];
 
 const BLOG_POSTS = [
+  {
+    id: "eerste-verkooppunt-plus-poortugaal",
+    type: "verkooppunt",
+    title: "Ons eerste verkooppunt: PLUS Rick Hoogendoorn in Poortugaal",
+    date: "2026-09-19",
+    image: "/images/vivace-plus-schap.jpg",
+    excerpt: "Vivace Limoncello staat nu in het schap bij PLUS Rick Hoogendoorn, Waalstraat 2a in Poortugaal.",
+    body: [
+      "Het is zover: Vivace Limoncello is nu te koop bij ons allereerste verkooppunt, PLUS Rick Hoogendoorn in Poortugaal.",
+      "Je vindt Vivace aan de Waalstraat 2a, 3171 AH Poortugaal. Voor elke verkochte fles gaat €1 naar Stichting Ambulance Wens.",
+      "Wil je Vivace ook in jouw winkel of horecazaak? Meld je aan via onze horeca-pagina.",
+    ],
+  },
   {
     id: "spritz-klassiek",
     type: "recept",
