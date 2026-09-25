@@ -2526,6 +2526,18 @@ function ArticleBody({ post }) {
           </p>
         ))}
       </div>
+      {post.gallery && post.gallery.length > 0 && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 sm:gap-1.5 px-1 sm:px-1.5 pb-1 sm:pb-1.5">
+          {post.gallery.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt={`${post.title} — foto ${i + 2}`}
+              className="w-full h-40 sm:h-52 object-cover"
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
