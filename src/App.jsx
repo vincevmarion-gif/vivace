@@ -2091,6 +2091,28 @@ const BLOG_CATEGORIES = [
 ];
 
 const BLOG_POSTS = [
+    {
+    id: "rotterdam-halve-marathon-2026",
+    type: "nieuws",
+    title: "Vivace bij de Rotterdam Halve Marathon",
+    date: "2026-09-25",
+    image: "/images/vivace-halve-marathon-hero.jpg",
+    excerpt: "Zondag liepen we niet alleen de halve marathon van Rotterdam, we vierden het ook samen — met een glas Vivace.",
+    body: [
+      "\"Vivace.\" Waar komt die naam eigenlijk vandaan? Het is een muziekterm: speel met leven en energie. Wij noemden onze limoncello er niet voor niets naar.",
+      "Zondag bewezen we het tijdens de halve marathon van Rotterdam. Niet alleen gelopen, maar samen, op precies dat tempo.",
+      "En na afloop het liefst gevierd zoals het hoort: met elkaar, met een glas Vivace. Want het beste moment is het moment dat je deelt.",
+      "Proef het zelf bij onze verkooppunten.",
+    ],
+    gallery: [
+      "/images/vivace-halve-marathon-01.jpg",
+      "/images/vivace-halve-marathon-02.jpg",
+      "/images/vivace-halve-marathon-03.jpg",
+      "/images/vivace-halve-marathon-04.jpg",
+      "/images/vivace-halve-marathon-05.jpg",
+      "/images/vivace-halve-marathon-06.jpg",
+    ],
+  },
   {
     id: "eerste-verkooppunt-plus-poortugaal",
     type: "verkooppunt",
