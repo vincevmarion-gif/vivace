@@ -846,8 +846,7 @@ function HomePage() {
             className="font-serif text-6xl md:text-7xl lg:text-8xl leading-[0.95] mb-9"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
           >
-            <span className="font-semibold block">Drink</span>
-            <em className="italic text-[#D4AF37] block">anders.</em>
+            <span className="font-semibold block">Drink <em className="italic text-[#D4AF37] block">anders.</em>
             Geniet <em className="italic text-[#D4AF37]">anders</em>.
           </h1>
           <p className="text-white/50 text-base leading-relaxed max-w-md mb-8">
