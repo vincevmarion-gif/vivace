@@ -430,6 +430,7 @@ function Nav({ cart, setCartOpen }) {
     { path: "/onze-impact", label: "Impact" },
     { path: "/verkooppunten", label: "Verkooppunten" },
     { path: "/blog", label: "Blog" },
+    { path: "/reviews", label: "Reviews" },
     { path: "/faq", label: "FAQ" },
     { path: "/over-ons", label: "Over ons" },
     { path: "/contact", label: "Contact" },
@@ -444,18 +445,18 @@ function Nav({ cart, setCartOpen }) {
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-5">
         <Link
           to="/"
-          className="font-serif text-2xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase"
+          className="font-serif text-2xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase leading-none h-8 flex items-center"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
           Vivace
         </Link>
 
-        <ul className="hidden md:flex gap-10">
+        <ul className="hidden md:flex items-center gap-7 lg:gap-9">
           {links.map((l) => (
             <li key={l.path}>
               <Link
                 to={l.path}
-                className={`text-[11px] uppercase tracking-[0.16em] transition-colors ${
+                className={`h-8 flex items-center leading-none text-[11px] uppercase tracking-[0.16em] transition-colors ${
                   location.pathname === l.path ? "text-[#D4AF37]" : "text-white/50 hover:text-white"
                 }`}
               >
@@ -843,11 +844,15 @@ function HomePage() {
             Gemaakt in Nederland · Italiaanse ziel
           </p>
           <h1
-            className="font-serif text-6xl md:text-7xl lg:text-8xl leading-[0.95] mb-9"
+            className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] mb-9"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
           >
-            <span className="font-semibold block">Drink <em className="italic text-[#D4AF37] block">anders.</em>
-            Geniet <em className="italic text-[#D4AF37]">anders</em>.
+            <span className="block font-semibold">
+              Drink <em className="italic text-[#D4AF37]">anders.</em>
+            </span>
+            <span className="block font-semibold">
+              Geniet <em className="italic text-[#D4AF37]">anders.</em>
+            </span>
           </h1>
           <p className="text-white/50 text-base leading-relaxed max-w-md mb-8">
             Vivace is een premium limoncello, gemaakt met een Italiaans recept en een Nederlands hart.
@@ -2654,6 +2659,80 @@ function ReviewStars({ rating, size = 14 }) {
   );
 }
 
+// Algemene reviews over Vivace (niet aan een recept gekoppeld).
+// Voeg hier handmatig goedgekeurde reviews toe, bijvoorbeeld:
+// { name: "Naam", rating: 5, text: "Jouw review", date: "2026-10-01" }
+const GENERAL_REVIEWS = [];
+
+function ReviewsPage() {
+  useSEO({
+    title: "Reviews — Vivace Limoncello",
+    description: "Lees wat anderen vinden van Vivace Limoncello en onze recepten.",
+  });
+
+  const recipeReviews = BLOG_POSTS.filter((p) => p.reviews && p.reviews.length > 0).flatMap((p) =>
+    p.reviews.map((r) => ({ ...r, source: p.title, sourceId: p.id }))
+  );
+  const all = [...GENERAL_REVIEWS, ...recipeReviews];
+  const average = all.length > 0 ? all.reduce((s, r) => s + r.rating, 0) / all.length : 0;
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Reviews</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Wat anderen van Vivace vinden
+        </h1>
+        {all.length > 0 && (
+          <div className="flex items-center gap-3 mb-10">
+            <ReviewStars rating={Math.round(average)} size={18} />
+            <span className="text-white/50 text-sm">
+              {average.toFixed(1)} · {all.length} {all.length === 1 ? "review" : "reviews"}
+            </span>
+          </div>
+        )}
+      </Reveal>
+
+      {all.length === 0 ? (
+        <Reveal delay={100}>
+          <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center mb-4">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">Binnenkort</p>
+            <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Hier verschijnen binnenkort de eerste reviews.
+            </p>
+          </div>
+        </Reveal>
+      ) : (
+        <div className="space-y-6">
+          {all.map((r, i) => (
+            <Reveal key={i} delay={100 + i * 60}>
+              <div className="border border-[#234060] p-5">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-white/85 text-sm font-medium">{r.name}</span>
+                  <ReviewStars rating={r.rating} />
+                </div>
+                <p className="text-white/50 text-sm leading-relaxed">{r.text}</p>
+                {r.source && (
+                  <Link
+                    to={`/blog/${r.sourceId}`}
+                    className="inline-block mt-3 text-[10px] uppercase tracking-wider text-[#C9A04E] hover:text-[#D4AF37] transition-colors"
+                  >
+                    Over: {r.source} →
+                  </Link>
+                )}
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      )}
+
+      <Reveal delay={150}>
+        <ReviewForm post={{ title: "Vivace Limoncello (algemeen)" }} />
+      </Reveal>
+    </div>
+  );
+}
+
 // Reviews are manually curated, not auto-published — see ReviewForm below for
 // why. Each recipe post can carry an optional `reviews` array:
 // { name: "...", rating: 5, text: "..." }. Posts without real reviews yet
@@ -3076,6 +3155,7 @@ function Footer() {
     { path: "/horeca", label: "Horeca" },
     { path: "/pers", label: "Pers" },
     { path: "/blog", label: "Blog" },
+    { path: "/reviews", label: "Reviews" },
     { path: "/faq", label: "FAQ" },
     { path: "/over-ons", label: "Over ons" },
     { path: "/contact", label: "Contact" },
@@ -3187,6 +3267,7 @@ function AppShell() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:id" element={<BlogPostPage />} />
+        <Route path="/reviews" element={<ReviewsPage />} />
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/privacybeleid" element={<PrivacyPage />} />
         <Route path="/algemene-voorwaarden" element={<TermsPage />} />
