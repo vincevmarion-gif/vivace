@@ -1034,18 +1034,18 @@ function ProductsPage({ cart }) {
         {Object.values(PRODUCTS).map((p, i) => (
           <Reveal key={p.id} delay={i * 120}>
             <div className="bg-[#102338] p-10 md:p-12 flex flex-col items-center text-center gap-6 h-full">
-              <div className="w-full h-72 flex items-center justify-center">
+              <div className="w-full max-w-[288px] aspect-square">
                 {p.id === "limoncello" ? (
                   <img
                     src="/images/vivace-bottle-hero-v2.jpg"
                     alt="Vivace Limoncello fles, 500ml, ambachtelijk geproduceerd van biologische Sorrento-citroenen"
-                    className="max-h-full max-w-full w-auto h-auto object-contain rounded-sm shadow-xl shadow-black/30"
+                    className="w-full h-full object-cover rounded-sm shadow-xl shadow-black/30"
                   />
                 ) : (
                   <img
                     src="/images/vivace-can-hero.jpg"
                     alt="Vivace Limoncello Spritz blikje, kant-en-klare aperitief op basis van limoncello"
-                    className="max-h-full max-w-full w-auto h-auto object-contain rounded-sm shadow-xl shadow-black/30"
+                    className="w-full h-full object-cover rounded-sm shadow-xl shadow-black/30"
                   />
                 )}
               </div>
@@ -1063,7 +1063,7 @@ function ProductsPage({ cart }) {
                 <p className="text-white/15 text-[10px] tracking-wide mb-6">{p.kcal}</p>
               </div>
 
-              <div className="w-full mt-auto">
+              <div className="w-full">
                 {p.comingSoon ? (
                   <button
                     disabled
@@ -1091,12 +1091,12 @@ function ProductsPage({ cart }) {
                 )}
               </div>
               {p.comingSoon && (
-                <p className="text-white/25 text-[10px] max-w-xs">
+                <p className="text-white/25 text-[10px] max-w-xs min-h-[3rem]">
                   Vivace Spritz is in ontwikkeling. Binnenkort beschikbaar.
                 </p>
               )}
               {!p.onlineSellable && !p.comingSoon && (
-                <p className="text-white/25 text-[10px] max-w-xs">
+                <p className="text-white/25 text-[10px] max-w-xs min-h-[3rem]">
                   Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een
                   erkende slijterij. Vivace Limoncello is daarom te koop bij onze partners.
                 </p>
