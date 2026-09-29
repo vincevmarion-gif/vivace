@@ -430,7 +430,6 @@ function Nav({ cart, setCartOpen }) {
     { path: "/onze-impact", label: "Impact" },
     { path: "/verkooppunten", label: "Verkooppunten" },
     { path: "/blog", label: "Blog" },
-    { path: "/reviews", label: "Reviews" },
     { path: "/faq", label: "FAQ" },
     { path: "/over-ons", label: "Over ons" },
     { path: "/contact", label: "Contact" },
@@ -442,7 +441,7 @@ function Nav({ cart, setCartOpen }) {
         scrolled ? "bg-[#0a1628]/95 border-b border-[#1c3450]" : "bg-gradient-to-b from-[#0a1628]/90 to-transparent"
       }`}
     >
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-5">
+      <div className="w-full flex items-center justify-between px-6 md:px-14 py-5">
         <Link
           to="/"
           className="font-serif text-2xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase leading-none h-8 flex items-center"
@@ -831,7 +830,7 @@ function HomePage() {
 
   return (
     <div>
-      <section className="min-h-screen grid md:grid-cols-2 items-center px-6 md:px-14 pt-32 pb-20 relative overflow-hidden">
+      <section className="min-h-[88vh] grid md:grid-cols-2 gap-10 items-center px-6 md:px-14 pt-28 pb-12 relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -844,7 +843,7 @@ function HomePage() {
             Gemaakt in Nederland · Italiaanse ziel
           </p>
           <h1
-            className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] mb-9"
+            className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.95] mb-9"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
           >
             <span className="block font-semibold">
@@ -881,7 +880,7 @@ function HomePage() {
         </div>
 
         <div className="relative z-10 flex items-center justify-center mt-16 md:mt-0">
-          <div className="w-full max-w-md md:max-w-lg">
+          <div className="w-full max-w-md md:max-w-xl">
             <img
               src="/images/vivace-bottle-hero-v2.jpg"
               alt="Vivace Limoncello fles met citroenen en uitzicht op de Amalfikust"
@@ -989,6 +988,25 @@ function HomePage() {
             Vivace. Italiaans voor<br />"speel met leven<br />en energie."
           </p>
         </div>
+      </section>
+
+      {/* Reviews teaser — links through to the full /reviews page */}
+      <section className="px-6 md:px-14 py-20 border-t border-[#234060] text-center">
+        <Reveal>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Reviews</p>
+          <h2 className="font-serif text-3xl md:text-4xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Wat vinden anderen van Vivace?
+          </h2>
+          <p className="text-white/45 text-sm max-w-md mx-auto mb-8">
+            Lees de ervaringen van anderen, of laat zelf weten wat je ervan vindt.
+          </p>
+          <Link
+            to="/reviews"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+          >
+            Bekijk reviews <ChevronRight size={14} />
+          </Link>
+        </Reveal>
       </section>
 
       <style>{`@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }`}</style>
