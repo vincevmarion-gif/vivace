@@ -26,6 +26,28 @@ function InstagramIcon({ size = 18, className = "" }) {
   );
 }
 
+const LINKEDIN_URL = "https://www.linkedin.com/company/drinkvivace/";
+
+function LinkedInIcon({ size = 18, className = "" }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+
 function BottleSVG({ size = 110 }) {
   const h = size * (380 / 110);
   return (
@@ -1665,6 +1687,14 @@ function PressPage() {
           </p>
           <p className="text-white/40 text-sm mb-2">drinkvivace@gmail.com</p>
           <p className="text-white/40 text-sm">+31 6 12 33 94 85</p>
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-white/40 text-sm mt-4 hover:text-[#D4AF37] transition-colors"
+          >
+            <LinkedInIcon size={16} /> Vivace op LinkedIn
+          </a>
         </div>
       </Reveal>
     </div>
@@ -1813,6 +1843,17 @@ function HorecaPage() {
       <Reveal delay={200}>
         <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
           <p>Liever direct mailen? drinkvivace@gmail.com</p>
+          <p>
+            Of volg ons op{" "}
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#D4AF37]/70 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors"
+            >
+              LinkedIn
+            </a>
+          </p>
         </div>
       </Reveal>
     </div>
@@ -3196,6 +3237,15 @@ function Footer() {
             aria-label="Vivace op Instagram"
           >
             <InstagramIcon size={18} />
+          </a>
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/30 hover:text-[#D4AF37] transition-colors"
+            aria-label="Vivace op LinkedIn"
+          >
+            <LinkedInIcon size={18} />
           </a>
         </div>
         <p className="font-serif italic text-sm text-white/20 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
