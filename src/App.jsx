@@ -1554,7 +1554,6 @@ function PressPage() {
     { src: "/images/vivace-can-hero.jpg", label: "Vivace Limoncello Spritz, blikje" },
     { src: "/images/vivace-van-nelle-fabriek.jpg", label: "Van Nelle Fabriek, productielocatie" },
     { src: "/images/vivace-colosseum-banner.jpg", label: "Colosseum, merkbeeld" },
-    { src: "/images/vivace-golden-hour.jpg", label: "Sfeerbeeld, golden hour" },
   ];
 
   const logos = [
