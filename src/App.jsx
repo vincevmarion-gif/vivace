@@ -447,6 +447,7 @@ function Nav() {
   }, []);
 
   const links = [
+    { path: "/", label: "Home" },
     { path: "/producten", label: "Producten" },
     { path: "/onze-impact", label: "Impact" },
     { path: "/verkooppunten", label: "Verkooppunten" },
