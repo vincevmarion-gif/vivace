@@ -699,8 +699,8 @@ function WelcomeBanner({ onClose }) {
         </p>
 
         <p className="text-[#0F1F33]/80 text-sm md:text-base leading-relaxed max-w-sm mx-auto mb-2">
-          Welkom bij Vivace. Elke fles Vivace draagt bij aan een
-          geselecteerd impactproject.
+          Welkom bij Vivace. Met elke fles Vivace steun je
+          Stichting Ambulance Wens.
         </p>
         <p className="text-[#0F1F33]/50 text-xs md:text-sm">
           €1 per fles, transparant en zonder omwegen.
