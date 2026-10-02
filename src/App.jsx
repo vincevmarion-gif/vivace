@@ -699,7 +699,7 @@ function WelcomeBanner({ onClose }) {
         </p>
 
         <p className="text-[#0F1F33]/80 text-sm md:text-base leading-relaxed max-w-sm mx-auto mb-2">
-          Welkom bij Vivace. Met elke fles die wordt verkocht, draag je al bij aan een
+          Welkom bij Vivace. Elke fles Vivace draagt bij aan een
           geselecteerd impactproject.
         </p>
         <p className="text-[#0F1F33]/50 text-xs md:text-sm">
@@ -721,12 +721,12 @@ function WelcomeBanner({ onClose }) {
 }
 
 // ---------- Impact Counter ----------
-// bottlesSold connects to real sales data later (e.g. backend or payment
+// bottlesPurchased connects to real sales data later (e.g. backend or payment
 // provider webhook). totalDonated is always derived from it — never set
 // independently — so the €1-per-bottle math stays correct everywhere.
 function ImpactCounter() {
-  const [bottlesSold] = useState(122); // TODO: connect to real sales data later
-  const totalDonated = bottlesSold * 1;
+  const [bottlesPurchased] = useState(122); // TODO: connect to real sales data later
+  const totalDonated = bottlesPurchased * 1;
 
   return (
     <div className="text-center">
@@ -737,9 +737,9 @@ function ImpactCounter() {
             className="font-serif text-[#D4AF37]"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 700, lineHeight: 1 }}
           >
-            {bottlesSold.toLocaleString("nl-NL")}
+            {bottlesPurchased.toLocaleString("nl-NL")}
           </p>
-          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">Flessen verkocht</p>
+          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">Flessen in onze eerste batch</p>
         </div>
         <div>
           <p
@@ -748,14 +748,14 @@ function ImpactCounter() {
           >
             {`€${totalDonated.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`}
           </p>
-          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">Totaal gereseveerd</p>
+          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">Gereserveerd voor Stichting Ambulance Wens</p>
         </div>
       </div>
       <p className="text-white/35 text-sm mt-8 max-w-sm mx-auto">
-        €1 per verkochte fles, rechtstreeks naar Stichting Ambulance Wens.
+        €1 per fles, rechtstreeks naar Stichting Ambulance Wens.
       </p>
-      <p className="text-white/15 text-[11px] mt-3 italic">
-        Teller is live gekoppeld aan onze verkoopdata.
+      <p className="text-white/45 text-[11px] mt-3 italic">
+        We werken dit per batch bij en maken het bedrag aan het einde van het jaar in één keer over.
       </p>
     </div>
   );
@@ -847,7 +847,7 @@ function HomePage() {
   useSEO({
     title: "Vivace Limoncello — Drink anders. Geniet anders.",
     description:
-      "Vivace is premium Italiaanse limoncello, geproduceerd in Nederland. Voor elke fles die wordt verkocht, gaat €1 naar Stichting Ambulance Wens.",
+      "Vivace is premium Italiaanse limoncello, geproduceerd in Nederland. Voor elke fles gaat €1 naar Stichting Ambulance Wens.",
   });
 
   return (
@@ -877,7 +877,7 @@ function HomePage() {
           </h1>
           <p className="text-white/50 text-base leading-relaxed max-w-md mb-8">
             Vivace is een premium limoncello, gemaakt met een Italiaans recept en een Nederlands hart.
-            <strong className="text-white/85 font-medium"> €1 van elke verkochte fles gaat naar Stichting Ambulance Wens.</strong>
+            <strong className="text-white/85 font-medium"> €1 per fles gaat naar Stichting Ambulance Wens.</strong>
           </p>
           <Link
             to="/onze-impact"
@@ -937,7 +937,7 @@ function HomePage() {
             €1
           </span>
           <p className="text-black/50 text-[13px] font-semibold tracking-[0.3em] uppercase mt-6">
-            Per verkochte fles, naar Stichting Ambulance Wens
+            Per fles, naar Stichting Ambulance Wens
           </p>
           <Link
             to="/onze-impact"
@@ -1265,7 +1265,7 @@ function AboutPage() {
           </p>
           <p>
             Zo werd Vivace een premium limoncello met een Italiaans recept en een Nederlands hart —
-            gebouwd rond één vast principe: <strong className="text-white/85">€1 per verkochte fles gaat naar
+            gebouwd rond één vast principe: <strong className="text-white/85">€1 per fles gaat naar
             Stichting Ambulance Wens,</strong> transparant en herleidbaar.
           </p>
         </div>
@@ -1351,7 +1351,7 @@ function ImpactPage() {
   useSEO({
     title: "Onze Impact — €1 per fles naar Stichting Ambulance Wens | Vivace Limoncello",
     description:
-      "Ontdek hoe Vivace premium limoncello combineert met sociale impact: €1 van elke verkochte fles gaat naar Stichting Ambulance Wens. Transparant duurzaam ondernemen, geen omwegen.",
+      "Ontdek hoe Vivace premium limoncello combineert met sociale impact: €1 per fles gaat naar Stichting Ambulance Wens. Transparant duurzaam ondernemen, geen omwegen.",
   });
 
   return (
@@ -1366,7 +1366,7 @@ function ImpactPage() {
       <Reveal delay={100}>
         <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
           <p>
-            Voor elke fles Vivace die verkocht wordt, leggen we <strong className="text-white/85">€1
+            Voor elke fles Vivace leggen we <strong className="text-white/85">€1
             opzij voor Stichting Ambulance Wens.</strong> Geen percentage van de winst, geen
             constructie die verandert als een kwartaal tegenzit: een vast bedrag, per fles,
             ongeacht de verkoopprijs die een winkel of horecazaak hanteert.
@@ -1393,8 +1393,8 @@ function ImpactPage() {
           </h2>
           <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
             <p>
-              Bij elke fles die verkocht wordt, leggen we €1 opzij in een pot die het hele jaar
-              door groeit. Aan het einde van het jaar tellen we alles op en maken we het volledige
+              We zetten die €1 al apart zodra we een batch Vivace inkopen, in een pot die met elke
+              batch groeit. Aan het einde van het jaar tellen we alles op en maken we het volledige
               bedrag in één keer over aan Stichting Ambulance Wens.
             </p>
             <p>
@@ -1438,7 +1438,7 @@ function ImpactPage() {
               leven vieren en betekenisvolle momenten mogelijk maken, hoe klein of groot ook.
             </p>
             <p>
-              Vanaf nu gaat €1 per verkochte fles Vivace naar Stichting Ambulance Wens. Aan het
+              Vanaf nu gaat €1 per fles Vivace naar Stichting Ambulance Wens. Aan het
               einde van ons eerste volledige verkoopjaar maken we het opgespaarde bedrag in één
               keer over, en delen we hier precies hoeveel dat geworden is.
             </p>
@@ -1594,7 +1594,7 @@ function PressPage() {
               kunstmatige kleur- of smaakstoffen.
             </p>
             <p>
-              Voor elke verkochte fles gaat <strong className="text-white/85">€1 naar Stichting
+              Voor elke fles gaat <strong className="text-white/85">€1 naar Stichting
               Ambulance Wens</strong>, die de laatste wens van terminale, bedlegerige patiënten
               vervult met kosteloos ambulancevervoer. Een vast bedrag per fles, transparant en
               onafhankelijk van de verkoopprijs.
@@ -2061,7 +2061,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "Hoe werkt het donatiemodel van Vivace?",
-        a: "Voor elke verkochte fles Vivace doneren we €1 aan Stichting Ambulance Wens. Een vast bedrag, per fles, onafhankelijk van marge of omzet. Lees meer op onze Onze Impact-pagina.",
+        a: "Voor elke fles Vivace doneren we €1 aan Stichting Ambulance Wens. Een vast bedrag, per fles, onafhankelijk van marge of omzet. We zetten het al apart bij het inkopen van elke batch. Lees meer op onze Onze Impact-pagina.",
       },
       {
         q: "Waarom een vast bedrag per fles, in plaats van een percentage van de winst?",
@@ -2186,7 +2186,7 @@ const BLOG_POSTS = [
     excerpt: "Vivace Limoncello staat nu in het schap bij PLUS Rick Hoogendoorn, Waalstraat 2a in Poortugaal.",
     body: [
       "Het is zover: Vivace Limoncello is nu te koop bij ons allereerste verkooppunt, PLUS Rick Hoogendoorn in Poortugaal.",
-      "Je vindt Vivace aan de Waalstraat 2a, 3171 AH Poortugaal. Voor elke verkochte fles gaat €1 naar Stichting Ambulance Wens.",
+      "Je vindt Vivace aan de Waalstraat 2a, 3171 AH Poortugaal. Voor elke fles gaat €1 naar Stichting Ambulance Wens.",
       "Wil je Vivace ook in jouw winkel of horecazaak? Meld je aan via onze horeca-pagina.",
     ],
   },
@@ -2401,7 +2401,7 @@ const BLOG_POSTS = [
     body: [
       "Drink anders. Geniet anders.",
       "Maak kennis met Vivace: een premium limoncello, gemaakt volgens een authentiek Italiaans recept, met een Nederlands hart.",
-      "Vivace is meer dan een drankje. Voor elke fles die verkocht wordt, doneren we €1 aan Stichting Ambulance Wens. Geen vage belofte, gewoon een vast bedrag, per fles, transparant te herleiden.",
+      "Vivace is meer dan een drankje. Voor elke fles doneren we €1 aan Stichting Ambulance Wens. Geen vage belofte, gewoon een vast bedrag, per fles, transparant te herleiden.",
       "Premium kwaliteit. Een heldere belofte. Bij elke borrel.",
       "Binnenkort te vinden bij geselecteerde verkooppunten bij jou in de buurt.",
     ],
@@ -2439,12 +2439,12 @@ const BLOG_POSTS = [
     title: "Ons impactproject is bekend: Stichting Ambulance Wens",
     date: "2026-07-30",
     image: "/images/stichting-ambulance-wens-logo.png",
-    excerpt: "Vivace verbindt zich aan Stichting Ambulance Wens. Voortaan gaat €1 per verkochte fles naar hun werk.",
+    excerpt: "Vivace verbindt zich aan Stichting Ambulance Wens. Voortaan gaat €1 per fles naar hun werk.",
     body: [
       "We zijn trots om te delen welk impactproject Vivace steunt: Stichting Ambulance Wens.",
       "Stichting Ambulance Wens vervult de laatste wens van terminale, bedlegerige patiënten, kosteloos en vaak al binnen één dag. Met speciaal gebouwde ambulances en honderden vrijwilligers maken zij nog één bijzondere dag mogelijk: het strand, het stadion, of gewoon nog één keer thuis.",
       "Deze keuze is bewust. Een laatste wens vervullen, hoe klein of groot ook, raakt precies waar Vivace voor staat: het leven vieren en betekenisvolle momenten mogelijk maken.",
-      "Vanaf nu gaat €1 per verkochte fles Vivace naar Stichting Ambulance Wens. Aan het einde van ons eerste volledige verkoopjaar delen we hier precies hoeveel dat geworden is.",
+      "Vanaf nu gaat €1 per fles Vivace naar Stichting Ambulance Wens. Aan het einde van ons eerste volledige verkoopjaar delen we hier precies hoeveel dat geworden is.",
     ],
   },
   {
@@ -3121,7 +3121,7 @@ function TermsPage() {
           Algemene voorwaarden
         </h1>
         <p className="text-white/45 max-w-lg mb-14">
-          Laatst bijgewerkt: 28 juni 2026. Deze voorwaarden zijn van toepassing op het gebruik van deze
+          Laatst bijgewerkt: 2 oktober 2026. Deze voorwaarden zijn van toepassing op het gebruik van deze
           website en op de informatie die hierop wordt aangeboden.
         </p>
       </Reveal>
@@ -3157,10 +3157,10 @@ function TermsPage() {
 
         <LegalSection title="4. Impact- en donatiemodel">
           <p>
-            Vivace doneert €1 per verkochte fles aan Stichting Ambulance Wens. Dit bedrag is
+            Vivace doneert €1 per fles aan Stichting Ambulance Wens. Dit bedrag is
             vast en wordt niet beïnvloed door de verkoopprijs die door individuele verkooppunten
-            wordt gehanteerd. De op deze website weergegeven tellers (aantal verkochte flessen en
-            totaal gedoneerd bedrag) zijn indicatief en worden periodiek bijgewerkt; zie ook onze{" "}
+            wordt gehanteerd. De op deze website weergegeven tellers (aantal flessen in de eerste batch en
+            het gereserveerde bedrag) zijn indicatief en worden per batch bijgewerkt; zie ook onze{" "}
             <Link to="/onze-impact" className="text-[#D4AF37] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
               Onze Impact-pagina
             </Link>{" "}
