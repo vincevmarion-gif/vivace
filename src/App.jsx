@@ -4,7 +4,7 @@ import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu, Leaf, Award, F
 import { Analytics } from "@vercel/analytics/react";
 
 // ---------- Shared bottle / can SVGs ----------
-// Self-contained Instagram icon (inline SVG) — not from lucide-react, since
+// Self-contained Instagram icon (inline SVG), not from lucide-react, since
 // that icon name isn't exported by the installed package version.
 function InstagramIcon({ size = 18, className = "" }) {
   return (
@@ -227,7 +227,7 @@ const PRODUCTS = {
   spritz: {
     id: "spritz",
     name: "Vivace Spritz",
-    type: "De Toekomst ⚡",
+    type: "In ontwikkeling",
     price: 3.25,
     abv: "7% VOL",
     size: "250ml",
@@ -256,7 +256,7 @@ const IMPACT_PARTNER = {
 //
 // To find lat/lng for a real address: search the address on Google Maps,
 // right-click the exact pin location, and tap the coordinates that appear
-// at the top of the menu (they copy straight to your clipboard) — then
+// at the top of the menu (they copy straight to your clipboard), then
 // paste the two numbers in as lat and lng below.
 const STOCKISTS = [
   {
@@ -291,7 +291,7 @@ function mapsLinkUrl(stockist) {
 }
 
 // Combined overview map showing every stockist at once. Uses Leaflet with
-// OpenStreetMap tiles — no Google Maps API key needed, no cost, no key to
+// OpenStreetMap tiles, no Google Maps API key needed, no cost, no key to
 // manage. Reads lat/lng straight from STOCKISTS; entries without coordinates
 // yet are simply skipped until they're filled in.
 function StoresMap({ stockists }) {
@@ -435,7 +435,7 @@ function useJsonLd(data) {
 }
 
 // ---------- Nav ----------
-function Nav({ cart, setCartOpen }) {
+function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -447,14 +447,11 @@ function Nav({ cart, setCartOpen }) {
   }, []);
 
   const links = [
-    { path: "/", label: "Home" },
     { path: "/producten", label: "Producten" },
     { path: "/onze-impact", label: "Impact" },
     { path: "/verkooppunten", label: "Verkooppunten" },
     { path: "/blog", label: "Blog" },
-    { path: "/faq", label: "FAQ" },
     { path: "/over-ons", label: "Over ons" },
-    { path: "/contact", label: "Contact" },
   ];
 
   return (
@@ -464,12 +461,8 @@ function Nav({ cart, setCartOpen }) {
       }`}
     >
       <div className="w-full flex items-center justify-between px-6 md:px-14 py-5">
-        <Link
-          to="/"
-          className="font-serif text-2xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase leading-none h-8 flex items-center"
-          style={{ fontFamily: "'Cormorant Garamond', serif" }}
-        >
-          Vivace
+        <Link to="/" className="h-8 flex items-center" aria-label="Vivace, naar de homepage">
+          <img src="/images/vivace-logo-transparent.png" alt="Vivace" className="h-6 w-auto" />
         </Link>
 
         <ul className="hidden md:flex items-center gap-7 lg:gap-9">
@@ -488,18 +481,6 @@ function Nav({ cart, setCartOpen }) {
         </ul>
 
         <div className="flex items-center gap-4">
-          <button
-            onClick={() => setCartOpen(true)}
-            className="relative text-white/80 hover:text-[#D4AF37] transition-colors"
-            aria-label="Winkelwagen"
-          >
-            <ShoppingBag size={20} />
-            {cart.count > 0 && (
-              <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                {cart.count}
-              </span>
-            )}
-          </button>
           <button className="md:hidden text-white/80" onClick={() => setMobileOpen(!mobileOpen)}>
             <Menu size={22} />
           </button>
@@ -595,7 +576,7 @@ function CartDrawer({ open, onClose, cart }) {
               <span className="text-white/50">Subtotaal</span>
               <span className="text-white">€{cart.total.toFixed(2)}</span>
             </div>
-            <p className="text-[11px] text-[#D4AF37]/70 italic">€1 per fles naar impactprojecten — €{(cart.count * 1).toFixed(2)} bij deze bestelling.</p>
+            <p className="text-[11px] text-[#D4AF37]/70 italic">€1 per fles naar impactprojecten: €{(cart.count * 1).toFixed(2)} bij deze bestelling.</p>
             <button className="w-full bg-[#D4AF37] text-black py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-[#E0C158] transition-colors">
               Afrekenen
             </button>
@@ -722,8 +703,8 @@ function WelcomeBanner({ onClose }) {
 
 // ---------- Impact Counter ----------
 // bottlesPurchased connects to real sales data later (e.g. backend or payment
-// provider webhook). totalDonated is always derived from it — never set
-// independently — so the €1-per-bottle math stays correct everywhere.
+// provider webhook). totalDonated is always derived from it, never set
+// independently, so the €1-per-bottle math stays correct everywhere.
 function ImpactCounter() {
   const [bottlesPurchased] = useState(122); // TODO: connect to real sales data later
   const totalDonated = bottlesPurchased * 1;
@@ -845,7 +826,7 @@ function USPStrip() {
 
 function HomePage() {
   useSEO({
-    title: "Vivace Limoncello — Drink anders. Geniet anders.",
+    title: "Vivace Limoncello | Drink anders. Geniet anders.",
     description:
       "Vivace is premium Italiaanse limoncello, geproduceerd in Nederland. Voor elke fles gaat €1 naar Stichting Ambulance Wens.",
   });
@@ -930,7 +911,7 @@ function HomePage() {
         </div>
       </div>
 
-      {/* The number — short teaser only; full impact story lives on /onze-impact */}
+      {/* The number, short teaser only; full impact story lives on /onze-impact */}
       <div className="bg-[#D4AF37] text-center py-24 px-6">
         <Reveal>
           <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(100px, 18vw, 200px)", lineHeight: 0.85 }}>
@@ -984,7 +965,7 @@ function HomePage() {
         )}
       </section>
 
-      {/* The Colosseum / brand meaning — replaces the earlier golden-hour
+      {/* The Colosseum / brand meaning, replaces the earlier golden-hour
           terrace photo. Sits last on the homepage as an atmospheric closer
           that ties back to where the name Vivace comes from. */}
       <section className="relative overflow-hidden" style={{ height: "640px" }}>
@@ -1012,7 +993,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Reviews teaser — links through to the full /reviews page */}
+      {/* Reviews teaser, links through to the full /reviews page */}
       <section className="px-6 md:px-14 py-20 border-t border-[#234060] text-center">
         <Reveal>
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Reviews</p>
@@ -1038,7 +1019,7 @@ function HomePage() {
 
 function ProductsPage({ cart }) {
   useSEO({
-    title: "Producten — Vivace Limoncello",
+    title: "Producten | Vivace Limoncello",
     description:
       "Ontdek Vivace Limoncello (30% VOL, 500ml) en de aankomende Vivace Spritz in blik. Premium Italiaans recept, geproduceerd in Nederland.",
   });
@@ -1133,7 +1114,7 @@ function ProductsPage({ cart }) {
 
 function StoresPage() {
   useSEO({
-    title: "Verkooppunten — Vivace Limoncello",
+    title: "Verkooppunten | Vivace Limoncello",
     description:
       "Vind Vivace Limoncello bij supermarkten, slijterijen en restaurants bij jou in de buurt. Bekijk alle verkooppunten op de kaart.",
   });
@@ -1164,7 +1145,7 @@ function StoresPage() {
             </p>
             <p className="text-white/35 text-sm max-w-md mx-auto">
               We werken aan onze eerste plekken bij supermarkten, slijterijen en restaurants. Zodra
-              deze bekend zijn, vind je ze hier terug — inclusief een overzichtskaart.
+              deze bekend zijn, vind je ze hier terug, inclusief een overzichtskaart.
             </p>
           </div>
         </Reveal>
@@ -1238,7 +1219,7 @@ function StoresPage() {
 
 function AboutPage() {
   useSEO({
-    title: "Over ons — Vivace Limoncello",
+    title: "Over ons | Vivace Limoncello",
     description:
       "Het verhaal achter Vivace: premium Italiaanse limoncello, ambachtelijk geproduceerd in Nederland, met een impactmodel dat vanaf het begin is meegebouwd.",
   });
@@ -1261,10 +1242,10 @@ function AboutPage() {
           </p>
           <p>
             De naam komt uit de muziek: <em className="text-white/70">vivace</em> is Italiaans voor
-            "speel met leven en energie" — precies wat we willen dat je voelt bij elk glas.
+            "speel met leven en energie", precies wat we willen dat je voelt bij elk glas.
           </p>
           <p>
-            Zo werd Vivace een premium limoncello met een Italiaans recept en een Nederlands hart —
+            Zo werd Vivace een premium limoncello met een Italiaans recept en een Nederlands hart,
             gebouwd rond één vast principe: <strong className="text-white/85">€1 per fles gaat naar
             Stichting Ambulance Wens,</strong> transparant en herleidbaar.
           </p>
@@ -1290,8 +1271,8 @@ function AboutPage() {
             <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
               <p>
                 Vivace bestaat uit de schil van biologische Sorrento-citroenen van de Amalfikust,
-                pure suiker en graanalcohol. Geen kunstmatige kleur- of smaakstoffen, geen omwegen
-                — gewoon de citroenschil die het werk doet, zoals in het originele Italiaanse recept.
+                pure suiker en graanalcohol. Geen kunstmatige kleur- of smaakstoffen, geen omwegen,
+                gewoon de citroenschil die het werk doet, zoals in het originele Italiaanse recept.
               </p>
               <p>
                 Vivace wordt ambachtelijk geproduceerd door{" "}
@@ -1304,7 +1285,7 @@ function AboutPage() {
                 <strong className="text-white/85">iconische Van Nelle Fabriek</strong>, een
                 voormalige koffie-, thee- en tabaksfabriek en UNESCO-werelderfgoed die inmiddels
                 onderdak biedt aan ambachtelijke makers zoals Stokerij Klopman. Industriële
-                geschiedenis, opnieuw tot leven gebracht — precies de laag die Vivace zijn
+                geschiedenis, opnieuw tot leven gebracht, precies de laag die Vivace zijn
                 Rotterdamse hart geeft.
               </p>
             </div>
@@ -1326,14 +1307,14 @@ function AboutPage() {
         </div>
       </Reveal>
 
-      {/* Impact model lives on its own page now — short teaser + link here */}
+      {/* Impact model lives on its own page now, short teaser + link here */}
       <Reveal delay={300}>
         <div className="border-t border-[#234060] pt-16 text-center">
           <p className="font-serif text-4xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
           <p className="text-[10px] uppercase tracking-wider text-white/35 mb-8">Per fles, naar Stichting Ambulance Wens</p>
           <p className="text-white/55 leading-relaxed text-[15px] max-w-lg mx-auto mb-6">
             Waarom we voor een vast bedrag per fles kozen, wie Stichting Ambulance Wens is, en waar we
-            nu in dat proces staan — dat staat allemaal op onze Impact-pagina.
+            nu in dat proces staan. Dat staat allemaal op onze Impact-pagina.
           </p>
           <Link
             to="/onze-impact"
@@ -1349,7 +1330,7 @@ function AboutPage() {
 
 function ImpactPage() {
   useSEO({
-    title: "Onze Impact — €1 per fles naar Stichting Ambulance Wens | Vivace Limoncello",
+    title: "Onze Impact: €1 per fles naar Stichting Ambulance Wens | Vivace Limoncello",
     description:
       "Ontdek hoe Vivace premium limoncello combineert met sociale impact: €1 per fles gaat naar Stichting Ambulance Wens. Transparant duurzaam ondernemen, geen omwegen.",
   });
@@ -1426,7 +1407,7 @@ function ImpactPage() {
               Stichting Ambulance Wens vervult de laatste wens van terminale, bedlegerige
               patiënten: kosteloos en vaak al binnen één dag. Met speciaal gebouwde ambulances en
               honderden vrijwilligers brengen zij mensen nog één keer naar de plek die het meest
-              voor hen betekent — het strand, het stadion, of gewoon nog één keer thuis. De
+              voor hen betekent, het strand, het stadion, of gewoon nog één keer thuis. De
               stichting draagt het CBF-keurmerk en is aangesloten bij Goede Doelen Nederland.
             </p>
           </div>
@@ -1434,7 +1415,7 @@ function ImpactPage() {
           <div className="space-y-4 text-white/55 leading-relaxed text-[15px] mb-8">
             <p>
               Deze keuze is bewust. Een laatste wens vervullen, nog één keer naar het strand, het
-              stadion, of gewoon nog één keer thuis — het raakt precies waar Vivace voor staat: het
+              stadion, of gewoon nog één keer thuis, het raakt precies waar Vivace voor staat: het
               leven vieren en betekenisvolle momenten mogelijk maken, hoe klein of groot ook.
             </p>
             <p>
@@ -1464,7 +1445,7 @@ function ImpactPage() {
           <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
             <p>
               Vivace is jong, en dat geldt ook voor ons impactmodel. We weten nu wélk project we
-              steunen, maar een eerste donatiebedrag kunnen we nog niet laten zien — dat komt aan
+              steunen, maar een eerste donatiebedrag kunnen we nog niet laten zien. Dat komt aan
               het einde van dit eerste volledige verkoopjaar. Wat we nu al vastleggen is hóe het
               werkt, zodat we onszelf daar later aan kunnen houden.
             </p>
@@ -1489,13 +1470,13 @@ function ImpactPage() {
             <p>
               Vivace is er niet ondanks het premium karakter van het product, maar juist dankzij
               een merk dat op eigen kracht kan bestaan. Een zorgvuldig recept, ambachtelijke
-              productie en een eerlijke prijs zijn wat Vivace laat groeien — en die groei is precies
+              productie en een eerlijke prijs zijn wat Vivace laat groeien, en die groei is precies
               wat het mogelijk maakt om structureel iets terug te geven.
             </p>
             <p>
               We geloven dat genieten en teruggeven elkaar niet hoeven uit te sluiten. Een goed
               glas limoncello en een zinvolle bijdrage aan iemand anders' leven kunnen prima naast
-              elkaar bestaan — en dat is precies wat Vivace wil laten zien: dat duurzaam
+              elkaar bestaan, en dat is precies wat Vivace wil laten zien: dat duurzaam
               ondernemen en een premium ervaring hand in hand kunnen gaan.
             </p>
           </div>
@@ -1517,7 +1498,7 @@ function ImpactPage() {
             </p>
             <p>
               We claimen geen donaties die nog niet zijn gedaan. Wat we wél beloven: zodra er
-              resultaten zijn, delen we ze openlijk — met jou, en met de consument die de fles bij
+              resultaten zijn, delen we ze openlijk, met jou, en met de consument die de fles bij
               jou koopt.
             </p>
           </div>
@@ -1544,7 +1525,7 @@ function ImpactPage() {
 
 function PressPage() {
   useSEO({
-    title: "Pers & Media — Vivace Limoncello",
+    title: "Pers & Media | Vivace Limoncello",
     description:
       "Perskit voor Vivace Limoncello: logo's, productfoto's en een brand backgrounder. Alles op één plek voor pers en reviewers.",
   });
@@ -1557,8 +1538,8 @@ function PressPage() {
   ];
 
   const logos = [
-    { src: "/images/vivace-logo-transparent.png", label: "Logo — transparante achtergrond" },
-    { src: "/images/vivace-logo-navy-bg.png", label: "Logo — navy achtergrond" },
+    { src: "/images/vivace-logo-transparent.png", label: "Logo (transparante achtergrond)" },
+    { src: "/images/vivace-logo-navy-bg.png", label: "Logo (navy achtergrond)" },
   ];
 
   return (
@@ -1569,7 +1550,7 @@ function PressPage() {
           Alles voor pers en reviewers, op één plek
         </h1>
         <p className="text-white/45 max-w-lg mb-10">
-          Logo's, productfoto's en een korte brand backgrounder — vrij te gebruiken bij het schrijven
+          Logo's, productfoto's en een korte brand backgrounder, vrij te gebruiken bij het schrijven
           over Vivace. Liever alles in één keer? Download de volledige perskit hieronder.
         </p>
         <a
@@ -1590,7 +1571,7 @@ function PressPage() {
               Vivace is een premium Italiaanse limoncello, ambachtelijk geproduceerd door{" "}
               <strong className="text-white/85">Stokerij Klopman</strong> in de iconische{" "}
               <strong className="text-white/85">Van Nelle Fabriek</strong> in Rotterdam. Gemaakt van
-              de schil van biologische Sorrento-citroenen, suiker en graanalcohol — zonder
+              de schil van biologische Sorrento-citroenen, suiker en graanalcohol, zonder
               kunstmatige kleur- of smaakstoffen.
             </p>
             <p>
@@ -1702,7 +1683,7 @@ function PressPage() {
 
 function HorecaPage() {
   useSEO({
-    title: "Vivace bij jou in de zaak — Horeca & Retail | Vivace Limoncello",
+    title: "Vivace bij jou in de zaak: Horeca & Retail | Vivace Limoncello",
     description:
       "Wil je Vivace Limoncello serveren of verkopen in jouw restaurant, bar, slijterij of winkel? Meld je aan als verkooppunt en we nemen snel contact op.",
   });
@@ -1744,7 +1725,7 @@ function HorecaPage() {
         </h1>
         <p className="text-white/45 mb-6">
           Restaurant, bar, slijterij of supermarkt en interesse om Vivace te serveren of te
-          verkopen? Vul onderstaand formulier in — we nemen binnen een paar dagen contact met je op.
+          verkopen? Vul onderstaand formulier in. We nemen binnen een paar dagen contact met je op.
         </p>
         <a
           href="https://wa.me/31612339485?text=Hoi!%20Ik%20heb%20interesse%20om%20Vivace%20Limoncello%20te%20serveren%2Fverkopen%20in%20mijn%20zaak."
@@ -1861,7 +1842,7 @@ function HorecaPage() {
 
 function ContactPage() {
   useSEO({
-    title: "Contact — Vivace Limoncello",
+    title: "Contact | Vivace Limoncello",
     description:
       "Vragen over Vivace, interesse als verkooppunt, of gewoon nieuwsgierig? Neem contact op met VVM Trading, de exploitant van Vivace Limoncello.",
   });
@@ -1952,7 +1933,7 @@ function ContactPage() {
       <Reveal delay={200}>
         <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
           <p>info@drinkvivace.nl</p>
-          <p>drinkvivace@gmail.com <span className="text-white/20 text-xs">(tijdelijk, werkt al)</span></p>
+          <p>drinkvivace@gmail.com</p>
           <p>Nederland</p>
         </div>
       </Reveal>
@@ -2065,11 +2046,11 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Waarom een vast bedrag per fles, in plaats van een percentage van de winst?",
-        a: "Een vast bedrag is transparant en voorspelbaar — voor onszelf, voor onze partners in retail en horeca, en voor jou als consument. Het maakt het model ook schaalbaar: hoe meer flessen we verkopen, hoe meer impact we maken, zonder dat dit afhangt van hoe een kwartaal er financieel uitziet.",
+        a: "Een vast bedrag is transparant en voorspelbaar, voor onszelf, voor onze partners in retail en horeca, en voor jou als consument. Het maakt het model ook schaalbaar: hoe meer flessen we verkopen, hoe meer impact we maken, zonder dat dit afhangt van hoe een kwartaal er financieel uitziet.",
       },
       {
         q: "Welk project steunt Vivace?",
-        a: "Vivace steunt Stichting Ambulance Wens, die de laatste wens van terminale, bedlegerige patiënten vervult met kosteloos ambulancevervoer — vaak al binnen één dag. Lees meer over deze samenwerking op onze Onze Impact-pagina.",
+        a: "Vivace steunt Stichting Ambulance Wens, die de laatste wens van terminale, bedlegerige patiënten vervult met kosteloos ambulancevervoer, vaak al binnen één dag. Lees meer over deze samenwerking op onze Onze Impact-pagina.",
       },
       {
         q: "Is er al een donatie gedaan?",
@@ -2081,7 +2062,7 @@ const FAQ_SECTIONS = [
 
 function FAQPage() {
   useSEO({
-    title: "Veelgestelde vragen — Vivace Limoncello",
+    title: "Veelgestelde vragen | Vivace Limoncello",
     description:
       "Antwoorden op veelgestelde vragen over Vivace Limoncello: het product, verkooppunten en ons impactmodel.",
   });
@@ -2107,7 +2088,7 @@ function FAQPage() {
           Veelgestelde vragen
         </h1>
         <p className="text-white/45 max-w-lg mb-14">
-          Alles wat je wilt weten over Vivace — van het product tot ons donatiemodel.
+          Alles wat je wilt weten over Vivace, van het product tot ons donatiemodel.
         </p>
       </Reveal>
 
@@ -2161,7 +2142,7 @@ const BLOG_POSTS = [
     title: "Vivace bij de Rotterdam Halve Marathon",
     date: "2026-09-25",
     image: "/images/vivace-halve-marathon-hero.jpg",
-    excerpt: "Zondag liepen we niet alleen de halve marathon van Rotterdam, we vierden het ook samen — met een glas Vivace.",
+    excerpt: "Zondag liepen we niet alleen de halve marathon van Rotterdam, we vierden het ook samen, met een glas Vivace.",
     body: [
       "\"Vivace.\" Waar komt die naam eigenlijk vandaan? Het is een muziekterm: speel met leven en energie. Wij noemden onze limoncello er niet voor niets naar.",
       "Zondag bewezen we het tijdens de halve marathon van Rotterdam. Niet alleen gelopen, maar samen, op precies dat tempo.",
@@ -2193,7 +2174,7 @@ const BLOG_POSTS = [
   {
     id: "spritz-klassiek",
     type: "recept",
-    title: "Vivace Limoncello Spritz — het klassieke recept",
+    title: "Vivace Limoncello Spritz: het klassieke recept",
     date: "2026-06-01",
     image: "/images/vivace-spritz-klassiek-hero.jpg",
     excerpt: "De originele: fris, lichtzoet en gevuld met bubbels. Het recept waarmee alles begon.",
@@ -2215,7 +2196,7 @@ const BLOG_POSTS = [
   {
     id: "spritz-light",
     type: "recept",
-    title: "Vivace Spritz Light — lichter en langer",
+    title: "Vivace Spritz Light: lichter en langer",
     date: "2026-06-01",
     image: "/images/vivace-spritz-light-hero.jpg",
     excerpt: "Iets lichter en langer, met meer bruiswater. Perfect voor een lange, warme middag.",
@@ -2236,7 +2217,7 @@ const BLOG_POSTS = [
   {
     id: "spritz-intenso",
     type: "recept",
-    title: "Vivace Spritz Intenso — voor de echte liefhebber",
+    title: "Vivace Spritz Intenso: voor de echte liefhebber",
     date: "2026-06-01",
     image: "/images/vivace-spritz-intenso-hero.jpg",
     excerpt: "Voor wie de limoncello echt wil proeven: een stevigere pour met minder verdunning.",
@@ -2256,7 +2237,7 @@ const BLOG_POSTS = [
   {
     id: "vivace-sour",
     type: "recept",
-    title: "Vivace Sour — romig en fris",
+    title: "Vivace Sour: romig en fris",
     date: "2026-08-05",
     image: "/images/vivace-sour-hero.jpg",
     excerpt: "Een klassieke sour-twist: romig van schuim, fris van citrus, met Vivace als hoofdrolspeler.",
@@ -2279,7 +2260,7 @@ const BLOG_POSTS = [
   {
     id: "vivace-tonic",
     type: "recept",
-    title: "Vivace Tonic — de simpelste manier",
+    title: "Vivace Tonic: de simpelste manier",
     date: "2026-08-05",
     image: "/images/vivace-tonic-hero.jpg",
     excerpt: "Twee ingrediënten, één minuut werk. De makkelijkste manier om Vivace te ontdekken.",
@@ -2299,7 +2280,7 @@ const BLOG_POSTS = [
   {
     id: "vivace-puur",
     type: "recept",
-    title: "Vivace Puur — zo drink je hem traditioneel",
+    title: "Vivace Puur: zo drink je hem traditioneel",
     date: "2026-08-05",
     image: "/images/vivace-puur-hero.jpg",
     excerpt: "Geen cocktail, geen mixer. Zo serveren ze limoncello in Sorrento, en zo smaakt hij het best.",
@@ -2310,13 +2291,13 @@ const BLOG_POSTS = [
       "Bewaar je fles Vivace in de vriezer. Door het hoge alcoholpercentage bevriest de limoncello niet, maar wordt hij wel stroperig en ijskoud.",
       "Zet ook je glaasjes even in de vriezer of koelkast voor extra effect.",
       "Schenk een klein scheutje in een ijskoud glaasje.",
-      "Drink puur, als digestief na het eten — geen ijs, geen mixer nodig.",
+      "Drink puur, als digestief na het eten, geen ijs, geen mixer nodig.",
     ],
   },
   {
     id: "vivace-basil-smash",
     type: "recept",
-    title: "Vivace Basil Smash — kruidig en verrassend",
+    title: "Vivace Basil Smash: kruidig en verrassend",
     date: "2026-08-06",
     image: "/images/vivace-basil-smash-hero.jpg",
     excerpt: "Verse basilicum en citrus, stevig geplet voor een geurige, verfrissende twist op de klassieke smash.",
@@ -2339,7 +2320,7 @@ const BLOG_POSTS = [
   {
     id: "vivace-mule",
     type: "recept",
-    title: "Vivace Mule — pittig en bruisend",
+    title: "Vivace Mule: pittig en bruisend",
     date: "2026-08-06",
     image: "/images/vivace-mule-hero.jpg",
     excerpt: "Gemberbier en limoencello, met een vleugje pit. Een frisse twist op de klassieke mule.",
@@ -2360,13 +2341,13 @@ const BLOG_POSTS = [
   {
     id: "vivace-tiramisu",
     type: "recept",
-    title: "Vivace Limoncello Tiramisu — het echte familierecept",
+    title: "Vivace Limoncello Tiramisu: het echte familierecept",
     date: "2026-08-08",
     servingUnit: "Personen",
     baseServings: 6,
     recipeYield: "6 porties",
     image: "/images/vivace-tiramisu-hero.jpg",
-    excerpt: "Ons eigen tiramisu-recept, al jaren gemaakt thuis — nu met een vleugje Vivace Limoncello in plaats van Marsala.",
+    excerpt: "Ons eigen tiramisu-recept, al jaren gemaakt thuis, nu met een vleugje Vivace Limoncello in plaats van Marsala.",
     ingredients: [
       { amount: 3, unit: "", name: "grote eidooiers (XL)" },
       { amount: 100, unit: "g", name: "suiker" },
@@ -2385,7 +2366,7 @@ const BLOG_POSTS = [
       "Roer, zodra het mengsel is afgekoeld, een scheut van de espresso en de mascarpone erdoor tot een gladde massa.",
       "Klop de slagroom in een aparte kom stijf en spatel deze voorzichtig door het mascarponemengsel.",
       "Meng de Vivace Limoncello met de rest van de espresso in een ondiepe schaal.",
-      "Doop de lange vingers snel door het koffie-limoncellomengsel — niet te lang, anders vallen ze uit elkaar — en leg ze naast elkaar in een vierkante ovenschaal van ongeveer 20 bij 20 cm, tot de bodem bedekt is.",
+      "Doop de lange vingers snel door het koffie-limoncellomengsel (niet te lang, anders vallen ze uit elkaar) en leg ze naast elkaar in een vierkante ovenschaal van ongeveer 20 bij 20 cm, tot de bodem bedekt is.",
       "Verdeel de helft van het mascarponemengsel over de lange vingers. Herhaal met een tweede laag gedoopte lange vingers en de rest van het mengsel.",
       "Dek af en laat minimaal 4 uur, het liefst een hele nacht, opstijven in de koelkast.",
       "Bestuif vlak voor serveren met cacaopoeder en de fijngemalen espressobonen, via een fijne zeef.",
@@ -2412,7 +2393,7 @@ const BLOG_POSTS = [
     title: "Het etiket: luxe tot in de laatste letter",
     date: "2026-07-27",
     image: "/images/vivace-instagram-etiket-reveal.png",
-    excerpt: "Van biologische Sorrento-citroenen tot het kleinste lettertje — een kijkje achter het label.",
+    excerpt: "Van biologische Sorrento-citroenen tot het kleinste lettertje, een kijkje achter het label.",
     body: [
       "Luxe, tot in de laatste letter.",
       "Van biologische Sorrento-citroenen tot het kleinste lettertje, alles even verzorgd. Scan de QR-code voor het volledige verhaal.",
@@ -2456,10 +2437,10 @@ const BLOG_POSTS = [
     excerpt: "Vivace ontstaat niet in een anonieme fabriekshal, maar op een van de meest bijzondere plekken van Rotterdam.",
     body: [
       "Vivace wordt niet gemaakt in een anonieme fabriekshal. Onze limoncello ontstaat op een van de meest bijzondere plekken van Rotterdam: de Van Nelle Fabriek.",
-      "De Van Nelle Fabriek werd in de vorige eeuw gebouwd voor de productie van koffie, thee en tabak. Tegenwoordig is het gebouw UNESCO Werelderfgoed en een broedplaats voor makers, ontwerpers en — in ons geval — een ambachtelijke stokerij.",
+      "De Van Nelle Fabriek werd in de vorige eeuw gebouwd voor de productie van koffie, thee en tabak. Tegenwoordig is het gebouw UNESCO Werelderfgoed en een broedplaats voor makers, ontwerpers en, in ons geval, een ambachtelijke stokerij.",
       "Vivace wordt geproduceerd door Stokerij Klopman, een kleine, ambachtelijke distilleerderij die in 2017 begon in Haarlem. In 2022 verhuisde de stokerij naar de Van Nelle Fabriek, waar nu geproefd, geproduceerd en samengewerkt wordt met merken zoals Vivace.",
-      "Wat ons aansprak was niet alleen de locatie, maar ook de manier van werken. Kleine productiebatches. Korte lijnen. En een gezamenlijke receptuurbepaling — waarbij wij niet zomaar een label op andermans fles plakken, maar echt meedenken over hoe Vivace moet smaken.",
-      "Zo blijft elke fles Vivace herleidbaar tot een echte plek en een klein team vakmensen — geen anonieme toeleverancier, maar een partner die net zo veel om smaak en kwaliteit geeft als wij.",
+      "Wat ons aansprak was niet alleen de locatie, maar ook de manier van werken. Kleine productiebatches. Korte lijnen. En een gezamenlijke receptuurbepaling, waarbij wij niet zomaar een label op andermans fles plakken, maar echt meedenken over hoe Vivace moet smaken.",
+      "Zo blijft elke fles Vivace herleidbaar tot een echte plek en een klein team vakmensen, geen anonieme toeleverancier, maar een partner die net zo veel om smaak en kwaliteit geeft als wij.",
       "Ambachtelijk gemaakt. In het hart van Rotterdam. Drink anders. Geniet anders.",
     ],
   },
@@ -2596,7 +2577,7 @@ function ArticleBody({ post }) {
             <img
               key={i}
               src={src}
-              alt={`${post.title} — foto ${i + 2}`}
+              alt={`${post.title}, foto ${i + 2}`}
               className="w-full h-40 sm:h-52 object-cover"
             />
           ))}
@@ -2726,7 +2707,7 @@ const GENERAL_REVIEWS = [];
 
 function ReviewsPage() {
   useSEO({
-    title: "Reviews — Vivace Limoncello",
+    title: "Reviews | Vivace Limoncello",
     description: "Lees wat anderen vinden van Vivace Limoncello en onze recepten.",
   });
 
@@ -2793,7 +2774,7 @@ function ReviewsPage() {
   );
 }
 
-// Reviews are manually curated, not auto-published — see ReviewForm below for
+// Reviews are manually curated, not auto-published, see ReviewForm below for
 // why. Each recipe post can carry an optional `reviews` array:
 // { name: "...", rating: 5, text: "..." }. Posts without real reviews yet
 // simply render nothing here, and are excluded from the Recipe schema's
@@ -2935,7 +2916,7 @@ function RelatedPosts({ currentPost }) {
 
 function BlogPage() {
   useSEO({
-    title: "Blog — Recepten, nieuws & verkooppunten | Vivace Limoncello",
+    title: "Blog: Recepten, nieuws & verkooppunten | Vivace Limoncello",
     description:
       "Recepten voor Vivace Spritz, nieuws over ons impactmodel, en updates over nieuwe verkooppunten. Alles op één plek.",
   });
@@ -3012,7 +2993,7 @@ function LegalSection({ title, children }) {
 
 function PrivacyPage() {
   useSEO({
-    title: "Privacybeleid — Vivace Limoncello",
+    title: "Privacybeleid | Vivace Limoncello",
     description: "Lees hoe Vivace Limoncello, geëxploiteerd door VVM Trading, omgaat met jouw persoonsgegevens.",
   });
 
@@ -3109,7 +3090,7 @@ function PrivacyPage() {
 
 function TermsPage() {
   useSEO({
-    title: "Algemene voorwaarden — Vivace Limoncello",
+    title: "Algemene voorwaarden | Vivace Limoncello",
     description: "De algemene voorwaarden voor het gebruik van de Vivace Limoncello website, geëxploiteerd door VVM Trading.",
   });
 
@@ -3170,8 +3151,8 @@ function TermsPage() {
 
         <LegalSection title="5. Intellectueel eigendom">
           <p>
-            Alle content op deze website — waaronder teksten, het Vivace-logo, productfoto's,
-            illustraties en de vormgeving van het etiket — is eigendom van VVM Trading of wordt
+            Alle content op deze website, waaronder teksten, het Vivace-logo, productfoto's,
+            illustraties en de vormgeving van het etiket, is eigendom van VVM Trading of wordt
             gebruikt met toestemming van de rechthebbende. Het logo en beeldmerk van Stichting
             Ambulance Wens worden gebruikt met toestemming van de stichting. Niets van deze
             website mag worden gekopieerd, verspreid of commercieel gebruikt zonder voorafgaande
@@ -3241,12 +3222,8 @@ function Footer() {
     <footer className="border-t border-[#1c3450] px-6 md:px-14 pt-16 pb-10">
       <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-x-8 gap-y-12">
         <div className="col-span-2 md:col-span-1">
-          <Link
-            to="/"
-            className="font-serif text-xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            Vivace
+          <Link to="/" className="inline-block" aria-label="Vivace, naar de homepage">
+            <img src="/images/vivace-logo-transparent.png" alt="Vivace" className="h-6 w-auto" />
           </Link>
           <p
             className="font-serif italic text-base text-white/60 mt-4 mb-6"
@@ -3324,7 +3301,6 @@ function ScrollToTop() {
 function AppShell() {
   const [ageConfirmed, setAgeConfirmed] = useState(null); // null | true | false
   const [showWelcome, setShowWelcome] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
   const cart = useCart();
 
   const handleAgeConfirm = (confirmed) => {
@@ -3333,7 +3309,7 @@ function AppShell() {
   };
 
   // Lock scroll on the real page while the age gate (or the underage block)
-  // is covering it, so it behaves exactly like before for real visitors —
+  // is covering it, so it behaves exactly like before for real visitors,
   // the difference is purely that the actual page now stays mounted in the
   // DOM underneath instead of being replaced, so crawlers and link-preview
   // bots (which don't click through interstitials) can still read real
@@ -3346,8 +3322,7 @@ function AppShell() {
     <div className="bg-[#0a1628] text-white min-h-screen font-sans" style={{ fontFamily: "'DM Sans', sans-serif", backgroundColor: "#0a1628" }}>
       <ScrollToTop />
       {showWelcome && <WelcomeBanner onClose={() => setShowWelcome(false)} />}
-      <Nav cart={cart} setCartOpen={setCartOpen} />
-      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} />
+      <Nav />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
