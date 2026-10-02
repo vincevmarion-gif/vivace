@@ -3207,80 +3207,104 @@ function TermsPage() {
 }
 
 function Footer() {
-  const footerLinks = [
-    { path: "/", label: "Home" },
-    { path: "/producten", label: "Producten" },
-    { path: "/onze-impact", label: "Impact" },
-    { path: "/verkooppunten", label: "Verkooppunten" },
-    { path: "/horeca", label: "Horeca" },
-    { path: "/pers", label: "Pers" },
-    { path: "/blog", label: "Blog" },
-    { path: "/reviews", label: "Reviews" },
-    { path: "/faq", label: "FAQ" },
-    { path: "/over-ons", label: "Over ons" },
-    { path: "/contact", label: "Contact" },
+  const columns = [
+    {
+      title: "Ontdek",
+      links: [
+        { path: "/producten", label: "Producten" },
+        { path: "/onze-impact", label: "Impact" },
+        { path: "/verkooppunten", label: "Verkooppunten" },
+        { path: "/blog", label: "Blog" },
+        { path: "/over-ons", label: "Over ons" },
+      ],
+    },
+    {
+      title: "Zakelijk",
+      links: [
+        { path: "/horeca", label: "Horeca" },
+        { path: "/pers", label: "Pers" },
+        { path: "/reviews", label: "Reviews" },
+      ],
+    },
+    {
+      title: "Hulp",
+      links: [
+        { path: "/faq", label: "FAQ" },
+        { path: "/contact", label: "Contact" },
+        { path: "/privacybeleid", label: "Privacybeleid" },
+        { path: "/algemene-voorwaarden", label: "Algemene voorwaarden" },
+      ],
+    },
   ];
 
   return (
-    <footer className="border-t border-[#1c3450] px-6 md:px-14 py-14">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-3 items-center gap-8 text-center md:text-left">
-        <div className="flex items-center gap-3 justify-center md:justify-start">
-          <p className="font-serif text-xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+    <footer className="border-t border-[#1c3450] px-6 md:px-14 pt-16 pb-10">
+      <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-x-8 gap-y-12">
+        <div className="col-span-2 md:col-span-1">
+          <Link
+            to="/"
+            className="font-serif text-xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
             Vivace
+          </Link>
+          <p
+            className="font-serif italic text-base text-white/60 mt-4 mb-6"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
+            Drink anders. Geniet anders.
           </p>
-          <a
-            href="https://instagram.com/drinkvivace"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/30 hover:text-[#D4AF37] transition-colors"
-            aria-label="Vivace op Instagram"
-          >
-            <InstagramIcon size={18} />
-          </a>
-          <a
-            href={LINKEDIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/30 hover:text-[#D4AF37] transition-colors"
-            aria-label="Vivace op LinkedIn"
-          >
-            <LinkedInIcon size={18} />
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://instagram.com/drinkvivace"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/55 hover:text-[#D4AF37] transition-colors"
+              aria-label="Vivace op Instagram"
+            >
+              <InstagramIcon size={20} />
+            </a>
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/55 hover:text-[#D4AF37] transition-colors"
+              aria-label="Vivace op LinkedIn"
+            >
+              <LinkedInIcon size={20} />
+            </a>
+          </div>
         </div>
-        <p className="font-serif italic text-sm text-white/20 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          "Drink anders. Geniet anders."
-        </p>
-        <ul className="flex gap-7 justify-center md:justify-end text-[11px] uppercase tracking-wider text-white/25 flex-wrap">
-          {footerLinks.map((l) => (
-            <li key={l.path}>
-              <Link to={l.path} className="hover:text-[#D4AF37] transition-colors">
-                {l.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+
+        {columns.map((col) => (
+          <div key={col.title}>
+            <p className="text-sm font-medium text-[#D4AF37] mb-4">{col.title}</p>
+            <ul className="space-y-2.5">
+              {col.links.map((l) => (
+                <li key={l.path}>
+                  <Link to={l.path} className="text-sm text-white/55 hover:text-[#D4AF37] transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-      <p className="text-center text-white/25 text-[11px] mt-10">
-        Impactpartner:{" "}
-        <a
-          href={IMPACT_PARTNER.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-[#D4AF37] transition-colors"
-        >
-          {IMPACT_PARTNER.name}
-        </a>
-      </p>
-      <p className="text-center text-[11px] text-white/15 mt-4 pt-8 border-t border-[#1c3450]">
-        © 2026 Vivace · Drink verantwoord. 18+
-      </p>
-      <div className="flex gap-6 justify-center text-[10px] uppercase tracking-wider text-white/20 mt-4">
-        <Link to="/privacybeleid" className="hover:text-[#D4AF37] transition-colors">
-          Privacybeleid
-        </Link>
-        <Link to="/algemene-voorwaarden" className="hover:text-[#D4AF37] transition-colors">
-          Algemene voorwaarden
-        </Link>
+
+      <div className="max-w-6xl mx-auto mt-14 pt-8 border-t border-[#1c3450] flex flex-col md:flex-row md:justify-between gap-3 text-xs text-white/45">
+        <p>
+          Impactpartner:{" "}
+          <a
+            href={IMPACT_PARTNER.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#D4AF37] transition-colors"
+          >
+            {IMPACT_PARTNER.name}
+          </a>
+        </p>
+        <p>© 2026 Vivace. Drink verantwoord. 18+</p>
       </div>
     </footer>
   );
