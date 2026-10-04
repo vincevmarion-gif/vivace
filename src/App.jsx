@@ -889,7 +889,7 @@ function HomePage() {
 
   return (
     <div>
-      <section className="md:min-h-[100svh] grid md:grid-cols-2 gap-8 md:gap-14 items-center px-6 md:px-14 pt-28 pb-12 md:pb-10 relative overflow-hidden">
+      <section className="md:min-h-[100svh] grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-8 md:gap-10 items-center px-6 md:px-14 pt-28 pb-12 md:pb-10 relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -902,13 +902,13 @@ function HomePage() {
             {L("Gemaakt in Nederland · Italiaanse ziel", "Made in the Netherlands · Italian soul")}
           </p>
           <h1
-            className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.95] mb-9"
+            className="font-serif text-[clamp(2.5rem,11vw,4.5rem)] md:text-[clamp(3rem,6.2vw,8rem)] leading-[0.95] mb-9"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
           >
-            <span className="block font-semibold">
+            <span className="block whitespace-nowrap font-semibold">
               Drink <em className="italic font-light text-[#D4AF37]">{L("anders.", "different.")}</em>
             </span>
-            <span className="block font-semibold">
+            <span className="block whitespace-nowrap font-semibold">
               {L("Geniet", "Enjoy")} <em className="italic font-light text-[#D4AF37]">{L("anders.", "different.")}</em>
             </span>
           </h1>
@@ -1059,6 +1059,17 @@ function HomePage() {
           <p className="text-white/45 text-sm max-w-md mx-auto mb-8">
             {L("Lees de ervaringen van anderen, of laat zelf weten wat je ervan vindt.", "Read what others think, or tell us what you think yourself.")}
           </p>
+          {GENERAL_REVIEWS.length > 0 && (
+            <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-4 text-left mb-10">
+              {GENERAL_REVIEWS.slice(0, 2).map((r, i) => (
+                <div key={i} className="border border-[#234060] p-5">
+                  <ReviewStars rating={r.rating} />
+                  <p className="text-white/60 text-sm leading-relaxed mt-3">“{r.text}”</p>
+                  <p className="text-white/40 text-xs mt-3">{r.name}</p>
+                </div>
+              ))}
+            </div>
+          )}
           <Link
             to="/reviews"
             className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
@@ -2761,9 +2772,15 @@ function ReviewStars({ rating, size = 14 }) {
 // { name: "Naam", rating: 5, text: "Jouw review", date: "2026-10-01" }
 const GENERAL_REVIEWS = [
   {
-    name: "Dylan de Jongste",
+    name: "Dylan",
     rating: 5,
     text: "De Vivace limoncello is niet te vergelijken met andere limoncello’s. Je proeft de natuurlijke producten en dat maakt deze limoncello bijzonder. De kleur is prachtig en dat voor die prijs is een koopje.",
+    date: "2026-10-04",
+  },
+  {
+    name: "Anoniem",
+    rating: 5,
+    text: "Een slok Vivace Limoncello is alsof er een engeltje over je tong pist.",
     date: "2026-10-04",
   },
 ];
