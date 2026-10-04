@@ -2764,6 +2764,12 @@ const GENERAL_REVIEWS = [
     text: "Wat een fantastische limoncello! 🍋 Een heerlijke, frisse en volle smaak, met precies de juiste balans tussen zoet en zuur. Je proeft duidelijk de kwaliteit en het natuurlijke karakter van de citroen. Niet te zoet, niet te scherp, maar juist mooi zacht en verfijnd. Een limoncello die je eigenlijk te snel opdrinkt… 😉 Heerlijk ijskoud na het diner, maar ook gewoon om rustig van te genieten.",
     date: "2026-10-04",
   },
+  {
+    name: "Roan",
+    rating: 5,
+    text: "Echt een totaal andere limoncello dan je gewend bent! Niet zo zoet als veel andere limoncello’s, maar juist lekker fris en scherp van smaak. Daarnaast is hij heerlijk zacht en drinkt hij ontzettend lekker weg. Dit is inmiddels mijn nieuwe favoriet. Zeker een aanrader als je eens iets anders wilt dan een standaard limoncello!",
+    date: "2026-10-04",
+  },
 ];
 
 function ReviewsPage() {
