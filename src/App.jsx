@@ -752,12 +752,13 @@ function WelcomeBanner({ onClose }) {
 // provider webhook). totalDonated is always derived from it, never set
 // independently, so the €1-per-bottle math stays correct everywhere.
 function ImpactCounter() {
+  const L = useL();
   const [bottlesPurchased] = useState(122); // TODO: connect to real sales data later
   const totalDonated = bottlesPurchased * 1;
 
   return (
     <div className="text-center">
-      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Actueel</p>
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Actueel", "Current")}</p>
       <div className="grid grid-cols-2 gap-8 max-w-md mx-auto">
         <div>
           <p
@@ -766,7 +767,7 @@ function ImpactCounter() {
           >
             {bottlesPurchased.toLocaleString("nl-NL")}
           </p>
-          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">Flessen in onze eerste batch</p>
+          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">{L("Flessen in onze eerste batch", "Bottles in our first batch")}</p>
         </div>
         <div>
           <p
@@ -775,14 +776,14 @@ function ImpactCounter() {
           >
             {`€${totalDonated.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`}
           </p>
-          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">Gereserveerd voor Stichting Ambulance Wens</p>
+          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">{L("Gereserveerd voor Stichting Ambulance Wens", "Reserved for Stichting Ambulance Wens")}</p>
         </div>
       </div>
       <p className="text-white/35 text-sm mt-8 max-w-sm mx-auto">
-        €1 per fles, rechtstreeks naar Stichting Ambulance Wens.
+        {L("€1 per fles, rechtstreeks naar Stichting Ambulance Wens.", "€1 per bottle, straight to Stichting Ambulance Wens.")}
       </p>
       <p className="text-white/45 text-[11px] mt-3 italic">
-        We werken dit per batch bij en maken het bedrag aan het einde van het jaar in één keer over.
+        {L("We werken dit per batch bij en maken het bedrag aan het einde van het jaar in één keer over.", "We update this per batch and transfer the amount in one go at the end of the year.")}
       </p>
     </div>
   );
@@ -1180,6 +1181,7 @@ function ProductsPage({ cart }) {
 }
 
 function StoresPage() {
+  const L = useL();
   useSEO({
     title: "Verkooppunten | Vivace Limoncello",
     description:
@@ -1193,26 +1195,24 @@ function StoresPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Verkooppunten</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Verkooppunten", "Stockists")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          Vind Vivace bij jou in de buurt
+          {L("Vind Vivace bij jou in de buurt", "Find Vivace near you")}
         </h1>
         <p className="text-white/45 max-w-lg mb-14">
-          Vivace Limoncello is te koop bij supermarkten, slijterijen en restaurants. Vivace Spritz
-          in blik is in ontwikkeling en volgt later.
+          {L("Vivace Limoncello is te koop bij supermarkten, slijterijen en restaurants. Vivace Spritz in blik is in ontwikkeling en volgt later.", "Vivace Limoncello is sold at supermarkets, liquor stores and restaurants. Vivace Spritz in a can is in development and will follow later.")}
         </p>
       </Reveal>
 
       {STOCKISTS.every(isPlaceholderStockist) ? (
         <Reveal delay={50}>
           <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">Binnenkort</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">{L("Binnenkort", "Coming soon")}</p>
             <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80 mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              Onze eerste verkooppunten worden hier binnenkort zichtbaar.
+              {L("Onze eerste verkooppunten worden hier binnenkort zichtbaar.", "Our first stockists will appear here soon.")}
             </p>
             <p className="text-white/35 text-sm max-w-md mx-auto">
-              We werken aan onze eerste plekken bij supermarkten, slijterijen en restaurants. Zodra
-              deze bekend zijn, vind je ze hier terug, inclusief een overzichtskaart.
+              {L("We werken aan onze eerste plekken bij supermarkten, slijterijen en restaurants. Zodra deze bekend zijn, vind je ze hier terug, inclusief een overzichtskaart.", "We are working on our first locations at supermarkets, liquor stores and restaurants. As soon as they are known, you will find them here, including an overview map.")}
             </p>
           </div>
         </Reveal>
@@ -1221,7 +1221,7 @@ function StoresPage() {
           {hasAnyCoords && (
             <Reveal delay={50}>
               <div className="mb-14">
-                <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Alle verkooppunten op de kaart</p>
+                <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Alle verkooppunten op de kaart", "All stockists on the map")}</p>
                 <StoresMap stockists={realStockists} />
               </div>
             </Reveal>
@@ -1253,7 +1253,7 @@ function StoresPage() {
                         rel="noopener noreferrer"
                         className="text-[11px] uppercase tracking-wider text-white/50 border border-white/20 px-3 py-1.5 hover:border-[#D4AF37]/50 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
                       >
-                        Open in Maps <ChevronRight size={12} />
+                        {L("Open in Maps", "Open in Maps")} <ChevronRight size={12} />
                       </a>
                     </div>
                   </div>
@@ -1274,9 +1274,9 @@ function StoresPage() {
 
       <Reveal delay={200}>
         <p className="text-white/25 text-xs mt-10 italic">
-          Sta je hier nog niet bij en wil je Vivace verkopen?{" "}
+          {L("Sta je hier nog niet bij en wil je Vivace verkopen?", "Not on the list yet and want to sell Vivace?")}{" "}
           <Link to="/horeca" className="text-[#D4AF37]/70 not-italic border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
-            Meld je aan als verkooppunt
+            {L("Meld je aan als verkooppunt", "Sign up as a stockist")}
           </Link>.
         </p>
       </Reveal>
@@ -1285,6 +1285,7 @@ function StoresPage() {
 }
 
 function AboutPage() {
+  const L = useL();
   useSEO({
     title: "Over ons | Vivace Limoncello",
     description:
@@ -1294,27 +1295,22 @@ function AboutPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Ons Verhaal</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Ons Verhaal", "Our Story")}</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          Vivace bestaat om iets terug te geven.
+          {L("Vivace bestaat om iets terug te geven.", "Vivace exists to give something back.")}
         </h1>
       </Reveal>
 
       <Reveal delay={100}>
         <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
           <p>
-            Het idee is ontstaan tijdens een reis naar Rome, waar het Colosseum en de kennismaking
-            met authentieke Italiaanse limoncello samenkwamen. Maar winst alleen voelde nooit als
-            een goede reden om een merk te starten.
+            {L("Het idee is ontstaan tijdens een reis naar Rome, waar het Colosseum en de kennismaking met authentieke Italiaanse limoncello samenkwamen. Maar winst alleen voelde nooit als een goede reden om een merk te starten.", "The idea was born on a trip to Rome, where the Colosseum and a first taste of authentic Italian limoncello came together. But profit alone never felt like a good reason to start a brand.")}
           </p>
           <p>
-            De naam komt uit de muziek: <em className="text-white/70">vivace</em> is Italiaans voor
-            "speel met leven en energie", precies wat we willen dat je voelt bij elk glas.
+            {L("De naam komt uit de muziek:", "The name comes from music:")} <em className="text-white/70">{L("vivace", "vivace")}</em> {L("is Italiaans voor \"speel met leven en energie\", precies wat we willen dat je voelt bij elk glas.", "is Italian for \"play with life and energy\", exactly what we want you to feel with every glass.")}
           </p>
           <p>
-            Zo werd Vivace een premium limoncello met een Italiaans recept en een Nederlands hart,
-            gebouwd rond één vast principe: <strong className="text-white/85">€1 per fles gaat naar
-            Stichting Ambulance Wens,</strong> transparant en herleidbaar.
+            {L("Zo werd Vivace een premium limoncello met een Italiaans recept en een Nederlands hart, gebouwd rond één vast principe:", "That is how Vivace became a premium limoncello with an Italian recipe and a Dutch heart, built around one fixed principle:")} <strong className="text-white/85">{L("€1 per fles gaat naar Stichting Ambulance Wens,", "€1 per bottle goes to Stichting Ambulance Wens,")}</strong> {L("transparant en herleidbaar.", "transparent and traceable.")}
           </p>
         </div>
       </Reveal>
@@ -1322,7 +1318,7 @@ function AboutPage() {
       <Reveal delay={200}>
         <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 mb-16 text-center">
           <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Drink anders. Geniet anders.
+            {L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")}
           </p>
         </div>
       </Reveal>
@@ -1330,44 +1326,36 @@ function AboutPage() {
       {/* The product itself: real ingredients, real distillery, now that both are settled */}
       <Reveal delay={250}>
         <div className="border-t border-[#234060] pt-16 mb-20">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">De limoncello zelf</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("De limoncello zelf", "The limoncello itself")}</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Drie ingrediënten. Geen omwegen.
+            {L("Drie ingrediënten. Geen omwegen.", "Three ingredients. No detours.")}
           </h2>
           <div className="grid md:grid-cols-2 gap-10 items-start">
             <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
               <p>
-                Vivace bestaat uit de schil van biologische Sorrento-citroenen van de Amalfikust,
-                pure suiker en graanalcohol. Geen kunstmatige kleur- of smaakstoffen, geen omwegen,
-                gewoon de citroenschil die het werk doet, zoals in het originele Italiaanse recept.
+                {L("Vivace bestaat uit de schil van biologische Sorrento-citroenen van de Amalfikust, pure suiker en graanalcohol. Geen kunstmatige kleur- of smaakstoffen, geen omwegen, gewoon de citroenschil die het werk doet, zoals in het originele Italiaanse recept.", "Vivace is made from the zest of organic Sorrento lemons from the Amalfi Coast, pure sugar and grain alcohol. No artificial colourings or flavourings, no shortcuts, just the lemon zest doing the work, as in the original Italian recipe.")}
               </p>
               <p>
-                Vivace wordt ambachtelijk geproduceerd door{" "}
-                <strong className="text-white/85">Stokerij Klopman</strong> in Rotterdam: een
-                distilleerderij die het hele proces verzorgt, van citroenschil tot afgevulde fles.
-                Italiaans recept, Nederlands vakmanschap.
+                {L("Vivace wordt ambachtelijk geproduceerd door", "Vivace is crafted by")}{" "}
+                <strong className="text-white/85">{L("Stokerij Klopman", "Stokerij Klopman")}</strong> {L("in Rotterdam: een distilleerderij die het hele proces verzorgt, van citroenschil tot afgevulde fles. Italiaans recept, Nederlands vakmanschap.", "in Rotterdam: a distillery that handles the entire process, from lemon zest to filled bottle. Italian recipe, Dutch craftsmanship.")}
               </p>
               <p>
-                Die productie vindt plaats in de{" "}
-                <strong className="text-white/85">iconische Van Nelle Fabriek</strong>, een
-                voormalige koffie-, thee- en tabaksfabriek en UNESCO-werelderfgoed die inmiddels
-                onderdak biedt aan ambachtelijke makers zoals Stokerij Klopman. Industriële
-                geschiedenis, opnieuw tot leven gebracht, precies de laag die Vivace zijn
-                Rotterdamse hart geeft.
+                {L("Die productie vindt plaats in de", "That production takes place in the")}{" "}
+                <strong className="text-white/85">{L("iconische Van Nelle Fabriek", "iconic Van Nelle Factory")}</strong>{L(", een voormalige koffie-, thee- en tabaksfabriek en UNESCO-werelderfgoed die inmiddels onderdak biedt aan ambachtelijke makers zoals Stokerij Klopman. Industriële geschiedenis, opnieuw tot leven gebracht, precies de laag die Vivace zijn Rotterdamse hart geeft.", ", a former coffee, tea and tobacco factory and UNESCO World Heritage site that now houses craft makers such as Stokerij Klopman. Industrial history brought back to life, exactly the layer that gives Vivace its Rotterdam heart.")}
               </p>
             </div>
             <div className="bg-[#0f1f33] border border-[#234060] p-8 space-y-5">
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">Ingrediënten</p>
-                <p className="text-white/70 text-sm">Schil van (biologische) Sorrento-citroenen, suiker, graanalcohol</p>
+                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Ingrediënten", "Ingredients")}</p>
+                <p className="text-white/70 text-sm">{L("Schil van (biologische) Sorrento-citroenen, suiker, graanalcohol", "Zest of (organic) Sorrento lemons, sugar, grain alcohol")}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">Geproduceerd door</p>
-                <p className="text-white/70 text-sm">Stokerij Klopman, Van Nelle Fabriek, Rotterdam</p>
+                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Geproduceerd door", "Produced by")}</p>
+                <p className="text-white/70 text-sm">{L("Stokerij Klopman, Van Nelle Fabriek, Rotterdam", "Stokerij Klopman, Van Nelle Factory, Rotterdam")}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">Land van oorsprong</p>
-                <p className="text-white/70 text-sm">Geproduceerd in Nederland</p>
+                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Land van oorsprong", "Country of origin")}</p>
+                <p className="text-white/70 text-sm">{L("Geproduceerd in Nederland", "Produced in the Netherlands")}</p>
               </div>
             </div>
           </div>
@@ -1378,16 +1366,15 @@ function AboutPage() {
       <Reveal delay={300}>
         <div className="border-t border-[#234060] pt-16 text-center">
           <p className="font-serif text-4xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
-          <p className="text-[10px] uppercase tracking-wider text-white/35 mb-8">Per fles, naar Stichting Ambulance Wens</p>
+          <p className="text-[10px] uppercase tracking-wider text-white/35 mb-8">{L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}</p>
           <p className="text-white/55 leading-relaxed text-[15px] max-w-lg mx-auto mb-6">
-            Waarom we voor een vast bedrag per fles kozen, wie Stichting Ambulance Wens is, en waar we
-            nu in dat proces staan. Dat staat allemaal op onze Impact-pagina.
+            {L("Waarom we voor een vast bedrag per fles kozen, wie Stichting Ambulance Wens is, en waar we nu in dat proces staan. Dat staat allemaal op onze Impact-pagina.", "Why we chose a fixed amount per bottle, who Stichting Ambulance Wens is, and where we stand in that process. It is all on our Impact page.")}
           </p>
           <Link
             to="/onze-impact"
             className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
           >
-            Bekijk ons impactmodel <ChevronRight size={14} />
+            {L("Bekijk ons impactmodel", "View our impact model")} <ChevronRight size={14} />
           </Link>
         </div>
       </Reveal>
@@ -1396,6 +1383,7 @@ function AboutPage() {
 }
 
 function ImpactPage() {
+  const L = useL();
   useSEO({
     title: "Onze Impact: €1 per fles naar Stichting Ambulance Wens | Vivace Limoncello",
     description:
@@ -1405,24 +1393,19 @@ function ImpactPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Onze Impact</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Onze Impact", "Our Impact")}</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          €1 per fles. Geen omwegen, geen kleine lettertjes.
+          {L("€1 per fles. Geen omwegen, geen kleine lettertjes.", "€1 per bottle. No detours, no small print.")}
         </h1>
       </Reveal>
 
       <Reveal delay={100}>
         <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
           <p>
-            Voor elke fles Vivace leggen we <strong className="text-white/85">€1
-            opzij voor Stichting Ambulance Wens.</strong> Geen percentage van de winst, geen
-            constructie die verandert als een kwartaal tegenzit: een vast bedrag, per fles,
-            ongeacht de verkoopprijs die een winkel of horecazaak hanteert.
+            {L("Voor elke fles Vivace leggen we", "For every bottle of Vivace we set aside")} <strong className="text-white/85">{L("€1 opzij voor Stichting Ambulance Wens.", "€1 for Stichting Ambulance Wens.")}</strong> {L("Geen percentage van de winst, geen constructie die verandert als een kwartaal tegenzit: een vast bedrag, per fles, ongeacht de verkoopprijs die een winkel of horecazaak hanteert.", "Not a percentage of profit, not an arrangement that changes when a quarter goes badly: a fixed amount, per bottle, regardless of the retail price a shop or restaurant charges.")}
           </p>
           <p>
-            Dat vaste bedrag is een bewuste keuze. Het is voorspelbaar voor onszelf, transparant
-            voor onze partners in retail en horeca, en schaalbaar met het merk: hoe meer flessen we
-            verkopen, hoe meer impact we maken.
+            {L("Dat vaste bedrag is een bewuste keuze. Het is voorspelbaar voor onszelf, transparant voor onze partners in retail en horeca, en schaalbaar met het merk: hoe meer flessen we verkopen, hoe meer impact we maken.", "That fixed amount is a deliberate choice. It is predictable for ourselves, transparent for our retail and hospitality partners, and scales with the brand: the more bottles we sell, the more impact we make.")}
           </p>
         </div>
       </Reveal>
@@ -1435,23 +1418,16 @@ function ImpactPage() {
 
       <Reveal delay={200}>
         <div className="border-t border-[#234060] pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Waarom we jaarlijks doneren</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Waarom we jaarlijks doneren", "Why we donate yearly")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Eén keer per jaar, in plaats van per verkoop
+            {L("Eén keer per jaar, in plaats van per verkoop", "Once a year, instead of per sale")}
           </h2>
           <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
             <p>
-              We zetten die €1 al apart zodra we een batch Vivace inkopen, in een pot die met elke
-              batch groeit. Aan het einde van het jaar tellen we alles op en maken we het volledige
-              bedrag in één keer over aan Stichting Ambulance Wens.
+              {L("We zetten die €1 al apart zodra we een batch Vivace inkopen, in een pot die met elke batch groeit. Aan het einde van het jaar tellen we alles op en maken we het volledige bedrag in één keer over aan Stichting Ambulance Wens.", "We set that €1 aside as soon as we buy in a batch of Vivace, in a pot that grows with every batch. At the end of the year we add everything up and transfer the full amount to Stichting Ambulance Wens in one go.")}
             </p>
             <p>
-              Dat is een bewuste keuze, om twee redenen. Schaal: honderd losse donaties van een
-              paar euro verdwijnen, terwijl één substantieel bedrag echt vooruit kan
-              helpen. En zorgvuldigheid: door te wachten tot het einde van het jaar houden we het
-              overzicht helder, in plaats van overhaaste kleine overboekingen bij elke losse
-              verkoop. Zo zorgen we voor een grotere, betekenisvollere impact dan wanneer we elk
-              bedrag los zouden wegschenken.
+              {L("Dat is een bewuste keuze, om twee redenen. Schaal: honderd losse donaties van een paar euro verdwijnen, terwijl één substantieel bedrag echt vooruit kan helpen. En zorgvuldigheid: door te wachten tot het einde van het jaar houden we het overzicht helder, in plaats van overhaaste kleine overboekingen bij elke losse verkoop. Zo zorgen we voor een grotere, betekenisvollere impact dan wanneer we elk bedrag los zouden wegschenken.", "That is a deliberate choice, for two reasons. Scale: a hundred separate donations of a few euros disappear, while one substantial amount can really move things forward. And care: by waiting until the end of the year we keep a clear overview, instead of hasty small transfers for every single sale. This way we create a bigger, more meaningful impact than if we gave each amount away separately.")}
             </p>
           </div>
         </div>
@@ -1459,9 +1435,9 @@ function ImpactPage() {
 
       <Reveal delay={225}>
         <div className="border-t border-[#234060] pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Ons impactproject</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Ons impactproject", "Our impact project")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Vivace steunt Stichting Ambulance Wens
+            {L("Vivace steunt Stichting Ambulance Wens", "Vivace supports Stichting Ambulance Wens")}
           </h2>
 
           <div className="bg-[#f7f3e8] p-8 md:p-10 flex flex-col sm:flex-row items-center gap-8 mb-8">
@@ -1471,24 +1447,16 @@ function ImpactPage() {
               className="w-full max-w-[200px] sm:max-w-[180px] h-auto flex-shrink-0"
             />
             <p className="text-[#0F1F33]/70 text-sm leading-relaxed">
-              Stichting Ambulance Wens vervult de laatste wens van terminale, bedlegerige
-              patiënten: kosteloos en vaak al binnen één dag. Met speciaal gebouwde ambulances en
-              honderden vrijwilligers brengen zij mensen nog één keer naar de plek die het meest
-              voor hen betekent, het strand, het stadion, of gewoon nog één keer thuis. De
-              stichting draagt het CBF-keurmerk en is aangesloten bij Goede Doelen Nederland.
+              {L("Stichting Ambulance Wens vervult de laatste wens van terminale, bedlegerige patiënten: kosteloos en vaak al binnen één dag. Met speciaal gebouwde ambulances en honderden vrijwilligers brengen zij mensen nog één keer naar de plek die het meest voor hen betekent, het strand, het stadion, of gewoon nog één keer thuis. De stichting draagt het CBF-keurmerk en is aangesloten bij Goede Doelen Nederland.", "Stichting Ambulance Wens fulfils the last wish of terminally ill, bedridden patients: free of charge and often within a single day. With specially built ambulances and hundreds of volunteers, they take people one more time to the place that means the most to them, the beach, the stadium, or simply home one more time. The foundation holds the CBF seal of approval and is a member of Goede Doelen Nederland.")}
             </p>
           </div>
 
           <div className="space-y-4 text-white/55 leading-relaxed text-[15px] mb-8">
             <p>
-              Deze keuze is bewust. Een laatste wens vervullen, nog één keer naar het strand, het
-              stadion, of gewoon nog één keer thuis, het raakt precies waar Vivace voor staat: het
-              leven vieren en betekenisvolle momenten mogelijk maken, hoe klein of groot ook.
+              {L("Deze keuze is bewust. Een laatste wens vervullen, nog één keer naar het strand, het stadion, of gewoon nog één keer thuis, het raakt precies waar Vivace voor staat: het leven vieren en betekenisvolle momenten mogelijk maken, hoe klein of groot ook.", "This choice is deliberate. Fulfilling a last wish, one more time to the beach, the stadium, or simply home one more time, touches exactly what Vivace stands for: celebrating life and making meaningful moments possible, however small or big.")}
             </p>
             <p>
-              Vanaf nu gaat €1 per fles Vivace naar Stichting Ambulance Wens. Aan het
-              einde van ons eerste volledige verkoopjaar maken we het opgespaarde bedrag in één
-              keer over, en delen we hier precies hoeveel dat geworden is.
+              {L("Vanaf nu gaat €1 per fles Vivace naar Stichting Ambulance Wens. Aan het einde van ons eerste volledige verkoopjaar maken we het opgespaarde bedrag in één keer over, en delen we hier precies hoeveel dat geworden is.", "From now on, €1 per bottle of Vivace goes to Stichting Ambulance Wens. At the end of our first full year we transfer the saved amount in one go, and we will share here exactly how much it turned out to be.")}
             </p>
           </div>
 
@@ -1498,30 +1466,26 @@ function ImpactPage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
           >
-            Bezoek Stichting Ambulance Wens <ChevronRight size={14} />
+            {L("Bezoek Stichting Ambulance Wens", "Visit Stichting Ambulance Wens")} <ChevronRight size={14} />
           </a>
         </div>
       </Reveal>
 
       <Reveal delay={250}>
         <div className="border-t border-[#234060] pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Waar we nu staan</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Waar we nu staan", "Where we stand now")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Eerlijk over waar we in het proces zitten
+            {L("Eerlijk over waar we in het proces zitten", "Honest about where we are in the process")}
           </h2>
           <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
             <p>
-              Vivace is jong, en dat geldt ook voor ons impactmodel. We weten nu wélk project we
-              steunen, maar een eerste donatiebedrag kunnen we nog niet laten zien. Dat komt aan
-              het einde van dit eerste volledige verkoopjaar. Wat we nu al vastleggen is hóe het
-              werkt, zodat we onszelf daar later aan kunnen houden.
+              {L("Vivace is jong, en dat geldt ook voor ons impactmodel. We weten nu wélk project we steunen, maar een eerste donatiebedrag kunnen we nog niet laten zien. Dat komt aan het einde van dit eerste volledige verkoopjaar. Wat we nu al vastleggen is hóe het werkt, zodat we onszelf daar later aan kunnen houden.", "Vivace is young, and so is our impact model. We now know which project we support, but we cannot show a first donation amount yet. That comes at the end of this first full year. What we are already putting in place is how it works, so we can hold ourselves to it later.")}
             </p>
             <p>
-              Zodra de eerste donatie een feit is, delen we hier en via onze{" "}
+              {L("Zodra de eerste donatie een feit is, delen we hier en via onze", "As soon as the first donation has been made, we will share it here and via our")}{" "}
               <Link to="/blog" className="text-[#D4AF37] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
-                blog
-              </Link>{" "}
-              precies hoeveel we hebben gedoneerd.
+                {L("blog", "blog")}
+              </Link>{" "}{L("precies hoeveel we hebben gedoneerd.", "exactly how much we have donated.")}
             </p>
           </div>
         </div>
@@ -1529,22 +1493,16 @@ function ImpactPage() {
 
       <Reveal delay={275}>
         <div className="border-t border-[#234060] pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Waarom premium en impact samengaan</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Waarom premium en impact samengaan", "Why premium and impact go together")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Kwaliteit en betekenis hoeven geen tegenpolen te zijn
+            {L("Kwaliteit en betekenis hoeven geen tegenpolen te zijn", "Quality and meaning do not have to be opposites")}
           </h2>
           <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
             <p>
-              Vivace is er niet ondanks het premium karakter van het product, maar juist dankzij
-              een merk dat op eigen kracht kan bestaan. Een zorgvuldig recept, ambachtelijke
-              productie en een eerlijke prijs zijn wat Vivace laat groeien, en die groei is precies
-              wat het mogelijk maakt om structureel iets terug te geven.
+              {L("Vivace is er niet ondanks het premium karakter van het product, maar juist dankzij een merk dat op eigen kracht kan bestaan. Een zorgvuldig recept, ambachtelijke productie en een eerlijke prijs zijn wat Vivace laat groeien, en die groei is precies wat het mogelijk maakt om structureel iets terug te geven.", "Vivace does not exist despite the premium character of the product, but precisely thanks to a brand that can stand on its own. A careful recipe, craft production and a fair price are what make Vivace grow, and that growth is exactly what makes it possible to give something back in a structural way.")}
             </p>
             <p>
-              We geloven dat genieten en teruggeven elkaar niet hoeven uit te sluiten. Een goed
-              glas limoncello en een zinvolle bijdrage aan iemand anders' leven kunnen prima naast
-              elkaar bestaan, en dat is precies wat Vivace wil laten zien: dat duurzaam
-              ondernemen en een premium ervaring hand in hand kunnen gaan.
+              {L("We geloven dat genieten en teruggeven elkaar niet hoeven uit te sluiten. Een goed glas limoncello en een zinvolle bijdrage aan iemand anders' leven kunnen prima naast elkaar bestaan, en dat is precies wat Vivace wil laten zien: dat duurzaam ondernemen en een premium ervaring hand in hand kunnen gaan.", "We believe that enjoying and giving back do not have to exclude each other. A good glass of limoncello and a meaningful contribution to someone else's life can perfectly coexist, and that is exactly what Vivace wants to show: that sustainable business and a premium experience can go hand in hand.")}
             </p>
           </div>
         </div>
@@ -1552,21 +1510,16 @@ function ImpactPage() {
 
       <Reveal delay={300}>
         <div className="border-t border-[#234060] pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Voor retailers en partners</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Voor retailers en partners", "For retailers and partners")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Een model waar je op kunt bouwen
+            {L("Een model waar je op kunt bouwen", "A model you can build on")}
           </h2>
           <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
             <p>
-              Voor supermarkten, slijterijen, horecazaken en andere partners is voorspelbaarheid
-              belangrijk. Daarom houden we het donatiemodel eenvoudig en consistent: een vast
-              bedrag per fles, ongeacht de verkoopprijs die jij hanteert, en communicatie die
-              nooit verder gaat dan wat we daadwerkelijk hebben gedaan.
+              {L("Voor supermarkten, slijterijen, horecazaken en andere partners is voorspelbaarheid belangrijk. Daarom houden we het donatiemodel eenvoudig en consistent: een vast bedrag per fles, ongeacht de verkoopprijs die jij hanteert, en communicatie die nooit verder gaat dan wat we daadwerkelijk hebben gedaan.", "For supermarkets, liquor stores, restaurants and other partners, predictability matters. That is why we keep the donation model simple and consistent: a fixed amount per bottle, regardless of the retail price you charge, and communication that never goes further than what we have actually done.")}
             </p>
             <p>
-              We claimen geen donaties die nog niet zijn gedaan. Wat we wél beloven: zodra er
-              resultaten zijn, delen we ze openlijk, met jou, en met de consument die de fles bij
-              jou koopt.
+              {L("We claimen geen donaties die nog niet zijn gedaan. Wat we wél beloven: zodra er resultaten zijn, delen we ze openlijk, met jou, en met de consument die de fles bij jou koopt.", "We do not claim donations that have not been made yet. What we do promise: as soon as there are results, we share them openly, with you, and with the consumer who buys the bottle from you.")}
             </p>
           </div>
         </div>
@@ -1575,14 +1528,14 @@ function ImpactPage() {
       <Reveal delay={325}>
         <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 text-center">
           <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Drink anders. Geniet anders.
+            {L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")}
           </p>
-          <p className="text-white/40 text-sm mb-6">Vragen over ons impactmodel? We beantwoorden ze graag.</p>
+          <p className="text-white/40 text-sm mb-6">{L("Vragen over ons impactmodel? We beantwoorden ze graag.", "Questions about our impact model? We are happy to answer them.")}</p>
           <Link
             to="/contact"
             className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
           >
-            Neem contact op <ChevronRight size={14} />
+            {L("Neem contact op", "Get in touch")} <ChevronRight size={14} />
           </Link>
         </div>
       </Reveal>
@@ -1908,6 +1861,7 @@ function HorecaPage() {
 }
 
 function ContactPage() {
+  const L = useL();
   useSEO({
     title: "Contact | Vivace Limoncello",
     description:
@@ -1943,40 +1897,40 @@ function ContactPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-2xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Contact</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Contact", "Contact")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          Laten we praten
+          {L("Laten we praten", "Let's talk")}
         </h1>
         <p className="text-white/45 mb-12">
-          Vragen over Vivace, interesse als verkooppunt, of gewoon nieuwsgierig? Stuur een bericht.
+          {L("Vragen over Vivace, interesse als verkooppunt, of gewoon nieuwsgierig? Stuur een bericht.", "Questions about Vivace, interest as a stockist, or just curious? Send a message.")}
         </p>
       </Reveal>
 
       <Reveal delay={100}>
         {status === "sent" ? (
           <div className="border border-[#C9A04E]/30 p-8 text-center">
-            <p className="text-[#C9A04E] font-medium mb-2">Bedankt voor je bericht!</p>
-            <p className="text-white/40 text-sm">We nemen zo snel mogelijk contact met je op.</p>
+            <p className="text-[#C9A04E] font-medium mb-2">{L("Bedankt voor je bericht!", "Thank you for your message!")}</p>
+            <p className="text-white/40 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
             <input
               type="text"
               name="naam"
-              placeholder="Naam"
+              placeholder={L("Naam", "Name")}
               required
               className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <input
               type="email"
               name="email"
-              placeholder="E-mailadres"
+              placeholder={L("E-mailadres", "Email address")}
               required
               className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <textarea
               name="bericht"
-              placeholder="Je bericht"
+              placeholder={L("Je bericht", "Your message")}
               required
               rows={5}
               className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
@@ -1986,11 +1940,11 @@ function ContactPage() {
               disabled={status === "sending"}
               className="bg-[#D4AF37] text-black px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
             >
-              {status === "sending" ? "Versturen..." : "Verstuur bericht"}
+              {status === "sending" ? L("Versturen...", "Sending...") : L("Verstuur bericht", "Send message")}
             </button>
             {status === "error" && (
               <p className="text-red-400 text-xs">
-                Er ging iets mis. Probeer het opnieuw of mail direct naar drinkvivace@gmail.com.
+                {L("Er ging iets mis. Probeer het opnieuw of mail direct naar drinkvivace@gmail.com.", "Something went wrong. Try again or email drinkvivace@gmail.com directly.")}
               </p>
             )}
           </form>
@@ -2001,17 +1955,17 @@ function ContactPage() {
         <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
           <p>info@drinkvivace.nl</p>
           <p>drinkvivace@gmail.com</p>
-          <p>Nederland</p>
+          <p>{L("Nederland", "The Netherlands")}</p>
         </div>
       </Reveal>
 
       <Reveal delay={250}>
         <div className="mt-10 pt-10 border-t border-[#234060]">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">Geleverd door</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">{L("Geleverd door", "Delivered by")}</p>
           <p className="text-white/70 text-sm leading-relaxed mb-6">
-            Vivace wordt geëxploiteerd door VVM Trading.
+            {L("Vivace wordt geëxploiteerd door VVM Trading.", "Vivace is operated by VVM Trading.")}
           </p>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">Geproduceerd door</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">{L("Geproduceerd door", "Produced by")}</p>
           <p className="text-white/45 text-sm leading-relaxed">
             Stokerij Klopman<br />
             Van Nelleweg 1, Kelder 3<br />
@@ -3445,7 +3399,7 @@ function AppShell() {
       {ageConfirmed === null && <AgeGate onConfirm={handleAgeConfirm} />}
       {ageConfirmed === false && <UnderageBlock />}
 
-      {lang === "en" && !["/", "/producten"].includes(location.pathname) && (
+      {lang === "en" && !["/", "/producten", "/onze-impact", "/over-ons", "/verkooppunten", "/contact"].includes(location.pathname) && (
         <div className="fixed bottom-0 inset-x-0 z-40 bg-[#102338] border-t border-[#234060] text-center text-xs text-white/70 py-3 px-4">
           This page is currently available in Dutch only. English version coming soon.
         </div>
