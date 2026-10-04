@@ -2759,7 +2759,14 @@ function ReviewStars({ rating, size = 14 }) {
 // Algemene reviews over Vivace (niet aan een recept gekoppeld).
 // Voeg hier handmatig goedgekeurde reviews toe, bijvoorbeeld:
 // { name: "Naam", rating: 5, text: "Jouw review", date: "2026-10-01" }
-const GENERAL_REVIEWS = [];
+const GENERAL_REVIEWS = [
+  {
+    name: "Dylan de Jongste",
+    rating: 5,
+    text: "De Vivace limoncello is niet te vergelijken met andere limoncello’s. Je proeft de natuurlijke producten en dat maakt deze limoncello bijzonder. De kleur is prachtig en dat voor die prijs is een koopje.",
+    date: "2026-10-04",
+  },
+];
 
 function ReviewsPage() {
   useSEO({
