@@ -290,6 +290,18 @@ const STOCKISTS = [
     lng: 4.391035,
     products: ["limoncello"],
   },
+  {
+    name: "Wijnhandel Van Dijk",
+    type: "Wijnhandel",
+    address: "Schiedamseweg 33",
+    postcode: "3121 JD",
+    city: "Schiedam",
+    // lat/lng nog invullen (rechtsklik op de pin in Google Maps). Zodra beide
+    // verkooppunten coordinaten hebben, verschijnt de overzichtskaart vanzelf.
+    lat: null,
+    lng: null,
+    products: ["limoncello"],
+  },
 ];
 
 // Detects placeholder entries in STOCKISTS (bracketed names like
@@ -2184,6 +2196,24 @@ const BLOG_CATEGORIES = [
 ];
 
 const BLOG_POSTS = [
+  {
+    id: "verkooppunt-wijnhandel-van-dijk-schiedam",
+    type: "verkooppunt",
+    title: "Vivace staat nu in Schiedam: Wijnhandel Van Dijk",
+    date: "2026-10-10",
+    image: "/images/vivace-van-dijk-winkel.jpg",
+    excerpt: "Vivace Limoncello staat nu in het schap bij Wijnhandel Van Dijk, Schiedamseweg 33 in Schiedam.",
+    body: [
+      "Vivace staat nu in Schiedam! Vanaf nu vind je onze limoncello bij Wijnhandel Van Dijk, dé plek in Schiedam voor wijnen en gedistilleerd.",
+      "Marcel en Marina van Dijk, bedankt voor de warme ontvangst, jullie vertrouwen en de plek in jullie schap. Dat voelt als een compliment.",
+      "Je vindt Vivace aan de Schiedamseweg 33, 3121 JD Schiedam. Loop binnen en vraag ernaar. Voor elke fles gaat €1 naar Stichting Ambulance Wens.",
+      "Wil je Vivace ook in jouw winkel of horecazaak? Meld je aan via onze horeca-pagina.",
+    ],
+    gallery: [
+      "/images/vivace-van-dijk-schap.jpg",
+      "/images/vivace-van-dijk-schap-02.jpg",
+    ],
+  },
     {
     id: "rotterdam-halve-marathon-2026",
     type: "nieuws",
