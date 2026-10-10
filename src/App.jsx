@@ -2800,6 +2800,12 @@ const GENERAL_REVIEWS = [
     text: "Echt een totaal andere limoncello dan je gewend bent! Niet zo zoet als veel andere limoncello’s, maar juist lekker fris en scherp van smaak. Daarnaast is hij heerlijk zacht en drinkt hij ontzettend lekker weg. Dit is inmiddels mijn nieuwe favoriet. Zeker een aanrader als je eens iets anders wilt dan een standaard limoncello!",
     date: "2026-10-04",
   },
+  {
+    name: "Rick",
+    rating: 5,
+    text: "Ik kan niet anders zeggen dat dit echt het top punt van kwaliteit is, het is dat ik maar 5 sterren kan geven, maar ik raad iedereen Vivace aan, vooral als je echt geeft om kwaliteit!!",
+    date: "2026-10-10",
+  },
 ];
 
 function ReviewsPage() {
