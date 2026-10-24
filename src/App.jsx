@@ -1355,7 +1355,7 @@ function AboutPage() {
           <div className="grid md:grid-cols-2 gap-10 items-start">
             <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
               <p>
-                {L("Vivace bestaat uit de schil van biologische Sorrento-citroenen van de Amalfikust, pure suiker en graanalcohol. Geen kunstmatige kleur- of smaakstoffen, geen omwegen, gewoon de citroenschil die het werk doet, zoals in het originele Italiaanse recept.", "Vivace is made from the zest of organic Sorrento lemons from the Amalfi Coast, pure sugar and grain alcohol. No artificial colourings or flavourings, no shortcuts, just the lemon zest doing the work, as in the original Italian recipe.")}
+                {L("Vivace bestaat uit de schil van biologische Sorrento-citroenen van de Amalfikust, pure suiker, graanalcohol en water. Geen kunstmatige kleur- of smaakstoffen, geen omwegen, gewoon de citroenschil die het werk doet, zoals in het originele Italiaanse recept.", "Vivace is made from the zest of organic Sorrento lemons from the Amalfi Coast, pure sugar and grain alcohol. No artificial colourings or flavourings, no shortcuts, just the lemon zest doing the work, as in the original Italian recipe.")}
               </p>
               <p>
                 {L("Vivace wordt ambachtelijk geproduceerd door", "Vivace is crafted by")}{" "}
@@ -1369,7 +1369,7 @@ function AboutPage() {
             <div className="bg-[#0f1f33] border border-[#234060] p-8 space-y-5">
               <div>
                 <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Ingrediënten", "Ingredients")}</p>
-                <p className="text-white/70 text-sm">{L("Schil van (biologische) Sorrento-citroenen, suiker, graanalcohol", "Zest of (organic) Sorrento lemons, sugar, grain alcohol")}</p>
+                <p className="text-white/70 text-sm">{L("Schil van (biologische) Sorrento-citroenen, suiker, graanalcohol en water.", "Zest of (organic) Sorrento lemons, sugar, grain alcohol and water")}</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Geproduceerd door", "Produced by")}</p>
