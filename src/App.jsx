@@ -302,6 +302,16 @@ const STOCKISTS = [
     lng: null,
     products: ["limoncello"],
   },
+    {
+    name: "Colins Slijterij & Wijnwinkel",
+    type: "Slijterij",
+    address: "Winkelcentrum De Loper",
+    postcode: "",
+    city: "Vlaardingen",
+    lat: null,
+    lng: null,
+    products: ["limoncello"],
+  },
 ];
 
 // Detects placeholder entries in STOCKISTS (bracketed names like
