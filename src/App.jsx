@@ -2197,6 +2197,24 @@ const BLOG_CATEGORIES = [
 
 const BLOG_POSTS = [
   {
+    id: "verkooppunt-colins-slijterij-vlaardingen",
+    type: "verkooppunt",
+    title: "Vivace staat nu in Vlaardingen: Colins Slijterij & Wijnwinkel",
+    date: "2026-10-24",
+    image: "/images/vivace-colins-winkel.jpg",
+    excerpt: "Vivace Limoncello staat nu in het schap bij Colins Slijterij & Wijnwinkel in winkelcentrum De Loper in Vlaardingen.",
+    body: [
+      "Vivace staat nu in Vlaardingen! Vanaf nu vind je onze limoncello bij Colins Slijterij & Wijnwinkel in winkelcentrum De Loper, en we vinden het echt supertof om daar te liggen.",
+      "Colins Slijterij & Wijnwinkel is de droom van Colin Schrama, die zijn passie voor wijn, sterke drank en lokale specialiteiten in een eigen zaak heeft gestoken. Persoonlijke service staat bij hem voorop: Colin denkt graag met je mee, of je nu zoekt naar een wijn bij het diner, een cadeau of een bijzondere likeur.",
+      "Colin, topvent! Bedankt voor het vertrouwen in Vivace en voor de warme ontvangst. Wie in Vlaardingen of omgeving een fles Vivace wil proeven: loop binnen en vraag ernaar. Voor elke fles gaat €1 naar Stichting Ambulance Wens.",
+      "Wil je Vivace ook in jouw winkel of horecazaak? Meld je aan via onze horeca-pagina.",
+    ],
+    gallery: [
+      "/images/vivace-colins-schap.jpg",
+      "/images/vivace-colins-schap-02.jpg",
+    ],
+  },
+  {
     id: "verkooppunt-wijnhandel-van-dijk-schiedam",
     type: "verkooppunt",
     title: "Vivace staat nu in Schiedam: Wijnhandel Van Dijk",
