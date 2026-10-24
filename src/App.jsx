@@ -1350,7 +1350,7 @@ function AboutPage() {
         <div className="border-t border-[#234060] pt-16 mb-20">
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("De limoncello zelf", "The limoncello itself")}</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            {L("Drie ingrediënten. Geen omwegen.", "Three ingredients. No detours.")}
+            {L("Vier ingrediënten. Geen omwegen.", "Four ingredients. No detours.")}
           </h2>
           <div className="grid md:grid-cols-2 gap-10 items-start">
             <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
