@@ -1636,7 +1636,7 @@ function PressPage() {
           <div className="grid sm:grid-cols-2 gap-x-10 gap-y-4 max-w-2xl">
             {[
               ["Product", "Vivace Limoncello, 500ml, 30% ALC/VOL"],
-              [L("Ingrediënten", "Ingredients"), L("Biologische Sorrento-citroenen, suiker, graanalcohol", "Organic Sorrento lemons, sugar, grain alcohol")],
+              [L("Ingrediënten", "Ingredients"), L("Biologische Sorrento-citroenen, suiker, graanalcohol en water", "Organic Sorrento lemons, sugar, grain alcohol and water")],
               [L("Geproduceerd door", "Produced by"), L("Stokerij Klopman, Van Nelle Fabriek, Rotterdam", "Stokerij Klopman, Van Nelle Factory, Rotterdam")],
               [L("Bedrijf", "Company"), L("VVM Trading (eenmanszaak), KVK 86618806", "VVM Trading (sole proprietorship), KVK 86618806")],
               [L("Impactmodel", "Impact model"), L("€1 per fles naar Stichting Ambulance Wens", "€1 per bottle to Stichting Ambulance Wens")],
