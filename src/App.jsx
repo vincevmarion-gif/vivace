@@ -2207,6 +2207,50 @@ const BLOG_CATEGORIES = [
 
 const BLOG_POSTS = [
   {
+    id: "vivace-limoncello-bars",
+    type: "recept",
+    title: "Vivace Limoncello Bars: romig, fris en een beetje zoet",
+    date: "2026-10-25",
+    servingUnit: "Stukjes",
+    baseServings: 16,
+    recipeYield: "16 stukjes",
+    cookTime: "PT45M",
+    recipeCategory: "Dessert",
+    image: "/images/vivace-limoncello-bars-hero.jpg",
+    excerpt: "Een boterachtige shortbread-bodem met een romige citroenvulling en een scheut Vivace Limoncello. Koud serveren, bestuiven met poedersuiker en klaar.",
+    tip: "Tip: serveer de bars koud, met een klein glaasje ijskoude Vivace ernaast.",
+    ingredients: [
+      { heading: "Voor de shortbread-bodem" },
+      { amount: 190, unit: "g", name: "bloem" },
+      { amount: 100, unit: "g", name: "suiker" },
+      { amount: null, unit: "", name: "snufje zout" },
+      { amount: 115, unit: "g", name: "ongezouten boter, gesmolten" },
+      { amount: 1, unit: "tl", name: "vanille-extract" },
+      { heading: "Voor de limoncello-vulling" },
+      { amount: 4, unit: "", name: "grote eieren, op kamertemperatuur" },
+      { amount: 250, unit: "g", name: "suiker" },
+      { amount: 30, unit: "g", name: "bloem" },
+      { amount: 80, unit: "ml", name: "vers citroensap" },
+      { amount: 6, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 1, unit: "el", name: "fijngeraspte citroenschil" },
+      { amount: 60, unit: "ml", name: "slagroom" },
+      { amount: null, unit: "", name: "snufje zout" },
+      { amount: null, unit: "", name: "poedersuiker, om te bestuiven" },
+    ],
+    steps: [
+      "Verwarm de oven voor op 175 °C. Bekleed een vierkante bakvorm van 20 x 20 cm met bakpapier en laat het papier aan de zijkanten overhangen, zodat je de bars er straks makkelijk uit kunt tillen.",
+      "Meng de bloem, suiker en het zout in een kom. Voeg de gesmolten boter en het vanille-extract toe en roer tot een zacht, kruimelig deeg. Druk het stevig en gelijkmatig in de bodem van de vorm.",
+      "Bak de bodem 18 tot 20 minuten, tot de randjes net goudkleurig worden. Haal de vorm uit de oven en laat de oven op 175 °C staan.",
+      "Klop terwijl de bodem bakt de eieren en de suiker in een grote kom glad. Voeg de bloem toe en klop opnieuw tot er geen klontjes meer zijn.",
+      "Voeg het citroensap, de Vivace Limoncello, de slagroom, de citroenschil en een snufje zout toe. Klop zachtjes tot alles gemengd is. Niet te hard kloppen, anders ontstaan er luchtbellen op het oppervlak.",
+      "Giet de vulling over de warme bodem en zet de vorm voorzichtig terug in de oven.",
+      "Bak 20 tot 25 minuten, tot de randen vast zijn en het midden nog heel licht wiebelt als je de vorm beweegt. Niet te lang bakken: de vulling stevent verder op tijdens het afkoelen.",
+      "Laat de bars helemaal afkoelen in de vorm op kamertemperatuur. Zet ze daarna minimaal 3 uur in de koelkast, het liefst een hele nacht. Dit is essentieel voor mooie, strakke plakken en een romige structuur.",
+      "Til de gekoelde bars met het bakpapier uit de vorm. Snijd ze met een groot, scherp mes in nette stukjes en veeg het mes tussen elke snede schoon.",
+      "Bestuif royaal met poedersuiker vlak voor het serveren.",
+    ],
+  },
+  {
     id: "verkooppunt-colins-slijterij-vlaardingen",
     type: "verkooppunt",
     title: "Vivace staat nu in Vlaardingen: Colins Slijterij & Wijnwinkel",
@@ -2625,7 +2669,12 @@ function RecipeBody({ post }) {
         <div>
           <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Ingrediënten</p>
           <ul className="space-y-3">
-            {post.ingredients.map((ing, i) => (
+            {post.ingredients.map((ing, i) =>
+              ing.heading ? (
+                <li key={i} className={`text-[10px] tracking-[0.2em] uppercase text-white/35 ${i > 0 ? "pt-4" : ""}`}>
+                  {ing.heading}
+                </li>
+              ) : (
               <li key={i} className="flex items-baseline justify-between gap-4 text-white/80 text-sm border-b border-[#1c3450] pb-3">
                 <span>{ing.name}</span>
                 {ing.amount !== null && (
@@ -2634,7 +2683,8 @@ function RecipeBody({ post }) {
                   </span>
                 )}
               </li>
-            ))}
+              )
+            )}
           </ul>
         </div>
 
@@ -2655,7 +2705,7 @@ function RecipeBody({ post }) {
 
       <div className="text-center mt-12 pt-8 border-t border-[#1c3450]">
         <p className="font-serif italic text-white/40 text-sm" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          Tip: bewaar je Vivace in de vriezer voor het koudste, meest verfrissende resultaat.
+          {post.tip || "Tip: bewaar je Vivace in de vriezer voor het koudste, meest verfrissende resultaat."}
         </p>
         <p className="text-white/20 text-[11px] mt-4">Drink met aandacht, drink met mate. 18+.</p>
       </div>
@@ -2712,11 +2762,11 @@ function BlogPostPage() {
           image: `https://www.drinkvivace.nl${post.image || "/images/vivace-bottle-hero-v2.jpg"}`,
           datePublished: post.date,
           recipeYield: post.recipeYield || (post.servingUnit === "Personen" ? "1 portie" : "1 glas"),
-          recipeCategory: post.servingUnit === "Personen" ? "Dessert" : "Drank",
+          recipeCategory: post.recipeCategory || (post.servingUnit === "Personen" ? "Dessert" : "Drank"),
           recipeCuisine: "Italiaans",
-          cookTime: "PT0M",
+          cookTime: post.cookTime || "PT0M",
           keywords: `${post.title}, limoncello, Vivace`,
-          recipeIngredient: post.ingredients.map((ing) => {
+          recipeIngredient: post.ingredients.filter((ing) => !ing.heading).map((ing) => {
             const amt = formatRecipeAmount(ing.amount, 1);
             return amt ? `${amt} ${ing.unit} ${ing.name}`.replace(/\s+/g, " ").trim() : ing.name;
           }),
