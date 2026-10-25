@@ -2217,6 +2217,7 @@ const BLOG_POSTS = [
     cookTime: "PT45M",
     recipeCategory: "Dessert",
     image: "/images/vivace-limoncello-bars-hero.jpg",
+    photoCredit: "@_rosalie_h",
     excerpt: "Een boterachtige shortbread-bodem met een romige citroenvulling en een scheut Vivace Limoncello. Koud serveren, bestuiven met poedersuiker en klaar.",
     tip: "Tip: serveer de bars koud, met een klein glaasje ijskoude Vivace ernaast.",
     ingredients: [
@@ -2639,6 +2640,19 @@ function RecipeBody({ post }) {
       {post.image && (
         <img src={post.image} alt={post.title} className="w-full h-auto" />
       )}
+      {post.photoCredit && (
+        <p className="px-8 md:px-12 pt-3 text-[11px] text-white/35">
+          Foto:{" "}
+          <a
+            href={`https://www.instagram.com/${post.photoCredit.replace("@", "")}/`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#D4AF37]/70 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors"
+          >
+            {post.photoCredit}
+          </a>
+        </p>
+      )}
       <div className="p-8 md:p-12">
       <div className="flex items-center justify-end mb-10">
         <div className="flex items-center gap-4">
@@ -2719,6 +2733,19 @@ function ArticleBody({ post }) {
     <div className="bg-[#102338] border border-[#234060] overflow-hidden">
       {post.image && (
         <img src={post.image} alt={post.title} className="w-full h-auto" />
+      )}
+      {post.photoCredit && (
+        <p className="px-8 md:px-12 pt-3 text-[11px] text-white/35">
+          Foto:{" "}
+          <a
+            href={`https://www.instagram.com/${post.photoCredit.replace("@", "")}/`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#D4AF37]/70 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors"
+          >
+            {post.photoCredit}
+          </a>
+        </p>
       )}
       <div className="p-8 md:p-12 space-y-5">
         {post.body.map((para, i) => (
