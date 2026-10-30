@@ -26,11 +26,11 @@ export const PRODUCTS = [
     supplier: {
       provider: "printful",
       // Printful variant-ID per maat (zie SETUP-MERCH.md, stap 4). null = nog niet ingevuld.
-      variants: { S: null, M: null, L: null, XL: null, XXL: null },
+      variants: { S: 4111, M: 4112, L: 4113, XL: 4114, XXL: 4115 }, // Bella + Canvas 3001, kleur Navy
       // Printbestanden: PNG met transparante achtergrond, ruim 3000 px breed, in public/merch/print/.
       files: [
-        { type: "back", path: "/merch/print/back.png" },
-        { type: "default", path: "/merch/print/front.png" },
+        { type: "back", path: "/merch/print/shirt-back.png" },
+        { type: "default", path: "/merch/print/shirt-front.png" },
       ],
       options: [],
     },
