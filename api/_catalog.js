@@ -49,7 +49,7 @@ export const PRODUCTS = [
     },
     price_cents: 3495,
     art: "cap",
-    image: null, public/merch/print/cap.jpg
+    image: public/merch/print/cap.jpg
     sizes: ["One size"],
     supplier: {
       provider: "printful",
