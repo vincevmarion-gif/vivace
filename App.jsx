@@ -1,0 +1,3823 @@
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Link, useNavigate, useLocation, useParams } from "react-router-dom";
+import { ShoppingBag, X, Plus, Minus, MapPin, ChevronRight, Menu, Leaf, Award, Factory, Sparkles } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
+
+// ---------- Shared bottle / can SVGs ----------
+// Self-contained Instagram icon (inline SVG), not from lucide-react, since
+// that icon name isn't exported by the installed package version.
+function InstagramIcon({ size = 18, className = "" }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  );
+}
+
+const LangContext = React.createContext({ lang: "nl", setLang: () => {} });
+function useL() {
+  const { lang } = React.useContext(LangContext);
+  return (nl, en) => (lang === "en" ? en : nl);
+}
+
+const LINKEDIN_URL = "https://www.linkedin.com/company/drinkvivace/";
+
+function LinkedInIcon({ size = 18, className = "" }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+
+function BottleSVG({ size = 110 }) {
+  const h = size * (380 / 110);
+  return (
+    <svg width={size} height={h} viewBox="0 0 110 380" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        {/* Clear glass with liquid */}
+        <linearGradient id="bGlass" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#e8e4d0" stopOpacity="0.35" />
+          <stop offset="15%" stopColor="#f5f2e4" stopOpacity="0.15" />
+          <stop offset="50%" stopColor="#e8d98a" stopOpacity="0.55" />
+          <stop offset="85%" stopColor="#d4c468" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#b8a84a" stopOpacity="0.8" />
+        </linearGradient>
+        <linearGradient id="bLiquid" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#f0d050" />
+          <stop offset="50%" stopColor="#f7dc6f" />
+          <stop offset="100%" stopColor="#d4af2a" />
+        </linearGradient>
+        {/* Cream label */}
+        <linearGradient id="bLabelBg" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#f7f3e8" />
+          <stop offset="100%" stopColor="#efe8d8" />
+        </linearGradient>
+        {/* Sky for colosseum scene */}
+        <linearGradient id="bSky" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#2c5f8a" />
+          <stop offset="100%" stopColor="#4a85ab" />
+        </linearGradient>
+        <linearGradient id="bShine" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="white" stopOpacity="0" />
+          <stop offset="38%" stopColor="white" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="white" stopOpacity="0" />
+        </linearGradient>
+        <clipPath id="bClip">
+          <path d="M38,30 L38,16 Q38,8 45,6 L65,6 Q72,8 72,16 L72,30 Q85,38 88,55 L88,340 Q88,355 75,358 L35,358 Q22,355 22,340 L22,55 Q25,38 38,30 Z" />
+        </clipPath>
+        <clipPath id="bSceneClip">
+          <rect x="26" y="142" width="58" height="34" />
+        </clipPath>
+      </defs>
+
+      {/* Glass bottle body */}
+      <path d="M38,30 L38,16 Q38,8 45,6 L65,6 Q72,8 72,16 L72,30 Q85,38 88,55 L88,340 Q88,355 75,358 L35,358 Q22,355 22,340 L22,55 Q25,38 38,30 Z" fill="url(#bLiquid)" />
+      <path d="M38,30 L38,16 Q38,8 45,6 L65,6 Q72,8 72,16 L72,30 Q85,38 88,55 L88,340 Q88,355 75,358 L35,358 Q22,355 22,340 L22,55 Q25,38 38,30 Z" fill="url(#bShine)" />
+
+      {/* Label background - cream */}
+      <rect x="24" y="96" width="62" height="190" rx="2" fill="url(#bLabelBg)" clipPath="url(#bClip)" />
+      <rect x="24" y="96" width="62" height="190" rx="2" fill="none" stroke="#2c5f8a" strokeWidth="1.5" clipPath="url(#bClip)" />
+
+      {/* Colosseum illustrated scene */}
+      <g clipPath="url(#bSceneClip)">
+        <rect x="26" y="142" width="58" height="22" fill="url(#bSky)" />
+        {/* Colosseum structure */}
+        <rect x="32" y="152" width="46" height="14" fill="#c98a52" />
+        {Array.from({ length: 11 }).map((_, i) => (
+          <rect key={i} x={34 + i * 4} y="154" width="2" height="9" fill="#7a4f28" />
+        ))}
+        <rect x="32" y="150" width="46" height="2.5" fill="#e8c896" />
+        {/* golden rocky foreground */}
+        <rect x="26" y="164" width="58" height="12" fill="#c9a23a" />
+        <polygon points="28,176 33,166 38,176" fill="#b3892e" />
+        <polygon points="40,176 46,167 52,176" fill="#bf9433" />
+        <polygon points="54,176 60,168 66,176" fill="#b3892e" />
+        <polygon points="68,176 74,166 80,176" fill="#bf9433" />
+      </g>
+      <rect x="26" y="142" width="58" height="34" fill="none" stroke="#2c5f8a" strokeWidth="1" clipPath="url(#bClip)" />
+
+      {/* VIVACE wordmark */}
+      <text x="55" y="195" textAnchor="middle" fontFamily="Georgia, serif" fontSize="13" fontWeight="bold" fill="#1f3a4d" letterSpacing="2.5" clipPath="url(#bClip)">VIVACE</text>
+      <text x="55" y="207" textAnchor="middle" fontFamily="Georgia, serif" fontSize="5.5" fill="#5a5240" letterSpacing="2" clipPath="url(#bClip)">LIMONCELLO</text>
+
+      <line x1="32" y1="214" x2="78" y2="214" stroke="#2c5f8a" strokeWidth="0.6" opacity="0.4" clipPath="url(#bClip)" />
+
+      <text x="55" y="226" textAnchor="middle" fontFamily="Georgia, serif" fontStyle="italic" fontSize="5" fill="#5a5240" letterSpacing="1" clipPath="url(#bClip)">Italiano · 30% VOL · 500ml</text>
+      <text x="55" y="237" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="4" fill="#7a7260" letterSpacing="0.3" clipPath="url(#bClip)">218 kcal/100ml · 75 kcal per shot (35ml)</text>
+
+      {/* Lower blue accent band */}
+      <rect x="24" y="266" width="62" height="16" fill="#2c5f8a" clipPath="url(#bClip)" />
+      <text x="55" y="277" textAnchor="middle" fontFamily="Georgia, serif" fontSize="4.5" fill="#f0e8cc" letterSpacing="1.5" clipPath="url(#bClip)">€1 PER FLES NAAR IMPACT</text>
+
+      {/* Cap & neck */}
+      <rect x="38" y="0" width="34" height="22" rx="2" fill="#c8c8c8" />
+      <rect x="38" y="0" width="34" height="22" rx="2" fill="none" stroke="#999" strokeWidth="0.5" />
+      <text x="55" y="13" textAnchor="middle" fontFamily="Georgia, serif" fontSize="4" fill="#666" letterSpacing="1">VIVACE</text>
+    </svg>
+  );
+}
+
+function CanSVG({ size = 90 }) {
+  const h = size * (220 / 90);
+  return (
+    <svg width={size} height={h} viewBox="0 0 90 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="cBody" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#e0d9c0" />
+          <stop offset="15%" stopColor="#f7f3e8" />
+          <stop offset="50%" stopColor="#fbf8ee" />
+          <stop offset="85%" stopColor="#efe8d8" />
+          <stop offset="100%" stopColor="#d8cfb0" />
+        </linearGradient>
+        <linearGradient id="cSky" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#2c5f8a" />
+          <stop offset="100%" stopColor="#4a85ab" />
+        </linearGradient>
+        <linearGradient id="cTopGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#d4d4d4" />
+          <stop offset="100%" stopColor="#a8a8a8" />
+        </linearGradient>
+        <clipPath id="cClip">
+          <rect x="10" y="18" width="70" height="186" rx="8" />
+        </clipPath>
+        <clipPath id="cSceneClip">
+          <rect x="14" y="56" width="62" height="36" />
+        </clipPath>
+      </defs>
+
+      {/* Can body - cream */}
+      <rect x="10" y="18" width="70" height="186" rx="8" fill="url(#cBody)" />
+
+      {/* Blue accent stripes */}
+      <rect x="10" y="44" width="70" height="2.5" fill="#2c5f8a" clipPath="url(#cClip)" />
+      <rect x="10" y="186" width="70" height="2.5" fill="#2c5f8a" clipPath="url(#cClip)" />
+
+      {/* Colosseum illustrated scene */}
+      <g clipPath="url(#cSceneClip)">
+        <rect x="14" y="56" width="62" height="24" fill="url(#cSky)" />
+        <rect x="20" y="68" width="50" height="14" fill="#c98a52" />
+        {Array.from({ length: 12 }).map((_, i) => (
+          <rect key={i} x={22 + i * 4} y="70" width="2" height="9" fill="#7a4f28" />
+        ))}
+        <rect x="20" y="66" width="50" height="2.5" fill="#e8c896" />
+        <rect x="14" y="80" width="62" height="12" fill="#c9a23a" />
+        <polygon points="18,92 24,82 30,92" fill="#b3892e" />
+        <polygon points="32,92 39,83 46,92" fill="#bf9433" />
+        <polygon points="48,92 55,81 62,92" fill="#b3892e" />
+        <polygon points="64,92 71,83 78,92" fill="#bf9433" />
+      </g>
+      <rect x="14" y="56" width="62" height="36" fill="none" stroke="#2c5f8a" strokeWidth="0.8" clipPath="url(#cClip)" />
+
+      {/* VIVACE wordmark */}
+      <text x="45" y="108" textAnchor="middle" fontFamily="Georgia, serif" fontSize="11" fontWeight="bold" fill="#1f3a4d" letterSpacing="2" clipPath="url(#cClip)">VIVACE</text>
+      <text x="45" y="119" textAnchor="middle" fontFamily="Georgia, serif" fontSize="5" fill="#5a5240" letterSpacing="1.8" clipPath="url(#cClip)">LIMONCELLO SPRITZ</text>
+
+      <line x1="22" y1="127" x2="68" y2="127" stroke="#2c5f8a" strokeWidth="0.5" opacity="0.4" clipPath="url(#cClip)" />
+
+      <text x="45" y="138" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="4.5" fill="#5a5240" letterSpacing="0.8" clipPath="url(#cClip)">7% VOL · 250ml</text>
+      <text x="45" y="147" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="4" fill="#7a7260" letterSpacing="0.3" clipPath="url(#cClip)">95 kcal per blikje</text>
+
+      {/* Lower blue band */}
+      <rect x="10" y="160" width="70" height="14" fill="#2c5f8a" clipPath="url(#cClip)" />
+      <text x="45" y="170" textAnchor="middle" fontFamily="Georgia, serif" fontSize="4" fill="#f0e8cc" letterSpacing="1" clipPath="url(#cClip)">€1 PER FLES NAAR IMPACT</text>
+
+      {/* Top & bottom */}
+      <ellipse cx="45" cy="18" rx="35" ry="7" fill="url(#cTopGrad)" />
+      <ellipse cx="45" cy="12" rx="8" ry="3" fill="#999" />
+      <rect x="43" y="9" width="4" height="8" rx="2" fill="#888" />
+      <ellipse cx="45" cy="204" rx="35" ry="7" fill="#999" />
+    </svg>
+  );
+}
+
+// ---------- Product data ----------
+const PRODUCTS = {
+  limoncello: {
+    id: "limoncello",
+    name: "Vivace Limoncello",
+    type: "Onze Signature Fles",
+    price: 24.95,
+    abv: "30% VOL",
+    size: "500ml",
+    kcal: "218 kcal / 100ml · 75 kcal per shot (35ml)",
+    onlineSellable: false,
+    description:
+      "Echte Italiaanse limoncello, gemaakt door een ambachtelijke distilleerderij hier in Nederland. Citrus, romig en ijskoud het lekkerst.",
+    backLabel: '"Wij maken het. Jij drinkt het. Samen geven we door."',
+  },
+  spritz: {
+    id: "spritz",
+    name: "Vivace Spritz",
+    type: "In ontwikkeling",
+    price: 3.25,
+    abv: "7% VOL",
+    size: "250ml",
+    kcal: "95 kcal per blikje (250ml)",
+    onlineSellable: false,
+    comingSoon: true,
+    description:
+      "Limoncello ontmoet bruisend water. Direct klaar om te drinken, recht uit het blikje. Fris, helder en onmiskenbaar Italiaans.",
+    backLabel: '"Nu opentrekken."',
+  },
+};
+
+const PRODUCT_EN = {
+  limoncello: {
+    type: "Our Signature Bottle",
+    description: "Authentic Italian limoncello, made by a craft distillery here in the Netherlands. Citrus, creamy and best ice cold.",
+    backLabel: '"We make it. You drink it. Together we give back."',
+    kcal: "218 kcal / 100ml · 75 kcal per shot (35ml)",
+  },
+  spritz: {
+    type: "In development",
+    description: "Limoncello meets sparkling water. Ready to drink, straight from the can. Fresh, clear and unmistakably Italian.",
+    backLabel: '"Open now."',
+    kcal: "95 kcal per can (250ml)",
+  },
+};
+
+// ---------- Impact partner data ----------
+const IMPACT_PARTNER = {
+  name: "Stichting Ambulance Wens",
+  url: "https://www.ambulancewens.nl",
+  logo: "/images/stichting-ambulance-wens-logo.png",
+};
+
+// Verkooppunten. Voeg hier nieuwe verkooppunten toe; zowel de lijst als de
+// overzichtskaart bouwen zichzelf automatisch op vanuit deze array.
+//
+// lat/lng zijn optioneel. Zolang ze null zijn, toont de pagina wel de
+// verkooppunt-kaart met Google Maps-embed (op basis van het adres) en de
+// "Open in Maps"-knop, maar wordt de gecombineerde overzichtskaart verborgen.
+//
+// To find lat/lng for a real address: search the address on Google Maps,
+// right-click the exact pin location, and tap the coordinates that appear
+// at the top of the menu (they copy straight to your clipboard), then
+// paste the two numbers in as lat and lng below.
+const STOCKISTS = [
+  {
+    name: "PLUS Rick Hoogendoorn",
+    type: "Supermarkt",
+    address: "Waalstraat 2a",
+    postcode: "3171 AH",
+    city: "Poortugaal",
+    lat: 51.856901,
+    lng: 4.391035,
+    products: ["limoncello"],
+  },
+  {
+    name: "Wijnhandel Van Dijk",
+    type: "Wijnhandel",
+    address: "Schiedamseweg 33",
+    postcode: "3121 JD",
+    city: "Schiedam",
+    // lat/lng nog invullen (rechtsklik op de pin in Google Maps). Zodra beide
+    // verkooppunten coordinaten hebben, verschijnt de overzichtskaart vanzelf.
+    lat: null,
+    lng: null,
+    products: ["limoncello"],
+  },
+    {
+    name: "Colins Slijterij & Wijnwinkel",
+    type: "Slijterij",
+    address: "Winkelcentrum De Loper",
+    postcode: "",
+    city: "Vlaardingen",
+    lat: null,
+    lng: null,
+    products: ["limoncello"],
+  },
+];
+
+// Detects placeholder entries in STOCKISTS (bracketed names like
+// "[Naam supermarkt]") so the UI can show an honest "coming soon" state
+// instead of fake-looking store names until real stockists are filled in.
+function isPlaceholderStockist(s) {
+  return typeof s.name === "string" && s.name.trim().startsWith("[");
+}
+
+// Builds a Google Maps embed URL from an address string. No API key needed
+// for this basic embed format.
+function mapsEmbedUrl(stockist) {
+  const query = encodeURIComponent(`${stockist.name}, ${stockist.address}, ${stockist.postcode} ${stockist.city}`);
+  return `https://www.google.com/maps?q=${query}&output=embed`;
+}
+
+function mapsLinkUrl(stockist) {
+  const query = encodeURIComponent(`${stockist.name}, ${stockist.address}, ${stockist.postcode} ${stockist.city}`);
+  return `https://www.google.com/maps/search/?api=1&query=${query}`;
+}
+
+// Combined overview map showing every stockist at once. Uses Leaflet with
+// OpenStreetMap tiles, no Google Maps API key needed, no cost, no key to
+// manage. Reads lat/lng straight from STOCKISTS; entries without coordinates
+// yet are simply skipped until they're filled in.
+function StoresMap({ stockists }) {
+  const mapRef = React.useRef(null);
+  const mapInstance = React.useRef(null);
+  const markersRef = React.useRef([]);
+
+  useEffect(() => {
+    if (!window.L || !mapRef.current) return;
+
+    if (!mapInstance.current) {
+      mapInstance.current = window.L.map(mapRef.current, { scrollWheelZoom: false }).setView([52.15, 5.3], 7);
+      window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 18,
+      }).addTo(mapInstance.current);
+    }
+
+    markersRef.current.forEach((m) => mapInstance.current.removeLayer(m));
+    markersRef.current = [];
+
+    const goldIcon = window.L.divIcon({
+      className: "",
+      html: '<div style="width:16px;height:16px;border-radius:50%;background:#D4AF37;border:2px solid #0C1526;box-shadow:0 0 0 2px rgba(212,175,55,0.35);"></div>',
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+    });
+
+    const valid = stockists.filter((s) => typeof s.lat === "number" && typeof s.lng === "number");
+
+    valid.forEach((s) => {
+      const marker = window.L.marker([s.lat, s.lng], { icon: goldIcon })
+        .addTo(mapInstance.current)
+        .bindPopup(`<strong>${s.name}</strong><br/>${s.type}<br/>${s.address}, ${s.postcode} ${s.city}`);
+      markersRef.current.push(marker);
+    });
+
+    if (valid.length > 0) {
+      const bounds = window.L.latLngBounds(valid.map((s) => [s.lat, s.lng]));
+      mapInstance.current.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
+    }
+  }, [stockists]);
+
+  const hasAnyCoords = stockists.some((s) => typeof s.lat === "number" && typeof s.lng === "number");
+
+  return (
+    <div>
+      <div ref={mapRef} className="w-full h-96 border border-[#234060]" style={{ background: "#102338" }} />
+      {!hasAnyCoords && (
+        <p className="text-white/25 text-xs mt-3 italic">
+          Kaart vult zich automatisch zodra er lat/lng-coördinaten zijn ingevuld bij je
+          verkooppunten (zie de STOCKISTS-lijst in de code).
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ---------- Cart context (simple prop-drill, no localStorage) ----------
+function useCart() {
+  const [items, setItems] = useState({});
+
+  const add = (id) => setItems((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+  const remove = (id) =>
+    setItems((prev) => {
+      const next = { ...prev };
+      if (next[id] > 1) next[id] -= 1;
+      else delete next[id];
+      return next;
+    });
+  const clear = () => setItems({});
+
+  const count = Object.values(items).reduce((a, b) => a + b, 0);
+  const total = Object.entries(items).reduce(
+    (sum, [id, qty]) => sum + PRODUCTS[id].price * qty,
+    0
+  );
+
+  return { items, add, remove, clear, count, total };
+}
+
+// ---------- SEO ----------
+// Lightweight per-route SEO helper. No react-helmet dependency: directly
+// updates document.title and the meta description tag on mount / when the
+// route's SEO data changes. Falls back to a sensible default description
+// tag if one isn't already present in index.html.
+function useSEO({ title, description }) {
+  const location = useLocation();
+  useEffect(() => {
+    if (title) {
+      document.title = title;
+    }
+    if (description) {
+      let tag = document.querySelector('meta[name="description"]');
+      if (!tag) {
+        tag = document.createElement("meta");
+        tag.setAttribute("name", "description");
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute("content", description);
+    }
+
+    // Canonical + og:url were previously hardcoded to the homepage in
+    // index.html, which told search engines every route was a duplicate of
+    // "/". Keep both in sync with the actual current path instead.
+    const canonicalUrl = `https://www.drinkvivace.nl${location.pathname}`;
+
+    let canonicalTag = document.querySelector('link[rel="canonical"]');
+    if (!canonicalTag) {
+      canonicalTag = document.createElement("link");
+      canonicalTag.setAttribute("rel", "canonical");
+      document.head.appendChild(canonicalTag);
+    }
+    canonicalTag.setAttribute("href", canonicalUrl);
+
+    let ogUrlTag = document.querySelector('meta[property="og:url"]');
+    if (!ogUrlTag) {
+      ogUrlTag = document.createElement("meta");
+      ogUrlTag.setAttribute("property", "og:url");
+      document.head.appendChild(ogUrlTag);
+    }
+    ogUrlTag.setAttribute("content", canonicalUrl);
+  }, [title, description, location.pathname]);
+}
+
+// Injects page-specific JSON-LD structured data (e.g. FAQPage, Recipe) for
+// rich results in Google search. Cleans up on unmount/navigation so schema
+// from one page never lingers into another.
+function useJsonLd(data) {
+  const serialized = data ? JSON.stringify(data) : null;
+  useEffect(() => {
+    if (!serialized) return;
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = serialized;
+    document.head.appendChild(script);
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [serialized]);
+}
+
+// ---------- Nav ----------
+function LanguageSwitch() {
+  const { lang, setLang } = React.useContext(LangContext);
+  return (
+    <div className="flex items-center gap-2 text-[11px] tracking-[0.16em]" role="group" aria-label="Language">
+      {["nl", "en"].map((l, i) => (
+        <React.Fragment key={l}>
+          {i > 0 && <span className="text-white/20">|</span>}
+          <button
+            onClick={() => setLang(l)}
+            aria-pressed={lang === l}
+            className={lang === l ? "text-[#D4AF37]" : "text-white/50 hover:text-white transition-colors"}
+          >
+            {l.toUpperCase()}
+          </button>
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+function Nav() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const L = useL();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const links = [
+    { path: "/", label: L("Home", "Home") },
+    { path: "/producten", label: L("Producten", "Products") },
+    { path: "/onze-impact", label: L("Impact", "Impact") },
+    { path: "/verkooppunten", label: L("Verkooppunten", "Where to buy") },
+    { path: "/blog", label: L("Blog", "Blog") },
+    { path: "/over-ons", label: L("Over ons", "About") },
+  ];
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        scrolled ? "bg-[#0a1628]/95 border-b border-[#1c3450]" : "bg-gradient-to-b from-[#0a1628]/90 to-transparent"
+      }`}
+    >
+      <div className="w-full flex items-center justify-between px-6 md:px-14 py-5">
+        <Link to="/" className="h-8 flex items-center" aria-label="Vivace, naar de homepage">
+          <img src="/images/vivace-logo-transparent.png" alt="Vivace" className="h-6 w-auto" />
+        </Link>
+
+        <ul className="hidden md:flex items-center gap-7 lg:gap-9">
+          {links.map((l) => (
+            <li key={l.path}>
+              <Link
+                to={l.path}
+                className={`h-8 flex items-center leading-none text-[11px] uppercase tracking-[0.16em] transition-colors ${
+                  location.pathname === l.path ? "text-[#D4AF37]" : "text-white/50 hover:text-white"
+                }`}
+              >
+                {l.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-5">
+          <LanguageSwitch />
+          <button className="md:hidden text-white/80" onClick={() => setMobileOpen(!mobileOpen)}>
+            <Menu size={22} />
+          </button>
+        </div>
+      </div>
+
+      {mobileOpen && (
+        <div className="md:hidden bg-[#0a1628] border-t border-[#1c3450] px-6 py-4 flex flex-col gap-4">
+          {links.map((l) => (
+            <Link
+              key={l.path}
+              to={l.path}
+              onClick={() => setMobileOpen(false)}
+              className="text-left text-sm uppercase tracking-wider text-white/70"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+}
+
+// ---------- Cart Drawer ----------
+function CartDrawer({ open, onClose, cart }) {
+  if (!open) return null;
+  const entries = Object.entries(cart.items);
+
+  return (
+    <div className="fixed inset-0 z-[100]">
+      <div className="absolute inset-0 bg-[#050b14]/80" onClick={onClose} />
+      <div className="absolute right-0 top-0 h-full w-full max-w-sm bg-[#0f1f33] border-l border-[#234060] flex flex-col">
+        <div className="flex items-center justify-between p-6 border-b border-[#234060]">
+          <h3 className="font-serif text-xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Winkelwagen
+          </h3>
+          <button onClick={onClose} className="text-white/50 hover:text-white">
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {entries.length === 0 && (
+            <p className="text-white/40 text-sm">Je winkelwagen is leeg. Online bestellen volgt binnenkort.</p>
+          )}
+          {entries.map(([id, qty]) => {
+            const p = PRODUCTS[id];
+            return (
+              <div key={id} className="flex gap-4 items-center">
+                <div className="flex-shrink-0">
+                  {id === "limoncello" ? (
+                    <img
+                      src="/images/vivace-bottle-hero-v2.jpg"
+                      alt="Vivace Limoncello"
+                      className="w-10 h-10 object-cover rounded-sm"
+                    />
+                  ) : (
+                    <img
+                      src="/images/vivace-can-hero.jpg"
+                      alt="Vivace Limoncello Spritz"
+                      className="w-10 h-10 object-cover rounded-sm"
+                    />
+                  )}
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm text-white/90">{p.name}</p>
+                  <p className="text-xs text-white/40">€{p.price.toFixed(2)}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => cart.remove(id)}
+                    className="w-6 h-6 flex items-center justify-center border border-white/20 text-white/60 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                  >
+                    <Minus size={12} />
+                  </button>
+                  <span className="text-sm w-4 text-center">{qty}</span>
+                  <button
+                    onClick={() => cart.add(id)}
+                    className="w-6 h-6 flex items-center justify-center border border-white/20 text-white/60 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                  >
+                    <Plus size={12} />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {entries.length > 0 && (
+          <div className="p-6 border-t border-[#234060] space-y-4">
+            <div className="flex justify-between text-sm">
+              <span className="text-white/50">Subtotaal</span>
+              <span className="text-white">€{cart.total.toFixed(2)}</span>
+            </div>
+            <p className="text-[11px] text-[#D4AF37]/70 italic">€1 per fles naar impactprojecten: €{(cart.count * 1).toFixed(2)} bij deze bestelling.</p>
+            <button className="w-full bg-[#D4AF37] text-black py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-[#E0C158] transition-colors">
+              Afrekenen
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ---------- Age gate ----------
+function AgeGate({ onConfirm }) {
+  const L = useL();
+  return (
+    <div className="fixed inset-0 z-[200] bg-[#0a1628] flex items-center justify-center px-6" style={{ backgroundColor: "#0a1628" }}>
+      <div className="max-w-sm text-center">
+        <p className="font-serif text-3xl text-[#D4AF37] tracking-[0.2em] uppercase mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Vivace
+        </p>
+        <p className="text-white/70 text-sm mb-2">{L("Ben je 18 jaar of ouder?", "Are you 18 or older?")}</p>
+        <p className="text-white/30 text-xs mb-8">{L("We vragen dit omdat onze producten alcohol bevatten.", "We ask because our products contain alcohol.")}</p>
+        <div className="flex gap-4 justify-center">
+          <button
+            onClick={() => onConfirm(true)}
+            className="bg-[#D4AF37] text-black px-8 py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-[#E0C158]"
+          >
+            {L("Ja, ik ben 18+", "Yes, I am 18+")}
+          </button>
+          <button
+            onClick={() => onConfirm(false)}
+            className="border border-white/20 text-white/50 px-8 py-3 text-xs uppercase tracking-[0.15em]"
+          >
+            {L("Nee", "No")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function UnderageBlock() {
+  const L = useL();
+  return (
+    <div className="fixed inset-0 z-[200] bg-[#0a1628] flex items-center justify-center px-6 text-center" style={{ backgroundColor: "#0a1628" }}>
+      <p className="text-white/50 text-sm max-w-sm">
+        {L("Je moet 18 jaar of ouder zijn om deze website te bezoeken. Drink geen alcohol als je jonger bent.", "You must be 18 or older to visit this website. Do not drink alcohol if you are younger.")}
+      </p>
+    </div>
+  );
+}
+
+// ---------- Welcome banner ----------
+// Shows right after someone confirms they're 18+: a centered, prominent
+// modal thanking them and confirming their purchase already contributes to
+// an impact project. Auto-dismisses, and can also be closed manually.
+// Colors are intentionally reversed from the rest of the site (gold
+// background, navy text/accents) so this moment pops instead of blending in.
+function HeartIcon({ size = 40, color = "#D4AF37" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+      <path d="M12 21s-7.5-4.6-10-9.1C0.4 8.6 1.8 5 5.4 5c2 0 3.4 1 4.6 2.6C11.2 6 12.6 5 14.6 5 18.2 5 19.6 8.6 18 11.9 16.5 16.4 12 21 12 21z" />
+    </svg>
+  );
+}
+
+function WelcomeBanner({ onClose }) {
+  const L = useL();
+  useEffect(() => {
+    const timer = setTimeout(onClose, 7000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-[150] flex items-center justify-center px-6">
+      <div
+        className="absolute inset-0 bg-[#050b14]/70 animate-[fadeIn_0.4s_ease-out]"
+        onClick={onClose}
+      />
+      <div className="relative pointer-events-auto bg-[#D4AF37] border border-[#0F1F33]/40 shadow-2xl shadow-black/60 px-8 py-10 md:px-14 md:py-12 max-w-lg w-full text-center animate-[popIn_0.45s_cubic-bezier(0.16,1,0.3,1)]">
+        {/* Subtle Italian tricolor accent line */}
+        <div className="absolute top-0 left-0 right-0 h-1 flex">
+          <div className="flex-1 bg-[#3A7A4E]" />
+          <div className="flex-1 bg-[#F4EFE3]" />
+          <div className="flex-1 bg-[#B5402E]" />
+        </div>
+
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 text-black/30 hover:text-black/70 transition-colors"
+          aria-label="Sluiten"
+        >
+          <X size={22} />
+        </button>
+
+        <div className="flex justify-center mb-6">
+          <HeartIcon size={48} color="#0F1F33" />
+        </div>
+
+        <p
+          className="font-serif italic text-[#0F1F33] text-2xl md:text-3xl leading-snug mb-4"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+        >
+          {L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")}
+        </p>
+
+        <p className="text-[#0F1F33]/80 text-sm md:text-base leading-relaxed max-w-sm mx-auto mb-2">
+          {L("Welkom bij Vivace. Met elke fles Vivace steun je Stichting Ambulance Wens.", "Welcome to Vivace. With every bottle of Vivace you support Stichting Ambulance Wens.")}
+        </p>
+        <p className="text-[#0F1F33]/50 text-xs md:text-sm">
+          {L("€1 per fles, transparant en zonder omwegen.", "€1 per bottle, transparent and straightforward.")}
+        </p>
+      </div>
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes popIn {
+          from { opacity: 0; transform: scale(0.92) translateY(8px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// ---------- Impact Counter ----------
+// bottlesPurchased connects to real sales data later (e.g. backend or payment
+// provider webhook). totalDonated is always derived from it, never set
+// independently, so the €1-per-bottle math stays correct everywhere.
+function ImpactCounter() {
+  const L = useL();
+  const [bottlesPurchased] = useState(122); // TODO: connect to real sales data later
+  const totalDonated = bottlesPurchased * 1;
+
+  return (
+    <div className="text-center">
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Actueel", "Current")}</p>
+      <div className="grid grid-cols-2 gap-8 max-w-md mx-auto">
+        <div>
+          <p
+            className="font-serif text-[#D4AF37]"
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 700, lineHeight: 1 }}
+          >
+            {bottlesPurchased.toLocaleString("nl-NL")}
+          </p>
+          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">{L("Flessen in onze eerste batch", "Bottles in our first batch")}</p>
+        </div>
+        <div>
+          <p
+            className="font-serif text-[#D4AF37]"
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 700, lineHeight: 1 }}
+          >
+            {`€${totalDonated.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`}
+          </p>
+          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">{L("Gereserveerd voor Stichting Ambulance Wens", "Reserved for Stichting Ambulance Wens")}</p>
+        </div>
+      </div>
+      <p className="text-white/35 text-sm mt-8 max-w-sm mx-auto">
+        {L("€1 per fles, rechtstreeks naar Stichting Ambulance Wens.", "€1 per bottle, straight to Stichting Ambulance Wens.")}
+      </p>
+      <p className="text-white/45 text-[11px] mt-3 italic">
+        {L("We werken dit per batch bij en maken het bedrag aan het einde van het jaar in één keer over.", "We update this per batch and transfer the amount in one go at the end of the year.")}
+      </p>
+    </div>
+  );
+}
+
+function Reveal({ children, delay = 0 }) {
+  const [visible, setVisible] = useState(false);
+  const ref = React.useRef(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.15 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        transitionDelay: `${delay}ms`,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : "translateY(28px)",
+        transition: "opacity 0.8s ease, transform 0.8s ease",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+// ---------- "What makes Vivace unique" strip ----------
+const USPS = [
+  {
+    icon: Leaf,
+    title: "Biologische Sorrento citroenen",
+    subtitle: "IGP-kwaliteit",
+  },
+  {
+    icon: Sparkles,
+    title: "Ambachtelijk gemaakt",
+    subtitle: "Kleine oplages",
+  },
+  {
+    icon: Factory,
+    title: "Geproduceerd in de Van Nelle Fabriek",
+    subtitle: "Rotterdam",
+  },
+  {
+    icon: HeartIcon,
+    title: "€1 per fles",
+    subtitle: "Naar Stichting Ambulance Wens",
+  },
+  {
+    icon: Award,
+    title: "100% natuurlijke ingrediënten",
+    subtitle: "Geen concessies",
+  },
+];
+
+const USPS_EN = [
+  ["Organic Sorrento lemons", "IGP quality"],
+  ["Handcrafted", "Small batches"],
+  ["Produced in the Van Nelle Factory", "Rotterdam"],
+  ["€1 per bottle", "To Stichting Ambulance Wens"],
+  ["100% natural ingredients", "No compromises"],
+];
+
+function USPStrip() {
+  const L = useL();
+  return (
+    <section className="px-6 md:px-14 py-16 border-t border-b border-[#234060]">
+      <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-10">
+        {USPS.map((item, i) => {
+          const Icon = item.icon;
+          const isLastOdd = i === USPS.length - 1;
+          return (
+            <Reveal key={item.title} delay={i * 80}>
+              <div className={`flex flex-col items-center text-center gap-3 ${isLastOdd ? "col-span-2 md:col-span-1" : ""}`}>
+                <Icon size={28} color="#D4AF37" strokeWidth={1.5} />
+                <div>
+                  <p className="text-white/85 text-[13px] font-medium leading-snug">{L(item.title, USPS_EN[i][0])}</p>
+                  <p className="text-white/40 text-[11px] mt-1">{L(item.subtitle, USPS_EN[i][1])}</p>
+                </div>
+              </div>
+            </Reveal>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function HomePage() {
+  const L = useL();
+  useSEO({
+    title: "Vivace Limoncello | Drink anders. Geniet anders.",
+    description:
+      L("Vivace is premium Italiaanse limoncello, geproduceerd in Nederland. Voor elke fles gaat €1 naar Stichting Ambulance Wens.", "Vivace is premium Italian limoncello, produced in the Netherlands. For every bottle, €1 goes to Stichting Ambulance Wens."),
+  });
+
+  return (
+    <div>
+      <section className="md:min-h-[100svh] grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-8 md:gap-10 items-center px-6 md:px-14 pt-28 pb-12 md:pb-10 relative overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 55% 65% at 72% 48%, rgba(62,207,0,0.06) 0%, transparent 70%), radial-gradient(ellipse 45% 55% at 28% 58%, rgba(255,215,0,0.07) 0%, transparent 65%)",
+          }}
+        />
+        <div className="relative z-10">
+          <p className="text-[11px] tracking-[0.35em] uppercase text-[#C9A04E] mb-7">
+            {L("Gemaakt in Nederland · Italiaanse ziel", "Made in the Netherlands · Italian soul")}
+          </p>
+          <h1
+            className="font-serif text-[clamp(2.5rem,11vw,4.5rem)] md:text-[clamp(3rem,6.2vw,8rem)] leading-[0.95] mb-9"
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
+          >
+            <span className="block whitespace-nowrap font-semibold">
+              Drink <em className="italic font-light text-[#D4AF37]">{L("anders.", "different.")}</em>
+            </span>
+            <span className="block whitespace-nowrap font-semibold">
+              {L("Geniet", "Enjoy")} <em className="italic font-light text-[#D4AF37]">{L("anders.", "different.")}</em>
+            </span>
+          </h1>
+          <p className="text-white/50 text-base leading-relaxed max-w-md mb-8">
+            {L("Vivace is een premium limoncello, gemaakt met een Italiaans recept en een Nederlands hart.", "Vivace is a premium limoncello, made with an Italian recipe and a Dutch heart.")}
+            <strong className="text-white/85 font-medium"> {L("€1 per fles gaat naar Stichting Ambulance Wens.", "€1 per bottle goes to Stichting Ambulance Wens.")}</strong>
+          </p>
+          <Link
+            to="/onze-impact"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1 mb-8"
+          >
+            {L("Ontdek ons impactmodel", "Discover our impact model")} <ChevronRight size={14} />
+          </Link>
+          <div className="flex gap-5 items-center flex-wrap">
+            <Link
+              to="/producten"
+              className="bg-[#D4AF37] text-black px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-[#E0C158] transition-colors"
+            >
+              {L("Ontdek Vivace", "Discover Vivace")}
+            </Link>
+            <Link
+              to="/over-ons"
+              className="text-white/45 text-[11px] uppercase tracking-[0.14em] border-b border-white/20 pb-1 hover:text-white hover:border-white transition-colors"
+            >
+              {L("Ons verhaal", "Our story")}
+            </Link>
+          </div>
+        </div>
+
+        <div className="relative z-10 flex items-center justify-center w-full mt-2 md:mt-0">
+          <img
+            src="/images/vivace-bottle-hero-v2.jpg"
+            alt={L("Vivace Limoncello fles met citroenen en uitzicht op de Amalfikust", "Vivace Limoncello bottle with lemons and a view of the Amalfi Coast")}
+            width="900"
+            height="1350"
+            className="w-auto h-auto max-w-full max-h-[68svh] md:max-h-[calc(100svh-10rem)] rounded-sm shadow-2xl shadow-black/40"
+          />
+        </div>
+      </section>
+
+      <USPStrip />
+
+      {/* Mission ticker */}
+      <div className="bg-[#D4AF37] overflow-hidden">
+        <div className="flex whitespace-nowrap py-4" style={{ animation: "ticker 22s linear infinite" }}>
+          {[...Array(2)].flatMap((_, rep) =>
+            [L("Drink anders", "Drink different"), L("€1 per fles naar Stichting Ambulance Wens", "€1 per bottle to Stichting Ambulance Wens"), L("Premium Italiaans recept", "Premium Italian recipe"), L("Transparant en schaalbaar", "Transparent and scalable"), L("Italiaanse ziel · Nederlands hart", "Italian soul · Dutch heart"), L("Geniet anders", "Enjoy different")].map(
+              (txt, i) => (
+                <span key={`${rep}-${i}`} className="inline-flex items-center gap-4 px-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-black">
+                  {txt}
+                  <span className="w-1 h-1 rounded-full bg-black/25" />
+                </span>
+              )
+            )
+          )}
+        </div>
+      </div>
+
+      {/* The number, short teaser only; full impact story lives on /onze-impact */}
+      <div className="bg-[#D4AF37] text-center py-24 px-6">
+        <Reveal>
+          <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(100px, 18vw, 200px)", lineHeight: 0.85 }}>
+            €1
+          </span>
+          <p className="text-black/50 text-[13px] font-semibold tracking-[0.3em] uppercase mt-6">
+            {L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}
+          </p>
+          <Link
+            to="/onze-impact"
+            className="inline-flex items-center gap-1.5 text-black text-[11px] font-bold uppercase tracking-[0.14em] border-b-2 border-black/40 hover:border-black transition-colors pb-1 mt-6"
+          >
+            {L("Lees over ons impactmodel", "Read about our impact model")} <ChevronRight size={14} />
+          </Link>
+        </Reveal>
+      </div>
+
+      {/* Quick links to stockists */}
+      <section className="px-6 md:px-14 py-24 max-w-5xl mx-auto">
+        <Reveal>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Nu te koop", "On sale now")}</p>
+          <h2 className="font-serif text-3xl md:text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {STOCKISTS.filter((s) => !isPlaceholderStockist(s)).length === 1
+              ? L("Nu verkrijgbaar bij ons eerste verkooppunt", "Now available at our first stockist")
+              : L("Te vinden bij supermarkten, slijterijen en restaurants", "Find us at supermarkets, liquor stores and restaurants")}
+          </h2>
+        </Reveal>
+        {STOCKISTS.every(isPlaceholderStockist) ? (
+          <Reveal delay={100}>
+            <div className="border border-dashed border-[#D4AF37]/30 p-10 text-center">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">{L("Binnenkort", "Coming soon")}</p>
+              <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                {L("Onze eerste verkooppunten worden hier binnenkort zichtbaar.", "Our first stockists will appear here soon.")}
+              </p>
+            </div>
+          </Reveal>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-4">
+            {STOCKISTS.filter((s) => !isPlaceholderStockist(s)).map((s, i) => (
+              <Reveal key={s.name} delay={i * 100}>
+                <div className="border border-[#234060] p-6 flex items-center gap-4 hover:border-[#D4AF37]/30 transition-colors">
+                  <MapPin className="text-[#D4AF37] flex-shrink-0" size={20} />
+                  <div>
+                    <p className="text-white/90 text-sm font-medium">{s.name}</p>
+                    <p className="text-white/40 text-xs">{s.type} · {s.city}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* The Colosseum / brand meaning, replaces the earlier golden-hour
+          terrace photo. Sits last on the homepage as an atmospheric closer
+          that ties back to where the name Vivace comes from. */}
+      <section className="relative overflow-hidden" style={{ height: "640px" }}>
+        <img
+          src="/images/vivace-colosseum-banner.jpg"
+          alt={L("Het Colosseum in Rome, de inspiratie achter Vivace", "The Colosseum in Rome, the inspiration behind Vivace")}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+
+        {/* Warm overlay tint for text legibility */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.1) 70%)" }}
+        />
+
+        {/* Caption */}
+        <div className="absolute left-6 md:left-14 bottom-10 md:bottom-14 z-10 max-w-md">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#E8D38A]/80 mb-3">{L("De naam", "The name")}</p>
+          <p
+            className="font-serif italic text-2xl md:text-3xl text-white/95 leading-snug"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
+            {L(<>Vivace. Italiaans voor<br />"speel met leven<br />en energie."</>, <>Vivace. Italian for<br />"play with life<br />and energy."</>)}
+          </p>
+        </div>
+      </section>
+
+      {/* Reviews teaser, links through to the full /reviews page */}
+      <section className="px-6 md:px-14 py-20 border-t border-[#234060] text-center">
+        <Reveal>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Reviews</p>
+          <h2 className="font-serif text-3xl md:text-4xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Wat vinden anderen van Vivace?", "What do others think of Vivace?")}
+          </h2>
+          <p className="text-white/45 text-sm max-w-md mx-auto mb-8">
+            {L("Lees de ervaringen van anderen, of laat zelf weten wat je ervan vindt.", "Read what others think, or tell us what you think yourself.")}
+          </p>
+          {GENERAL_REVIEWS.length > 0 && (
+            <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-4 text-left mb-10">
+              {GENERAL_REVIEWS.slice(0, 2).map((r, i) => (
+                <div key={i} className="border border-[#234060] p-5">
+                  <ReviewStars rating={r.rating} />
+                  <p className="text-white/60 text-sm leading-relaxed mt-3">“{r.text.length > 170 ? r.text.slice(0, r.text.lastIndexOf(" ", 170)) + "…" : r.text}”</p>
+                  <p className="text-white/40 text-xs mt-3">{r.name}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          <Link
+            to="/reviews"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+          >
+            {L("Bekijk reviews", "See reviews")} <ChevronRight size={14} />
+          </Link>
+        </Reveal>
+      </section>
+
+      <style>{`@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }`}</style>
+    </div>
+  );
+}
+
+function ProductsPage({ cart }) {
+  const L = useL();
+  useSEO({
+    title: "Producten | Vivace Limoncello",
+    description:
+      "Ontdek Vivace Limoncello (30% VOL, 500ml) en de aankomende Vivace Spritz in blik. Premium Italiaans recept, geproduceerd in Nederland.",
+  });
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("De Producten", "The Products")}</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Twee manieren om Vivace te drinken", "Two ways to enjoy Vivace")}
+        </h1>
+      </Reveal>
+
+      <div className="grid md:grid-cols-2 gap-px bg-white/5">
+        {Object.values(PRODUCTS).map((p, i) => (
+          <Reveal key={p.id} delay={i * 120}>
+            <div className="bg-[#102338] p-10 md:p-12 flex flex-col items-center text-center gap-6 h-full">
+              <div className="w-full max-w-[288px] aspect-square">
+                {p.id === "limoncello" ? (
+                  <img
+                    src="/images/vivace-bottle-hero-v2.jpg"
+                    alt="Vivace Limoncello fles, 500ml, ambachtelijk geproduceerd van biologische Sorrento-citroenen"
+                    className="w-full h-full object-cover rounded-sm shadow-xl shadow-black/30"
+                  />
+                ) : (
+                  <img
+                    src="/images/vivace-can-hero.jpg"
+                    alt="Vivace Limoncello Spritz blikje, kant-en-klare aperitief op basis van limoncello"
+                    className="w-full h-full object-cover rounded-sm shadow-xl shadow-black/30"
+                  />
+                )}
+              </div>
+
+              <div>
+                <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-2">{L(p.type, PRODUCT_EN[p.id].type)}</p>
+                <h3 className="font-serif text-2xl text-[#D4AF37] mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  {p.name}
+                </h3>
+                <p className="text-white/45 text-sm leading-relaxed mb-4 max-w-xs">{L(p.description, PRODUCT_EN[p.id].description)}</p>
+                <p className="text-[#D4AF37]/60 text-xs italic mb-4">{L(p.backLabel, PRODUCT_EN[p.id].backLabel)}</p>
+                <p className="text-white/20 text-[11px] tracking-wide mb-1">
+                  {p.abv} · {p.size}
+                </p>
+                <p className="text-white/15 text-[10px] tracking-wide mb-6">{L(p.kcal, PRODUCT_EN[p.id].kcal)}</p>
+              </div>
+
+              <div className="w-full">
+                {p.comingSoon ? (
+                  <button
+                    disabled
+                    className="border border-white/15 text-white/35 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] cursor-not-allowed inline-flex items-center gap-2"
+                  >
+                    {L("Binnenkort", "Coming soon")}
+                  </button>
+                ) : p.onlineSellable ? (
+                  <div className="flex items-center justify-center gap-4">
+                    <span className="text-white font-medium">€{p.price.toFixed(2)}</span>
+                    <button
+                      onClick={() => cart.add(p.id)}
+                      className="bg-[#D4AF37] text-black px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#E0C158] transition-colors"
+                    >
+                      Voeg toe
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    to="/verkooppunten"
+                    className="border border-[#D4AF37]/40 text-[#D4AF37] px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#D4AF37] hover:text-black transition-colors inline-flex items-center gap-2"
+                  >
+                    {L("Vind in winkel", "Find in store")} <ChevronRight size={14} />
+                  </Link>
+                )}
+              </div>
+              {p.comingSoon && (
+                <p className="text-white/25 text-[10px] max-w-xs min-h-[3rem]">
+                  {L("Vivace Spritz is in ontwikkeling. Binnenkort beschikbaar.", "Vivace Spritz is in development. Available soon.")}
+                </p>
+              )}
+              {!p.onlineSellable && !p.comingSoon && (
+                <p className="text-white/25 text-[10px] max-w-xs min-h-[3rem]">
+                  {L("Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een erkende slijterij. Vivace Limoncello is daarom te koop bij onze partners.", "In the Netherlands, spirits (30% ABV) may only be sold online by a licensed liquor store. Vivace Limoncello is therefore sold through our partners.")}
+                </p>
+              )}
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StoresPage() {
+  const L = useL();
+  useSEO({
+    title: "Verkooppunten | Vivace Limoncello",
+    description:
+      "Vind Vivace Limoncello bij supermarkten, slijterijen en restaurants bij jou in de buurt. Bekijk alle verkooppunten op de kaart.",
+  });
+
+  const realStockists = STOCKISTS.filter((s) => !isPlaceholderStockist(s));
+  const hasAnyCoords =
+    realStockists.filter((s) => typeof s.lat === "number" && typeof s.lng === "number").length >= 2;
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Verkooppunten", "Stockists")}</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Vind Vivace bij jou in de buurt", "Find Vivace near you")}
+        </h1>
+        <p className="text-white/45 max-w-lg mb-14">
+          {L("Vivace Limoncello is te koop bij supermarkten, slijterijen en restaurants. Vivace Spritz in blik is in ontwikkeling en volgt later.", "Vivace Limoncello is sold at supermarkets, liquor stores and restaurants. Vivace Spritz in a can is in development and will follow later.")}
+        </p>
+      </Reveal>
+
+      {STOCKISTS.every(isPlaceholderStockist) ? (
+        <Reveal delay={50}>
+          <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">{L("Binnenkort", "Coming soon")}</p>
+            <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80 mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              {L("Onze eerste verkooppunten worden hier binnenkort zichtbaar.", "Our first stockists will appear here soon.")}
+            </p>
+            <p className="text-white/35 text-sm max-w-md mx-auto">
+              {L("We werken aan onze eerste plekken bij supermarkten, slijterijen en restaurants. Zodra deze bekend zijn, vind je ze hier terug, inclusief een overzichtskaart.", "We are working on our first locations at supermarkets, liquor stores and restaurants. As soon as they are known, you will find them here, including an overview map.")}
+            </p>
+          </div>
+        </Reveal>
+      ) : (
+        <>
+          {hasAnyCoords && (
+            <Reveal delay={50}>
+              <div className="mb-14">
+                <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Alle verkooppunten op de kaart", "All stockists on the map")}</p>
+                <StoresMap stockists={realStockists} />
+              </div>
+            </Reveal>
+          )}
+
+          <div className="space-y-10">
+            {realStockists.map((s, i) => (
+              <Reveal key={s.name} delay={i * 100}>
+                <div className="border border-[#234060] overflow-hidden">
+                  <div className="p-6 flex items-center justify-between flex-wrap gap-4">
+                    <div className="flex items-center gap-4">
+                      <MapPin className="text-[#D4AF37] flex-shrink-0" size={22} />
+                      <div>
+                        <p className="text-white/90 font-medium">{s.name}</p>
+                        <p className="text-white/40 text-sm">
+                          {s.type} · {s.address}, {s.postcode} {s.city}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {s.products.map((pid) => (
+                        <span key={pid} className="text-[10px] uppercase tracking-wider text-[#C9A04E] border border-[#C9A04E]/30 px-3 py-1">
+                          {PRODUCTS[pid].name}
+                        </span>
+                      ))}
+                      <a
+                        href={mapsLinkUrl(s)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] uppercase tracking-wider text-white/50 border border-white/20 px-3 py-1.5 hover:border-[#D4AF37]/50 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
+                      >
+                        {L("Open in Maps", "Open in Maps")} <ChevronRight size={12} />
+                      </a>
+                    </div>
+                  </div>
+                  <iframe
+                    title={`Kaart ${s.name}`}
+                    src={mapsEmbedUrl(s)}
+                    className="w-full h-64 border-t border-[#234060]"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </>
+      )}
+
+      <Reveal delay={200}>
+        <p className="text-white/25 text-xs mt-10 italic">
+          {L("Sta je hier nog niet bij en wil je Vivace verkopen?", "Not on the list yet and want to sell Vivace?")}{" "}
+          <Link to="/horeca" className="text-[#D4AF37]/70 not-italic border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
+            {L("Meld je aan als verkooppunt", "Sign up as a stockist")}
+          </Link>.
+        </p>
+      </Reveal>
+    </div>
+  );
+}
+
+function AboutPage() {
+  const L = useL();
+  useSEO({
+    title: "Over ons | Vivace Limoncello",
+    description:
+      "Het verhaal achter Vivace: premium Italiaanse limoncello, ambachtelijk geproduceerd in Nederland, met een impactmodel dat vanaf het begin is meegebouwd.",
+  });
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Ons Verhaal", "Our Story")}</p>
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Vivace bestaat om iets terug te geven.", "Vivace exists to give something back.")}
+        </h1>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
+          <p>
+            {L("Het idee is ontstaan tijdens een reis naar Rome, waar het Colosseum en de kennismaking met authentieke Italiaanse limoncello samenkwamen. Maar winst alleen voelde nooit als een goede reden om een merk te starten.", "The idea was born on a trip to Rome, where the Colosseum and a first taste of authentic Italian limoncello came together. But profit alone never felt like a good reason to start a brand.")}
+          </p>
+          <p>
+            {L("De naam komt uit de muziek:", "The name comes from music:")} <em className="text-white/70">{L("vivace", "vivace")}</em> {L("is Italiaans voor \"speel met leven en energie\", precies wat we willen dat je voelt bij elk glas.", "is Italian for \"play with life and energy\", exactly what we want you to feel with every glass.")}
+          </p>
+          <p>
+            {L("Zo werd Vivace een premium limoncello met een Italiaans recept en een Nederlands hart, gebouwd rond één vast principe:", "That is how Vivace became a premium limoncello with an Italian recipe and a Dutch heart, built around one fixed principle:")} <strong className="text-white/85">{L("€1 per fles gaat naar Stichting Ambulance Wens,", "€1 per bottle goes to Stichting Ambulance Wens,")}</strong> {L("transparant en herleidbaar.", "transparent and traceable.")}
+          </p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={200}>
+        <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 mb-16 text-center">
+          <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")}
+          </p>
+        </div>
+      </Reveal>
+
+      {/* The product itself: real ingredients, real distillery, now that both are settled */}
+      <Reveal delay={250}>
+        <div className="border-t border-[#234060] pt-16 mb-20">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("De limoncello zelf", "The limoncello itself")}</p>
+          <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Vier ingrediënten. Geen omwegen.", "Four ingredients. No detours.")}
+          </h2>
+          <div className="grid md:grid-cols-2 gap-10 items-start">
+            <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+              <p>
+                {L("Vivace bestaat uit de schil van biologische Sorrento-citroenen van de Amalfikust, pure suiker, graanalcohol en water. Geen kunstmatige kleur- of smaakstoffen, geen omwegen, gewoon de citroenschil die het werk doet, zoals in het originele Italiaanse recept.", "Vivace is made from the zest of organic Sorrento lemons from the Amalfi Coast, pure sugar, grain alcohol and water. No artificial colourings or flavourings, no shortcuts, just the lemon zest doing the work, as in the original Italian recipe.")}
+              </p>
+              <p>
+                {L("Vivace wordt ambachtelijk geproduceerd door", "Vivace is crafted by")}{" "}
+                <strong className="text-white/85">{L("Stokerij Klopman", "Stokerij Klopman")}</strong> {L("in Rotterdam: een distilleerderij die het hele proces verzorgt, van citroenschil tot afgevulde fles. Italiaans recept, Nederlands vakmanschap.", "in Rotterdam: a distillery that handles the entire process, from lemon zest to filled bottle. Italian recipe, Dutch craftsmanship.")}
+              </p>
+              <p>
+                {L("Die productie vindt plaats in de", "That production takes place in the")}{" "}
+                <strong className="text-white/85">{L("iconische Van Nelle Fabriek", "iconic Van Nelle Factory")}</strong>{L(", een voormalige koffie-, thee- en tabaksfabriek en UNESCO-werelderfgoed die inmiddels onderdak biedt aan ambachtelijke makers zoals Stokerij Klopman. Industriële geschiedenis, opnieuw tot leven gebracht, precies de laag die Vivace zijn Rotterdamse hart geeft.", ", a former coffee, tea and tobacco factory and UNESCO World Heritage site that now houses craft makers such as Stokerij Klopman. Industrial history brought back to life, exactly the layer that gives Vivace its Rotterdam heart.")}
+              </p>
+            </div>
+            <div className="bg-[#0f1f33] border border-[#234060] p-8 space-y-5">
+              <div>
+                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Ingrediënten", "Ingredients")}</p>
+                <p className="text-white/70 text-sm">{L("Schil van (biologische) Sorrento-citroenen, suiker, graanalcohol en water.", "Zest of (organic) Sorrento lemons, sugar, grain alcohol and water")}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Geproduceerd door", "Produced by")}</p>
+                <p className="text-white/70 text-sm">{L("Stokerij Klopman, Van Nelle Fabriek, Rotterdam", "Stokerij Klopman, Van Nelle Factory, Rotterdam")}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Land van oorsprong", "Country of origin")}</p>
+                <p className="text-white/70 text-sm">{L("Geproduceerd in Nederland", "Produced in the Netherlands")}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Impact model lives on its own page now, short teaser + link here */}
+      <Reveal delay={300}>
+        <div className="border-t border-[#234060] pt-16 text-center">
+          <p className="font-serif text-4xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
+          <p className="text-[10px] uppercase tracking-wider text-white/35 mb-8">{L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}</p>
+          <p className="text-white/55 leading-relaxed text-[15px] max-w-lg mx-auto mb-6">
+            {L("Waarom we voor een vast bedrag per fles kozen, wie Stichting Ambulance Wens is, en waar we nu in dat proces staan. Dat staat allemaal op onze Impact-pagina.", "Why we chose a fixed amount per bottle, who Stichting Ambulance Wens is, and where we stand in that process. It is all on our Impact page.")}
+          </p>
+          <Link
+            to="/onze-impact"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+          >
+            {L("Bekijk ons impactmodel", "View our impact model")} <ChevronRight size={14} />
+          </Link>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+function ImpactPage() {
+  const L = useL();
+  useSEO({
+    title: "Onze Impact: €1 per fles naar Stichting Ambulance Wens | Vivace Limoncello",
+    description:
+      "Ontdek hoe Vivace premium limoncello combineert met sociale impact: €1 per fles gaat naar Stichting Ambulance Wens. Transparant duurzaam ondernemen, geen omwegen.",
+  });
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Onze Impact", "Our Impact")}</p>
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("€1 per fles. Geen omwegen, geen kleine lettertjes.", "€1 per bottle. No detours, no small print.")}
+        </h1>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
+          <p>
+            {L("Voor elke fles Vivace leggen we", "For every bottle of Vivace we set aside")} <strong className="text-white/85">{L("€1 opzij voor Stichting Ambulance Wens.", "€1 for Stichting Ambulance Wens.")}</strong> {L("Geen percentage van de winst, geen constructie die verandert als een kwartaal tegenzit: een vast bedrag, per fles, ongeacht de verkoopprijs die een winkel of horecazaak hanteert.", "Not a percentage of profit, not an arrangement that changes when a quarter goes badly: a fixed amount, per bottle, regardless of the retail price a shop or restaurant charges.")}
+          </p>
+          <p>
+            {L("Dat vaste bedrag is een bewuste keuze. Het is voorspelbaar voor onszelf, transparant voor onze partners in retail en horeca, en schaalbaar met het merk: hoe meer flessen we verkopen, hoe meer impact we maken.", "That fixed amount is a deliberate choice. It is predictable for ourselves, transparent for our retail and hospitality partners, and scales with the brand: the more bottles we sell, the more impact we make.")}
+          </p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={150}>
+        <div className="bg-[#0a1628] border border-[#1c3450] py-16 px-6 mb-16 -mx-6 md:-mx-14">
+          <ImpactCounter />
+        </div>
+      </Reveal>
+
+      <Reveal delay={200}>
+        <div className="border-t border-[#234060] pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Waarom we jaarlijks doneren", "Why we donate yearly")}</p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Eén keer per jaar, in plaats van per verkoop", "Once a year, instead of per sale")}
+          </h2>
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+            <p>
+              {L("We zetten die €1 al apart zodra we een batch Vivace inkopen, in een pot die met elke batch groeit. Aan het einde van het jaar tellen we alles op en maken we het volledige bedrag in één keer over aan Stichting Ambulance Wens.", "We set that €1 aside as soon as we buy in a batch of Vivace, in a pot that grows with every batch. At the end of the year we add everything up and transfer the full amount to Stichting Ambulance Wens in one go.")}
+            </p>
+            <p>
+              {L("Dat is een bewuste keuze, om twee redenen. Schaal: honderd losse donaties van een paar euro verdwijnen, terwijl één substantieel bedrag echt vooruit kan helpen. En zorgvuldigheid: door te wachten tot het einde van het jaar houden we het overzicht helder, in plaats van overhaaste kleine overboekingen bij elke losse verkoop. Zo zorgen we voor een grotere, betekenisvollere impact dan wanneer we elk bedrag los zouden wegschenken.", "That is a deliberate choice, for two reasons. Scale: a hundred separate donations of a few euros disappear, while one substantial amount can really move things forward. And care: by waiting until the end of the year we keep a clear overview, instead of hasty small transfers for every single sale. This way we create a bigger, more meaningful impact than if we gave each amount away separately.")}
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={225}>
+        <div className="border-t border-[#234060] pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Ons impactproject", "Our impact project")}</p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Vivace steunt Stichting Ambulance Wens", "Vivace supports Stichting Ambulance Wens")}
+          </h2>
+
+          <div className="bg-[#f7f3e8] p-8 md:p-10 flex flex-col sm:flex-row items-center gap-8 mb-8">
+            <img
+              src={IMPACT_PARTNER.logo}
+              alt="Logo Stichting Ambulance Wens"
+              className="w-full max-w-[200px] sm:max-w-[180px] h-auto flex-shrink-0"
+            />
+            <p className="text-[#0F1F33]/70 text-sm leading-relaxed">
+              {L("Stichting Ambulance Wens vervult de laatste wens van terminale, bedlegerige patiënten: kosteloos en vaak al binnen één dag. Met speciaal gebouwde ambulances en honderden vrijwilligers brengen zij mensen nog één keer naar de plek die het meest voor hen betekent, het strand, het stadion, of gewoon nog één keer thuis. De stichting draagt het CBF-keurmerk en is aangesloten bij Goede Doelen Nederland.", "Stichting Ambulance Wens fulfils the last wish of terminally ill, bedridden patients: free of charge and often within a single day. With specially built ambulances and hundreds of volunteers, they take people one more time to the place that means the most to them, the beach, the stadium, or simply home one more time. The foundation holds the CBF seal of approval and is a member of Goede Doelen Nederland.")}
+            </p>
+          </div>
+
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] mb-8">
+            <p>
+              {L("Deze keuze is bewust. Een laatste wens vervullen, nog één keer naar het strand, het stadion, of gewoon nog één keer thuis, het raakt precies waar Vivace voor staat: het leven vieren en betekenisvolle momenten mogelijk maken, hoe klein of groot ook.", "This choice is deliberate. Fulfilling a last wish, one more time to the beach, the stadium, or simply home one more time, touches exactly what Vivace stands for: celebrating life and making meaningful moments possible, however small or big.")}
+            </p>
+            <p>
+              {L("Vanaf nu gaat €1 per fles Vivace naar Stichting Ambulance Wens. Aan het einde van ons eerste volledige verkoopjaar maken we het opgespaarde bedrag in één keer over, en delen we hier precies hoeveel dat geworden is.", "From now on, €1 per bottle of Vivace goes to Stichting Ambulance Wens. At the end of our first full year we transfer the saved amount in one go, and we will share here exactly how much it turned out to be.")}
+            </p>
+          </div>
+
+          <a
+            href={IMPACT_PARTNER.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+          >
+            {L("Bezoek Stichting Ambulance Wens", "Visit Stichting Ambulance Wens")} <ChevronRight size={14} />
+          </a>
+        </div>
+      </Reveal>
+
+      <Reveal delay={250}>
+        <div className="border-t border-[#234060] pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Waar we nu staan", "Where we stand now")}</p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Eerlijk over waar we in het proces zitten", "Honest about where we are in the process")}
+          </h2>
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+            <p>
+              {L("Vivace is jong, en dat geldt ook voor ons impactmodel. We weten nu wélk project we steunen, maar een eerste donatiebedrag kunnen we nog niet laten zien. Dat komt aan het einde van dit eerste volledige verkoopjaar. Wat we nu al vastleggen is hóe het werkt, zodat we onszelf daar later aan kunnen houden.", "Vivace is young, and so is our impact model. We now know which project we support, but we cannot show a first donation amount yet. That comes at the end of this first full year. What we are already putting in place is how it works, so we can hold ourselves to it later.")}
+            </p>
+            <p>
+              {L("Zodra de eerste donatie een feit is, delen we hier en via onze", "As soon as the first donation has been made, we will share it here and via our")}{" "}
+              <Link to="/blog" className="text-[#D4AF37] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
+                {L("blog", "blog")}
+              </Link>{" "}{L("precies hoeveel we hebben gedoneerd.", "exactly how much we have donated.")}
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={275}>
+        <div className="border-t border-[#234060] pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Waarom premium en impact samengaan", "Why premium and impact go together")}</p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Kwaliteit en betekenis hoeven geen tegenpolen te zijn", "Quality and meaning do not have to be opposites")}
+          </h2>
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+            <p>
+              {L("Vivace is er niet ondanks het premium karakter van het product, maar juist dankzij een merk dat op eigen kracht kan bestaan. Een zorgvuldig recept, ambachtelijke productie en een eerlijke prijs zijn wat Vivace laat groeien, en die groei is precies wat het mogelijk maakt om structureel iets terug te geven.", "Vivace does not exist despite the premium character of the product, but precisely thanks to a brand that can stand on its own. A careful recipe, craft production and a fair price are what make Vivace grow, and that growth is exactly what makes it possible to give something back in a structural way.")}
+            </p>
+            <p>
+              {L("We geloven dat genieten en teruggeven elkaar niet hoeven uit te sluiten. Een goed glas limoncello en een zinvolle bijdrage aan iemand anders' leven kunnen prima naast elkaar bestaan, en dat is precies wat Vivace wil laten zien: dat duurzaam ondernemen en een premium ervaring hand in hand kunnen gaan.", "We believe that enjoying and giving back do not have to exclude each other. A good glass of limoncello and a meaningful contribution to someone else's life can perfectly coexist, and that is exactly what Vivace wants to show: that sustainable business and a premium experience can go hand in hand.")}
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={300}>
+        <div className="border-t border-[#234060] pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Voor retailers en partners", "For retailers and partners")}</p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Een model waar je op kunt bouwen", "A model you can build on")}
+          </h2>
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+            <p>
+              {L("Voor supermarkten, slijterijen, horecazaken en andere partners is voorspelbaarheid belangrijk. Daarom houden we het donatiemodel eenvoudig en consistent: een vast bedrag per fles, ongeacht de verkoopprijs die jij hanteert, en communicatie die nooit verder gaat dan wat we daadwerkelijk hebben gedaan.", "For supermarkets, liquor stores, restaurants and other partners, predictability matters. That is why we keep the donation model simple and consistent: a fixed amount per bottle, regardless of the retail price you charge, and communication that never goes further than what we have actually done.")}
+            </p>
+            <p>
+              {L("We claimen geen donaties die nog niet zijn gedaan. Wat we wél beloven: zodra er resultaten zijn, delen we ze openlijk, met jou, en met de consument die de fles bij jou koopt.", "We do not claim donations that have not been made yet. What we do promise: as soon as there are results, we share them openly, with you, and with the consumer who buys the bottle from you.")}
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={325}>
+        <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 text-center">
+          <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")}
+          </p>
+          <p className="text-white/40 text-sm mb-6">{L("Vragen over ons impactmodel? We beantwoorden ze graag.", "Questions about our impact model? We are happy to answer them.")}</p>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+          >
+            {L("Neem contact op", "Get in touch")} <ChevronRight size={14} />
+          </Link>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+function PressPage() {
+  const L = useL();
+  useSEO({
+    title: "Pers & Media | Vivace Limoncello",
+    description:
+      "Perskit voor Vivace Limoncello: logo's, productfoto's en een brand backgrounder. Alles op één plek voor pers en reviewers.",
+  });
+
+  const photos = [
+    { src: "/images/vivace-bottle-hero-v2.jpg", label: L("Vivace Limoncello, flesfoto", "Vivace Limoncello, bottle photo") },
+    { src: "/images/vivace-can-hero.jpg", label: L("Vivace Limoncello Spritz, blikje", "Vivace Limoncello Spritz, can") },
+    { src: "/images/vivace-van-nelle-fabriek.jpg", label: L("Van Nelle Fabriek, productielocatie", "Van Nelle Factory, production site") },
+    { src: "/images/vivace-colosseum-banner.jpg", label: L("Colosseum, merkbeeld", "Colosseum, brand image") },
+  ];
+
+  const logos = [
+    { src: "/images/vivace-logo-transparent.png", label: L("Logo (transparante achtergrond)", "Logo (transparent background)") },
+    { src: "/images/vivace-logo-navy-bg.png", label: L("Logo (navy achtergrond)", "Logo (navy background)") },
+  ];
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Pers & Media", "Press & Media")}</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Alles voor pers en reviewers, op één plek", "Everything for press and reviewers, in one place")}
+        </h1>
+        <p className="text-white/45 max-w-lg mb-10">
+          {L("Logo's, productfoto's en een korte brand backgrounder, vrij te gebruiken bij het schrijven over Vivace. Liever alles in één keer? Download de volledige perskit hieronder.", "Logos, product photos and a short brand backgrounder, free to use when writing about Vivace. Prefer everything in one go? Download the full press kit below.")}
+        </p>
+        <a
+          href="/images/vivace-perskit.zip"
+          download
+          className="inline-flex items-center gap-2 bg-[#D4AF37] text-black px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors"
+        >
+          {L("Download volledige perskit (.zip)", "Download full press kit (.zip)")} <ChevronRight size={14} />
+        </a>
+      </Reveal>
+
+      {/* Backgrounder */}
+      <Reveal delay={100}>
+        <div className="border-t border-[#234060] mt-16 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Backgrounder", "Backgrounder")}</p>
+          <div className="space-y-5 text-white/55 leading-relaxed text-[15px] max-w-2xl">
+            <p>
+              {L("Vivace is een premium Italiaanse limoncello, ambachtelijk geproduceerd door", "Vivace is a premium Italian limoncello, handcrafted by")}{" "}
+              <strong className="text-white/85">Stokerij Klopman</strong> {L("in de iconische", "in the iconic")}{" "}
+              <strong className="text-white/85">{L("Van Nelle Fabriek", "Van Nelle Factory")}</strong> {L("in Rotterdam. Gemaakt van de schil van biologische Sorrento-citroenen, suiker en graanalcohol, zonder kunstmatige kleur- of smaakstoffen.", "in Rotterdam. Made from the zest of organic Sorrento lemons, sugar and grain alcohol, without artificial colourings or flavourings.")}
+            </p>
+            <p>
+              {L("Voor elke fles gaat", "For every bottle,")} <strong className="text-white/85">{L("€1 naar Stichting Ambulance Wens", "€1 goes to Stichting Ambulance Wens")}</strong>{L(", die de laatste wens van terminale, bedlegerige patiënten vervult met kosteloos ambulancevervoer. Een vast bedrag per fles, transparant en onafhankelijk van de verkoopprijs.", ", which fulfils the last wish of terminally ill, bedridden patients with free ambulance transport. A fixed amount per bottle, transparent and independent of the retail price.")}
+            </p>
+            <p>
+              {L("Het idee voor Vivace ontstond tijdens een reis naar Rome. De naam komt uit de muziek: \"vivace\" is Italiaans voor \"speel met leven en energie.\"", "The idea for Vivace was born on a trip to Rome. The name comes from music: \"vivace\" is Italian for \"play with life and energy.\"")}
+            </p>
+            <p>
+              <Link to="/blog/achter-de-schermen-productie" className="text-[#D4AF37] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
+                {L("Lees het volledige verhaal over onze productielocatie →", "Read the full story about our production location →")}
+              </Link>
+            </p>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Key facts */}
+      <Reveal delay={150}>
+        <div className="border-t border-[#234060] mt-14 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">{L("Kernfeiten", "Key facts")}</p>
+          <div className="grid sm:grid-cols-2 gap-x-10 gap-y-4 max-w-2xl">
+            {[
+              ["Product", "Vivace Limoncello, 500ml, 30% ALC/VOL"],
+              [L("Ingrediënten", "Ingredients"), L("Biologische Sorrento-citroenen, suiker, graanalcohol en water", "Organic Sorrento lemons, sugar, grain alcohol and water")],
+              [L("Geproduceerd door", "Produced by"), L("Stokerij Klopman, Van Nelle Fabriek, Rotterdam", "Stokerij Klopman, Van Nelle Factory, Rotterdam")],
+              [L("Bedrijf", "Company"), L("VVM Trading (eenmanszaak), KVK 86618806", "VVM Trading (sole proprietorship), KVK 86618806")],
+              [L("Impactmodel", "Impact model"), L("€1 per fles naar Stichting Ambulance Wens", "€1 per bottle to Stichting Ambulance Wens")],
+              ["Tagline", L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")],
+            ].map(([label, value]) => (
+              <div key={label} className="border-b border-[#1c3450] pb-3">
+                <p className="text-[10px] uppercase tracking-wider text-white/35 mb-1">{label}</p>
+                <p className="text-white/75 text-sm">{value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Logos */}
+      <Reveal delay={200}>
+        <div className="border-t border-[#234060] mt-14 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">{L("Logo", "Logo")}</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {logos.map((logo) => (
+              <div key={logo.src} className="border border-[#234060]">
+                <div className={`flex items-center justify-center p-8 ${logo.src.includes("navy") ? "bg-[#0C1526]" : "bg-white"}`}>
+                  <img src={logo.src} alt={logo.label} className="max-h-16 w-auto" />
+                </div>
+                <a
+                  href={logo.src}
+                  download
+                  className="flex items-center justify-between px-4 py-3 text-[11px] uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#234060]"
+                >
+                  {logo.label} <ChevronRight size={12} />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Photos */}
+      <Reveal delay={250}>
+        <div className="border-t border-[#234060] mt-14 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">{L("Productfoto's", "Product photos")}</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {photos.map((photo) => (
+              <div key={photo.src} className="border border-[#234060] overflow-hidden">
+                <img src={photo.src} alt={photo.label} className="w-full h-48 object-cover" />
+                <a
+                  href={photo.src}
+                  download
+                  className="flex items-center justify-between px-4 py-3 text-[11px] uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#234060]"
+                >
+                  {photo.label} <ChevronRight size={12} />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Contact */}
+      <Reveal delay={300}>
+        <div className="border-t border-[#234060] mt-14 pt-14 text-center">
+          <p className="font-serif italic text-2xl text-[#D4AF37] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Vragen voor een artikel of review?", "Questions for an article or review?")}
+          </p>
+          <p className="text-white/40 text-sm mb-2">drinkvivace@gmail.com</p>
+          <p className="text-white/40 text-sm">+31 6 12 33 94 85</p>
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-white/40 text-sm mt-4 hover:text-[#D4AF37] transition-colors"
+          >
+            <LinkedInIcon size={16} /> {L("Vivace op LinkedIn", "Vivace on LinkedIn")}
+          </a>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+function HorecaPage() {
+  const L = useL();
+  useSEO({
+    title: "Vivace bij jou in de zaak: Horeca & Retail | Vivace Limoncello",
+    description:
+      "Wil je Vivace Limoncello serveren of verkopen in jouw restaurant, bar, slijterij of winkel? Meld je aan als verkooppunt en we nemen snel contact op.",
+  });
+
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+
+  // Reuses the same Formspree endpoint as the contact form, with a hidden
+  // subject line so horeca/retail aanvragen zijn direct herkenbaar in je inbox.
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mzdnjavv";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    const form = e.target;
+    const data = new FormData(form);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        setStatus("sent");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-2xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Voor horeca & retail", "For hospitality & retail")}</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Vivace bij jou in de zaak", "Vivace at your place")}
+        </h1>
+        <p className="text-white/45 mb-6">
+          {L("Restaurant, bar, slijterij of supermarkt en interesse om Vivace te serveren of te verkopen? Vul onderstaand formulier in. We nemen binnen een paar dagen contact met je op.", "A restaurant, bar, liquor store or supermarket interested in serving or selling Vivace? Fill in the form below. We will get back to you within a few days.")}
+        </p>
+        <a
+          href="https://wa.me/31612339485?text=Hoi!%20Ik%20heb%20interesse%20om%20Vivace%20Limoncello%20te%20serveren%2Fverkopen%20in%20mijn%20zaak."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 border border-[#25D366]/40 text-[#25D366] px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#25D366]/10 transition-colors mb-12"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.83 14.16c-.24.68-1.4 1.3-1.93 1.36-.51.06-1 .26-3.32-.7-2.79-1.16-4.58-4.02-4.72-4.21-.14-.19-1.13-1.5-1.13-2.86 0-1.36.71-2.03.97-2.3.25-.28.55-.34.73-.34.19 0 .37 0 .53.01.17.01.4-.06.62.48.24.58.81 2 .88 2.14.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.16-.29.36-.42.48-.14.14-.28.29-.12.57.16.28.71 1.17 1.52 1.9 1.05.94 1.93 1.23 2.21 1.37.28.14.44.12.61-.07.16-.19.7-.81.89-1.09.19-.28.37-.23.62-.14.26.09 1.63.77 1.91.91.28.14.47.21.53.33.07.12.07.68-.17 1.36z"/>
+          </svg>
+          {L("Liever appen?", "Prefer WhatsApp?")}
+        </a>
+        <p className="text-white/35 text-sm mb-12 -mt-8">
+          {L("Benieuwd hoe Vivace wordt gemaakt?", "Curious how Vivace is made?")}{" "}
+          <Link to="/blog/achter-de-schermen-productie" className="text-[#D4AF37]/80 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
+            {L("Lees ons verhaal over Stokerij Klopman en de Van Nelle Fabriek", "Read our story about Stokerij Klopman and the Van Nelle Factory")}
+          </Link>.
+        </p>
+      </Reveal>
+
+      <Reveal delay={100}>
+        {status === "sent" ? (
+          <div className="border border-[#C9A04E]/30 p-8 text-center">
+            <p className="text-[#C9A04E] font-medium mb-2">{L("Bedankt voor je aanvraag!", "Thank you for your request!")}</p>
+            <p className="text-white/40 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <input type="hidden" name="_subject" value="Nieuwe horeca/retail aanvraag — Vivace" />
+            <input
+              type="text"
+              name="naam"
+              placeholder={L("Naam", "Name")}
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <input
+              type="text"
+              name="zaak"
+              placeholder={L("Naam van je zaak", "Name of your business")}
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <select
+              name="type_zaak"
+              required
+              defaultValue=""
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white/70 focus:outline-none focus:border-[#D4AF37]/50"
+            >
+              <option value="" disabled>
+                {L("Type zaak", "Type of business")}
+              </option>
+              <option value="Restaurant">{L("Restaurant", "Restaurant")}</option>
+              <option value="Bar / cafe">{L("Bar / café", "Bar / café")}</option>
+              <option value="Slijterij">{L("Slijterij", "Liquor store")}</option>
+              <option value="Supermarkt">{L("Supermarkt", "Supermarket")}</option>
+              <option value="Anders">{L("Anders", "Other")}</option>
+            </select>
+            <input
+              type="text"
+              name="plaats"
+              placeholder={L("Plaats", "City")}
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder={L("E-mailadres", "Email address")}
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <textarea
+              name="bericht"
+              placeholder={L("Vertel ons iets over je zaak (optioneel)", "Tell us about your business (optional)")}
+              rows={4}
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="bg-[#D4AF37] text-black px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
+            >
+              {status === "sending" ? L("Versturen...", "Sending...") : L("Verstuur aanvraag", "Send request")}
+            </button>
+            {status === "error" && (
+              <p className="text-red-400 text-xs">
+                {L("Er ging iets mis. Probeer het opnieuw of mail direct naar drinkvivace@gmail.com.", "Something went wrong. Try again or email drinkvivace@gmail.com directly.")}
+              </p>
+            )}
+          </form>
+        )}
+      </Reveal>
+
+      <Reveal delay={200}>
+        <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
+          <p>{L("Liever direct mailen? drinkvivace@gmail.com", "Prefer to email directly? drinkvivace@gmail.com")}</p>
+          <p>
+            {L("Of volg ons op", "Or follow us on")}{" "}
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#D4AF37]/70 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors"
+            >
+              LinkedIn
+            </a>
+          </p>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+function ContactPage() {
+  const L = useL();
+  useSEO({
+    title: "Contact | Vivace Limoncello",
+    description:
+      "Vragen over Vivace, interesse als verkooppunt, of gewoon nieuwsgierig? Neem contact op met VVM Trading, de exploitant van Vivace Limoncello.",
+  });
+
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mzdnjavv";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    const form = e.target;
+    const data = new FormData(form);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        setStatus("sent");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-2xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Contact", "Contact")}</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Laten we praten", "Let's talk")}
+        </h1>
+        <p className="text-white/45 mb-12">
+          {L("Vragen over Vivace, interesse als verkooppunt, of gewoon nieuwsgierig? Stuur een bericht.", "Questions about Vivace, interest as a stockist, or just curious? Send a message.")}
+        </p>
+      </Reveal>
+
+      <Reveal delay={100}>
+        {status === "sent" ? (
+          <div className="border border-[#C9A04E]/30 p-8 text-center">
+            <p className="text-[#C9A04E] font-medium mb-2">{L("Bedankt voor je bericht!", "Thank you for your message!")}</p>
+            <p className="text-white/40 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <input
+              type="text"
+              name="naam"
+              placeholder={L("Naam", "Name")}
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder={L("E-mailadres", "Email address")}
+              required
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <textarea
+              name="bericht"
+              placeholder={L("Je bericht", "Your message")}
+              required
+              rows={5}
+              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            />
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="bg-[#D4AF37] text-black px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
+            >
+              {status === "sending" ? L("Versturen...", "Sending...") : L("Verstuur bericht", "Send message")}
+            </button>
+            {status === "error" && (
+              <p className="text-red-400 text-xs">
+                {L("Er ging iets mis. Probeer het opnieuw of mail direct naar drinkvivace@gmail.com.", "Something went wrong. Try again or email drinkvivace@gmail.com directly.")}
+              </p>
+            )}
+          </form>
+        )}
+      </Reveal>
+
+      <Reveal delay={200}>
+        <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
+          <p>info@drinkvivace.nl</p>
+          <p>drinkvivace@gmail.com</p>
+          <p>{L("Nederland", "The Netherlands")}</p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={250}>
+        <div className="mt-10 pt-10 border-t border-[#234060]">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">{L("Geleverd door", "Delivered by")}</p>
+          <p className="text-white/70 text-sm leading-relaxed mb-6">
+            {L("Vivace wordt geëxploiteerd door VVM Trading.", "Vivace is operated by VVM Trading.")}
+          </p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">{L("Geproduceerd door", "Produced by")}</p>
+          <p className="text-white/45 text-sm leading-relaxed">
+            Stokerij Klopman<br />
+            Van Nelleweg 1, Kelder 3<br />
+            3044 BC Rotterdam
+          </p>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+// ---------- FAQ Page ----------
+function FAQItem({ q, a }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="border-b border-[#234060]">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between gap-4 py-5 text-left"
+      >
+        <span className="font-serif text-white/90 text-base md:text-lg leading-snug pr-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {q}
+        </span>
+        <span className={`text-[#D4AF37] flex-shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
+          <ChevronRight size={16} className="rotate-90" />
+        </span>
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <p className="pb-6 pr-8 text-white/45 text-sm md:text-base leading-relaxed">
+          {a}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+const FAQ_SECTIONS = [
+  {
+    title: "Het product",
+    items: [
+      {
+        q: "Wat is Vivace Limoncello precies?",
+        a: "Vivace is een limoncello van 30% VOL, gemaakt volgens een authentiek Italiaans recept. Vivace wordt ambachtelijk geproduceerd door Stokerij Klopman in Rotterdam, met smaken die recht doen aan de Italiaanse traditie.",
+      },
+      {
+        q: "Is Vivace in Italië gemaakt?",
+        a: "Het recept is Italiaans, maar Vivace wordt geproduceerd in Nederland, bij Stokerij Klopman in Rotterdam. Daarom staat op het etiket 'Prelibatezza Italiana' (Italiaanse lekkernij), in plaats van een claim dat het product zelf uit Italië komt.",
+      },
+      {
+        q: "Welke ingrediënten zitten er in?",
+        a: "Vivace bevat drie ingrediënten: de schil van biologische Sorrento-citroenen van de Amalfikust, pure suiker en graanalcohol. Geen kunstmatige kleur- of smaakstoffen. Voor de volledige, actuele ingrediëntenlijst en allergeneninformatie verwijzen we naar het etiket op de fles.",
+      },
+      {
+        q: "Waar wordt Vivace geproduceerd?",
+        a: "Bij Stokerij Klopman, Van Nelleweg 1, Kelder 3, 3044 BC Rotterdam. Een ambachtelijke distilleerderij die het hele productieproces verzorgt, van citroenschil tot afgevulde fles. Vivace zelf wordt geëxploiteerd door VVM Trading.",
+      },
+      {
+        q: "Hoe drink je Vivace het beste?",
+        a: "Traditioneel goed gekoeld als digestief, direct uit de vriezer. Vivace is ook heerlijk als basis voor een spritz: limoncello met prosecco en bruiswater over ijs.",
+      },
+      {
+        q: "Hoeveel calorieën heeft Vivace?",
+        a: "218 kcal per 100ml, wat neerkomt op ongeveer 75 kcal per shot van 35ml.",
+      },
+    ],
+  },
+  {
+    title: "Bestellen & verkooppunten",
+    items: [
+      {
+        q: "Waar kan ik Vivace kopen?",
+        a: "Bekijk onze Verkooppunten-pagina voor een actueel overzicht van winkels en restaurants waar Vivace verkrijgbaar is.",
+      },
+      {
+        q: "Kan ik Vivace direct via de website bestellen?",
+        a: "Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een erkende slijterij. Daarom verkopen we via onze fysieke verkooppunten in plaats van rechtstreeks via de site.",
+      },
+      {
+        q: "Ben je een winkel of horecazaak en wil je Vivace verkopen?",
+        a: "Mooi! Vul het aanmeldformulier op onze horeca-pagina in met wat informatie over je zaak, dan nemen we snel contact op.",
+      },
+      {
+        q: "Is er een minimumleeftijd om Vivace te kopen?",
+        a: "Ja. Vivace is alleen bestemd voor personen van 18 jaar en ouder, zoals wettelijk vereist voor alcoholhoudende dranken in Nederland.",
+      },
+    ],
+  },
+  {
+    title: "Vivace & impact",
+    items: [
+      {
+        q: "Hoe werkt het donatiemodel van Vivace?",
+        a: "Voor elke fles Vivace doneren we €1 aan Stichting Ambulance Wens. Een vast bedrag, per fles, onafhankelijk van marge of omzet. We zetten het al apart bij het inkopen van elke batch. Lees meer op onze Onze Impact-pagina.",
+      },
+      {
+        q: "Waarom een vast bedrag per fles, in plaats van een percentage van de winst?",
+        a: "Een vast bedrag is transparant en voorspelbaar, voor onszelf, voor onze partners in retail en horeca, en voor jou als consument. Het maakt het model ook schaalbaar: hoe meer flessen we verkopen, hoe meer impact we maken, zonder dat dit afhangt van hoe een kwartaal er financieel uitziet.",
+      },
+      {
+        q: "Welk project steunt Vivace?",
+        a: "Vivace steunt Stichting Ambulance Wens, die de laatste wens van terminale, bedlegerige patiënten vervult met kosteloos ambulancevervoer, vaak al binnen één dag. Lees meer over deze samenwerking op onze Onze Impact-pagina.",
+      },
+      {
+        q: "Is er al een donatie gedaan?",
+        a: "Nog niet. We doneren eenmaal per jaar het volledige, opgespaarde bedrag in één keer aan Stichting Ambulance Wens, zodat de impact groter en betekenisvoller is. De eerste donatie volgt aan het einde van ons eerste volledige verkoopjaar.",
+      },
+    ],
+  },
+];
+
+const FAQ_EN = [
+  {
+    title: "The product",
+    items: [
+      { q: "What exactly is Vivace Limoncello?", a: "Vivace is a 30% ABV limoncello made to an authentic Italian recipe. It is crafted by Stokerij Klopman in Rotterdam, with flavours that do justice to the Italian tradition." },
+      { q: "Is Vivace made in Italy?", a: "The recipe is Italian, but Vivace is produced in the Netherlands, at Stokerij Klopman in Rotterdam. That is why the label says 'Prelibatezza Italiana' (Italian delicacy), rather than claiming the product itself comes from Italy." },
+      { q: "What ingredients does it contain?", a: "Vivace contains three ingredients: the zest of organic Sorrento lemons from the Amalfi Coast, pure sugar and grain alcohol. No artificial colourings or flavourings. For the full, current ingredient list and allergen information, please see the label on the bottle." },
+      { q: "Where is Vivace produced?", a: "At Stokerij Klopman, Van Nelleweg 1, Kelder 3, 3044 BC Rotterdam. A craft distillery that handles the entire production process, from lemon zest to filled bottle. Vivace itself is operated by VVM Trading." },
+      { q: "What is the best way to drink Vivace?", a: "Traditionally well chilled as a digestif, straight from the freezer. Vivace is also great as the base for a spritz: limoncello with prosecco and sparkling water over ice." },
+      { q: "How many calories does Vivace have?", a: "218 kcal per 100ml, which is about 75 kcal per 35ml shot." },
+    ],
+  },
+  {
+    title: "Ordering & stockists",
+    items: [
+      { q: "Where can I buy Vivace?", a: "Check our Where to buy page for a current overview of shops and restaurants that stock Vivace." },
+      { q: "Can I order Vivace directly through the website?", a: "In the Netherlands, spirits (30% ABV) may only be sold online by a licensed liquor store. That is why we sell through our physical stockists instead of directly through the site." },
+      { q: "Are you a shop or restaurant and want to sell Vivace?", a: "Great! Fill in the sign-up form on our hospitality page with some information about your business, and we will get in touch soon." },
+      { q: "Is there a minimum age to buy Vivace?", a: "Yes. Vivace is intended only for people aged 18 and over, as legally required for alcoholic drinks in the Netherlands." },
+    ],
+  },
+  {
+    title: "Vivace & impact",
+    items: [
+      { q: "How does Vivace's donation model work?", a: "For every bottle of Vivace we donate €1 to Stichting Ambulance Wens. A fixed amount, per bottle, independent of margin or turnover. We set it aside as soon as we buy in each batch. Read more on our Our Impact page." },
+      { q: "Why a fixed amount per bottle instead of a percentage of profit?", a: "A fixed amount is transparent and predictable, for ourselves, for our retail and hospitality partners, and for you as a consumer. It also makes the model scalable: the more bottles we sell, the more impact we make, without it depending on how a quarter looks financially." },
+      { q: "Which project does Vivace support?", a: "Vivace supports Stichting Ambulance Wens, which fulfils the last wish of terminally ill, bedridden patients with free ambulance transport, often within a single day. Read more about this partnership on our Our Impact page." },
+      { q: "Has a donation been made yet?", a: "Not yet. We donate the full saved amount in one go, once a year, to Stichting Ambulance Wens, so the impact is bigger and more meaningful. The first donation follows at the end of our first full year of sales." },
+    ],
+  },
+];
+
+function FAQPage() {
+  const L = useL();
+  useSEO({
+    title: "Veelgestelde vragen | Vivace Limoncello",
+    description:
+      "Antwoorden op veelgestelde vragen over Vivace Limoncello: het product, verkooppunten en ons impactmodel.",
+  });
+
+  useJsonLd({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_SECTIONS.flatMap((section) => section.items).map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
+  });
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Vragen", "Questions")}</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Veelgestelde vragen", "Frequently asked questions")}
+        </h1>
+        <p className="text-white/45 max-w-lg mb-14">
+          {L("Alles wat je wilt weten over Vivace, van het product tot ons donatiemodel.", "Everything you want to know about Vivace, from the product to our donation model.")}
+        </p>
+      </Reveal>
+
+      {FAQ_SECTIONS.map((section, i) => (
+        <Reveal key={section.title} delay={i * 100}>
+          <div className={i > 0 ? "mt-12" : ""}>
+            <h2 className="font-serif text-2xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              {L(section.title, FAQ_EN[i].title)}
+            </h2>
+            <div className="h-px w-full bg-[#1c3450] mb-2" />
+            <div>
+              {section.items.map((item, j) => (
+                <FAQItem key={item.q} q={L(item.q, FAQ_EN[i].items[j].q)} a={L(item.a, FAQ_EN[i].items[j].a)} />
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      ))}
+
+      <Reveal delay={400}>
+        <div className="mt-16 text-center border-t border-[#234060] pt-10">
+          <p className="text-white/40 text-sm mb-3">{L("Staat je vraag er niet bij?", "Is your question not listed?")}</p>
+          <Link
+            to="/contact"
+            className="text-[#D4AF37] font-serif italic text-lg border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
+            {L("Neem contact met ons op", "Get in touch")}
+          </Link>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+// ---------- Blog ----------
+// Unified blog covering three post types: recept (recipe), nieuws (news),
+// verkooppunt (new stockist announcement). Recipe posts carry the full
+// ingredients/steps/serving-adjuster data; other types are simpler articles.
+const BLOG_CATEGORIES = [
+  { id: "alle", label: "Alle" },
+  { id: "recept", label: "Recept" },
+  { id: "nieuws", label: "Nieuws" },
+  { id: "verkooppunt", label: "Verkooppunten" },
+];
+
+const BLOG_POSTS = [
+  {
+    id: "vivace-limoncello-bars",
+    type: "recept",
+    title: "Vivace Limoncello Bars: romig, fris en een beetje zoet",
+    date: "2026-10-25",
+    servingUnit: "Stukjes",
+    baseServings: 16,
+    recipeYield: "16 stukjes",
+    cookTime: "PT45M",
+    recipeCategory: "Dessert",
+    image: "/images/vivace-limoncello-bars-hero.jpg",
+    photoCredit: "@_rosalie_h",
+    excerpt: "Een boterachtige shortbread-bodem met een romige citroenvulling en een scheut Vivace Limoncello. Koud serveren, bestuiven met poedersuiker en klaar.",
+    tip: "Tip: serveer de bars koud, met een klein glaasje ijskoude Vivace ernaast.",
+    ingredients: [
+      { heading: "Voor de shortbread-bodem" },
+      { amount: 190, unit: "g", name: "bloem" },
+      { amount: 100, unit: "g", name: "suiker" },
+      { amount: null, unit: "", name: "snufje zout" },
+      { amount: 115, unit: "g", name: "ongezouten boter, gesmolten" },
+      { amount: 1, unit: "tl", name: "vanille-extract" },
+      { heading: "Voor de limoncello-vulling" },
+      { amount: 4, unit: "", name: "grote eieren, op kamertemperatuur" },
+      { amount: 250, unit: "g", name: "suiker" },
+      { amount: 30, unit: "g", name: "bloem" },
+      { amount: 80, unit: "ml", name: "vers citroensap" },
+      { amount: 6, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 1, unit: "el", name: "fijngeraspte citroenschil" },
+      { amount: 60, unit: "ml", name: "slagroom" },
+      { amount: null, unit: "", name: "snufje zout" },
+      { amount: null, unit: "", name: "poedersuiker, om te bestuiven" },
+    ],
+    steps: [
+      "Verwarm de oven voor op 175 °C. Bekleed een vierkante bakvorm van 20 x 20 cm met bakpapier en laat het papier aan de zijkanten overhangen, zodat je de bars er straks makkelijk uit kunt tillen.",
+      "Meng de bloem, suiker en het zout in een kom. Voeg de gesmolten boter en het vanille-extract toe en roer tot een zacht, kruimelig deeg. Druk het stevig en gelijkmatig in de bodem van de vorm.",
+      "Bak de bodem 18 tot 20 minuten, tot de randjes net goudkleurig worden. Haal de vorm uit de oven en laat de oven op 175 °C staan.",
+      "Klop terwijl de bodem bakt de eieren en de suiker in een grote kom glad. Voeg de bloem toe en klop opnieuw tot er geen klontjes meer zijn.",
+      "Voeg het citroensap, de Vivace Limoncello, de slagroom, de citroenschil en een snufje zout toe. Klop zachtjes tot alles gemengd is. Niet te hard kloppen, anders ontstaan er luchtbellen op het oppervlak.",
+      "Giet de vulling over de warme bodem en zet de vorm voorzichtig terug in de oven.",
+      "Bak 20 tot 25 minuten, tot de randen vast zijn en het midden nog heel licht wiebelt als je de vorm beweegt. Niet te lang bakken: de vulling stevent verder op tijdens het afkoelen.",
+      "Laat de bars helemaal afkoelen in de vorm op kamertemperatuur. Zet ze daarna minimaal 3 uur in de koelkast, het liefst een hele nacht. Dit is essentieel voor mooie, strakke plakken en een romige structuur.",
+      "Til de gekoelde bars met het bakpapier uit de vorm. Snijd ze met een groot, scherp mes in nette stukjes en veeg het mes tussen elke snede schoon.",
+      "Bestuif royaal met poedersuiker vlak voor het serveren.",
+    ],
+  },
+  {
+    id: "verkooppunt-colins-slijterij-vlaardingen",
+    type: "verkooppunt",
+    title: "Vivace staat nu in Vlaardingen: Colins Slijterij & Wijnwinkel",
+    date: "2026-10-24",
+    image: "/images/vivace-colins-winkel.jpg",
+    excerpt: "Vivace Limoncello staat nu in het schap bij Colins Slijterij & Wijnwinkel in winkelcentrum De Loper in Vlaardingen.",
+    body: [
+      "Vivace staat nu in Vlaardingen! Vanaf nu vind je onze limoncello bij Colins Slijterij & Wijnwinkel in winkelcentrum De Loper, en we vinden het echt supertof om daar te liggen.",
+      "Colins Slijterij & Wijnwinkel is de droom van Colin Schrama, die zijn passie voor wijn, sterke drank en lokale specialiteiten in een eigen zaak heeft gestoken. Persoonlijke service staat bij hem voorop: Colin denkt graag met je mee, of je nu zoekt naar een wijn bij het diner, een cadeau of een bijzondere likeur.",
+      "Colin, topvent! Bedankt voor het vertrouwen in Vivace en voor de warme ontvangst. Wie in Vlaardingen of omgeving een fles Vivace wil proeven: loop binnen en vraag ernaar. Voor elke fles gaat €1 naar Stichting Ambulance Wens.",
+      "Wil je Vivace ook in jouw winkel of horecazaak? Meld je aan via onze horeca-pagina.",
+    ],
+    gallery: [
+      "/images/vivace-colins-schap.jpg",
+      "/images/vivace-colins-schap-02.jpg",
+    ],
+  },
+  {
+    id: "verkooppunt-wijnhandel-van-dijk-schiedam",
+    type: "verkooppunt",
+    title: "Vivace staat nu in Schiedam: Wijnhandel Van Dijk",
+    date: "2026-10-10",
+    image: "/images/vivace-van-dijk-winkel.jpg",
+    excerpt: "Vivace Limoncello staat nu in het schap bij Wijnhandel Van Dijk, Schiedamseweg 33 in Schiedam.",
+    body: [
+      "Vivace staat nu in Schiedam! Vanaf nu vind je onze limoncello bij Wijnhandel Van Dijk, dé plek in Schiedam voor wijnen en gedistilleerd.",
+      "Marcel en Marina van Dijk, bedankt voor de warme ontvangst, jullie vertrouwen en de plek in jullie schap. Dat voelt als een compliment.",
+      "Je vindt Vivace aan de Schiedamseweg 33, 3121 JD Schiedam. Loop binnen en vraag ernaar. Voor elke fles gaat €1 naar Stichting Ambulance Wens.",
+      "Wil je Vivace ook in jouw winkel of horecazaak? Meld je aan via onze horeca-pagina.",
+    ],
+    gallery: [
+      "/images/vivace-van-dijk-schap.jpg",
+      "/images/vivace-van-dijk-schap-02.jpg",
+    ],
+  },
+    {
+    id: "rotterdam-halve-marathon-2026",
+    type: "nieuws",
+    title: "Vivace bij de Rotterdam Halve Marathon",
+    date: "2026-09-25",
+    image: "/images/vivace-halve-marathon-hero.jpg",
+    excerpt: "Zondag liepen we niet alleen de halve marathon van Rotterdam, we vierden het ook samen, met een glas Vivace.",
+    body: [
+      "\"Vivace.\" Waar komt die naam eigenlijk vandaan? Het is een muziekterm: speel met leven en energie. Wij noemden onze limoncello er niet voor niets naar.",
+      "Zondag bewezen we het tijdens de halve marathon van Rotterdam. Niet alleen gelopen, maar samen, op precies dat tempo.",
+      "En na afloop het liefst gevierd zoals het hoort: met elkaar, met een glas Vivace. Want het beste moment is het moment dat je deelt.",
+      "Proef het zelf bij onze verkooppunten.",
+    ],
+    gallery: [
+      "/images/vivace-halve-marathon-01.jpg",
+      "/images/vivace-halve-marathon-02.jpg",
+      "/images/vivace-halve-marathon-03.jpg",
+      "/images/vivace-halve-marathon-04.jpg",
+      "/images/vivace-halve-marathon-05.jpg",
+      "/images/vivace-halve-marathon-06.jpg",
+    ],
+  },
+  {
+    id: "eerste-verkooppunt-plus-poortugaal",
+    type: "verkooppunt",
+    title: "Ons eerste verkooppunt: PLUS Rick Hoogendoorn in Poortugaal",
+    date: "2026-09-19",
+    image: "/images/vivace-plus-schap.jpg",
+    excerpt: "Vivace Limoncello staat nu in het schap bij PLUS Rick Hoogendoorn, Waalstraat 2a in Poortugaal.",
+    body: [
+      "Het is zover: Vivace Limoncello is nu te koop bij ons allereerste verkooppunt, PLUS Rick Hoogendoorn in Poortugaal.",
+      "Je vindt Vivace aan de Waalstraat 2a, 3171 AH Poortugaal. Voor elke fles gaat €1 naar Stichting Ambulance Wens.",
+      "Wil je Vivace ook in jouw winkel of horecazaak? Meld je aan via onze horeca-pagina.",
+    ],
+  },
+  {
+    id: "spritz-klassiek",
+    type: "recept",
+    title: "Vivace Limoncello Spritz: het klassieke recept",
+    date: "2026-06-01",
+    image: "/images/vivace-spritz-klassiek-hero.jpg",
+    excerpt: "De originele: fris, lichtzoet en gevuld met bubbels. Het recept waarmee alles begon.",
+    ingredients: [
+      { amount: 5, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 10, unit: "cl", name: "prosecco, goed gekoeld" },
+      { amount: 3, unit: "cl", name: "bruiswater" },
+      { amount: null, unit: "", name: "schijfje citroen" },
+      { amount: null, unit: "", name: "takje munt (optioneel)" },
+    ],
+    steps: [
+      "Vul een groot wijnglas met ijsklontjes.",
+      "Schenk de Vivace Limoncello erover.",
+      "Voeg de prosecco toe, langzaam, om de bubbels te behouden.",
+      "Maak af met een scheutje bruiswater.",
+      "Garneer met een schijfje citroen en eventueel een takje munt. Direct serveren.",
+    ],
+  },
+  {
+    id: "spritz-light",
+    type: "recept",
+    title: "Vivace Spritz Light: lichter en langer",
+    date: "2026-06-01",
+    image: "/images/vivace-spritz-light-hero.jpg",
+    excerpt: "Iets lichter en langer, met meer bruiswater. Perfect voor een lange, warme middag.",
+    ingredients: [
+      { amount: 4, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 8, unit: "cl", name: "prosecco, goed gekoeld" },
+      { amount: 8, unit: "cl", name: "bruiswater" },
+      { amount: null, unit: "", name: "schijfje citroen" },
+    ],
+    steps: [
+      "Vul een groot longdrinkglas met ijsklontjes.",
+      "Schenk de Vivace Limoncello erover.",
+      "Voeg de prosecco toe.",
+      "Vul aan met ruim bruiswater voor een lichtere, langere drank.",
+      "Garneer met een schijfje citroen.",
+    ],
+  },
+  {
+    id: "spritz-intenso",
+    type: "recept",
+    title: "Vivace Spritz Intenso: voor de echte liefhebber",
+    date: "2026-06-01",
+    image: "/images/vivace-spritz-intenso-hero.jpg",
+    excerpt: "Voor wie de limoncello echt wil proeven: een stevigere pour met minder verdunning.",
+    ingredients: [
+      { amount: 7, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 7, unit: "cl", name: "prosecco, goed gekoeld" },
+      { amount: null, unit: "", name: "schijfje citroen" },
+      { amount: null, unit: "", name: "takje rozemarijn (optioneel)" },
+    ],
+    steps: [
+      "Vul een tumbler of groot wijnglas met ijsklontjes.",
+      "Schenk de Vivace Limoncello erover.",
+      "Voeg de prosecco toe, langzaam.",
+      "Garneer met een schijfje citroen en eventueel een takje rozemarijn.",
+    ],
+  },
+  {
+    id: "vivace-sour",
+    type: "recept",
+    title: "Vivace Sour: romig en fris",
+    date: "2026-08-05",
+    image: "/images/vivace-sour-hero.jpg",
+    excerpt: "Een klassieke sour-twist: romig van schuim, fris van citrus, met Vivace als hoofdrolspeler.",
+    ingredients: [
+      { amount: 5, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 2, unit: "cl", name: "vers citroensap" },
+      { amount: 1, unit: "cl", name: "suikersiroop" },
+      { amount: 2, unit: "cl", name: "eiwit (of aquafaba voor een veganistische versie)" },
+      { amount: null, unit: "", name: "ijsblokjes" },
+      { amount: null, unit: "", name: "schijfje citroen, ter garnering" },
+    ],
+    steps: [
+      "Doe de Vivace Limoncello, het citroensap, de suikersiroop en het eiwit zonder ijs in een shaker.",
+      "Shake eerst hard zonder ijs (\"dry shake\") voor een romig schuim, ongeveer 15 seconden.",
+      "Voeg ijsblokjes toe en shake nogmaals stevig, tot de shaker beslaat.",
+      "Zeef in een tumbler of coupeglas.",
+      "Garneer met een schijfje citroen. Direct serveren.",
+    ],
+  },
+  {
+    id: "vivace-tonic",
+    type: "recept",
+    title: "Vivace Tonic: de simpelste manier",
+    date: "2026-08-05",
+    image: "/images/vivace-tonic-hero.jpg",
+    excerpt: "Twee ingrediënten, één minuut werk. De makkelijkste manier om Vivace te ontdekken.",
+    ingredients: [
+      { amount: 5, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 12, unit: "cl", name: "tonic, goed gekoeld" },
+      { amount: null, unit: "", name: "schijfje citroen" },
+      { amount: null, unit: "", name: "takje munt (optioneel)" },
+    ],
+    steps: [
+      "Vul een groot longdrinkglas met ijsklontjes.",
+      "Schenk de Vivace Limoncello erover.",
+      "Vul aan met de tonic, langzaam om de bubbels te behouden.",
+      "Garneer met een schijfje citroen en eventueel een takje munt.",
+    ],
+  },
+  {
+    id: "vivace-puur",
+    type: "recept",
+    title: "Vivace Puur: zo drink je hem traditioneel",
+    date: "2026-08-05",
+    image: "/images/vivace-puur-hero.jpg",
+    excerpt: "Geen cocktail, geen mixer. Zo serveren ze limoncello in Sorrento, en zo smaakt hij het best.",
+    ingredients: [
+      { amount: 4, unit: "cl", name: "Vivace Limoncello, ijskoud uit de vriezer" },
+    ],
+    steps: [
+      "Bewaar je fles Vivace in de vriezer. Door het hoge alcoholpercentage bevriest de limoncello niet, maar wordt hij wel stroperig en ijskoud.",
+      "Zet ook je glaasjes even in de vriezer of koelkast voor extra effect.",
+      "Schenk een klein scheutje in een ijskoud glaasje.",
+      "Drink puur, als digestief na het eten, geen ijs, geen mixer nodig.",
+    ],
+  },
+  {
+    id: "vivace-basil-smash",
+    type: "recept",
+    title: "Vivace Basil Smash: kruidig en verrassend",
+    date: "2026-08-06",
+    image: "/images/vivace-basil-smash-hero.jpg",
+    excerpt: "Verse basilicum en citrus, stevig geplet voor een geurige, verfrissende twist op de klassieke smash.",
+    ingredients: [
+      { amount: 5, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 2, unit: "cl", name: "vers limoensap" },
+      { amount: 1, unit: "cl", name: "suikersiroop" },
+      { amount: 8, unit: "", name: "verse basilicumblaadjes" },
+      { amount: null, unit: "", name: "ijsblokjes" },
+      { amount: null, unit: "", name: "takje basilicum, ter garnering" },
+    ],
+    steps: [
+      "Kneus de basilicumblaadjes voorzichtig in een shaker met de suikersiroop, zodat de olie vrijkomt.",
+      "Voeg de Vivace Limoncello en het limoensap toe.",
+      "Vul aan met ijsblokjes en shake stevig, ongeveer 15 seconden.",
+      "Dubbel zeven (fijne zeef) in een tumbler met vers ijs.",
+      "Garneer met een takje basilicum.",
+    ],
+  },
+  {
+    id: "vivace-mule",
+    type: "recept",
+    title: "Vivace Mule: pittig en bruisend",
+    date: "2026-08-06",
+    image: "/images/vivace-mule-hero.jpg",
+    excerpt: "Gemberbier en limoencello, met een vleugje pit. Een frisse twist op de klassieke mule.",
+    ingredients: [
+      { amount: 5, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 12, unit: "cl", name: "gemberbier, goed gekoeld" },
+      { amount: 1, unit: "cl", name: "vers limoensap" },
+      { amount: null, unit: "", name: "ijsblokjes" },
+      { amount: null, unit: "", name: "schijfje limoen, ter garnering" },
+    ],
+    steps: [
+      "Vul een koperen mule-beker of longdrinkglas met ijsblokjes.",
+      "Schenk de Vivace Limoncello en het limoensap erover.",
+      "Vul aan met het gemberbier, langzaam om de prik te behouden.",
+      "Kort roeren en garneren met een schijfje limoen.",
+    ],
+  },
+  {
+    id: "vivace-tiramisu",
+    type: "recept",
+    title: "Vivace Limoncello Tiramisu: het echte familierecept",
+    date: "2026-08-08",
+    servingUnit: "Personen",
+    baseServings: 6,
+    recipeYield: "6 porties",
+    image: "/images/vivace-tiramisu-hero.jpg",
+    excerpt: "Ons eigen tiramisu-recept, al jaren gemaakt thuis, nu met een vleugje Vivace Limoncello in plaats van Marsala.",
+    ingredients: [
+      { amount: 3, unit: "", name: "grote eidooiers (XL)" },
+      { amount: 100, unit: "g", name: "suiker" },
+      { amount: 300, unit: "ml", name: "sterke espresso, afgekoeld" },
+      { amount: 400, unit: "g", name: "mascarpone, op kamertemperatuur" },
+      { amount: 125, unit: "ml", name: "slagroom, gekoeld" },
+      { amount: 4.5, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 24, unit: "", name: "lange vingers (biscotti savoiardi)" },
+      { amount: 2, unit: "tbsp", name: "cacaopoeder, om te bestuiven" },
+      { amount: 1, unit: "tbsp", name: "fijngemalen espressobonen, om te bestuiven" },
+    ],
+    steps: [
+      "Meng de suiker met 3 tot 4 eetlepels water in een steelpannetje en verwarm op laag vuur, al roerend, tot de suiker net op het punt van karamelliseren staat. Haal direct van het vuur.",
+      "Klop de eidooiers in een grote kom en giet de hete suikersiroop er in een dunne, gestage straal bij, terwijl je blijft kloppen.",
+      "Klop door tot het mengsel licht en luchtig is geworden. Laat daarna volledig afkoelen.",
+      "Roer, zodra het mengsel is afgekoeld, een scheut van de espresso en de mascarpone erdoor tot een gladde massa.",
+      "Klop de slagroom in een aparte kom stijf en spatel deze voorzichtig door het mascarponemengsel.",
+      "Meng de Vivace Limoncello met de rest van de espresso in een ondiepe schaal.",
+      "Doop de lange vingers snel door het koffie-limoncellomengsel (niet te lang, anders vallen ze uit elkaar) en leg ze naast elkaar in een vierkante ovenschaal van ongeveer 20 bij 20 cm, tot de bodem bedekt is.",
+      "Verdeel de helft van het mascarponemengsel over de lange vingers. Herhaal met een tweede laag gedoopte lange vingers en de rest van het mengsel.",
+      "Dek af en laat minimaal 4 uur, het liefst een hele nacht, opstijven in de koelkast.",
+      "Bestuif vlak voor serveren met cacaopoeder en de fijngemalen espressobonen, via een fijne zeef.",
+    ],
+  },
+  {
+    id: "vivace-launch",
+    type: "nieuws",
+    title: "Vivace is live op Instagram",
+    date: "2026-07-27",
+    image: "/images/vivace-instagram-launch-announcement.png",
+    excerpt: "Drink anders. Geniet anders. Vivace is nu officieel gelanceerd op Instagram.",
+    body: [
+      "Drink anders. Geniet anders.",
+      "Maak kennis met Vivace: een premium limoncello, gemaakt volgens een authentiek Italiaans recept, met een Nederlands hart.",
+      "Vivace is meer dan een drankje. Voor elke fles doneren we €1 aan Stichting Ambulance Wens. Geen vage belofte, gewoon een vast bedrag, per fles, transparant te herleiden.",
+      "Premium kwaliteit. Een heldere belofte. Bij elke borrel.",
+      "Binnenkort te vinden bij geselecteerde verkooppunten bij jou in de buurt.",
+    ],
+  },
+  {
+    id: "etiket-reveal",
+    type: "nieuws",
+    title: "Het etiket: luxe tot in de laatste letter",
+    date: "2026-07-27",
+    image: "/images/vivace-instagram-etiket-reveal.png",
+    excerpt: "Van biologische Sorrento-citroenen tot het kleinste lettertje, een kijkje achter het label.",
+    body: [
+      "Luxe, tot in de laatste letter.",
+      "Van biologische Sorrento-citroenen tot het kleinste lettertje, alles even verzorgd. Scan de QR-code voor het volledige verhaal.",
+      "Binnenkort verkrijgbaar. 🍋",
+    ],
+  },
+  {
+    id: "drink-anders-geniet-anders",
+    type: "nieuws",
+    title: "Drink anders. Geniet anders.",
+    date: "2026-07-27",
+    image: "/images/vivace-instagram-mission-colosseum.png",
+    excerpt: "Vivace is Italiaans voor \"speel met leven en energie.\" Precies wat we willen dat je voelt bij elk glas.",
+    body: [
+      "Drink anders. Geniet anders.",
+      "Vivace is Italiaans voor \"speel met leven en energie.\" Precies wat we willen dat je voelt bij elk glas.",
+      "Maar er zit meer achter dan alleen smaak. €1 van elke fles gaat naar Stichting Ambulance Wens. Geen bijzaak, de reden dat we bestaan.",
+      "Premium limoncello, gemaakt volgens een Italiaans recept, met een Nederlands hart.",
+    ],
+  },
+  {
+    id: "impactproject-ambulance-wens",
+    type: "nieuws",
+    title: "Ons impactproject is bekend: Stichting Ambulance Wens",
+    date: "2026-07-30",
+    image: "/images/stichting-ambulance-wens-logo.png",
+    excerpt: "Vivace verbindt zich aan Stichting Ambulance Wens. Voortaan gaat €1 per fles naar hun werk.",
+    body: [
+      "We zijn trots om te delen welk impactproject Vivace steunt: Stichting Ambulance Wens.",
+      "Stichting Ambulance Wens vervult de laatste wens van terminale, bedlegerige patiënten, kosteloos en vaak al binnen één dag. Met speciaal gebouwde ambulances en honderden vrijwilligers maken zij nog één bijzondere dag mogelijk: het strand, het stadion, of gewoon nog één keer thuis.",
+      "Deze keuze is bewust. Een laatste wens vervullen, hoe klein of groot ook, raakt precies waar Vivace voor staat: het leven vieren en betekenisvolle momenten mogelijk maken.",
+      "Vanaf nu gaat €1 per fles Vivace naar Stichting Ambulance Wens. Aan het einde van ons eerste volledige verkoopjaar delen we hier precies hoeveel dat geworden is.",
+    ],
+  },
+  {
+    id: "achter-de-schermen-productie",
+    type: "nieuws",
+    title: "Achter de schermen: waar Vivace wordt gemaakt",
+    date: "2026-08-08",
+    image: "/images/vivace-van-nelle-fabriek.jpg",
+    excerpt: "Vivace ontstaat niet in een anonieme fabriekshal, maar op een van de meest bijzondere plekken van Rotterdam.",
+    body: [
+      "Vivace wordt niet gemaakt in een anonieme fabriekshal. Onze limoncello ontstaat op een van de meest bijzondere plekken van Rotterdam: de Van Nelle Fabriek.",
+      "De Van Nelle Fabriek werd in de vorige eeuw gebouwd voor de productie van koffie, thee en tabak. Tegenwoordig is het gebouw UNESCO Werelderfgoed en een broedplaats voor makers, ontwerpers en, in ons geval, een ambachtelijke stokerij.",
+      "Vivace wordt geproduceerd door Stokerij Klopman, een kleine, ambachtelijke distilleerderij die in 2017 begon in Haarlem. In 2022 verhuisde de stokerij naar de Van Nelle Fabriek, waar nu geproefd, geproduceerd en samengewerkt wordt met merken zoals Vivace.",
+      "Wat ons aansprak was niet alleen de locatie, maar ook de manier van werken. Kleine productiebatches. Korte lijnen. En een gezamenlijke receptuurbepaling, waarbij wij niet zomaar een label op andermans fles plakken, maar echt meedenken over hoe Vivace moet smaken.",
+      "Zo blijft elke fles Vivace herleidbaar tot een echte plek en een klein team vakmensen, geen anonieme toeleverancier, maar een partner die net zo veel om smaak en kwaliteit geeft als wij.",
+      "Ambachtelijk gemaakt. In het hart van Rotterdam. Drink anders. Geniet anders.",
+    ],
+  },
+];
+
+function formatRecipeAmount(amount, servings) {
+  if (amount === null) return null;
+  const scaled = Math.round(amount * servings * 10) / 10;
+  return scaled % 1 === 0 ? scaled.toString() : scaled.toFixed(1);
+}
+
+function formatBlogDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
+}
+
+function BlogCard({ post }) {
+  return (
+    <Link
+      to={`/blog/${post.id}`}
+      className="text-left border border-[#234060] hover:border-[#D4AF37]/40 transition-colors flex flex-col h-full overflow-hidden"
+    >
+      {post.image && (
+        <img src={post.image} alt={post.title} className="w-full h-44 object-cover" />
+      )}
+      <div className="p-6 flex flex-col gap-3 flex-1">
+        <span className="text-[10px] uppercase tracking-[0.2em] text-[#C9A04E]">
+          {BLOG_CATEGORIES.find((c) => c.id === post.type)?.label || post.type}
+        </span>
+        <h3 className="font-serif text-xl text-white/90 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {post.title}
+        </h3>
+        <p className="text-white/45 text-sm leading-relaxed flex-1">{post.excerpt}</p>
+        <span className="text-white/25 text-xs">{formatBlogDate(post.date)}</span>
+      </div>
+    </Link>
+  );
+}
+
+function RecipeBody({ post }) {
+  const baseServings = post.baseServings || 1; // e.g. 6 for a recipe whose listed amounts already serve 6
+  const [servings, setServings] = useState(baseServings);
+  const unit = post.servingUnit || "Glazen"; // e.g. "Personen" for food recipes like desserts
+  return (
+    <div className="bg-[#102338] border border-[#234060] overflow-hidden">
+      {post.image && (
+        <img src={post.image} alt={post.title} className="w-full h-auto" />
+      )}
+      {post.photoCredit && (
+        <p className="px-8 md:px-12 pt-3 text-[11px] text-white/35">
+          Foto:{" "}
+          <a
+            href={`https://www.instagram.com/${post.photoCredit.replace("@", "")}/`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#D4AF37]/70 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors"
+          >
+            {post.photoCredit}
+          </a>
+        </p>
+      )}
+      <div className="p-8 md:p-12">
+      <div className="flex items-center justify-end mb-10">
+        <div className="flex items-center gap-4">
+          <span className="text-white/35 text-[10px] uppercase tracking-[0.15em]">{unit}</span>
+          <div className="flex items-center gap-3 border border-[#234060]">
+            <button
+              onClick={() => setServings(Math.max(1, servings - 1))}
+              className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
+              aria-label={`Minder ${unit.toLowerCase()}`}
+            >
+              <Minus size={14} />
+            </button>
+            <span className="font-serif text-[#D4AF37] text-base w-5 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              {servings}
+            </span>
+            <button
+              onClick={() => setServings(servings + 1)}
+              className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
+              aria-label={`Meer ${unit.toLowerCase()}`}
+            >
+              <Plus size={14} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-10">
+        <div>
+          <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Ingrediënten</p>
+          <ul className="space-y-3">
+            {post.ingredients.map((ing, i) =>
+              ing.heading ? (
+                <li key={i} className={`text-[10px] tracking-[0.2em] uppercase text-white/35 ${i > 0 ? "pt-4" : ""}`}>
+                  {ing.heading}
+                </li>
+              ) : (
+              <li key={i} className="flex items-baseline justify-between gap-4 text-white/80 text-sm border-b border-[#1c3450] pb-3">
+                <span>{ing.name}</span>
+                {ing.amount !== null && (
+                  <span className="font-serif text-[#D4AF37] whitespace-nowrap" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                    {formatRecipeAmount(ing.amount, servings / baseServings)} {ing.unit}
+                  </span>
+                )}
+              </li>
+              )
+            )}
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Bereiding</p>
+          <ol className="space-y-4">
+            {post.steps.map((step, i) => (
+              <li key={i} id={`stap-${i + 1}`} className="flex gap-4 text-sm text-white/55 leading-relaxed scroll-mt-32">
+                <span className="font-serif text-[#D4AF37] flex-shrink-0" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <div className="text-center mt-12 pt-8 border-t border-[#1c3450]">
+        <p className="font-serif italic text-white/40 text-sm" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {post.tip || "Tip: bewaar je Vivace in de vriezer voor het koudste, meest verfrissende resultaat."}
+        </p>
+        <p className="text-white/20 text-[11px] mt-4">Drink met aandacht, drink met mate. 18+.</p>
+      </div>
+      </div>
+    </div>
+  );
+}
+
+function ArticleBody({ post }) {
+  return (
+    <div className="bg-[#102338] border border-[#234060] overflow-hidden">
+      {post.image && (
+        <img src={post.image} alt={post.title} className="w-full h-auto" />
+      )}
+      {post.photoCredit && (
+        <p className="px-8 md:px-12 pt-3 text-[11px] text-white/35">
+          Foto:{" "}
+          <a
+            href={`https://www.instagram.com/${post.photoCredit.replace("@", "")}/`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#D4AF37]/70 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors"
+          >
+            {post.photoCredit}
+          </a>
+        </p>
+      )}
+      <div className="p-8 md:p-12 space-y-5">
+        {post.body.map((para, i) => (
+          <p key={i} className="text-white/55 text-sm leading-relaxed">
+            {para}
+          </p>
+        ))}
+      </div>
+      {post.gallery && post.gallery.length > 0 && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 sm:gap-1.5 px-1 sm:px-1.5 pb-1 sm:pb-1.5">
+          {post.gallery.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt={`${post.title}, foto ${i + 2}`}
+              className="w-full h-40 sm:h-52 object-cover"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function BlogPostPage() {
+  const { id } = useParams();
+  const post = BLOG_POSTS.find((p) => p.id === id);
+
+  useSEO({
+    title: post ? `${post.title} | Vivace Limoncello` : "Niet gevonden | Vivace Limoncello",
+    description: post ? post.excerpt : "Deze pagina kon niet worden gevonden.",
+  });
+
+  useJsonLd(
+    post && post.type === "recept"
+      ? {
+          "@context": "https://schema.org",
+          "@type": "Recipe",
+          name: post.title,
+          description: post.excerpt,
+          image: `https://www.drinkvivace.nl${post.image || "/images/vivace-bottle-hero-v2.jpg"}`,
+          datePublished: post.date,
+          recipeYield: post.recipeYield || (post.servingUnit === "Personen" ? "1 portie" : "1 glas"),
+          recipeCategory: post.recipeCategory || (post.servingUnit === "Personen" ? "Dessert" : "Drank"),
+          recipeCuisine: "Italiaans",
+          cookTime: post.cookTime || "PT0M",
+          keywords: `${post.title}, limoncello, Vivace`,
+          recipeIngredient: post.ingredients.filter((ing) => !ing.heading).map((ing) => {
+            const amt = formatRecipeAmount(ing.amount, 1);
+            return amt ? `${amt} ${ing.unit} ${ing.name}`.replace(/\s+/g, " ").trim() : ing.name;
+          }),
+          recipeInstructions: post.steps.map((step, i) => ({
+            "@type": "HowToStep",
+            position: i + 1,
+            name: `Stap ${i + 1}`,
+            text: step,
+            url: `https://www.drinkvivace.nl/blog/${post.id}#stap-${i + 1}`,
+          })),
+          author: { "@type": "Organization", name: "Vivace" },
+          ...(post.reviews && post.reviews.length > 0
+            ? {
+                aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue: (
+                    post.reviews.reduce((sum, r) => sum + r.rating, 0) / post.reviews.length
+                  ).toFixed(1),
+                  reviewCount: post.reviews.length,
+                },
+                review: post.reviews.map((r) => ({
+                  "@type": "Review",
+                  author: { "@type": "Person", name: r.name },
+                  reviewRating: { "@type": "Rating", ratingValue: r.rating },
+                  reviewBody: r.text,
+                })),
+              }
+            : {}),
+        }
+      : null
+  );
+
+  if (!post) {
+    return (
+      <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto text-center">
+        <p className="text-white/45 mb-6">Deze pagina kon niet worden gevonden.</p>
+        <Link to="/blog" className="text-[#D4AF37] text-[11px] uppercase tracking-wider border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
+          ← Terug naar blog
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Link
+        to="/blog"
+        className="text-white/40 text-[11px] uppercase tracking-wider mb-10 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
+      >
+        ← Terug naar blog
+      </Link>
+      <Reveal>
+        <span className="text-[10px] uppercase tracking-[0.2em] text-[#C9A04E]">
+          {BLOG_CATEGORIES.find((c) => c.id === post.type)?.label}
+        </span>
+        <h1 className="font-serif text-3xl md:text-4xl mt-3 mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {post.title}
+        </h1>
+        <p className="text-white/30 text-xs mb-10">{formatBlogDate(post.date)}</p>
+      </Reveal>
+      <Reveal delay={100}>
+        {post.type === "recept" ? <RecipeBody post={post} /> : <ArticleBody post={post} />}
+      </Reveal>
+      {post.type === "recept" && (
+        <Reveal delay={150}>
+          <ReviewsDisplay post={post} />
+          <ReviewForm post={post} />
+        </Reveal>
+      )}
+      <RelatedPosts currentPost={post} />
+    </div>
+  );
+}
+
+// Picks related posts for internal linking: prioritizes same type (e.g. more
+// recipes after a recipe) so a reader browsing serves stays on recipe
+// content, then fills any remaining slots from the rest of the blog.
+function ReviewStars({ rating, size = 14 }) {
+  return (
+    <span className="inline-flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((n) => (
+        <svg key={n} width={size} height={size} viewBox="0 0 24 24" fill={n <= rating ? "#D4AF37" : "none"} stroke="#D4AF37" strokeWidth="1.5">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+      ))}
+    </span>
+  );
+}
+
+// Algemene reviews over Vivace (niet aan een recept gekoppeld).
+// Voeg hier handmatig goedgekeurde reviews toe, bijvoorbeeld:
+// { name: "Naam", rating: 5, text: "Jouw review", date: "2026-10-01" }
+const GENERAL_REVIEWS = [
+  {
+    name: "Dylan",
+    rating: 5,
+    text: "De Vivace limoncello is niet te vergelijken met andere limoncello’s. Je proeft de natuurlijke producten en dat maakt deze limoncello bijzonder. De kleur is prachtig en dat voor die prijs is een koopje.",
+    date: "2026-10-04",
+  },
+  {
+    name: "Maarten",
+    rating: 5,
+    text: "Wat een fantastische limoncello! 🍋 Een heerlijke, frisse en volle smaak, met precies de juiste balans tussen zoet en zuur. Je proeft duidelijk de kwaliteit en het natuurlijke karakter van de citroen. Niet te zoet, niet te scherp, maar juist mooi zacht en verfijnd. Een limoncello die je eigenlijk te snel opdrinkt… 😉 Heerlijk ijskoud na het diner, maar ook gewoon om rustig van te genieten.",
+    date: "2026-10-04",
+  },
+  {
+    name: "Roan",
+    rating: 5,
+    text: "Echt een totaal andere limoncello dan je gewend bent! Niet zo zoet als veel andere limoncello’s, maar juist lekker fris en scherp van smaak. Daarnaast is hij heerlijk zacht en drinkt hij ontzettend lekker weg. Dit is inmiddels mijn nieuwe favoriet. Zeker een aanrader als je eens iets anders wilt dan een standaard limoncello!",
+    date: "2026-10-04",
+  },
+  {
+    name: "Rick",
+    rating: 5,
+    text: "Ik kan niet anders zeggen dat dit echt het top punt van kwaliteit is, het is dat ik maar 5 sterren kan geven, maar ik raad iedereen Vivace aan, vooral als je echt geeft om kwaliteit!!",
+    date: "2026-10-10",
+  },
+];
+
+function ReviewsPage() {
+  const L = useL();
+  useSEO({
+    title: "Reviews | Vivace Limoncello",
+    description: "Lees wat anderen vinden van Vivace Limoncello en onze recepten.",
+  });
+
+  const recipeReviews = BLOG_POSTS.filter((p) => p.reviews && p.reviews.length > 0).flatMap((p) =>
+    p.reviews.map((r) => ({ ...r, source: p.title, sourceId: p.id }))
+  );
+  const all = [...GENERAL_REVIEWS, ...recipeReviews];
+  const average = all.length > 0 ? all.reduce((s, r) => s + r.rating, 0) / all.length : 0;
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Reviews</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Wat anderen van Vivace vinden", "What others think of Vivace")}
+        </h1>
+        {all.length > 0 && (
+          <div className="flex items-center gap-3 mb-10">
+            <ReviewStars rating={Math.round(average)} size={18} />
+            <span className="text-white/50 text-sm">
+              {average.toFixed(1)} · {all.length} {all.length === 1 ? "review" : "reviews"}
+            </span>
+          </div>
+        )}
+      </Reveal>
+
+      {all.length === 0 ? (
+        <Reveal delay={100}>
+          <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center mb-4">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">{L("Binnenkort", "Coming soon")}</p>
+            <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              {L("Hier verschijnen binnenkort de eerste reviews.", "The first reviews will appear here soon.")}
+            </p>
+          </div>
+        </Reveal>
+      ) : (
+        <div className="space-y-6">
+          {all.map((r, i) => (
+            <Reveal key={i} delay={100 + i * 60}>
+              <div className="border border-[#234060] p-5">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-white/85 text-sm font-medium">{r.name}</span>
+                  <ReviewStars rating={r.rating} />
+                </div>
+                <p className="text-white/50 text-sm leading-relaxed">{r.text}</p>
+                {r.source && (
+                  <Link
+                    to={`/blog/${r.sourceId}`}
+                    className="inline-block mt-3 text-[10px] uppercase tracking-wider text-[#C9A04E] hover:text-[#D4AF37] transition-colors"
+                  >
+                    {L("Over:", "About:")} {r.source} →
+                  </Link>
+                )}
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      )}
+
+      <Reveal delay={150}>
+        <ReviewForm post={{ title: "Vivace Limoncello (algemeen)" }} />
+      </Reveal>
+    </div>
+  );
+}
+
+// Reviews are manually curated, not auto-published, see ReviewForm below for
+// why. Each recipe post can carry an optional `reviews` array:
+// { name: "...", rating: 5, text: "..." }. Posts without real reviews yet
+// simply render nothing here, and are excluded from the Recipe schema's
+// aggregateRating entirely (no fabricated ratings).
+function ReviewsDisplay({ post }) {
+  if (!post.reviews || post.reviews.length === 0) return null;
+
+  return (
+    <div className="mt-12 pt-10 border-t border-[#234060]">
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">
+        Reviews ({post.reviews.length})
+      </p>
+      <div className="space-y-6">
+        {post.reviews.map((r, i) => (
+          <div key={i} className="border border-[#234060] p-5">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-white/85 text-sm font-medium">{r.name}</span>
+              <ReviewStars rating={r.rating} />
+            </div>
+            <p className="text-white/50 text-sm leading-relaxed">{r.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ReviewForm({ post }) {
+  const L = useL();
+  const [status, setStatus] = useState("idle");
+  const [rating, setRating] = useState(5);
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mzdnjavv";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    const form = e.target;
+    const data = new FormData(form);
+    data.set("rating", String(rating));
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        setStatus("sent");
+        form.reset();
+        setRating(5);
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div className="mt-12 pt-10 border-t border-[#234060]">
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">{L("Zelf geprobeerd?", "Tried it yourself?")}</p>
+      {status === "sent" ? (
+        <p className="text-[#C9A04E] text-sm">{L("Bedankt voor je review! We plaatsen 'm binnenkort.", "Thank you for your review! We will post it soon.")}</p>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+          <input type="hidden" name="_subject" value={`Nieuwe review — ${post.title}`} />
+          <input type="hidden" name="recept" value={post.title} />
+          <div className="flex items-center gap-3">
+            <span className="text-white/40 text-xs uppercase tracking-wider">{L("Jouw beoordeling", "Your rating")}</span>
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button key={n} type="button" onClick={() => setRating(n)} aria-label={`${n} sterren`}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill={n <= rating ? "#D4AF37" : "none"} stroke="#D4AF37" strokeWidth="1.5">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                </button>
+              ))}
+            </div>
+          </div>
+          <input
+            type="text"
+            name="naam"
+            placeholder={L("Naam", "Name")}
+            required
+            className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+          />
+          <textarea
+            name="review"
+            placeholder={L("Wat vond je ervan?", "What did you think?")}
+            required
+            rows={3}
+            className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+          />
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className="bg-[#D4AF37] text-black px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
+          >
+            {status === "sending" ? L("Versturen...", "Sending...") : L("Verstuur review", "Send review")}
+          </button>
+          {status === "error" && (
+            <p className="text-red-400 text-xs">{L("Er ging iets mis. Probeer het opnieuw.", "Something went wrong. Please try again.")}</p>
+          )}
+        </form>
+      )}
+    </div>
+  );
+}
+
+function RelatedPosts({ currentPost }) {
+  const sameType = BLOG_POSTS.filter((p) => p.id !== currentPost.id && p.type === currentPost.type);
+  const otherType = BLOG_POSTS.filter((p) => p.id !== currentPost.id && p.type !== currentPost.type);
+  const related = [...sameType, ...otherType].slice(0, 3);
+
+  if (related.length === 0) return null;
+
+  return (
+    <Reveal delay={200}>
+      <div className="mt-16 pt-10 border-t border-[#234060]">
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">Ontdek ook</p>
+        <div className="grid sm:grid-cols-3 gap-4">
+          {related.map((p) => (
+            <Link
+              key={p.id}
+              to={`/blog/${p.id}`}
+              className="border border-[#234060] hover:border-[#D4AF37]/40 transition-colors p-5 flex flex-col gap-2"
+            >
+              <span className="text-[9px] uppercase tracking-[0.2em] text-[#C9A04E]">
+                {BLOG_CATEGORIES.find((c) => c.id === p.type)?.label}
+              </span>
+              <span className="font-serif text-white/85 text-base leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                {p.title}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function BlogPage() {
+  useSEO({
+    title: "Blog: Recepten, nieuws & verkooppunten | Vivace Limoncello",
+    description:
+      "Recepten voor Vivace Spritz, nieuws over ons impactmodel, en updates over nieuwe verkooppunten. Alles op één plek.",
+  });
+
+  const [filter, setFilter] = useState("alle");
+
+  const filtered = filter === "alle" ? BLOG_POSTS : BLOG_POSTS.filter((p) => p.type === filter);
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Blog</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Recepten, nieuws & verkooppunten
+        </h1>
+        <p className="text-white/45 max-w-lg mb-12">
+          Alles op één plek: nieuwe manieren om Vivace te serveren, updates over ons impactmodel, en
+          waar je Vivace als eerste kunt vinden.
+        </p>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <div className="flex items-center gap-2 mb-12 flex-wrap">
+          {BLOG_CATEGORIES.map((c) => (
+            <button
+              key={c.id}
+              onClick={() => setFilter(c.id)}
+              className={`px-5 py-2 text-[11px] uppercase tracking-[0.14em] border transition-colors ${
+                filter === c.id
+                  ? "bg-[#D4AF37] text-black border-[#D4AF37]"
+                  : "text-white/50 border-[#234060] hover:border-[#D4AF37]/40 hover:text-white"
+              }`}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+      </Reveal>
+
+      {filtered.length === 0 ? (
+        <Reveal delay={150}>
+          <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">Binnenkort</p>
+            <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Hier verschijnen binnenkort nieuwe updates.
+            </p>
+          </div>
+        </Reveal>
+      ) : (
+        <div className="grid md:grid-cols-2 gap-6">
+          {filtered.map((post, i) => (
+            <Reveal key={post.id} delay={150 + i * 80}>
+              <BlogCard post={post} />
+            </Reveal>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function LegalSection({ title, children }) {
+  return (
+    <div className="mb-10">
+      <h2 className="font-serif text-xl text-[#D4AF37] mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        {title}
+      </h2>
+      <div className="text-white/55 text-sm leading-relaxed space-y-3">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function PrivacyPage() {
+  useSEO({
+    title: "Privacybeleid | Vivace Limoncello",
+    description: "Lees hoe Vivace Limoncello, geëxploiteerd door VVM Trading, omgaat met jouw persoonsgegevens.",
+  });
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Juridisch</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Privacybeleid
+        </h1>
+        <p className="text-white/45 max-w-lg mb-14">
+          Laatst bijgewerkt: 28 juni 2026. Dit privacybeleid legt uit welke gegevens Vivace verzamelt,
+          waarom, en welke rechten je hebt.
+        </p>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <LegalSection title="1. Wie zijn wij">
+          <p>
+            Vivace Limoncello wordt geëxploiteerd door VVM Trading (eenmanszaak), ingeschreven bij de
+            Kamer van Koophandel onder nummer 86618806, gevestigd op Loevestein 18, 3171JD Poortugaal,
+            Nederland. Voor vragen over dit privacybeleid kun je contact opnemen via
+            info@drinkvivace.nl.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="2. Welke gegevens we verzamelen">
+          <p>Wij verzamelen alleen de gegevens die je zelf actief met ons deelt, namelijk via het contactformulier op onze website:</p>
+          <ul className="list-disc list-inside space-y-1 ml-2">
+            <li>Naam</li>
+            <li>E-mailadres</li>
+            <li>De inhoud van je bericht</li>
+          </ul>
+          <p>
+            Wij gebruiken geen trackingcookies, geen advertentiepixels en verzamelen geen
+            gegevens voor profilering of marketingdoeleinden zonder jouw expliciete toestemming.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="3. Waarom we deze gegevens verzamelen">
+          <p>
+            We gebruiken de gegevens uit het contactformulier uitsluitend om je vraag, opmerking of
+            verzoek (bijvoorbeeld als potentiële verkooppartner) te kunnen beantwoorden. We gebruiken
+            je gegevens niet voor geautomatiseerde besluitvorming en delen ze niet met derden voor
+            commerciële doeleinden.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="4. Hoe lang we gegevens bewaren">
+          <p>
+            Berichten via het contactformulier bewaren we niet langer dan noodzakelijk om je vraag
+            te kunnen afhandelen, en in elk geval niet langer dan 24 maanden
+            na het laatste contact, tenzij we wettelijk verplicht zijn gegevens langer te bewaren.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="5. Derde partijen">
+          <p>
+            Ons contactformulier wordt verwerkt via Formspree, een derde partij die berichten van
+            het formulier naar ons doorstuurt. Voor meer informatie over hoe Formspree gegevens
+            verwerkt, verwijzen we naar hun eigen privacybeleid.
+          </p>
+          <p>
+            Onze website wordt gehost via Vercel. Standaard servertechnische gegevens (zoals
+            IP-adres en tijdstip van bezoek) kunnen door onze hostingpartij worden gelogd voor
+            beveiligings- en technische doeleinden.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="6. Jouw rechten">
+          <p>Onder de AVG (GDPR) heb je het recht om:</p>
+          <ul className="list-disc list-inside space-y-1 ml-2">
+            <li>Inzage te krijgen in de gegevens die we van je hebben</li>
+            <li>Je gegevens te laten corrigeren of verwijderen</li>
+            <li>Bezwaar te maken tegen de verwerking van je gegevens</li>
+            <li>Een klacht in te dienen bij de Autoriteit Persoonsgegevens</li>
+          </ul>
+          <p>
+            Wil je gebruikmaken van een van deze rechten? Stuur een e-mail naar
+            info@drinkvivace.nl.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="7. Wijzigingen in dit beleid">
+          <p>
+            We kunnen dit privacybeleid van tijd tot tijd aanpassen. De meest recente versie is
+            altijd te vinden op deze pagina, met de datum van de laatste wijziging hierboven.
+          </p>
+        </LegalSection>
+      </Reveal>
+    </div>
+  );
+}
+
+function TermsPage() {
+  useSEO({
+    title: "Algemene voorwaarden | Vivace Limoncello",
+    description: "De algemene voorwaarden voor het gebruik van de Vivace Limoncello website, geëxploiteerd door VVM Trading.",
+  });
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Juridisch</p>
+        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          Algemene voorwaarden
+        </h1>
+        <p className="text-white/45 max-w-lg mb-14">
+          Laatst bijgewerkt: 2 oktober 2026. Deze voorwaarden zijn van toepassing op het gebruik van deze
+          website en op de informatie die hierop wordt aangeboden.
+        </p>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <LegalSection title="1. Wie zijn wij">
+          <p>
+            Vivace Limoncello wordt geëxploiteerd door VVM Trading (eenmanszaak), ingeschreven
+            bij de Kamer van Koophandel onder nummer 86618806, gevestigd op Loevestein 18, 3171JD
+            Poortugaal, Nederland. BTW-identificatienummer: NL004279162B10.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="2. Leeftijdsgrens">
+          <p>
+            Vivace Limoncello is een alcoholhoudend product (30% ALC/VOL) en is uitsluitend bestemd
+            voor personen van 18 jaar en ouder. Door deze website te gebruiken bevestig je dat je
+            18 jaar of ouder bent. Het is verboden alcohol te verkopen aan, of te laten consumeren
+            door, personen onder de 18 jaar, conform de Nederlandse Alcoholwet.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="3. Verkoop via derde partijen">
+          <p>
+            Vivace Limoncello wordt niet rechtstreeks via deze website verkocht. Sterke drank (30%
+            ALC/VOL of hoger) mag in Nederland alleen online verkocht worden door een hiervoor
+            erkende slijterij. Vivace is daarom uitsluitend verkrijgbaar via de fysieke
+            verkooppunten die op deze website worden vermeld. Voor vragen over prijs,
+            beschikbaarheid of voorraad bij een specifiek verkooppunt verwijzen we je naar dat
+            verkooppunt zelf.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="4. Impact- en donatiemodel">
+          <p>
+            Vivace doneert €1 per fles aan Stichting Ambulance Wens. Dit bedrag is
+            vast en wordt niet beïnvloed door de verkoopprijs die door individuele verkooppunten
+            wordt gehanteerd. De op deze website weergegeven tellers (aantal flessen in de eerste batch en
+            het gereserveerde bedrag) zijn indicatief en worden per batch bijgewerkt; zie ook onze{" "}
+            <Link to="/onze-impact" className="text-[#D4AF37] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
+              Onze Impact-pagina
+            </Link>{" "}
+            voor meer toelichting.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="5. Intellectueel eigendom">
+          <p>
+            Alle content op deze website, waaronder teksten, het Vivace-logo, productfoto's,
+            illustraties en de vormgeving van het etiket, is eigendom van VVM Trading of wordt
+            gebruikt met toestemming van de rechthebbende. Het logo en beeldmerk van Stichting
+            Ambulance Wens worden gebruikt met toestemming van de stichting. Niets van deze
+            website mag worden gekopieerd, verspreid of commercieel gebruikt zonder voorafgaande
+            schriftelijke toestemming.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="6. Aansprakelijkheid">
+          <p>
+            We doen ons best om de informatie op deze website actueel en correct te houden, maar
+            kunnen niet garanderen dat alle informatie op elk moment volledig juist of up-to-date
+            is. VVM Trading is niet aansprakelijk voor schade die voortvloeit uit het gebruik van
+            deze website of uit het gebruik van het product, behalve in gevallen van opzet of grove
+            schuld, of voor zover dwingend Nederlands recht anders bepaalt.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="7. Toepasselijk recht">
+          <p>
+            Op deze voorwaarden is Nederlands recht van toepassing. Eventuele geschillen worden
+            voorgelegd aan de bevoegde rechter in Nederland.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="8. Contact">
+          <p>
+            Vragen over deze voorwaarden? Neem contact met ons op via info@drinkvivace.nl.
+          </p>
+        </LegalSection>
+      </Reveal>
+    </div>
+  );
+}
+
+// ---------- Merch ----------
+function MerchCap() {
+  return (
+    <svg viewBox="0 0 130 110" className="w-40 h-auto" role="img" aria-label="Vivace pet">
+      <path d="M26 74 C26 28 44 14 65 14 C86 14 104 28 104 74 Z" fill="#0a1628" stroke="#D4AF37" strokeWidth="0.6" />
+      <path d="M20 74 L110 74 Q116 92 92 98 L38 98 Q14 92 20 74 Z" fill="#0a1628" stroke="#D4AF37" strokeWidth="0.6" />
+      <circle cx="65" cy="14" r="3" fill="#D4AF37" />
+      <text x="65" y="56" textAnchor="middle" fontFamily="Georgia, serif" fontSize="11" fill="#D4AF37" letterSpacing="2">VIVACE</text>
+    </svg>
+  );
+}
+
+function MerchShirt() {
+  return (
+    <svg viewBox="0 0 130 110" className="w-40 h-auto" role="img" aria-label="Vivace T-shirt">
+      <path d="M40 14 L55 8 Q65 18 75 8 L90 14 L112 38 L96 48 L90 42 L90 100 L40 100 L40 42 L34 48 L18 38 Z" fill="#0a1628" stroke="#D4AF37" strokeWidth="0.6" />
+      <path d="M55 8 Q65 18 75 8" fill="none" stroke="#D4AF37" strokeWidth="1.2" />
+      <text x="65" y="50" textAnchor="middle" fontFamily="Georgia, serif" fontSize="11" fill="#D4AF37" letterSpacing="2">VIVACE</text>
+    </svg>
+  );
+}
+
+const euro = (cents) => `€${(cents / 100).toFixed(2).replace(".", ",")}`;
+
+function MerchPage() {
+  const L = useL();
+  const lang = L("nl", "en");
+  useSEO({
+    title: "Merch | Vivace Limoncello",
+    description: "Vivace merch: T-shirt en pet in navy en goud. Op bestelling gemaakt. 18+.",
+  });
+
+  const [data, setData] = useState(null); // null = laden
+  const [sizes, setSizes] = useState({});
+  const [busy, setBusy] = useState(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let off = false;
+    fetch("/api/products")
+      .then((r) => (r.ok ? r.json() : { products: [] }))
+      .then((d) => !off && setData(d))
+      .catch(() => !off && setData({ products: [] }));
+    return () => {
+      off = true;
+    };
+  }, []);
+
+  async function buy(p) {
+    const size = sizes[p.id] || (p.sizes.length === 1 ? p.sizes[0] : null);
+    if (!size) {
+      setError(L("Kies eerst een maat.", "Please choose a size first."));
+      return;
+    }
+    setError("");
+    setBusy(p.id);
+    try {
+      const r = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: [{ id: p.id, size, qty: 1 }] }),
+      });
+      const d = await r.json();
+      if (!r.ok || !d.url) throw new Error(d.error || "checkout");
+      window.location.href = d.url;
+    } catch {
+      setError(L("Er ging iets mis. Probeer het opnieuw.", "Something went wrong. Please try again."));
+      setBusy(null);
+    }
+  }
+
+  const products = data?.products || [];
+  const live = products.length > 0;
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Merch", "Merch")}</p>
+        <h1 className="font-serif italic text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Vivace, om te dragen.", "Vivace, to wear.")}
+        </h1>
+        <p className="text-white/45 max-w-lg mb-14">
+          {L(
+            "Een kleine collectie in navy en goud, rustig en tijdloos. Alles wordt op bestelling gemaakt.",
+            "A small collection in navy and gold, calm and timeless. Everything is made to order."
+          )}
+        </p>
+      </Reveal>
+
+      {live ? (
+        <Reveal delay={50}>
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
+            {products.map((p) => (
+              <div key={p.id} className="border border-[#1c3450] p-8 flex flex-col items-center text-center">
+                <div className="mb-6 h-40 flex items-center justify-center">
+                  {p.image ? (
+                    <img src={p.image} alt={p.name[lang]} className="max-h-40 w-auto" />
+                  ) : p.art === "cap" ? (
+                    <MerchCap />
+                  ) : (
+                    <MerchShirt />
+                  )}
+                </div>
+                <h2 className="font-serif text-2xl mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  {p.name[lang]}
+                </h2>
+                <p className="text-white/45 text-sm max-w-xs mb-4">{p.description[lang]}</p>
+                <p className="text-[#D4AF37] mb-5">{euro(p.price_cents)}</p>
+                {p.sizes.length > 1 && (
+                  <div className="flex flex-wrap justify-center gap-2 mb-6" role="group" aria-label={L("Maat", "Size")}>
+                    {p.sizes.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setSizes((x) => ({ ...x, [p.id]: s }))}
+                        className={`min-w-[44px] px-3 py-2 text-[11px] uppercase tracking-[0.15em] border transition-colors ${
+                          sizes[p.id] === s ? "border-[#D4AF37] text-[#D4AF37]" : "border-[#1c3450] text-white/50 hover:text-white"
+                        }`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  disabled={busy === p.id}
+                  onClick={() => buy(p)}
+                  className="border border-[#D4AF37] text-[#D4AF37] px-8 py-3 text-[11px] uppercase tracking-[0.2em] hover:bg-[#D4AF37] hover:text-[#0a1628] transition-colors disabled:opacity-50"
+                >
+                  {busy === p.id ? L("Even geduld...", "One moment...") : L("Bestellen", "Order")}
+                </button>
+              </div>
+            ))}
+          </div>
+          {error && <p className="text-center text-sm text-[#e0a0a0] mb-6" role="alert">{error}</p>}
+          <p className="text-center text-white/35 text-xs mb-14">
+            {L(
+              `Verzendkosten ${euro(data.shipping_cents)}. Levering binnen ongeveer 5 tot 10 werkdagen. Alle prijzen zijn inclusief btw.`,
+              `Shipping ${euro(data.shipping_cents)}. Delivery in about 5 to 10 working days. All prices include VAT.`
+            )}
+          </p>
+        </Reveal>
+      ) : (
+        <Reveal delay={50}>
+          <div className="grid md:grid-cols-2 gap-6 mb-14">
+            {[
+              { k: "pet", art: <MerchCap />, n: L("Vivace pet", "Vivace cap") },
+              { k: "shirt", art: <MerchShirt />, n: L("Vivace T-shirt", "Vivace T-shirt") },
+            ].map((p) => (
+              <div key={p.k} className="border border-[#1c3450] p-8 flex flex-col items-center text-center">
+                <div className="mb-6">{p.art}</div>
+                <h2 className="font-serif text-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{p.n}</h2>
+              </div>
+            ))}
+          </div>
+          <div className="border border-dashed border-[#D4AF37]/30 p-10 text-center mb-14">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">{L("Binnenkort", "Coming soon")}</p>
+            <p className="font-serif italic text-xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              {data === null ? "" : L("De merchshop opent binnenkort.", "The merch shop opens soon.")}
+            </p>
+          </div>
+        </Reveal>
+      )}
+
+      <Reveal delay={100}>
+        <div className="border-t border-[#1c3450] pt-8 text-center">
+          <p className="text-white/45 text-sm max-w-md mx-auto mb-4">
+            {L(
+              "Vivace Limoncello koop je niet online. De fles is verkrijgbaar bij onze verkooppunten.",
+              "Vivace Limoncello is not sold online. The bottle is available at our stockists."
+            )}
+          </p>
+          <Link to="/verkooppunten" className="text-[11px] uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
+            {L("Bekijk de verkooppunten", "See where to buy")}
+          </Link>
+          {live && (
+            <div className="text-white/35 text-xs max-w-lg mx-auto mt-10 space-y-2 text-left">
+              <p>
+                <span className="text-white/55">{L("Retour. ", "Returns. ")}</span>
+                {L(
+                  "Je kunt binnen 14 dagen na ontvangst zonder opgaaf van reden retourneren. Mail ons via info@drinkvivace.nl, dan sturen we je het retouradres. Is er iets mis met je bestelling, stuur dan een foto mee, dan maken we een nieuw exemplaar kosteloos.",
+                  "You can return items within 14 days of receipt without giving a reason. Email info@drinkvivace.nl and we will send you the return address. If something is wrong with your order, send us a photo and we will replace it free of charge."
+                )}
+              </p>
+              <p>
+                <span className="text-white/55">{L("Verkoper. ", "Seller. ")}</span>
+                VVM Trading, KVK 86618806, Poortugaal.
+              </p>
+            </div>
+          )}
+          <p className="text-white/30 text-xs mt-8">
+            {L("Vivace is een alcoholmerk. Deze pagina is bedoeld voor 18 jaar en ouder. Geniet bewust.", "Vivace is an alcohol brand. This page is intended for people aged 18 and over. Enjoy responsibly.")}
+          </p>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+function MerchThanksPage() {
+  const L = useL();
+  useSEO({ title: "Bedankt | Vivace Limoncello", description: "Bedankt voor je bestelling." });
+  return (
+    <div className="pt-40 pb-24 px-6 md:px-14 max-w-xl mx-auto text-center">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Bestelling ontvangen", "Order received")}</p>
+        <h1 className="font-serif italic text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Bedankt!", "Thank you!")}
+        </h1>
+        <p className="text-white/45 mb-10">
+          {L(
+            "Je betaling is gelukt. Je krijgt een bevestiging per e-mail. Je bestelling wordt voor je gemaakt en je ontvangt een track-and-trace zodra hij onderweg is.",
+            "Your payment went through. You will receive a confirmation by email. Your order is made for you and you will get tracking details as soon as it ships."
+          )}
+        </p>
+        <Link to="/" className="text-[11px] uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
+          {L("Terug naar home", "Back to home")}
+        </Link>
+      </Reveal>
+    </div>
+  );
+}
+
+function Footer() {
+  const L = useL();
+  const columns = [
+    {
+      title: L("Ontdek", "Discover"),
+      links: [
+        { path: "/producten", label: L("Producten", "Products") },
+        { path: "/onze-impact", label: L("Impact", "Impact") },
+        { path: "/verkooppunten", label: L("Verkooppunten", "Where to buy") },
+        { path: "/blog", label: L("Blog", "Blog") },
+        { path: "/over-ons", label: L("Over ons", "About") },
+        { path: "/merch", label: L("Merch", "Merch") },
+      ],
+    },
+    {
+      title: L("Zakelijk", "Business"),
+      links: [
+        { path: "/horeca", label: L("Horeca", "Hospitality") },
+        { path: "/pers", label: L("Pers", "Press") },
+        { path: "/reviews", label: L("Reviews", "Reviews") },
+      ],
+    },
+    {
+      title: L("Hulp", "Help"),
+      links: [
+        { path: "/faq", label: L("FAQ", "FAQ") },
+        { path: "/contact", label: L("Contact", "Contact") },
+        { path: "/privacybeleid", label: L("Privacybeleid", "Privacy policy") },
+        { path: "/algemene-voorwaarden", label: L("Algemene voorwaarden", "Terms and conditions") },
+      ],
+    },
+  ];
+
+  return (
+    <footer className="border-t border-[#1c3450] px-6 md:px-14 pt-16 pb-10">
+      <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-x-8 gap-y-12">
+        <div className="col-span-2 md:col-span-1">
+          <Link to="/" className="inline-block" aria-label="Vivace, naar de homepage">
+            <img src="/images/vivace-logo-transparent.png" alt="Vivace" className="h-6 w-auto" />
+          </Link>
+          <p
+            className="font-serif italic text-base text-white/60 mt-4 mb-6"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
+            {L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")}
+          </p>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://instagram.com/drinkvivace"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/55 hover:text-[#D4AF37] transition-colors"
+              aria-label="Vivace op Instagram"
+            >
+              <InstagramIcon size={20} />
+            </a>
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/55 hover:text-[#D4AF37] transition-colors"
+              aria-label="Vivace op LinkedIn"
+            >
+              <LinkedInIcon size={20} />
+            </a>
+          </div>
+        </div>
+
+        {columns.map((col) => (
+          <div key={col.title}>
+            <p className="text-sm font-medium text-[#D4AF37] mb-4">{col.title}</p>
+            <ul className="space-y-2.5">
+              {col.links.map((l) => (
+                <li key={l.path}>
+                  <Link to={l.path} className="text-sm text-white/55 hover:text-[#D4AF37] transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="max-w-6xl mx-auto mt-14 pt-8 border-t border-[#1c3450] flex flex-col md:flex-row md:justify-between gap-3 text-xs text-white/45">
+        <p>
+          {L("Impactpartner:", "Impact partner:")}{" "}
+          <a
+            href={IMPACT_PARTNER.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#D4AF37] transition-colors"
+          >
+            {IMPACT_PARTNER.name}
+          </a>
+        </p>
+        <p>{L("© 2026 Vivace. Drink verantwoord. 18+", "© 2026 Vivace. Please drink responsibly. 18+")}</p>
+      </div>
+    </footer>
+  );
+}
+
+// ---------- App ----------
+// Scrolls to top whenever the route changes, replacing the old
+// useEffect([page]) behavior now that navigation uses real URLs.
+function ScrollToTop() {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+  return null;
+}
+
+function AppShell() {
+  const [ageConfirmed, setAgeConfirmed] = useState(null); // null | true | false
+  const [showWelcome, setShowWelcome] = useState(false);
+  const cart = useCart();
+  const location = useLocation();
+  const [lang, setLangState] = useState(() => {
+    try {
+      return localStorage.getItem("vivace-lang") === "en" ? "en" : "nl";
+    } catch {
+      return "nl";
+    }
+  });
+  const setLang = (l) => {
+    setLangState(l);
+    try {
+      localStorage.setItem("vivace-lang", l);
+    } catch {}
+  };
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  const handleAgeConfirm = (confirmed) => {
+    setAgeConfirmed(confirmed);
+    if (confirmed) setShowWelcome(true);
+  };
+
+  // Lock scroll on the real page while the age gate (or the underage block)
+  // is covering it, so it behaves exactly like before for real visitors,
+  // the difference is purely that the actual page now stays mounted in the
+  // DOM underneath instead of being replaced, so crawlers and link-preview
+  // bots (which don't click through interstitials) can still read real
+  // content, titles, and descriptions instead of only ever seeing the gate.
+  useEffect(() => {
+    document.body.style.overflow = ageConfirmed === true ? "" : "hidden";
+  }, [ageConfirmed]);
+
+  return (
+    <LangContext.Provider value={{ lang, setLang }}>
+    <div className="bg-[#0a1628] text-white min-h-screen font-sans" style={{ fontFamily: "'DM Sans', sans-serif", backgroundColor: "#0a1628" }}>
+      <ScrollToTop />
+      {showWelcome && <WelcomeBanner onClose={() => setShowWelcome(false)} />}
+      <Nav />
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/producten" element={<ProductsPage cart={cart} />} />
+        <Route path="/verkooppunten" element={<StoresPage />} />
+        <Route path="/over-ons" element={<AboutPage />} />
+        <Route path="/onze-impact" element={<ImpactPage />} />
+        <Route path="/horeca" element={<HorecaPage />} />
+        <Route path="/pers" element={<PressPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:id" element={<BlogPostPage />} />
+        <Route path="/reviews" element={<ReviewsPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/merch" element={<MerchPage />} />
+        <Route path="/merch/bedankt" element={<MerchThanksPage />} />
+        <Route path="/privacybeleid" element={<PrivacyPage />} />
+        <Route path="/algemene-voorwaarden" element={<TermsPage />} />
+      </Routes>
+
+      <Footer />
+
+      {ageConfirmed === null && <AgeGate onConfirm={handleAgeConfirm} />}
+      {ageConfirmed === false && <UnderageBlock />}
+
+      {lang === "en" && !["/", "/producten", "/onze-impact", "/over-ons", "/verkooppunten", "/contact", "/horeca", "/pers", "/faq", "/reviews", "/merch", "/merch/bedankt"].includes(location.pathname) && (
+        <div className="fixed bottom-0 inset-x-0 z-40 bg-[#102338] border-t border-[#234060] text-center text-xs text-white/70 py-3 px-4">
+          This page is currently available in Dutch only. English version coming soon.
+        </div>
+      )}
+    </div>
+    </LangContext.Provider>
+  );
+}
+
+// ---------- App ----------
+export default function VivaceApp() {
+  return (
+    <BrowserRouter>
+      <AppShell />
+      <Analytics />
+    </BrowserRouter>
+  );
+}
