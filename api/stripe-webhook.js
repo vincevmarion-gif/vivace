@@ -1,4 +1,4 @@
-import { SITE_URL, findProduct } from "./_catalog.js";
+import { SITE_URL, findProduct, syncVariantFor } from "./_catalog.js";
 import { readRawBody, verifyStripeSignature, printful, externalIdFor, notify } from "./_lib.js";
 
 const STATE_COUNTRIES = ["US", "CA", "AU"]; // alleen hier wil Printful een state_code
@@ -15,15 +15,23 @@ export async function fulfill(session) {
   for (const line of lines) {
     const [id, size, qtyRaw] = line.split(":");
     const p = findProduct(id);
-    const variant = p?.supplier.variants[size];
-    if (!p || !Number.isInteger(variant)) throw new Error(`Onbekend product of maat in bestelling: ${line}`);
-    items.push({
-      variant_id: variant,
-      quantity: Number(qtyRaw),
-      name: `${p.name.nl}${p.sizes.length > 1 ? ` ${size}` : ""}`,
-      files: p.supplier.files.map((f) => ({ type: f.type, url: `${SITE_URL}${f.path}` })),
-      ...(p.supplier.options?.length ? { options: p.supplier.options } : {}),
-    });
+    if (!p) throw new Error(`Onbekend product in bestelling: ${line}`);
+    const sync = syncVariantFor(p, size);
+    const variant = p.supplier.variants[size];
+    if (Number.isInteger(sync)) {
+      // Product is in Printful zelf ontworpen (borst, rug, label): alleen de variant en het aantal doorgeven.
+      items.push({ sync_variant_id: sync, quantity: Number(qtyRaw) });
+    } else if (Number.isInteger(variant)) {
+      items.push({
+        variant_id: variant,
+        quantity: Number(qtyRaw),
+        name: `${p.name.nl}${p.sizes.length > 1 ? ` ${size}` : ""}`,
+        files: p.supplier.files.map((f) => ({ type: f.type, url: `${SITE_URL}${f.path}` })),
+        ...(p.supplier.options?.length ? { options: p.supplier.options } : {}),
+      });
+    } else {
+      throw new Error(`Geen leveranciers-ID voor: ${line}`);
+    }
   }
   if (items.length === 0) throw new Error("Bestelling zonder regels");
 
