@@ -3397,6 +3397,230 @@ function TermsPage() {
   );
 }
 
+// ---------- Merch ----------
+function MerchCap() {
+  return (
+    <svg viewBox="0 0 130 110" className="w-40 h-auto" role="img" aria-label="Vivace pet">
+      <path d="M26 74 C26 28 44 14 65 14 C86 14 104 28 104 74 Z" fill="#0a1628" stroke="#D4AF37" strokeWidth="0.6" />
+      <path d="M20 74 L110 74 Q116 92 92 98 L38 98 Q14 92 20 74 Z" fill="#0a1628" stroke="#D4AF37" strokeWidth="0.6" />
+      <circle cx="65" cy="14" r="3" fill="#D4AF37" />
+      <text x="65" y="56" textAnchor="middle" fontFamily="Georgia, serif" fontSize="11" fill="#D4AF37" letterSpacing="2">VIVACE</text>
+    </svg>
+  );
+}
+
+function MerchShirt() {
+  return (
+    <svg viewBox="0 0 130 110" className="w-40 h-auto" role="img" aria-label="Vivace T-shirt">
+      <path d="M40 14 L55 8 Q65 18 75 8 L90 14 L112 38 L96 48 L90 42 L90 100 L40 100 L40 42 L34 48 L18 38 Z" fill="#0a1628" stroke="#D4AF37" strokeWidth="0.6" />
+      <path d="M55 8 Q65 18 75 8" fill="none" stroke="#D4AF37" strokeWidth="1.2" />
+      <text x="65" y="50" textAnchor="middle" fontFamily="Georgia, serif" fontSize="11" fill="#D4AF37" letterSpacing="2">VIVACE</text>
+    </svg>
+  );
+}
+
+const euro = (cents) => `€${(cents / 100).toFixed(2).replace(".", ",")}`;
+
+function MerchPage() {
+  const L = useL();
+  const lang = L("nl", "en");
+  useSEO({
+    title: "Merch | Vivace Limoncello",
+    description: "Vivace merch: T-shirt en pet in navy en goud. Op bestelling gemaakt. 18+.",
+  });
+
+  const [data, setData] = useState(null); // null = laden
+  const [sizes, setSizes] = useState({});
+  const [busy, setBusy] = useState(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let off = false;
+    fetch("/api/products")
+      .then((r) => (r.ok ? r.json() : { products: [] }))
+      .then((d) => !off && setData(d))
+      .catch(() => !off && setData({ products: [] }));
+    return () => {
+      off = true;
+    };
+  }, []);
+
+  async function buy(p) {
+    const size = sizes[p.id] || (p.sizes.length === 1 ? p.sizes[0] : null);
+    if (!size) {
+      setError(L("Kies eerst een maat.", "Please choose a size first."));
+      return;
+    }
+    setError("");
+    setBusy(p.id);
+    try {
+      const r = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: [{ id: p.id, size, qty: 1 }] }),
+      });
+      const d = await r.json();
+      if (!r.ok || !d.url) throw new Error(d.error || "checkout");
+      window.location.href = d.url;
+    } catch {
+      setError(L("Er ging iets mis. Probeer het opnieuw.", "Something went wrong. Please try again."));
+      setBusy(null);
+    }
+  }
+
+  const products = data?.products || [];
+  const live = products.length > 0;
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Merch", "Merch")}</p>
+        <h1 className="font-serif italic text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Vivace, om te dragen.", "Vivace, to wear.")}
+        </h1>
+        <p className="text-white/45 max-w-lg mb-14">
+          {L(
+            "Een kleine collectie in navy en goud, rustig en tijdloos. Alles wordt op bestelling gemaakt.",
+            "A small collection in navy and gold, calm and timeless. Everything is made to order."
+          )}
+        </p>
+      </Reveal>
+
+      {live ? (
+        <Reveal delay={50}>
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
+            {products.map((p) => (
+              <div key={p.id} className="border border-[#1c3450] p-8 flex flex-col items-center text-center">
+                <div className="mb-6 h-40 flex items-center justify-center">
+                  {p.image ? (
+                    <img src={p.image} alt={p.name[lang]} className="max-h-40 w-auto" />
+                  ) : p.art === "cap" ? (
+                    <MerchCap />
+                  ) : (
+                    <MerchShirt />
+                  )}
+                </div>
+                <h2 className="font-serif text-2xl mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  {p.name[lang]}
+                </h2>
+                <p className="text-white/45 text-sm max-w-xs mb-4">{p.description[lang]}</p>
+                <p className="text-[#D4AF37] mb-5">{euro(p.price_cents)}</p>
+                {p.sizes.length > 1 && (
+                  <div className="flex flex-wrap justify-center gap-2 mb-6" role="group" aria-label={L("Maat", "Size")}>
+                    {p.sizes.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setSizes((x) => ({ ...x, [p.id]: s }))}
+                        className={`min-w-[44px] px-3 py-2 text-[11px] uppercase tracking-[0.15em] border transition-colors ${
+                          sizes[p.id] === s ? "border-[#D4AF37] text-[#D4AF37]" : "border-[#1c3450] text-white/50 hover:text-white"
+                        }`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  disabled={busy === p.id}
+                  onClick={() => buy(p)}
+                  className="border border-[#D4AF37] text-[#D4AF37] px-8 py-3 text-[11px] uppercase tracking-[0.2em] hover:bg-[#D4AF37] hover:text-[#0a1628] transition-colors disabled:opacity-50"
+                >
+                  {busy === p.id ? L("Even geduld...", "One moment...") : L("Bestellen", "Order")}
+                </button>
+              </div>
+            ))}
+          </div>
+          {error && <p className="text-center text-sm text-[#e0a0a0] mb-6" role="alert">{error}</p>}
+          <p className="text-center text-white/35 text-xs mb-14">
+            {L(
+              `Verzendkosten ${euro(data.shipping_cents)}. Levering binnen ongeveer 5 tot 10 werkdagen. Alle prijzen zijn inclusief btw.`,
+              `Shipping ${euro(data.shipping_cents)}. Delivery in about 5 to 10 working days. All prices include VAT.`
+            )}
+          </p>
+        </Reveal>
+      ) : (
+        <Reveal delay={50}>
+          <div className="grid md:grid-cols-2 gap-6 mb-14">
+            {[
+              { k: "pet", art: <MerchCap />, n: L("Vivace pet", "Vivace cap") },
+              { k: "shirt", art: <MerchShirt />, n: L("Vivace T-shirt", "Vivace T-shirt") },
+            ].map((p) => (
+              <div key={p.k} className="border border-[#1c3450] p-8 flex flex-col items-center text-center">
+                <div className="mb-6">{p.art}</div>
+                <h2 className="font-serif text-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{p.n}</h2>
+              </div>
+            ))}
+          </div>
+          <div className="border border-dashed border-[#D4AF37]/30 p-10 text-center mb-14">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">{L("Binnenkort", "Coming soon")}</p>
+            <p className="font-serif italic text-xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              {data === null ? "" : L("De merchshop opent binnenkort.", "The merch shop opens soon.")}
+            </p>
+          </div>
+        </Reveal>
+      )}
+
+      <Reveal delay={100}>
+        <div className="border-t border-[#1c3450] pt-8 text-center">
+          <p className="text-white/45 text-sm max-w-md mx-auto mb-4">
+            {L(
+              "Vivace Limoncello koop je niet online. De fles is verkrijgbaar bij onze verkooppunten.",
+              "Vivace Limoncello is not sold online. The bottle is available at our stockists."
+            )}
+          </p>
+          <Link to="/verkooppunten" className="text-[11px] uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
+            {L("Bekijk de verkooppunten", "See where to buy")}
+          </Link>
+          {live && (
+            <div className="text-white/35 text-xs max-w-lg mx-auto mt-10 space-y-2 text-left">
+              <p>
+                <span className="text-white/55">{L("Retour. ", "Returns. ")}</span>
+                {L(
+                  "Je kunt binnen 14 dagen na ontvangst zonder opgaaf van reden retourneren. Mail ons via info@drinkvivace.nl, dan sturen we je het retouradres. Is er iets mis met je bestelling, stuur dan een foto mee, dan maken we een nieuw exemplaar kosteloos.",
+                  "You can return items within 14 days of receipt without giving a reason. Email info@drinkvivace.nl and we will send you the return address. If something is wrong with your order, send us a photo and we will replace it free of charge."
+                )}
+              </p>
+              <p>
+                <span className="text-white/55">{L("Verkoper. ", "Seller. ")}</span>
+                VVM Trading, KVK 86618806, Poortugaal.
+              </p>
+            </div>
+          )}
+          <p className="text-white/30 text-xs mt-8">
+            {L("Vivace is een alcoholmerk. Deze pagina is bedoeld voor 18 jaar en ouder. Geniet bewust.", "Vivace is an alcohol brand. This page is intended for people aged 18 and over. Enjoy responsibly.")}
+          </p>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+function MerchThanksPage() {
+  const L = useL();
+  useSEO({ title: "Bedankt | Vivace Limoncello", description: "Bedankt voor je bestelling." });
+  return (
+    <div className="pt-40 pb-24 px-6 md:px-14 max-w-xl mx-auto text-center">
+      <Reveal>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Bestelling ontvangen", "Order received")}</p>
+        <h1 className="font-serif italic text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          {L("Bedankt!", "Thank you!")}
+        </h1>
+        <p className="text-white/45 mb-10">
+          {L(
+            "Je betaling is gelukt. Je krijgt een bevestiging per e-mail. Je bestelling wordt voor je gemaakt en je ontvangt een track-and-trace zodra hij onderweg is.",
+            "Your payment went through. You will receive a confirmation by email. Your order is made for you and you will get tracking details as soon as it ships."
+          )}
+        </p>
+        <Link to="/" className="text-[11px] uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
+          {L("Terug naar home", "Back to home")}
+        </Link>
+      </Reveal>
+    </div>
+  );
+}
+
 function Footer() {
   const L = useL();
   const columns = [
@@ -3408,6 +3632,7 @@ function Footer() {
         { path: "/verkooppunten", label: L("Verkooppunten", "Where to buy") },
         { path: "/blog", label: L("Blog", "Blog") },
         { path: "/over-ons", label: L("Over ons", "About") },
+        { path: "/merch", label: L("Merch", "Merch") },
       ],
     },
     {
@@ -3566,6 +3791,8 @@ function AppShell() {
         <Route path="/blog/:id" element={<BlogPostPage />} />
         <Route path="/reviews" element={<ReviewsPage />} />
         <Route path="/faq" element={<FAQPage />} />
+        <Route path="/merch" element={<MerchPage />} />
+        <Route path="/merch/bedankt" element={<MerchThanksPage />} />
         <Route path="/privacybeleid" element={<PrivacyPage />} />
         <Route path="/algemene-voorwaarden" element={<TermsPage />} />
       </Routes>
@@ -3575,7 +3802,7 @@ function AppShell() {
       {ageConfirmed === null && <AgeGate onConfirm={handleAgeConfirm} />}
       {ageConfirmed === false && <UnderageBlock />}
 
-      {lang === "en" && !["/", "/producten", "/onze-impact", "/over-ons", "/verkooppunten", "/contact", "/horeca", "/pers", "/faq", "/reviews"].includes(location.pathname) && (
+      {lang === "en" && !["/", "/producten", "/onze-impact", "/over-ons", "/verkooppunten", "/contact", "/horeca", "/pers", "/faq", "/reviews", "/merch", "/merch/bedankt"].includes(location.pathname) && (
         <div className="fixed bottom-0 inset-x-0 z-40 bg-[#102338] border-t border-[#234060] text-center text-xs text-white/70 py-3 px-4">
           This page is currently available in Dutch only. English version coming soon.
         </div>
