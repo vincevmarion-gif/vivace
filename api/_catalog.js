@@ -14,7 +14,7 @@ export const ALLOWED_COUNTRIES = ["NL", "BE", "DE", "LU", "FR", "AT"];
 export const PRODUCTS = [
   {
     id: "tshirt",
-    enabled: false, // zet op true als de varianten hieronder zijn ingevuld
+    enabled: true, // zet op true als de varianten hieronder zijn ingevuld
     name: { nl: "Vivace T-shirt", en: "Vivace T-shirt" },
     description: {
       nl: "Navy T-shirt met het Colosseum en het Vivace-woordmerk in goud op de rug. Op bestelling gemaakt.",
@@ -43,7 +43,7 @@ export const PRODUCTS = [
   },
   {
     id: "pet",
-    enabled: false,
+    enabled: true,
     name: { nl: "Vivace pet", en: "Vivace cap" },
     description: {
       nl: "Geborduurde pet met het Vivace-woordmerk in goud op navy. Eén maat, verstelbaar.",
