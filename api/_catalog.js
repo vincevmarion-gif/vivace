@@ -69,7 +69,7 @@ export function syncVariantFor(p, size) {
 }
 
 export function isLive(p) {
-  if (!p.enabled) return true;
+  if (!p.enabled) return false;
   return p.sizes.every((s) => Number.isInteger(syncVariantFor(p, s)) || Number.isInteger(p.supplier.variants[s]));
 }
 
