@@ -1969,7 +1969,7 @@ function ContactPage() {
 
       <Reveal delay={200}>
         <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
-          <p>info@drinkvivace.nl</p>
+          <p>drinkvivace@gmail.com</p>
           <p>drinkvivace@gmail.com</p>
           <p>{L("Nederland", "The Netherlands")}</p>
         </div>
@@ -3226,7 +3226,7 @@ function PrivacyPage() {
             Vivace Limoncello wordt geëxploiteerd door VVM Trading (eenmanszaak), ingeschreven bij de
             Kamer van Koophandel onder nummer 86618806, gevestigd op Loevestein 18, 3171JD Poortugaal,
             Nederland. Voor vragen over dit privacybeleid kun je contact opnemen via
-            info@drinkvivace.nl.
+            drinkvivace@gmail.com.
           </p>
         </LegalSection>
 
@@ -3283,7 +3283,7 @@ function PrivacyPage() {
           </ul>
           <p>
             Wil je gebruikmaken van een van deze rechten? Stuur een e-mail naar
-            info@drinkvivace.nl.
+            drinkvivace@gmail.com.
           </p>
         </LegalSection>
 
@@ -3387,9 +3387,37 @@ function TermsPage() {
           </p>
         </LegalSection>
 
-        <LegalSection title="8. Contact">
+        <LegalSection title="8. Merchandise (webshop)">
           <p>
-            Vragen over deze voorwaarden? Neem contact met ons op via info@drinkvivace.nl.
+            Op drinkvivace.nl/merch verkopen we merchandise, zoals T-shirts en petten. De limoncello zelf
+            verkopen we niet online (zie punt 3).
+          </p>
+          <p>
+            Prijzen zijn in euro&apos;s en inclusief btw. Verzendkosten zie je voor je betaalt. Je betaalt
+            via de betaalmethoden die bij het afrekenen worden getoond. Je ontvangt een bevestiging per
+            e-mail.
+          </p>
+          <p>
+            Merchandise wordt op bestelling gemaakt en verzonden. De verwachte levertijd is ongeveer 5 tot
+            10 werkdagen. Zodra je bestelling onderweg is, ontvang je een e-mail met track-and-trace.
+          </p>
+          <p>
+            Herroepingsrecht: je kunt binnen 14 dagen na ontvangst zonder opgaaf van reden afzien van je
+            aankoop. Mail ons daarvoor op drinkvivace@gmail.com, dan sturen we je het retouradres. De
+            kosten van het terugsturen zijn voor jou. Na ontvangst van de retour betalen we het
+            aankoopbedrag, inclusief de standaard verzendkosten, binnen 14 dagen terug. Ruilen is niet
+            mogelijk; je kunt opnieuw bestellen in een andere maat.
+          </p>
+          <p>
+            Is er iets mis met je bestelling, bijvoorbeeld een misdruk of een beschadiging? Stuur een foto
+            naar drinkvivace@gmail.com, dan maken we kosteloos een nieuw exemplaar voor je. Klachten kun je
+            op hetzelfde adres indienen.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="9. Contact">
+          <p>
+            Vragen over deze voorwaarden? Neem contact met ons op via drinkvivace@gmail.com.
           </p>
         </LegalSection>
       </Reveal>
@@ -3511,6 +3539,93 @@ function SizeChartModal({ product, lang, onClose }) {
   );
 }
 
+function ShippingReturnsModal({ data, onClose }) {
+  const L = useL();
+  const lang = L("nl", "en");
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  let countries = (data?.countries || []).join(", ");
+  try {
+    const dn = new Intl.DisplayNames([lang], { type: "region" });
+    countries = (data?.countries || []).map((c) => dn.of(c)).join(", ");
+  } catch {
+    /* val terug op de landcodes */
+  }
+  const h = "text-[11px] tracking-[0.2em] uppercase text-[#C9A04E] mb-2";
+  return (
+    <div
+      className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={L("Verzending en retour", "Shipping and returns")}
+    >
+      <div className="bg-[#0a1628] border border-[#1c3450] max-w-lg w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-start justify-between gap-4 mb-6">
+          <h3 className="font-serif text-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Verzending & retour", "Shipping & returns")}
+          </h3>
+          <button type="button" onClick={onClose} aria-label={L("Sluiten", "Close")} className="text-white/50 hover:text-white text-2xl leading-none px-2">×</button>
+        </div>
+        <div className="text-white/55 text-sm space-y-6">
+          <div>
+            <p className={h}>{L("Levering", "Delivery")}</p>
+            <p>
+              {L(
+                "Alles wordt op bestelling voor je gemaakt. Reken op ongeveer 5 tot 10 werkdagen tot je bestelling bij je is. Zodra hij onderweg is, ontvang je een e-mail met track-and-trace.",
+                "Everything is made to order for you. Allow about 5 to 10 working days until your order arrives. As soon as it ships, you will receive an email with tracking."
+              )}
+            </p>
+            <p className="mt-2">
+              {L("Verzendkosten: ", "Shipping: ")}
+              {data ? euro(data.shipping_cents) : ""}
+              {L(" per bestelling. Alle prijzen zijn inclusief btw.", " per order. All prices include VAT.")}
+            </p>
+            {countries && (
+              <p className="mt-2">
+                {L("We leveren in: ", "We deliver to: ")}
+                {countries}.
+              </p>
+            )}
+          </div>
+          <div>
+            <p className={h}>{L("Retour", "Returns")}</p>
+            <p>
+              {L(
+                "Je kunt binnen 14 dagen na ontvangst zonder opgaaf van reden retourneren. Mail ons op drinkvivace@gmail.com, dan sturen we je het retouradres. De kosten van het terugsturen zijn voor jou. Na ontvangst van de retour betalen we je aankoopbedrag, inclusief de standaard verzendkosten, binnen 14 dagen terug.",
+                "You can return items within 14 days of receipt without giving a reason. Email us at drinkvivace@gmail.com and we will send you the return address. The cost of returning the item is for you. After we receive the return, we refund your purchase, including standard shipping, within 14 days."
+              )}
+            </p>
+            <p className="mt-2">
+              {L(
+                "Ruilen kan niet. Past het niet, retourneer dan en bestel opnieuw in de juiste maat.",
+                "We cannot exchange items. If it does not fit, return it and place a new order in the right size."
+              )}
+            </p>
+          </div>
+          <div>
+            <p className={h}>{L("Beschadigd of fout?", "Damaged or wrong?")}</p>
+            <p>
+              {L(
+                "Is er iets mis met je bestelling, bijvoorbeeld een misdruk of een beschadiging? Stuur een foto naar drinkvivace@gmail.com, dan maken we kosteloos een nieuw exemplaar voor je.",
+                "Is something wrong with your order, such as a misprint or damage? Send a photo to drinkvivace@gmail.com and we will make you a new one free of charge."
+              )}
+            </p>
+          </div>
+          <div>
+            <p className={h}>{L("Verkoper", "Seller")}</p>
+            <p>VVM Trading, KVK 86618806, Loevestein 18, 3171 JD Poortugaal.</p>
+            <p>drinkvivace@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MerchPage() {
   const L = useL();
   const lang = L("nl", "en");
@@ -3524,6 +3639,7 @@ function MerchPage() {
   const [busy, setBusy] = useState(null);
   const [error, setError] = useState("");
   const [chart, setChart] = useState(null);
+  const [info, setInfo] = useState(false);
 
   useEffect(() => {
     let off = false;
@@ -3626,16 +3742,26 @@ function MerchPage() {
                   >
                     {busy === p.id ? L("Even geduld...", "One moment...") : L("Bestellen", "Order")}
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => setInfo(true)}
+                    className="mt-4 text-[11px] uppercase tracking-[0.15em] text-white/50 underline underline-offset-4 hover:text-[#D4AF37] transition-colors"
+                  >
+                    {L("Verzending & retour", "Shipping & returns")}
+                  </button>
                 </div>
               </div>
             ))}
           </div>
           {error && <p className="text-center text-sm text-[#e0a0a0] mb-6" role="alert">{error}</p>}
-          <p className="text-center text-white/35 text-xs mb-14">
+          <p className="text-center text-white/45 text-xs mb-14">
             {L(
-              `Verzendkosten ${euro(data.shipping_cents)}. Levering binnen ongeveer 5 tot 10 werkdagen. Alle prijzen zijn inclusief btw.`,
-              `Shipping ${euro(data.shipping_cents)}. Delivery in about 5 to 10 working days. All prices include VAT.`
+              `Verzendkosten ${euro(data.shipping_cents)}. Levering binnen ongeveer 5 tot 10 werkdagen. Alle prijzen zijn inclusief btw. `,
+              `Shipping ${euro(data.shipping_cents)}. Delivery in about 5 to 10 working days. All prices include VAT. `
             )}
+            <button type="button" onClick={() => setInfo(true)} className="underline underline-offset-4 hover:text-[#D4AF37] transition-colors">
+              {L("Verzending & retour", "Shipping & returns")}
+            </button>
           </p>
         </Reveal>
       ) : (
@@ -3661,6 +3787,7 @@ function MerchPage() {
       )}
 
       {chart && <SizeChartModal product={chart} lang={lang} onClose={() => setChart(null)} />}
+      {info && <ShippingReturnsModal data={data} onClose={() => setInfo(false)} />}
 
       <Reveal delay={100}>
         <div className="border-t border-[#1c3450] pt-8 text-center">
@@ -3674,19 +3801,9 @@ function MerchPage() {
             {L("Bekijk de verkooppunten", "See where to buy")}
           </Link>
           {live && (
-            <div className="text-white/35 text-xs max-w-lg mx-auto mt-10 space-y-2 text-left">
-              <p>
-                <span className="text-white/55">{L("Retour. ", "Returns. ")}</span>
-                {L(
-                  "Je kunt binnen 14 dagen na ontvangst zonder opgaaf van reden retourneren. Mail ons via info@drinkvivace.nl, dan sturen we je het retouradres. Is er iets mis met je bestelling, stuur dan een foto mee, dan maken we een nieuw exemplaar kosteloos.",
-                  "You can return items within 14 days of receipt without giving a reason. Email info@drinkvivace.nl and we will send you the return address. If something is wrong with your order, send us a photo and we will replace it free of charge."
-                )}
-              </p>
-              <p>
-                <span className="text-white/55">{L("Verkoper. ", "Seller. ")}</span>
-                VVM Trading, KVK 86618806, Poortugaal.
-              </p>
-            </div>
+            <p className="text-white/35 text-xs max-w-lg mx-auto mt-10">
+              VVM Trading, KVK 86618806, Loevestein 18, 3171 JD Poortugaal. drinkvivace@gmail.com
+            </p>
           )}
           <p className="text-white/30 text-xs mt-8">
             {L("Vivace is een alcoholmerk. Deze pagina is bedoeld voor 18 jaar en ouder. Geniet bewust.", "Vivace is an alcohol brand. This page is intended for people aged 18 and over. Enjoy responsibly.")}
