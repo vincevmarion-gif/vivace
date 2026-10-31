@@ -1970,7 +1970,6 @@ function ContactPage() {
       <Reveal delay={200}>
         <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
           <p>drinkvivace@gmail.com</p>
-          <p>drinkvivace@gmail.com</p>
           <p>{L("Nederland", "The Netherlands")}</p>
         </div>
       </Reveal>
