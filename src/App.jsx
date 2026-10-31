@@ -3440,13 +3440,73 @@ function MerchGallery({ p, name }) {
               type="button"
               onClick={() => setI(k)}
               aria-label={`${name} ${k + 1}`}
-              className={`w-12 h-12 bg-[#F4F0E4] overflow-hidden border transition-opacity ${k === i ? "border-[#D4AF37]" : "border-transparent opacity-70 hover:opacity-100"}`}
+              className={`w-12 h-12 bg-[#F4F0E4] overflow-hidden border transition-colors ${k === i ? "border-[#D4AF37]" : "border-transparent hover:border-[#D4AF37]/50"}`}
             >
               <img src={src} alt="" className="w-full h-full object-contain" />
             </button>
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+function SizeChartModal({ product, lang, onClose }) {
+  const L = useL();
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  const rows = product.size_chart.rows;
+  return (
+    <div
+      className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={L("Maattabel", "Size guide")}
+    >
+      <div className="bg-[#0a1628] border border-[#1c3450] max-w-lg w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-start justify-between gap-4 mb-5">
+          <div>
+            <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-2">{L("Maattabel", "Size guide")}</p>
+            <h3 className="font-serif text-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{product.name[lang]}</h3>
+          </div>
+          <button type="button" onClick={onClose} aria-label={L("Sluiten", "Close")} className="text-white/50 hover:text-white text-2xl leading-none px-2">×</button>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-center">
+            <thead>
+              <tr className="text-[10px] uppercase tracking-[0.15em] text-white/45 border-b border-[#1c3450]">
+                <th className="py-2 pr-2 text-left font-normal">{L("Maat", "Size")}</th>
+                <th className="py-2 px-2 font-normal">{L("Lengte", "Length")}</th>
+                <th className="py-2 px-2 font-normal">{L("Breedte", "Width")}</th>
+                <th className="py-2 pl-2 font-normal">{L("Borst", "Chest")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr key={r.size} className="border-b border-[#1c3450]/60 text-white/70">
+                  <td className="py-2.5 pr-2 text-left text-[#D4AF37]">{r.size}</td>
+                  <td className="py-2.5 px-2">{r.length} cm</td>
+                  <td className="py-2.5 px-2">{r.width} cm</td>
+                  <td className="py-2.5 pl-2">{r.chest} cm</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="text-white/45 text-xs mt-5 space-y-2">
+          <p>
+            {L(
+              "Leg een T-shirt dat je goed vindt zitten plat neer en vergelijk: breedte meet je van oksel tot oksel, lengte vanaf het hoogste punt van de schouder tot de onderrand. Borst is de omtrek van je eigen borst.",
+              "Lay a T-shirt that fits you well flat and compare: measure the width from armpit to armpit and the length from the highest point of the shoulder to the hem. Chest is your own chest circumference."
+            )}
+          </p>
+          <p>{L("Unisex model. Maten komen van de fabrikant en kunnen tot ongeveer 5 cm afwijken.", "Unisex fit. Sizes come from the manufacturer and can vary by up to about 5 cm.")}</p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -3463,6 +3523,7 @@ function MerchPage() {
   const [sizes, setSizes] = useState({});
   const [busy, setBusy] = useState(null);
   const [error, setError] = useState("");
+  const [chart, setChart] = useState(null);
 
   useEffect(() => {
     let off = false;
@@ -3525,32 +3586,47 @@ function MerchPage() {
                 <h2 className="font-serif text-2xl mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {p.name[lang]}
                 </h2>
-                <p className="text-white/45 text-sm max-w-xs mb-4">{p.description[lang]}</p>
-                <p className="text-[#D4AF37] mb-5">{euro(p.price_cents)}</p>
-                {p.sizes.length > 1 && (
-                  <div className="flex flex-wrap justify-center gap-2 mb-6" role="group" aria-label={L("Maat", "Size")}>
-                    {p.sizes.map((s) => (
+                <p className="text-white/45 text-sm max-w-xs mb-4 flex-1">{p.description[lang]}</p>
+                <div className="w-full flex flex-col items-center mt-auto">
+                  <p className="text-[#D4AF37] mb-5">{euro(p.price_cents)}</p>
+                  <div className="min-h-[92px] flex flex-col items-center justify-start mb-4">
+                    {p.sizes.length > 1 ? (
+                      <div className="flex flex-wrap justify-center gap-2" role="group" aria-label={L("Maat", "Size")}>
+                        {p.sizes.map((s) => (
+                          <button
+                            key={s}
+                            type="button"
+                            onClick={() => setSizes((x) => ({ ...x, [p.id]: s }))}
+                            className={`min-w-[44px] px-3 py-2 text-[11px] uppercase tracking-[0.15em] border transition-colors ${
+                              sizes[p.id] === s ? "border-[#D4AF37] text-[#D4AF37]" : "border-[#1c3450] text-white/50 hover:text-white"
+                            }`}
+                          >
+                            {s}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-white/50 text-[11px] uppercase tracking-[0.15em] py-2">{L("Eén maat, verstelbaar", "One size, adjustable")}</p>
+                    )}
+                    {p.size_chart && (
                       <button
-                        key={s}
                         type="button"
-                        onClick={() => setSizes((x) => ({ ...x, [p.id]: s }))}
-                        className={`min-w-[44px] px-3 py-2 text-[11px] uppercase tracking-[0.15em] border transition-colors ${
-                          sizes[p.id] === s ? "border-[#D4AF37] text-[#D4AF37]" : "border-[#1c3450] text-white/50 hover:text-white"
-                        }`}
+                        onClick={() => setChart(p)}
+                        className="mt-3 text-[11px] uppercase tracking-[0.15em] text-white/50 underline underline-offset-4 hover:text-[#D4AF37] transition-colors"
                       >
-                        {s}
+                        {L("Maattabel", "Size guide")}
                       </button>
-                    ))}
+                    )}
                   </div>
-                )}
-                <button
-                  type="button"
-                  disabled={busy === p.id}
-                  onClick={() => buy(p)}
-                  className="border border-[#D4AF37] text-[#D4AF37] px-8 py-3 text-[11px] uppercase tracking-[0.2em] hover:bg-[#D4AF37] hover:text-[#0a1628] transition-colors disabled:opacity-50"
-                >
-                  {busy === p.id ? L("Even geduld...", "One moment...") : L("Bestellen", "Order")}
-                </button>
+                  <button
+                    type="button"
+                    disabled={busy === p.id}
+                    onClick={() => buy(p)}
+                    className="border border-[#D4AF37] text-[#D4AF37] px-8 py-3 text-[11px] uppercase tracking-[0.2em] hover:bg-[#D4AF37] hover:text-[#0a1628] transition-colors disabled:opacity-50"
+                  >
+                    {busy === p.id ? L("Even geduld...", "One moment...") : L("Bestellen", "Order")}
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -3583,6 +3659,8 @@ function MerchPage() {
           </div>
         </Reveal>
       )}
+
+      {chart && <SizeChartModal product={chart} lang={lang} onClose={() => setChart(null)} />}
 
       <Reveal delay={100}>
         <div className="border-t border-[#1c3450] pt-8 text-center">
