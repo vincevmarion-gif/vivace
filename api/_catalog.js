@@ -14,7 +14,7 @@ export const ALLOWED_COUNTRIES = ["NL", "BE", "DE", "LU", "FR", "AT"];
 export const PRODUCTS = [
   {
     id: "tshirt",
-    enabled: true, // zet op true als de varianten hieronder zijn ingevuld
+    enabled: true,
     name: { nl: "Vivace T-shirt", en: "Vivace T-shirt" },
     description: {
       nl: "Navy T-shirt met het Colosseum en het Vivace-woordmerk in goud op de rug. Op bestelling gemaakt.",
@@ -24,15 +24,25 @@ export const PRODUCTS = [
     art: "shirt", // tekening zolang er geen foto is
     image: "/merch/tshirt-front.webp",
     images: ["/merch/tshirt-front.webp", "/merch/tshirt-back.webp"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
+    sizes: ["S", "M", "L", "XL", "2XL"],
+    // Maten van de fabrikant (Bella + Canvas 3001, via Printful). Marge tot ongeveer 5 cm.
+    size_chart: {
+      rows: [
+        { size: "S", length: 71, width: 46, chest: "86 - 94" },
+        { size: "M", length: 74, width: 51, chest: "97 - 104" },
+        { size: "L", length: 76, width: 56, chest: "107 - 114" },
+        { size: "XL", length: 79, width: 61, chest: "117 - 124" },
+        { size: "2XL", length: 81, width: 66, chest: "127 - 135" },
+      ],
+    },
     supplier: {
       provider: "printful",
       // Printful variant-ID per maat (zie SETUP-MERCH.md, stap 4). null = nog niet ingevuld.
       // Product ontworpen in Printful (borst, rug en label): vul hier de sync-variant-ID's in
       // (te vinden via /api/printful-products). Zodra ingevuld gebruikt de shop die.
-      sync_variants: { S: 5606913052, M: 5606913065, L: 5606913074, XL: 5606913080, XXL: 5606913087 },
+      sync_variants: { S: 5606913052, M: 5606913065, L: 5606913074, XL: 5606913080, "2XL": 5606913087 },
       // Reserve: losse catalogus-varianten met printbestanden uit /public/merch/print/
-      variants: { S: 4111, M: 4112, L: 4113, XL: 4114, XXL: 4115 }, // Bella + Canvas 3001, kleur Navy
+      variants: { S: 4111, M: 4112, L: 4113, XL: 4114, "2XL": 4115 }, // Bella + Canvas 3001, kleur Navy
       // Printbestanden: PNG met transparante achtergrond, ruim 3000 px breed, in public/merch/print/.
       files: [
         { type: "back", path: "/merch/print/shirt-back.png" },
@@ -83,6 +93,7 @@ export function publicProducts() {
     image: p.image,
     images: p.images || (p.image ? [p.image] : []),
     sizes: p.sizes,
+    size_chart: p.size_chart || null,
   }));
 }
 
