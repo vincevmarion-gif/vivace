@@ -3421,6 +3421,36 @@ function MerchShirt() {
 
 const euro = (cents) => `€${(cents / 100).toFixed(2).replace(".", ",")}`;
 
+function MerchGallery({ p, name }) {
+  const imgs = p.images && p.images.length ? p.images : p.image ? [p.image] : [];
+  const [i, setI] = useState(0);
+  if (imgs.length === 0) {
+    return <div className="mb-6 h-40 flex items-center justify-center">{p.art === "cap" ? <MerchCap /> : <MerchShirt />}</div>;
+  }
+  return (
+    <div className="w-full mb-6">
+      <div className="bg-[#F4F0E4] aspect-square overflow-hidden">
+        <img src={imgs[i]} alt={name} loading="lazy" className="w-full h-full object-contain" />
+      </div>
+      {imgs.length > 1 && (
+        <div className="flex justify-center gap-2 mt-3">
+          {imgs.map((src, k) => (
+            <button
+              key={src}
+              type="button"
+              onClick={() => setI(k)}
+              aria-label={`${name} ${k + 1}`}
+              className={`w-12 h-12 bg-[#F4F0E4] overflow-hidden border transition-opacity ${k === i ? "border-[#D4AF37]" : "border-transparent opacity-70 hover:opacity-100"}`}
+            >
+              <img src={src} alt="" className="w-full h-full object-contain" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function MerchPage() {
   const L = useL();
   const lang = L("nl", "en");
@@ -3491,15 +3521,7 @@ function MerchPage() {
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             {products.map((p) => (
               <div key={p.id} className="border border-[#1c3450] p-8 flex flex-col items-center text-center">
-                <div className="mb-6 h-40 flex items-center justify-center">
-                  {p.image ? (
-                    <img src={p.image} alt={p.name[lang]} className="max-h-40 w-auto" />
-                  ) : p.art === "cap" ? (
-                    <MerchCap />
-                  ) : (
-                    <MerchShirt />
-                  )}
-                </div>
+                <MerchGallery p={p} name={p.name[lang]} />
                 <h2 className="font-serif text-2xl mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {p.name[lang]}
                 </h2>
