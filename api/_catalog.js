@@ -7,8 +7,9 @@ export const SITE_URL = (process.env.SITE_URL || "https://www.drinkvivace.nl").r
 // Vaste verzendkosten voor de klant, in eurocent (pas aan na de samples).
 export const SHIPPING_CENTS = 595;
 
-// Landen waarheen de leverancier vanuit de EU kan leveren.
-export const ALLOWED_COUNTRIES = ["NL", "BE", "DE", "FR", "LU", "AT", "IT", "ES", "PT", "IE", "DK", "SE", "FI", "PL", "CZ"];
+// Landen waarheen je levert. De verzendkosten van Printful lopen per land op tot ruim 10 euro,
+// dus begin dicht bij huis en voeg later landen toe als je de kosten per land kent.
+export const ALLOWED_COUNTRIES = ["NL", "BE", "DE", "LU", "FR", "AT"];
 
 export const PRODUCTS = [
   {
@@ -21,7 +22,8 @@ export const PRODUCTS = [
     },
     price_cents: 3495, // inclusief btw, aan te passen na de samples
     art: "shirt", // tekening zolang er geen foto is
-    image: null, // bijvoorbeeld "/merch/tshirt.jpg" (zet het bestand in public/merch/)
+    image: "/merch/tshirt-front.webp",
+    images: ["/merch/tshirt-front.webp", "/merch/tshirt-back.webp"],
     sizes: ["S", "M", "L", "XL", "XXL"],
     supplier: {
       provider: "printful",
@@ -49,7 +51,8 @@ export const PRODUCTS = [
     },
     price_cents: 3495,
     art: "cap",
-    image: null,
+    image: "/merch/pet-front.webp",
+    images: ["/merch/pet-front.webp", "/merch/pet-back.webp"],
     sizes: ["One size"],
     supplier: {
       provider: "printful",
@@ -78,6 +81,7 @@ export function publicProducts() {
     price_cents: p.price_cents,
     art: p.art,
     image: p.image,
+    images: p.images || (p.image ? [p.image] : []),
     sizes: p.sizes,
   }));
 }
