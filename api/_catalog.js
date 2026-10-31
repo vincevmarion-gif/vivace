@@ -28,7 +28,7 @@ export const PRODUCTS = [
       // Printful variant-ID per maat (zie SETUP-MERCH.md, stap 4). null = nog niet ingevuld.
       // Product ontworpen in Printful (borst, rug en label): vul hier de sync-variant-ID's in
       // (te vinden via /api/printful-products). Zodra ingevuld gebruikt de shop die.
-      sync_variants: { S: null, M: null, L: null, XL: null, XXL: null },
+      sync_variants: { S: 5606913052, M: 5606913065, L: 5606913074, XL: 5606913080, XXL: 5606913087 },
       // Reserve: losse catalogus-varianten met printbestanden uit /public/merch/print/
       variants: { S: 4111, M: 4112, L: 4113, XL: 4114, XXL: 4115 }, // Bella + Canvas 3001, kleur Navy
       // Printbestanden: PNG met transparante achtergrond, ruim 3000 px breed, in public/merch/print/.
@@ -49,10 +49,11 @@ export const PRODUCTS = [
     },
     price_cents: 3495,
     art: "cap",
-    image: public/merch/print/cap.jpg
+    image: null,
     sizes: ["One size"],
     supplier: {
       provider: "printful",
+      sync_variants: { "One size": 5606925536 }, // door jou in Printful ontworpen
       variants: { "One size": null },
       files: [{ type: "embroidery_front", path: "/merch/print/cap-front.png" }],
       options: [], // borduurgaren-instellingen, zie SETUP-MERCH.md
