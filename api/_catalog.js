@@ -53,7 +53,7 @@ export const PRODUCTS = [
   },
   {
     id: "longsleeve",
-    enabled: true, // staat pas in de shop zodra elke maat hieronder een sync-variant-ID heeft
+    enabled: true,
     name: { nl: "Vivace longsleeve", en: "Vivace long sleeve" },
     description: {
       nl: "Navy longsleeve met het Colosseum en het Vivace-woordmerk in goud op de rug, en een klein woordmerk op de borst. Op bestelling gemaakt.",
@@ -76,8 +76,8 @@ export const PRODUCTS = [
     },
     supplier: {
       provider: "printful",
-      // Vul de sync-variant-ID's in via /api/printful-products (zie het bericht).
-      sync_variants: { S: null, M: null, L: null, XL: null, "2XL": null },
+      // Door jou in Printful ontworpen (Vivace Long Sleeve Tee, Bella + Canvas 3501, Navy).
+      sync_variants: { S: 5610885827, M: 5610885828, L: 5610885829, XL: 5610885830, "2XL": 5610885831 },
       variants: { S: null, M: null, L: null, XL: null, "2XL": null },
       files: [],
       options: [],
