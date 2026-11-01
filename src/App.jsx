@@ -3793,7 +3793,7 @@ function MerchPage() {
         <Reveal delay={50}>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             {products.map((p) => (
-              <div key={p.id} className="border border-[#1c3450] p-8 flex flex-col items-center text-center">
+              <div key={p.id} className="border border-[#1c3450] p-6 flex flex-col items-center text-center">
                 <MerchGallery p={p} name={p.name[lang]} />
                 <h2 className="font-serif text-2xl mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {p.name[lang]}
@@ -3801,15 +3801,15 @@ function MerchPage() {
                 <p className="text-white/45 text-sm max-w-xs mb-4 flex-1">{p.description[lang]}</p>
                 <div className="w-full flex flex-col items-center mt-auto">
                   <p className="text-[#D4AF37] mb-5">{euro(p.price_cents)}</p>
-                  <div className="min-h-[92px] flex flex-col items-center justify-start mb-4">
+                  <div className="min-h-[84px] flex flex-col items-center justify-start mb-4">
                     {p.sizes.length > 1 ? (
-                      <div className="flex flex-wrap justify-center gap-2" role="group" aria-label={L("Maat", "Size")}>
+                      <div className="flex flex-nowrap justify-center gap-1.5" role="group" aria-label={L("Maat", "Size")}>
                         {p.sizes.map((s) => (
                           <button
                             key={s}
                             type="button"
                             onClick={() => setSizes((x) => ({ ...x, [p.id]: s }))}
-                            className={`min-w-[44px] px-3 py-2 text-[11px] uppercase tracking-[0.15em] border transition-colors ${
+                            className={`min-w-[40px] px-2 py-2.5 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
                               sizes[p.id] === s ? "border-[#D4AF37] text-[#D4AF37]" : "border-[#1c3450] text-white/50 hover:text-white"
                             }`}
                           >
