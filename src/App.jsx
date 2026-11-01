@@ -498,6 +498,9 @@ function LanguageSwitch() {
   );
 }
 
+// Tijdelijk "Nieuw"-label bij Merch in het menu.
+const MERCH_NEW = Date.now() < Date.parse("2026-12-15");
+
 function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -546,6 +549,17 @@ function Nav() {
         </ul>
 
         <div className="flex items-center gap-5">
+          <Link
+            to="/merch"
+            className={`hidden md:inline-flex items-center gap-2 h-8 px-4 border text-[11px] uppercase tracking-[0.16em] transition-colors ${
+              location.pathname.startsWith("/merch")
+                ? "bg-[#D4AF37] border-[#D4AF37] text-[#0a1628]"
+                : "border-[#D4AF37]/60 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0a1628]"
+            }`}
+          >
+            Merch
+            {MERCH_NEW && <span className="hidden lg:inline text-[9px] tracking-[0.2em] opacity-70">{L("Nieuw", "New")}</span>}
+          </Link>
           <LanguageSwitch />
           <button className="md:hidden text-white/80" onClick={() => setMobileOpen(!mobileOpen)}>
             <Menu size={22} />
@@ -565,6 +579,14 @@ function Nav() {
               {l.label}
             </Link>
           ))}
+          <Link
+            to="/merch"
+            onClick={() => setMobileOpen(false)}
+            className="self-start inline-flex items-center gap-2 px-4 py-2 border border-[#D4AF37]/60 text-[#D4AF37] text-sm uppercase tracking-wider"
+          >
+            Merch
+            {MERCH_NEW && <span className="text-[10px] tracking-[0.2em] opacity-70">{L("Nieuw", "New")}</span>}
+          </Link>
         </div>
       )}
     </nav>
