@@ -1970,6 +1970,7 @@ function ContactPage() {
       <Reveal delay={200}>
         <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
           <p>drinkvivace@gmail.com</p>
+          <p>drinkvivace@gmail.com</p>
           <p>{L("Nederland", "The Netherlands")}</p>
         </div>
       </Reveal>
@@ -3449,17 +3450,42 @@ function MerchShirt() {
 const euro = (cents) => `€${(cents / 100).toFixed(2).replace(".", ",")}`;
 
 function MerchGallery({ p, name }) {
+  const L = useL();
   const imgs = p.images && p.images.length ? p.images : p.image ? [p.image] : [];
   const [i, setI] = useState(0);
-  if (imgs.length === 0) {
+  const [zoom, setZoom] = useState(false);
+  const n = imgs.length;
+
+  useEffect(() => {
+    if (!zoom) return undefined;
+    const onKey = (e) => {
+      if (e.key === "Escape") setZoom(false);
+      if (e.key === "ArrowRight") setI((x) => (x + 1) % n);
+      if (e.key === "ArrowLeft") setI((x) => (x - 1 + n) % n);
+    };
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [zoom, n]);
+
+  if (n === 0) {
     return <div className="mb-6 h-40 flex items-center justify-center">{p.art === "cap" ? <MerchCap /> : <MerchShirt />}</div>;
   }
   return (
     <div className="w-full mb-6">
-      <div className="bg-[#F4F0E4] aspect-square overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setZoom(true)}
+        aria-label={`${L("Vergroot foto", "Enlarge photo")}: ${name}`}
+        className="block w-full bg-[#F4F0E4] aspect-square overflow-hidden cursor-zoom-in"
+      >
         <img src={imgs[i]} alt={name} loading="lazy" className="w-full h-full object-contain" />
-      </div>
-      {imgs.length > 1 && (
+      </button>
+      {n > 1 && (
         <div className="flex justify-center gap-2 mt-3">
           {imgs.map((src, k) => (
             <button
@@ -3472,6 +3498,52 @@ function MerchGallery({ p, name }) {
               <img src={src} alt="" className="w-full h-full object-contain" />
             </button>
           ))}
+        </div>
+      )}
+      {zoom && (
+        <div
+          className="fixed inset-0 z-[110] bg-black/85 flex items-center justify-center p-3 md:p-8"
+          onClick={() => setZoom(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={name}
+        >
+          <div className="relative w-full max-w-3xl" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-[#F4F0E4] aspect-square max-h-[85vh] mx-auto">
+              <img src={imgs[i]} alt={name} className="w-full h-full object-contain" />
+            </div>
+            <button
+              type="button"
+              onClick={() => setZoom(false)}
+              aria-label={L("Sluiten", "Close")}
+              className="absolute -top-2 -right-2 md:top-2 md:right-2 w-10 h-10 rounded-full bg-[#0a1628] border border-[#1c3450] text-white/80 hover:text-[#D4AF37] text-2xl leading-none"
+            >
+              ×
+            </button>
+            {n > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setI((x) => (x - 1 + n) % n)}
+                  aria-label={L("Vorige foto", "Previous photo")}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#0a1628]/85 border border-[#1c3450] text-white/80 hover:text-[#D4AF37] text-xl"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setI((x) => (x + 1) % n)}
+                  aria-label={L("Volgende foto", "Next photo")}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#0a1628]/85 border border-[#1c3450] text-white/80 hover:text-[#D4AF37] text-xl"
+                >
+                  ›
+                </button>
+                <p className="text-center text-white/60 text-xs tracking-[0.2em] mt-3">
+                  {i + 1} / {n}
+                </p>
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>
