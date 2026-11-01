@@ -3580,6 +3580,7 @@ function SizeChartModal({ product, lang, onClose }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
   const rows = product.size_chart.rows;
+  const hasSleeve = rows.some((r) => r.sleeve);
   return (
     <div
       className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4"
@@ -3603,6 +3604,7 @@ function SizeChartModal({ product, lang, onClose }) {
                 <th className="py-2 pr-2 text-left font-normal">{L("Maat", "Size")}</th>
                 <th className="py-2 px-2 font-normal">{L("Lengte", "Length")}</th>
                 <th className="py-2 px-2 font-normal">{L("Breedte", "Width")}</th>
+                {hasSleeve && <th className="py-2 px-2 font-normal">{L("Mouw", "Sleeve")}</th>}
                 <th className="py-2 pl-2 font-normal">{L("Borst", "Chest")}</th>
               </tr>
             </thead>
@@ -3612,6 +3614,7 @@ function SizeChartModal({ product, lang, onClose }) {
                   <td className="py-2.5 pr-2 text-left text-[#D4AF37]">{r.size}</td>
                   <td className="py-2.5 px-2">{r.length} cm</td>
                   <td className="py-2.5 px-2">{r.width} cm</td>
+                  {hasSleeve && <td className="py-2.5 px-2">{r.sleeve} cm</td>}
                   <td className="py-2.5 pl-2">{r.chest} cm</td>
                 </tr>
               ))}
@@ -3772,7 +3775,7 @@ function MerchPage() {
   const live = products.length > 0;
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Merch", "Merch")}</p>
         <h1 className="font-serif italic text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -3788,7 +3791,7 @@ function MerchPage() {
 
       {live ? (
         <Reveal delay={50}>
-          <div className="grid md:grid-cols-2 gap-6 mb-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             {products.map((p) => (
               <div key={p.id} className="border border-[#1c3450] p-8 flex flex-col items-center text-center">
                 <MerchGallery p={p} name={p.name[lang]} />
