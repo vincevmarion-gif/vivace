@@ -52,6 +52,38 @@ export const PRODUCTS = [
     },
   },
   {
+    id: "longsleeve",
+    enabled: true, // staat pas in de shop zodra elke maat hieronder een sync-variant-ID heeft
+    name: { nl: "Vivace longsleeve", en: "Vivace long sleeve" },
+    description: {
+      nl: "Navy longsleeve met het Colosseum en het Vivace-woordmerk in goud op de rug, en een klein woordmerk op de borst. Op bestelling gemaakt.",
+      en: "Navy long sleeve with the Colosseum and the Vivace wordmark in gold on the back, and a small wordmark on the chest. Made to order.",
+    },
+    price_cents: 4295, // inclusief btw (Printful-kosten €22,05 tot €23,35)
+    art: "shirt",
+    image: "/merch/longsleeve-front.webp",
+    images: ["/merch/longsleeve-front.webp", "/merch/longsleeve-back.webp"],
+    sizes: ["S", "M", "L", "XL", "2XL"],
+    // Maten van de fabrikant (Bella + Canvas 3501, via Printful). Marge tot ongeveer 5 cm.
+    size_chart: {
+      rows: [
+        { size: "S", length: 71, width: 46, sleeve: 65, chest: "86 - 94" },
+        { size: "M", length: 74, width: 51, sleeve: 67, chest: "97 - 104" },
+        { size: "L", length: 76, width: 56, sleeve: 68, chest: "107 - 114" },
+        { size: "XL", length: 79, width: 61, sleeve: 70, chest: "117 - 124" },
+        { size: "2XL", length: 81, width: 66, sleeve: 71, chest: "127 - 135" },
+      ],
+    },
+    supplier: {
+      provider: "printful",
+      // Vul de sync-variant-ID's in via /api/printful-products (zie het bericht).
+      sync_variants: { S: null, M: null, L: null, XL: null, "2XL": null },
+      variants: { S: null, M: null, L: null, XL: null, "2XL": null },
+      files: [],
+      options: [],
+    },
+  },
+  {
     id: "pet",
     enabled: true,
     name: { nl: "Vivace pet", en: "Vivace cap" },
