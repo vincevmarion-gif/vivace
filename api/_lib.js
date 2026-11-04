@@ -55,18 +55,36 @@ export function externalIdFor(sessionId) {
   return "viv" + crypto.createHash("sha1").update(sessionId).digest("hex").slice(0, 24);
 }
 
+// ---------- E-mail via Resend ----------
+// Zonder geverifieerd domein kan Resend alleen naar het adres van je eigen Resend-account mailen
+// (genoeg voor meldingen aan jou). Voor mails aan klanten moet drinkvivace.nl bij Resend zijn geverifieerd.
+export async function sendEmail({ to, subject, text, html, replyTo }) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return { ok: false, error: "RESEND_API_KEY ontbreekt" };
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: process.env.RESEND_FROM || "Vivace Merch <onboarding@resend.dev>",
+      to: Array.isArray(to) ? to : [to],
+      subject,
+      text,
+      ...(html ? { html } : {}),
+      ...(replyTo ? { reply_to: replyTo } : {}),
+    }),
+  });
+  const data = await res.json().catch(() => ({}));
+  return { ok: res.ok, status: res.status, data };
+}
+
 // ---------- Meldingen aan jou (alleen als er iets aandacht nodig heeft) ----------
 export async function notify(subject, text) {
   console.log(`[merch] ${subject}\n${text}`);
-  const key = process.env.RESEND_API_KEY;
   const to = process.env.OWNER_EMAIL;
-  if (!key || !to) return;
+  if (!process.env.RESEND_API_KEY || !to) return;
   try {
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: process.env.RESEND_FROM || "Vivace Merch <onboarding@resend.dev>", to: [to], subject, text }),
-    });
+    const r = await sendEmail({ to, subject, text });
+    if (!r.ok) console.error("notify mislukt", r.status, JSON.stringify(r.data));
   } catch (e) {
     console.error("notify mislukt", e);
   }
