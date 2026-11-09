@@ -2228,6 +2228,30 @@ const BLOG_CATEGORIES = [
 ];
 
 const BLOG_POSTS = [
+    {
+    id: "vivace-scropino",
+    type: "recept",
+    title: "Vivace Scropino: romig, schuimig en ijskoud",
+    date: "2026-11-09",
+    image: "/images/vivace-scropino-hero.jpg",
+    excerpt: "Een Venetiaanse klassieker: citroensorbet, prosecco en een scheut Vivace Limoncello, opgeklopt tot een romig schuim. Half drankje, half dessert.",
+    tip: "Tip: zet je glas en je fles Vivace van tevoren in de vriezer. Hoe kouder, hoe romiger het schuim.",
+    ingredients: [
+      { amount: 4, unit: "cl", name: "Vivace Limoncello, ijskoud uit de vriezer" },
+      { amount: 2, unit: "bolletjes", name: "citroensorbet (ongeveer 100 g)" },
+      { amount: 6, unit: "cl", name: "prosecco, goed gekoeld" },
+      { amount: null, unit: "", name: "citroenzeste, om te bestrooien" },
+      { amount: null, unit: "", name: "citroenkrul, ter garnering" },
+    ],
+    steps: [
+      "Zet een coupeglas minimaal 15 minuten in de vriezer, zodat het schuim langer koud en romig blijft.",
+      "Doe de citroensorbet in een kleine kom of shaker en laat hem 1 minuut zachter worden.",
+      "Voeg de Vivace Limoncello toe en klop met een garde of vork tot een gladde, romige massa.",
+      "Giet de prosecco er langzaam bij en blijf kloppen tot het mengsel dik, luchtig en schuimig is, ongeveer de structuur van een zachte slush.",
+      "Schenk direct in het gekoelde coupeglas.",
+      "Bestrooi met wat fijngeraspte citroenzeste en garneer met een citroenkrul. Meteen serveren, eventueel met een lepeltje.",
+    ],
+  },
   {
     id: "vivace-limoncello-bars",
     type: "recept",
