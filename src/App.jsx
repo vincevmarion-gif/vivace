@@ -2229,6 +2229,37 @@ const BLOG_CATEGORIES = [
 
 const BLOG_POSTS = [
     {
+    id: "vivace-limoncello-cava-sangria",
+    type: "recept",
+    title: "Vivace Limoncello Cava Sangria: fris, fruitig en feestelijk",
+    date: "2026-11-10",
+    servingUnit: "Glazen",
+    baseServings: 6,
+    recipeYield: "6 glazen",
+    cookTime: "PT10M",
+    recipeCategory: "Drank",
+    image: "/images/vivace-cava-sangria-hero.jpg",
+    excerpt: "Een lichte witte sangria met Vivace Limoncello, droge witte wijn, vers fruit en een flinke scheut cava. Maak hem in een kan en schenk hem voor de hele tafel.",
+    tip: "Tip: voeg de cava pas toe vlak voor het serveren en schenk meteen, zodat de bubbels blijven. Zet de kan met fruit en wijn vooraf 1 tot 2 uur in de koelkast.",
+    ingredients: [
+      { amount: 12, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 25, unit: "cl", name: "droge witte wijn, goed gekoeld" },
+      { amount: 50, unit: "cl", name: "cava, goed gekoeld" },
+      { amount: 2, unit: "", name: "citroenen, in dunne schijfjes" },
+      { amount: 1, unit: "", name: "rijpe perzik, in partjes" },
+      { amount: 150, unit: "g", name: "witte druiven, gehalveerd" },
+      { amount: null, unit: "", name: "handje verse munt" },
+      { amount: null, unit: "", name: "ijsblokjes" },
+    ],
+    steps: [
+      "Doe de citroenschijfjes, perzikpartjes en druiven in een grote kan.",
+      "Schenk de Vivace Limoncello en de witte wijn erover en roer voorzichtig. Zet de kan 1 tot 2 uur in de koelkast, zodat het fruit de smaak opneemt.",
+      "Vul vlak voor het serveren de glazen met ijsblokjes.",
+      "Giet de cava langzaam in de kan en roer één keer heel kort om de bubbels te behouden.",
+      "Schenk in de glazen met wat fruit uit de kan, garneer met verse munt en serveer direct.",
+    ],
+  },
+    {
     id: "vivace-limoncello-gin-fizz",
     type: "recept",
     title: "Vivace Limoncello Gin Fizz: fris, droog en bruisend",
