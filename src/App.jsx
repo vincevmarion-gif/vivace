@@ -2229,6 +2229,31 @@ const BLOG_CATEGORIES = [
 
 const BLOG_POSTS = [
     {
+    id: "vivace-limoncello-gin-fizz",
+    type: "recept",
+    title: "Vivace Limoncello Gin Fizz: fris, droog en bruisend",
+    date: "2026-11-10",
+    image: "/images/vivace-gin-fizz-hero.jpg",
+    excerpt: "Gin, Vivace Limoncello en vers citroensap, afgemaakt met bruiswater. Droger dan een spritz, frisser dan een sour en in twee minuten klaar.",
+    tip: "Tip: zet je glas en je gin van tevoren in de vriezer en gebruik grote ijsblokken. Dan blijft de fizz langer koud en scherp.",
+    ingredients: [
+      { amount: 4, unit: "cl", name: "gin" },
+      { amount: 3, unit: "cl", name: "Vivace Limoncello" },
+      { amount: 2, unit: "cl", name: "vers citroensap" },
+      { amount: 8, unit: "cl", name: "bruiswater, goed gekoeld" },
+      { amount: null, unit: "", name: "ijsblokjes" },
+      { amount: null, unit: "", name: "citroenschijf of -krul, ter garnering" },
+      { amount: null, unit: "", name: "takje tijm of munt (optioneel)" },
+    ],
+    steps: [
+      "Vul een shaker met ijsblokjes en doe de gin, de Vivace Limoncello en het citroensap erin.",
+      "Shake stevig, ongeveer 15 seconden, tot de shaker beslaat.",
+      "Zeef in een longdrinkglas gevuld met verse ijsblokjes.",
+      "Vul aan met het bruiswater, langzaam om de bubbels te behouden.",
+      "Roer één keer kort om en garneer met een citroenschijf of -krul en eventueel een takje tijm of munt. Direct serveren.",
+    ],
+  },
+    {
     id: "vivace-limoncello-kwarktaart",
     type: "recept",
     title: "Vivace Limoncello Kwarktaart: romig, fris en een beetje Italiaans",
