@@ -1371,7 +1371,7 @@ function ImpactPage() {
   return (
     <div>
       <PageBanner imgs={["/images/vivace-impact-strand.jpg", "/images/vivace-impact-ambulance.jpg"]} />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Onze Impact", "Our Impact")}</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -1380,13 +1380,29 @@ function ImpactPage() {
       </Reveal>
 
       <Reveal delay={100}>
-        <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
-          <p>
-            {L("Voor elke fles Vivace leggen we", "For every bottle of Vivace we set aside")} <strong className="text-white/85">{L("€1 opzij voor Stichting Ambulance Wens.", "€1 for Stichting Ambulance Wens.")}</strong> {L("Geen percentage van de winst, geen constructie die verandert als een kwartaal tegenzit: een vast bedrag, per fles, ongeacht de verkoopprijs die een winkel of horecazaak hanteert.", "Not a percentage of profit, not an arrangement that changes when a quarter goes badly: a fixed amount, per bottle, regardless of the retail price a shop or restaurant charges.")}
+        <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16 max-w-3xl">
+          <p className="font-serif text-2xl md:text-3xl text-white/85 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {L("Voor elke fles Vivace leggen we", "For every bottle of Vivace we set aside")} <strong className="text-[#D4AF37] font-normal">{L("€1 opzij voor Stichting Ambulance Wens.", "€1 for Stichting Ambulance Wens.")}</strong> {L("Geen percentage van de winst, geen constructie die verandert als een kwartaal tegenzit: een vast bedrag, per fles, ongeacht de verkoopprijs die een winkel of horecazaak hanteert.", "Not a percentage of profit, not an arrangement that changes when a quarter goes badly: a fixed amount, per bottle, regardless of the retail price a shop or restaurant charges.")}
           </p>
           <p>
             {L("Dat vaste bedrag is een bewuste keuze. Het is voorspelbaar voor onszelf, transparant voor onze partners in retail en horeca, en schaalbaar met het merk: hoe meer flessen we verkopen, hoe meer impact we maken.", "That fixed amount is a deliberate choice. It is predictable for ourselves, transparent for our retail and hospitality partners, and scales with the brand: the more bottles we sell, the more impact we make.")}
           </p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={125}>
+        <div className="grid md:grid-cols-3 gap-px bg-[#D4AF37]/25 border border-[#D4AF37]/25 mb-16">
+          {[
+            ["€1", L("per fles", "per bottle"), L("Een vast bedrag, ongeacht de verkoopprijs.", "A fixed amount, regardless of the retail price.")],
+            [L("Per batch", "Per batch"), L("opzij gezet", "set aside"), L("In een pot die met elke batch groeit.", "In a pot that grows with every batch.")],
+            [L("Jaarlijks", "Yearly"), L("overgemaakt", "transferred"), L("In één keer, en we delen hier het bedrag.", "In one go, and we share the amount here.")],
+          ].map(([big, label, text]) => (
+            <div key={text} className="bg-[#0a1628] p-8 text-center">
+              <p className="font-serif text-5xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{big}</p>
+              <p className="text-[11px] tracking-[0.3em] uppercase text-white/70 mt-2 mb-4">{label}</p>
+              <p className="text-white/55 text-sm">{text}</p>
+            </div>
+          ))}
         </div>
       </Reveal>
 
@@ -1397,12 +1413,12 @@ function ImpactPage() {
       </Reveal>
 
       <Reveal delay={200}>
-        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Waarom we jaarlijks doneren", "Why we donate yearly")}</p>
-          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16 grid md:grid-cols-[1fr_1.7fr] gap-x-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Waarom we jaarlijks doneren", "Why we donate yearly")}</p>
+          <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-6 md:col-start-1 md:row-start-2 self-start" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Eén keer per jaar, in plaats van per verkoop", "Once a year, instead of per sale")}
           </h2>
-          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] md:col-start-2 md:row-start-1 md:row-span-3">
             <p>
               {L("We zetten die €1 al apart zodra we een batch Vivace inkopen, in een pot die met elke batch groeit. Aan het einde van het jaar tellen we alles op en maken we het volledige bedrag in één keer over aan Stichting Ambulance Wens.", "We set that €1 aside as soon as we buy in a batch of Vivace, in a pot that grows with every batch. At the end of the year we add everything up and transfer the full amount to Stichting Ambulance Wens in one go.")}
             </p>
@@ -1420,6 +1436,7 @@ function ImpactPage() {
             {L("Vivace steunt Stichting Ambulance Wens", "Vivace supports Stichting Ambulance Wens")}
           </h2>
 
+          <img src="/images/vivace-plus-schap.jpg" alt="Vivace Limoncello bij PLUS Rick Hoogendoorn met de kaart over €1 per fles voor Stichting Ambulance Wens" loading="lazy" decoding="async" className="w-full aspect-[16/9] object-cover mb-8" style={{ objectPosition: "50% 58%" }} />
           <div className="bg-[#f7f3e8] p-8 md:p-10 flex flex-col sm:flex-row items-center gap-8 mb-8">
             <img decoding="async"
               src={IMPACT_PARTNER.logo}
@@ -1452,12 +1469,12 @@ function ImpactPage() {
       </Reveal>
 
       <Reveal delay={250}>
-        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Waar we nu staan", "Where we stand now")}</p>
-          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16 grid md:grid-cols-[1fr_1.7fr] gap-x-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Waar we nu staan", "Where we stand now")}</p>
+          <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-6 md:col-start-1 md:row-start-2 self-start" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Eerlijk over waar we in het proces zitten", "Honest about where we are in the process")}
           </h2>
-          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] md:col-start-2 md:row-start-1 md:row-span-3">
             <p>
               {L("Vivace is jong, en dat geldt ook voor ons impactmodel. We weten nu wélk project we steunen, maar een eerste donatiebedrag kunnen we nog niet laten zien. Dat komt aan het einde van dit eerste volledige verkoopjaar. Wat we nu al vastleggen is hóe het werkt, zodat we onszelf daar later aan kunnen houden.", "Vivace is young, and so is our impact model. We now know which project we support, but we cannot show a first donation amount yet. That comes at the end of this first full year. What we are already putting in place is how it works, so we can hold ourselves to it later.")}
             </p>
@@ -1472,12 +1489,12 @@ function ImpactPage() {
       </Reveal>
 
       <Reveal delay={275}>
-        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Waarom premium en impact samengaan", "Why premium and impact go together")}</p>
-          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16 grid md:grid-cols-[1fr_1.7fr] gap-x-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Waarom premium en impact samengaan", "Why premium and impact go together")}</p>
+          <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-6 md:col-start-1 md:row-start-2 self-start" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Kwaliteit en betekenis hoeven geen tegenpolen te zijn", "Quality and meaning do not have to be opposites")}
           </h2>
-          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] md:col-start-2 md:row-start-1 md:row-span-3">
             <p>
               {L("Vivace is er niet ondanks het premium karakter van het product, maar juist dankzij een merk dat op eigen kracht kan bestaan. Een zorgvuldig recept, ambachtelijke productie en een eerlijke prijs zijn wat Vivace laat groeien, en die groei is precies wat het mogelijk maakt om structureel iets terug te geven.", "Vivace does not exist despite the premium character of the product, but precisely thanks to a brand that can stand on its own. A careful recipe, craft production and a fair price are what make Vivace grow, and that growth is exactly what makes it possible to give something back in a structural way.")}
             </p>
@@ -1489,12 +1506,12 @@ function ImpactPage() {
       </Reveal>
 
       <Reveal delay={300}>
-        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Voor retailers en partners", "For retailers and partners")}</p>
-          <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16 grid md:grid-cols-[1fr_1.7fr] gap-x-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Voor retailers en partners", "For retailers and partners")}</p>
+          <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-6 md:col-start-1 md:row-start-2 self-start" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Een model waar je op kunt bouwen", "A model you can build on")}
           </h2>
-          <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] md:col-start-2 md:row-start-1 md:row-span-3">
             <p>
               {L("Voor supermarkten, slijterijen, horecazaken en andere partners is voorspelbaarheid belangrijk. Daarom houden we het donatiemodel eenvoudig en consistent: een vast bedrag per fles, ongeacht de verkoopprijs die jij hanteert, en communicatie die nooit verder gaat dan wat we daadwerkelijk hebben gedaan.", "For supermarkets, liquor stores, restaurants and other partners, predictability matters. That is why we keep the donation model simple and consistent: a fixed amount per bottle, regardless of the retail price you charge, and communication that never goes further than what we have actually done.")}
             </p>
