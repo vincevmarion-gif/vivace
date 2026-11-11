@@ -305,8 +305,8 @@ const STOCKISTS = [
     {
     name: "Colins Slijterij & Wijnwinkel",
     type: "Slijterij",
-    address: "Winkelcentrum De Loper",
-    postcode: "",
+    address: "De Loper 22",
+    postcode: "3136 CN",
     city: "Vlaardingen",
     lat: null,
     lng: null,
