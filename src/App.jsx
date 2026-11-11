@@ -341,56 +341,72 @@ function StoresMap({ stockists }) {
   const mapRef = React.useRef(null);
   const mapInstance = React.useRef(null);
   const markersRef = React.useRef([]);
+  const [geo, setGeo] = useState({});
+
+  // Verkooppunten zonder lat/lng worden eenmalig op adres opgezocht (OpenStreetMap)
+  // en onthouden voor de rest van het bezoek. Vul lat/lng in STOCKISTS in voor exacte pins.
+  useEffect(() => {
+    let off = false;
+    stockists
+      .filter((s) => typeof s.lat !== "number" || typeof s.lng !== "number")
+      .forEach(async (s, i) => {
+        const key = "vv-geo-" + s.name;
+        try {
+          const c = sessionStorage.getItem(key);
+          if (c) { setGeo((g) => ({ ...g, [s.name]: JSON.parse(c) })); return; }
+        } catch { /* geen opslag */ }
+        await new Promise((r) => setTimeout(r, 1100 * i));
+        try {
+          const q = encodeURIComponent(`${s.address} ${s.postcode} ${s.city}, Nederland`.replace(/\s+/g, " "));
+          const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${q}`);
+          const d = await res.json();
+          if (!off && d[0]) {
+            const c = { lat: parseFloat(d[0].lat), lng: parseFloat(d[0].lon) };
+            try { sessionStorage.setItem(key, JSON.stringify(c)); } catch { /* geen opslag */ }
+            setGeo((g) => ({ ...g, [s.name]: c }));
+          }
+        } catch { /* zonder pin als opzoeken mislukt */ }
+      });
+    return () => { off = true; };
+  }, [stockists]);
+
+  const placed = React.useMemo(
+    () => stockists.map((s) => (typeof s.lat === "number" && typeof s.lng === "number" ? s : geo[s.name] ? { ...s, ...geo[s.name] } : s)),
+    [stockists, geo]
+  );
 
   useEffect(() => {
     if (!window.L || !mapRef.current) return;
-
     if (!mapInstance.current) {
-      mapInstance.current = window.L.map(mapRef.current, { scrollWheelZoom: false }).setView([52.15, 5.3], 7);
+      mapInstance.current = window.L.map(mapRef.current, { scrollWheelZoom: false }).setView([51.88, 4.4], 10);
       window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; OpenStreetMap contributors',
+        attribution: "&copy; OpenStreetMap contributors",
         maxZoom: 18,
       }).addTo(mapInstance.current);
     }
-
     markersRef.current.forEach((m) => mapInstance.current.removeLayer(m));
     markersRef.current = [];
-
     const goldIcon = window.L.divIcon({
       className: "",
       html: '<div style="width:16px;height:16px;border-radius:50%;background:#D4AF37;border:2px solid #0C1526;box-shadow:0 0 0 2px rgba(212,175,55,0.35);"></div>',
       iconSize: [16, 16],
       iconAnchor: [8, 8],
     });
-
-    const valid = stockists.filter((s) => typeof s.lat === "number" && typeof s.lng === "number");
-
+    const valid = placed.filter((s) => typeof s.lat === "number" && typeof s.lng === "number");
     valid.forEach((s) => {
       const marker = window.L.marker([s.lat, s.lng], { icon: goldIcon })
         .addTo(mapInstance.current)
         .bindPopup(`<strong>${s.name}</strong><br/>${s.type}<br/>${s.address}, ${s.postcode} ${s.city}`);
       markersRef.current.push(marker);
     });
-
-    if (valid.length > 0) {
-      const bounds = window.L.latLngBounds(valid.map((s) => [s.lat, s.lng]));
-      mapInstance.current.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
+    if (valid.length > 1) {
+      mapInstance.current.fitBounds(window.L.latLngBounds(valid.map((s) => [s.lat, s.lng])), { padding: [40, 40], maxZoom: 13 });
+    } else if (valid.length === 1) {
+      mapInstance.current.setView([valid[0].lat, valid[0].lng], 12);
     }
-  }, [stockists]);
+  }, [placed]);
 
-  const hasAnyCoords = stockists.some((s) => typeof s.lat === "number" && typeof s.lng === "number");
-
-  return (
-    <div>
-      <div ref={mapRef} className="w-full h-96 border border-[#D4AF37]/25" style={{ background: "#102338" }} />
-      {!hasAnyCoords && (
-        <p className="text-white/50 text-xs mt-3 italic">
-          Kaart vult zich automatisch zodra er lat/lng-coördinaten zijn ingevuld bij je
-          verkooppunten (zie de STOCKISTS-lijst in de code).
-        </p>
-      )}
-    </div>
-  );
+  return <div ref={mapRef} className="w-full h-96 border border-[#D4AF37]/25" style={{ background: "#102338" }} />;
 }
 
 // ---------- Cart context (simple prop-drill, no localStorage) ----------
@@ -1172,102 +1188,69 @@ function StoresPage() {
     description:
       "Vind Vivace Limoncello bij supermarkten, slijterijen en restaurants bij jou in de buurt. Bekijk alle verkooppunten op de kaart.",
   });
-
+  const serif = { fontFamily: "'Cormorant Garamond', serif" };
+  const photos = {
+    "PLUS Rick Hoogendoorn": "/images/vivace-plus-winkel.jpg",
+    "Wijnhandel Van Dijk": "/images/vivace-van-dijk-winkel.jpg",
+    "Colins Slijterij & Wijnwinkel": "/images/vivace-colins-winkel.jpg",
+  };
   const realStockists = STOCKISTS.filter((s) => !isPlaceholderStockist(s));
-  const hasAnyCoords =
-    realStockists.filter((s) => typeof s.lat === "number" && typeof s.lng === "number").length >= 2;
 
   return (
     <div>
       <PageBanner imgs={["/images/vivace-plus-winkel.jpg", "/images/vivace-van-dijk-winkel.jpg", "/images/vivace-colins-winkel.jpg"]} pos="50% 30%" />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-4xl mx-auto">
-      <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Verkooppunten", "Stockists")}</p>
-        <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          {L("Vind Vivace bij jou in de buurt", "Find Vivace near you")}
-        </h1>
-        <p className="text-white/50 max-w-lg mb-14">
-          {L("Vivace Limoncello is te koop bij supermarkten, slijterijen en restaurants. Vivace Spritz in blik is in ontwikkeling en volgt later.", "Vivace Limoncello is sold at supermarkets, liquor stores and restaurants. Vivace Spritz in a can is in development and will follow later.")}
-        </p>
-      </Reveal>
-
-      {STOCKISTS.every(isPlaceholderStockist) ? (
-        <Reveal delay={50}>
-          <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
-            <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80 mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              {L("Onze eerste verkooppunten worden hier binnenkort zichtbaar.", "Our first stockists will appear here soon.")}
-            </p>
-            <p className="text-white/50 text-sm max-w-md mx-auto">
-              {L("We werken aan onze eerste plekken bij supermarkten, slijterijen en restaurants. Zodra deze bekend zijn, vind je ze hier terug, inclusief een overzichtskaart.", "We are working on our first locations at supermarkets, liquor stores and restaurants. As soon as they are known, you will find them here, including an overview map.")}
-            </p>
-          </div>
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
+        <Reveal>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Verkooppunten", "Stockists")}</p>
+          <h1 className="font-serif text-4xl md:text-5xl mb-6" style={serif}>{L("Vind Vivace bij jou in de buurt", "Find Vivace near you")}</h1>
+          <p className="text-white/60 max-w-lg mb-14">
+            {L("Vivace Limoncello is te koop bij supermarkten, slijterijen en restaurants. Vivace Spritz in blik is in ontwikkeling en volgt later.", "Vivace Limoncello is sold at supermarkets, liquor stores and restaurants. Vivace Spritz in a can is in development and will follow later.")}
+          </p>
         </Reveal>
-      ) : (
-        <>
-          {hasAnyCoords && (
-            <Reveal delay={50}>
-              <div className="mb-14">
-                <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Alle verkooppunten op de kaart", "All stockists on the map")}</p>
-                <StoresMap stockists={realStockists} />
-              </div>
-            </Reveal>
-          )}
 
-          <div className="space-y-10">
-            {realStockists.map((s, i) => (
-              <Reveal key={s.name} delay={i * 100}>
-                <div className="border border-[#D4AF37]/25 overflow-hidden">
-                  <div className="p-6 flex items-center justify-between flex-wrap gap-4">
-                    <div className="flex items-center gap-4">
-                      <MapPin className="text-[#D4AF37] flex-shrink-0" size={22} />
-                      <div>
-                        <p className="text-white/90 font-medium">{s.name}</p>
-                        <p className="text-white/50 text-sm">
-                          {s.type} · {s.address}, {s.postcode} {s.city}
-                        </p>
-                      </div>
+        {STOCKISTS.every(isPlaceholderStockist) ? (
+          <Reveal delay={50}>
+            <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
+              <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={serif}>{L("Onze eerste verkooppunten worden hier binnenkort zichtbaar.", "Our first stockists will appear here soon.")}</p>
+            </div>
+          </Reveal>
+        ) : (
+          <>
+            <Reveal delay={50}><div className="mb-8"><StoresMap stockists={realStockists} /></div></Reveal>
+            <div className="grid md:grid-cols-3 gap-6">
+              {realStockists.map((s, i) => (
+                <Reveal key={s.name} delay={i * 100}>
+                  <div className="group h-full flex flex-col bg-[#102338] border border-[#D4AF37]/25">
+                    <div className="aspect-[4/5] overflow-hidden">
+                      <img src={photos[s.name] || "/images/vivace-golden-hour.jpg"} alt={`Vivace Limoncello bij ${s.name} in ${s.city}`} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: "50% 30%" }} />
                     </div>
-                    <div className="flex items-center gap-3 flex-wrap">
-                      {s.products.map((pid) => (
-                        <span key={pid} className="text-[10px] uppercase tracking-wider text-[#D4AF37] border border-[#D4AF37]/30 px-3 py-1">
-                          {PRODUCTS[pid].name}
-                        </span>
-                      ))}
-                      <a
-                        href={mapsLinkUrl(s)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[11px] uppercase tracking-wider text-white/50 border border-white/20 px-3 py-1.5 hover:border-[#D4AF37]/50 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
-                      >
-                        {L("Open in Maps", "Open in Maps")} <ChevronRight size={12} />
+                    <div className="p-6 flex flex-col flex-1">
+                      <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4AF37] mb-2">{s.type}</p>
+                      <h2 className="font-serif text-3xl text-[#D4AF37] mb-3" style={serif}>{s.name}</h2>
+                      <p className="text-white/60 text-sm leading-relaxed mb-6">
+                        {s.address}<br />{`${s.postcode} ${s.city}`.trim()}
+                      </p>
+                      <a href={mapsLinkUrl(s)} target="_blank" rel="noopener noreferrer" className="mt-auto self-start px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition-colors inline-flex items-center gap-2">
+                        {L("Route", "Directions")} <ChevronRight size={14} />
                       </a>
                     </div>
                   </div>
-                  <iframe
-                    title={`Kaart ${s.name}`}
-                    src={mapsEmbedUrl(s)}
-                    className="w-full h-64 border-t border-[#D4AF37]/25"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </>
-      )}
+                </Reveal>
+              ))}
+            </div>
+          </>
+        )}
 
-      <Reveal delay={200}>
-        <p className="text-white/50 text-xs mt-10 italic">
-          {L("Sta je hier nog niet bij en wil je Vivace verkopen?", "Not on the list yet and want to sell Vivace?")}{" "}
-          <Link to="/horeca" className="text-[#D4AF37]/70 not-italic border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
-            {L("Meld je aan als verkooppunt", "Sign up as a stockist")}
-          </Link>.
-        </p>
-      </Reveal>
-    </div></div>
+        <Reveal delay={100}>
+          <div className="mt-16 border border-[#D4AF37]/25 px-6 py-12 text-center">
+            <h2 className="font-serif text-3xl md:text-4xl mb-3" style={serif}>{L("Staat jouw zaak er nog niet bij?", "Is your business not on the list yet?")}</h2>
+            <p className="text-white/60 mb-8 max-w-md mx-auto">{L("Wil je Vivace verkopen of schenken? Meld je aan als verkooppunt.", "Want to sell or serve Vivace? Sign up as a stockist.")}</p>
+            <Link to="/horeca" className="px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] bg-[#D4AF37] text-black hover:bg-[#E0C158] transition-colors inline-flex items-center gap-2">{L("Word verkooppunt", "Become a stockist")} <ChevronRight size={14} /></Link>
+          </div>
+        </Reveal>
+      </div>
+    </div>
   );
 }
 
