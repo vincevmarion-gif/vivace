@@ -388,15 +388,18 @@ function StoresMap({ stockists }) {
     markersRef.current = [];
     const goldIcon = window.L.divIcon({
       className: "",
-      html: '<div style="width:16px;height:16px;border-radius:50%;background:#D4AF37;border:2px solid #0C1526;box-shadow:0 0 0 2px rgba(212,175,55,0.35);"></div>',
-      iconSize: [16, 16],
-      iconAnchor: [8, 8],
+      html: '<svg width="30" height="40" viewBox="0 0 30 40" style="filter:drop-shadow(0 3px 4px rgba(0,0,0,.45))"><path d="M15 1C7 1 1 7.2 1 15c0 10.5 14 24 14 24s14-13.5 14-24C29 7.2 23 1 15 1z" fill="#D4AF37" stroke="#0C1526" stroke-width="2"/><circle cx="15" cy="15" r="5.5" fill="#0C1526"/></svg>',
+      iconSize: [30, 40],
+      iconAnchor: [15, 40],
+      popupAnchor: [0, -36],
     });
     const valid = placed.filter((s) => typeof s.lat === "number" && typeof s.lng === "number");
     valid.forEach((s) => {
       const marker = window.L.marker([s.lat, s.lng], { icon: goldIcon })
         .addTo(mapInstance.current)
-        .bindPopup(`<strong>${s.name}</strong><br/>${s.type}<br/>${s.address}, ${s.postcode} ${s.city}`);
+        .bindPopup(
+          `<strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#D4AF37">${s.name}</strong><br/><span style="opacity:.7">${s.type}</span><br/>${s.address}${s.postcode ? ", " + s.postcode : ""} ${s.city}<br/><a href="${mapsLinkUrl(s)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Route</a>`
+        )
       markersRef.current.push(marker);
     });
     if (valid.length > 1) {
@@ -406,7 +409,12 @@ function StoresMap({ stockists }) {
     }
   }, [placed]);
 
-  return <div ref={mapRef} className="w-full h-96 border border-[#D4AF37]/25" style={{ background: "#102338" }} />;
+  return (
+    <>
+      <style>{`.vv-map .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9) saturate(.55)}.vv-map .leaflet-bar a{background:#102338;color:#D4AF37;border-color:rgba(212,175,55,.3)}.vv-map .leaflet-bar a:hover{background:#D4AF37;color:#0C1526}.vv-map .leaflet-popup-content-wrapper{background:#102338;color:#fff;border-radius:0;border:1px solid rgba(212,175,55,.4);font-family:'DM Sans',sans-serif;font-size:13px}.vv-map .leaflet-popup-tip{background:#102338}.vv-map .leaflet-popup-content a{color:#D4AF37}.vv-map .leaflet-control-attribution{background:rgba(10,22,40,.7);color:rgba(255,255,255,.5)}.vv-map .leaflet-control-attribution a{color:rgba(255,255,255,.6)}`}</style>
+      <div ref={mapRef} className="vv-map w-full h-[26rem] md:h-[34rem] border border-[#D4AF37]/25" style={{ background: "#102338" }} />
+    </>
+  );
 }
 
 // ---------- Cart context (simple prop-drill, no localStorage) ----------
@@ -1217,7 +1225,7 @@ function StoresPage() {
           </Reveal>
         ) : (
           <>
-            <Reveal delay={50}><div className="mb-8"><StoresMap stockists={realStockists} /></div></Reveal>
+            <Reveal delay={50}><div className="mb-8"><p className="text-white/60 text-sm mb-3">{L("Klik op een pin voor meer informatie over het verkooppunt.", "Click a pin for more information about the stockist.")}</p><StoresMap stockists={realStockists} /></div></Reveal>
             <div className="grid md:grid-cols-3 gap-6">
               {realStockists.map((s, i) => (
                 <Reveal key={s.name} delay={i * 100}>
