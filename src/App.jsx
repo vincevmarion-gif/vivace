@@ -1747,7 +1747,7 @@ function HorecaPage() {
           {[
             [L("Een verhaal om te vertellen", "A story to tell"), L("Ambachtelijk gemaakt in de Van Nelle Fabriek, met €1 per fles voor Stichting Ambulance Wens.", "Handcrafted in the Van Nelle Factory, with €1 per bottle for Stichting Ambulance Wens.")],
             [L("Klaar voor de kaart", "Ready for your menu"), L("Recepten voor spritz, tonic, mule en meer staan al klaar.", "Recipes for spritz, tonic, mule and more are ready.")],
-            [L("Al in de winkel", "Already in stores"), L("Te vinden bij PLUS Rick Hoogendoorn, Wijnhandel Van Dijk en Colins.", "Found at PLUS Rick Hoogendoorn, Wijnhandel Van Dijk and Colins.")],
+            [L("Al in de winkel", "Already in stores"), L("Te vinden bij PLUS Rick Hoogendoorn, Wijnhandel Van Dijk en Colins Slijterij.", "Found at PLUS Rick Hoogendoorn, Wijnhandel Van Dijk and Colins Slijterij.")],
           ].map(([t, d]) => (
             <li key={t} className="border-l border-[#D4AF37]/40 pl-5">
               <p className="font-serif text-2xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{t}</p>
