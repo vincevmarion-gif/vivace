@@ -412,7 +412,7 @@ function StoresMap({ stockists }) {
   return (
     <>
       <style>{`.vv-map .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9) saturate(.55)}.vv-map .leaflet-bar a{background:#102338;color:#D4AF37;border-color:rgba(212,175,55,.3)}.vv-map .leaflet-bar a:hover{background:#D4AF37;color:#0C1526}.vv-map .leaflet-popup-content-wrapper{background:#102338;color:#fff;border-radius:0;border:1px solid rgba(212,175,55,.4);font-family:'DM Sans',sans-serif;font-size:13px}.vv-map .leaflet-popup-tip{background:#102338}.vv-map .leaflet-popup-content a{color:#D4AF37}.vv-map .leaflet-control-attribution{background:rgba(10,22,40,.7);color:rgba(255,255,255,.5)}.vv-map .leaflet-control-attribution a{color:rgba(255,255,255,.6)}`}</style>
-      <div ref={mapRef} className="vv-map w-full h-[26rem] md:h-[34rem] border border-[#D4AF37]/25" style={{ background: "#102338" }} />
+      <div ref={mapRef} className="vv-map relative z-0 isolate w-full h-[26rem] md:h-[34rem] border border-[#D4AF37]/25" style={{ background: "#102338" }} />
     </>
   );
 }
