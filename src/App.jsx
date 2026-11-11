@@ -303,7 +303,7 @@ const STOCKISTS = [
     products: ["limoncello"],
   },
     {
-    name: "Colins Slijterij & Wijnwinkel",
+    name: "Colins Slijterij",
     type: "Slijterij",
     address: "De Loper 22",
     postcode: "3136 CN",
@@ -1003,7 +1003,7 @@ function HomePage() {
   const serif = { fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 };
   const more = "inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] uppercase tracking-[0.2em] border-b border-[#D4AF37]/40 pb-1 hover:border-[#D4AF37] transition-colors";
   const recipes = [["spritz-klassiek", "/images/vivace-spritz-klassiek-hero.jpg", "Limoncello Spritz"], ["vivace-tonic", "/images/vivace-tonic-hero.jpg", "Vivace Tonic"], ["vivace-basil-smash", "/images/vivace-basil-smash-hero.jpg", "Basil Smash"], ["vivace-mule", "/images/vivace-mule-hero.jpg", "Vivace Mule"]];
-  const shops = [["/images/vivace-plus-winkel.jpg", "PLUS Rick Hoogendoorn", "Poortugaal"], ["/images/vivace-van-dijk-winkel.jpg", "Wijnhandel Van Dijk", "Schiedam"], ["/images/vivace-colins-winkel.jpg", "Colins Slijterij & Wijnwinkel", "Vlaardingen"]];
+  const shops = [["/images/vivace-plus-winkel.jpg", "PLUS Rick Hoogendoorn", "Poortugaal"], ["/images/vivace-van-dijk-winkel.jpg", "Wijnhandel Van Dijk", "Schiedam"], ["/images/vivace-colins-winkel.jpg", "Colins Slijterij", "Vlaardingen"]];
   return (
     <div>
       <section className="grid md:grid-cols-2 md:min-h-[100svh] relative overflow-hidden">
@@ -1200,7 +1200,7 @@ function StoresPage() {
   const photos = {
     "PLUS Rick Hoogendoorn": "/images/vivace-plus-winkel.jpg",
     "Wijnhandel Van Dijk": "/images/vivace-van-dijk-winkel.jpg",
-    "Colins Slijterij & Wijnwinkel": "/images/vivace-colins-winkel.jpg",
+    "Colins Slijterij": "/images/vivace-colins-winkel.jpg",
   };
   const realStockists = STOCKISTS.filter((s) => !isPlaceholderStockist(s));
 
@@ -1732,8 +1732,9 @@ function HorecaPage() {
 
   return (
     <div>
-      <PageBanner imgs={["/images/vivace-spritz-intenso-hero.jpg"]} />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-2xl mx-auto">
+      <PageBanner imgs={["/images/vivace-gin-fizz-hero.jpg"]} pos="50% 55%" />
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-5xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Voor horeca & retail", "For hospitality & retail")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -1742,6 +1743,18 @@ function HorecaPage() {
         <p className="text-white/50 mb-6">
           {L("Restaurant, bar, slijterij of supermarkt en interesse om Vivace te serveren of te verkopen? Vul onderstaand formulier in. We nemen binnen een paar dagen contact met je op.", "A restaurant, bar, liquor store or supermarket interested in serving or selling Vivace? Fill in the form below. We will get back to you within a few days.")}
         </p>
+        <ul className="space-y-5 my-10">
+          {[
+            [L("Een verhaal om te vertellen", "A story to tell"), L("Ambachtelijk gemaakt in de Van Nelle Fabriek, met €1 per fles voor Stichting Ambulance Wens.", "Handcrafted in the Van Nelle Factory, with €1 per bottle for Stichting Ambulance Wens.")],
+            [L("Klaar voor de kaart", "Ready for your menu"), L("Recepten voor spritz, tonic, mule en meer staan al klaar.", "Recipes for spritz, tonic, mule and more are ready.")],
+            [L("Al in de winkel", "Already in stores"), L("Te vinden bij PLUS Rick Hoogendoorn, Wijnhandel Van Dijk en Colins.", "Found at PLUS Rick Hoogendoorn, Wijnhandel Van Dijk and Colins.")],
+          ].map(([t, d]) => (
+            <li key={t} className="border-l border-[#D4AF37]/40 pl-5">
+              <p className="font-serif text-2xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{t}</p>
+              <p className="text-white/55 text-sm">{d}</p>
+            </li>
+          ))}
+        </ul>
         <a
           href="https://wa.me/31612339485?text=Hoi!%20Ik%20heb%20interesse%20om%20Vivace%20Limoncello%20te%20serveren%2Fverkopen%20in%20mijn%20zaak."
           target="_blank"
@@ -1762,6 +1775,7 @@ function HorecaPage() {
       </Reveal>
 
       <Reveal delay={100}>
+        <div className="border border-[#D4AF37]/25 p-6 md:p-8">
         {status === "sent" ? (
           <div className="border border-[#D4AF37]/30 p-8 text-center">
             <p className="text-[#D4AF37] font-medium mb-2">{L("Bedankt voor je aanvraag!", "Thank you for your request!")}</p>
@@ -1833,7 +1847,9 @@ function HorecaPage() {
             )}
           </form>
         )}
+        </div>
       </Reveal>
+      </div>
 
       <Reveal delay={200}>
         <div className="mt-16 pt-10 border-t border-[#D4AF37]/25 text-white/50 text-sm space-y-1">
