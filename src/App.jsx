@@ -382,7 +382,7 @@ function StoresMap({ stockists }) {
 
   return (
     <div>
-      <div ref={mapRef} className="w-full h-96 border border-[#234060]" style={{ background: "#102338" }} />
+      <div ref={mapRef} className="w-full h-96 border border-[#D4AF37]/25" style={{ background: "#102338" }} />
       {!hasAnyCoords && (
         <p className="text-white/25 text-xs mt-3 italic">
           Kaart vult zich automatisch zodra er lat/lng-coördinaten zijn ingevuld bij je
@@ -514,7 +514,6 @@ function Nav() {
   }, []);
 
   const links = [
-    { path: "/", label: L("Home", "Home") },
     { path: "/producten", label: L("Producten", "Products") },
     { path: "/onze-impact", label: L("Impact", "Impact") },
     { path: "/verkooppunten", label: L("Verkooppunten", "Where to buy") },
@@ -525,7 +524,7 @@ function Nav() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-        scrolled ? "bg-[#0a1628]/95 border-b border-[#1c3450]" : "bg-gradient-to-b from-[#0a1628]/90 to-transparent"
+        scrolled ? "bg-[#0a1628]/90 backdrop-blur-md border-b border-[#D4AF37]/25" : "bg-gradient-to-b from-[#0a1628]/90 to-transparent"
       }`}
     >
       <div className="w-full flex items-center justify-between px-6 md:px-14 py-5">
@@ -539,7 +538,7 @@ function Nav() {
               <Link
                 to={l.path}
                 className={`h-8 flex items-center leading-none text-[11px] uppercase tracking-[0.16em] transition-colors ${
-                  location.pathname === l.path ? "text-[#D4AF37]" : "text-white/50 hover:text-white"
+                  location.pathname === l.path ? "text-[#D4AF37] border-b border-[#D4AF37]" : "text-white/60 border-b border-transparent hover:text-white"
                 }`}
               >
                 {l.label}
@@ -561,20 +560,20 @@ function Nav() {
             {MERCH_NEW && <span className="hidden lg:inline text-[9px] tracking-[0.2em] opacity-70">{L("Nieuw", "New")}</span>}
           </Link>
           <LanguageSwitch />
-          <button className="md:hidden text-white/80" onClick={() => setMobileOpen(!mobileOpen)}>
-            <Menu size={22} />
+          <button className="md:hidden text-white/80" aria-label="Menu" aria-expanded={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)}>
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden bg-[#0a1628] border-t border-[#1c3450] px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden bg-[#0a1628] border-t border-[#D4AF37]/25 px-6 py-8 flex flex-col gap-5 h-[calc(100svh-4.5rem)]">
           {links.map((l) => (
             <Link
               key={l.path}
               to={l.path}
               onClick={() => setMobileOpen(false)}
-              className="text-left text-sm uppercase tracking-wider text-white/70"
+              className="text-3xl text-white/90 hover:text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               {l.label}
             </Link>
@@ -601,8 +600,8 @@ function CartDrawer({ open, onClose, cart }) {
   return (
     <div className="fixed inset-0 z-[100]">
       <div className="absolute inset-0 bg-[#050b14]/80" onClick={onClose} />
-      <div className="absolute right-0 top-0 h-full w-full max-w-sm bg-[#0f1f33] border-l border-[#234060] flex flex-col">
-        <div className="flex items-center justify-between p-6 border-b border-[#234060]">
+      <div className="absolute right-0 top-0 h-full w-full max-w-sm bg-[#0f1f33] border-l border-[#D4AF37]/25 flex flex-col">
+        <div className="flex items-center justify-between p-6 border-b border-[#D4AF37]/25">
           <h3 className="font-serif text-xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Winkelwagen
           </h3>
@@ -659,7 +658,7 @@ function CartDrawer({ open, onClose, cart }) {
         </div>
 
         {entries.length > 0 && (
-          <div className="p-6 border-t border-[#234060] space-y-4">
+          <div className="p-6 border-t border-[#D4AF37]/25 space-y-4">
             <div className="flex justify-between text-sm">
               <span className="text-white/50">Subtotaal</span>
               <span className="text-white">€{cart.total.toFixed(2)}</span>
@@ -802,7 +801,7 @@ function ImpactCounter() {
 
   return (
     <div className="text-center">
-      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Actueel", "Current")}</p>
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Actueel", "Current")}</p>
       <div className="grid grid-cols-2 gap-8 max-w-md mx-auto">
         <div>
           <p
@@ -902,11 +901,12 @@ const USPS_EN = [
 function USPStrip() {
   const L = useL();
   return (
-    <section className="px-6 md:px-14 py-16 border-t border-b border-[#234060]">
-      <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-10">
-        {USPS.map((item, i) => {
+    <section className="px-6 md:px-14 py-16 border-t border-b border-[#D4AF37]/25">
+      <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10">
+        {[0, 1, 4].map((i, k) => {
+          const item = USPS[i];
           const Icon = item.icon;
-          const isLastOdd = i === USPS.length - 1;
+          const isLastOdd = k === 2;
           return (
             <Reveal key={item.title} delay={i * 80}>
               <div className={`flex flex-col items-center text-center gap-3 ${isLastOdd ? "col-span-2 md:col-span-1" : ""}`}>
@@ -924,26 +924,62 @@ function USPStrip() {
   );
 }
 
+function PageBanner({ imgs, pos = "50% 50%" }) {
+  return (
+    <section className="relative h-[42svh] min-h-[280px] overflow-hidden grid" style={{ gridTemplateColumns: `repeat(${imgs.length}, 1fr)` }}>
+      {imgs.map((src) => (<img key={src} src={src} alt="" decoding="async" className="w-full h-full object-cover" style={{ objectPosition: pos }} />))}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to top,#0a1628,rgba(10,22,40,0.3))" }} />
+    </section>
+  );
+}
+
+function ReviewCarousel() {
+  const L = useL();
+  const [i, setI] = useState(0);
+  const [hold, setHold] = useState(false);
+  const n = GENERAL_REVIEWS.length;
+  useEffect(() => {
+    if (hold || n < 2) return;
+    const t = setInterval(() => setI((x) => (x + 1) % n), 6500);
+    return () => clearInterval(t);
+  }, [hold, n]);
+  if (!n) return null;
+  const r = GENERAL_REVIEWS[i];
+  return (
+    <section className="px-6 md:px-14 py-24 border-t border-[#D4AF37]/25 text-center" onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>
+      <style>{"@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}"}</style>
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-8">{L("Wat vinden anderen van Vivace?", "What do others think of Vivace?")}</p>
+      <div key={i} className="max-w-3xl mx-auto min-h-[190px]" style={{ animation: "fadeUp .6s ease both" }}>
+        <div className="flex justify-center mb-5"><ReviewStars rating={r.rating} size={16} /></div>
+        <p className="italic text-2xl md:text-4xl leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>“{r.text}”</p>
+        <p className="text-white/50 text-sm mt-6">{r.name}</p>
+      </div>
+      <div className="flex justify-center gap-3 mt-8">
+        {GENERAL_REVIEWS.map((_, k) => (
+          <button key={k} onClick={() => setI(k)} aria-label={`Review ${k + 1}`} className={`h-2 rounded-full transition-all ${k === i ? "w-8 bg-[#D4AF37]" : "w-2 bg-white/25"}`} />
+        ))}
+      </div>
+      <Link to="/reviews" className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] uppercase tracking-[0.2em] border-b border-[#D4AF37]/40 pb-1 mt-10">{L("Alle reviews", "All reviews")} <ChevronRight size={14} /></Link>
+    </section>
+  );
+}
+
 function HomePage() {
   const L = useL();
   useSEO({
     title: "Vivace Limoncello | Drink anders. Geniet anders.",
-    description:
-      L("Vivace is premium Italiaanse limoncello, geproduceerd in Nederland. Voor elke fles gaat €1 naar Stichting Ambulance Wens.", "Vivace is premium Italian limoncello, produced in the Netherlands. For every bottle, €1 goes to Stichting Ambulance Wens."),
+    description: L("Vivace is premium Italiaanse limoncello, geproduceerd in Nederland. Voor elke fles gaat €1 naar Stichting Ambulance Wens.", "Vivace is premium Italian limoncello, produced in the Netherlands. For every bottle, €1 goes to Stichting Ambulance Wens."),
   });
-
+  const serif = { fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 };
+  const more = "inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] uppercase tracking-[0.2em] border-b border-[#D4AF37]/40 pb-1 hover:border-[#D4AF37] transition-colors";
+  const recipes = [["spritz-klassiek", "/images/vivace-spritz-klassiek-hero.jpg", "Limoncello Spritz"], ["vivace-tonic", "/images/vivace-tonic-hero.jpg", "Vivace Tonic"], ["vivace-basil-smash", "/images/vivace-basil-smash-hero.jpg", "Basil Smash"], ["vivace-mule", "/images/vivace-mule-hero.jpg", "Vivace Mule"]];
+  const shops = [["/images/vivace-plus-winkel.jpg", "PLUS Rick Hoogendoorn", "Poortugaal"], ["/images/vivace-van-dijk-winkel.jpg", "Wijnhandel Van Dijk", "Schiedam"], ["/images/vivace-colins-winkel.jpg", "Colins Slijterij & Wijnwinkel", "Vlaardingen"]];
   return (
     <div>
-      <section className="md:min-h-[100svh] grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-8 md:gap-10 items-center px-6 md:px-14 pt-28 pb-12 md:pb-10 relative overflow-hidden">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 55% 65% at 72% 48%, rgba(62,207,0,0.06) 0%, transparent 70%), radial-gradient(ellipse 45% 55% at 28% 58%, rgba(255,215,0,0.07) 0%, transparent 65%)",
-          }}
-        />
-        <div className="relative z-10">
-          <p className="text-[11px] tracking-[0.35em] uppercase text-[#C9A04E] mb-7">
+      <section className="grid md:grid-cols-2 md:min-h-[100svh] relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 45% 55% at 28% 58%, rgba(255,215,0,0.07) 0%, transparent 65%)" }} />
+        <div className="relative z-10 flex flex-col justify-center px-6 md:px-14 pt-32 pb-14 md:py-0">
+          <p className="text-[11px] tracking-[0.35em] uppercase text-[#D4AF37] mb-7">
             {L("Gemaakt in Nederland · Italiaanse ziel", "Made in the Netherlands · Italian soul")}
           </p>
           <h1
@@ -963,7 +999,7 @@ function HomePage() {
           </p>
           <Link
             to="/onze-impact"
-            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1 mb-8"
+            className="inline-flex self-start items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1 mb-8"
           >
             {L("Ontdek ons impactmodel", "Discover our impact model")} <ChevronRight size={14} />
           </Link>
@@ -982,23 +1018,16 @@ function HomePage() {
             </Link>
           </div>
         </div>
-
-        <div className="relative z-10 flex items-center justify-center w-full mt-2 md:mt-0">
-          <img
-            src="/images/vivace-bottle-hero-v2.jpg"
-            alt={L("Vivace Limoncello fles met citroenen en uitzicht op de Amalfikust", "Vivace Limoncello bottle with lemons and a view of the Amalfi Coast")}
-            width="900"
-            height="1350"
-            className="w-auto h-auto max-w-full max-h-[68svh] md:max-h-[calc(100svh-10rem)] rounded-sm shadow-2xl shadow-black/40"
-          />
+        <div className="relative h-[75svh] md:h-auto">
+          <img src="/images/vivace-bottle-hero-v2.jpg" fetchPriority="high" alt={L("Vivace Limoncello fles met citroenen en uitzicht op de Amalfikust", "Vivace Limoncello bottle with lemons and a view of the Amalfi Coast")} className="absolute inset-0 w-full h-full object-cover" />
+          <div className="absolute inset-0 hidden md:block" style={{ background: "linear-gradient(to right, #0a1628, transparent 22%)" }} />
         </div>
       </section>
 
       <USPStrip />
-
       {/* Mission ticker */}
       <div className="bg-[#D4AF37] overflow-hidden">
-        <div className="flex whitespace-nowrap py-4" style={{ animation: "ticker 22s linear infinite" }}>
+        <div className="flex whitespace-nowrap py-3" style={{ animation: "ticker 22s linear infinite" }}>
           {[...Array(2)].flatMap((_, rep) =>
             [L("Drink anders", "Drink different"), L("€1 per fles naar Stichting Ambulance Wens", "€1 per bottle to Stichting Ambulance Wens"), L("Premium Italiaans recept", "Premium Italian recipe"), L("Transparant en schaalbaar", "Transparent and scalable"), L("Italiaanse ziel · Nederlands hart", "Italian soul · Dutch heart"), L("Geniet anders", "Enjoy different")].map(
               (txt, i) => (
@@ -1013,117 +1042,67 @@ function HomePage() {
       </div>
 
       {/* The number, short teaser only; full impact story lives on /onze-impact */}
-      <div className="bg-[#D4AF37] text-center py-24 px-6">
+      <div className="bg-[#D4AF37] text-center py-14 px-6">
         <Reveal>
-          <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(100px, 18vw, 200px)", lineHeight: 0.85 }}>
+          <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(72px, 11vw, 130px)", lineHeight: 0.85 }}>
             €1
           </span>
-          <p className="text-black/50 text-[13px] font-semibold tracking-[0.3em] uppercase mt-6">
+          <p className="text-black/50 text-[13px] font-semibold tracking-[0.3em] uppercase mt-4">
             {L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}
           </p>
           <Link
             to="/onze-impact"
-            className="inline-flex items-center gap-1.5 text-black text-[11px] font-bold uppercase tracking-[0.14em] border-b-2 border-black/40 hover:border-black transition-colors pb-1 mt-6"
+            className="inline-flex items-center gap-1.5 text-black text-[11px] font-bold uppercase tracking-[0.14em] border-b-2 border-black/40 hover:border-black transition-colors pb-1 mt-4"
           >
             {L("Lees over ons impactmodel", "Read about our impact model")} <ChevronRight size={14} />
           </Link>
         </Reveal>
       </div>
 
-      {/* Quick links to stockists */}
-      <section className="px-6 md:px-14 py-24 max-w-5xl mx-auto">
-        <Reveal>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Nu te koop", "On sale now")}</p>
-          <h2 className="font-serif text-3xl md:text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            {STOCKISTS.filter((s) => !isPlaceholderStockist(s)).length === 1
-              ? L("Nu verkrijgbaar bij ons eerste verkooppunt", "Now available at our first stockist")
-              : L("Te vinden bij supermarkten, slijterijen en restaurants", "Find us at supermarkets, liquor stores and restaurants")}
-          </h2>
-        </Reveal>
-        {STOCKISTS.every(isPlaceholderStockist) ? (
-          <Reveal delay={100}>
-            <div className="border border-dashed border-[#D4AF37]/30 p-10 text-center">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">{L("Binnenkort", "Coming soon")}</p>
-              <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                {L("Onze eerste verkooppunten worden hier binnenkort zichtbaar.", "Our first stockists will appear here soon.")}
-              </p>
-            </div>
-          </Reveal>
-        ) : (
-          <div className="grid md:grid-cols-2 gap-4">
-            {STOCKISTS.filter((s) => !isPlaceholderStockist(s)).map((s, i) => (
-              <Reveal key={s.name} delay={i * 100}>
-                <div className="border border-[#234060] p-6 flex items-center gap-4 hover:border-[#D4AF37]/30 transition-colors">
-                  <MapPin className="text-[#D4AF37] flex-shrink-0" size={20} />
-                  <div>
-                    <p className="text-white/90 text-sm font-medium">{s.name}</p>
-                    <p className="text-white/40 text-xs">{s.type} · {s.city}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* The Colosseum / brand meaning, replaces the earlier golden-hour
-          terrace photo. Sits last on the homepage as an atmospheric closer
-          that ties back to where the name Vivace comes from. */}
-      <section className="relative overflow-hidden" style={{ height: "640px" }}>
-        <img
-          src="/images/vivace-colosseum-banner.jpg"
-          alt={L("Het Colosseum in Rome, de inspiratie achter Vivace", "The Colosseum in Rome, the inspiration behind Vivace")}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-
-        {/* Warm overlay tint for text legibility */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.1) 70%)" }}
-        />
-
-        {/* Caption */}
-        <div className="absolute left-6 md:left-14 bottom-10 md:bottom-14 z-10 max-w-md">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#E8D38A]/80 mb-3">{L("De naam", "The name")}</p>
-          <p
-            className="font-serif italic text-2xl md:text-3xl text-white/95 leading-snug"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            {L(<>Vivace. Italiaans voor<br />"speel met leven<br />en energie."</>, <>Vivace. Italian for<br />"play with life<br />and energy."</>)}
-          </p>
+<section className="relative overflow-hidden min-h-[75svh] flex items-center">
+        <img src="/images/vivace-van-nelle-fabriek.jpg" alt="Van Nelle Fabriek" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(10,22,40,0.94) 15%, rgba(10,22,40,0.35) 70%, rgba(10,22,40,0.1))" }} />
+        <div className="relative px-6 md:px-14 py-24 max-w-2xl">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Geproduceerd in Rotterdam", "Produced in Rotterdam")}</p>
+          <h2 className="text-5xl md:text-7xl leading-[1.02] mb-6" style={serif}>{L("Gemaakt in een Rotterdams ", "Made in a Rotterdam ")}<em className="italic font-light text-[#D4AF37]">{L("monument.", "landmark.")}</em></h2>
+          <p className="text-white/70 text-lg leading-relaxed max-w-md mb-8">{L("Elke fles komt uit de Van Nelle Fabriek, UNESCO-werelderfgoed en een icoon van de Rotterdamse industrie.", "Every bottle comes from the Van Nelle Factory, a UNESCO World Heritage site and an icon of Rotterdam industry.")}</p>
+          <Link to="/over-ons" className={more}>{L("Lees ons verhaal", "Read our story")} <ChevronRight size={14} /></Link>
         </div>
       </section>
 
-      {/* Reviews teaser, links through to the full /reviews page */}
-      <section className="px-6 md:px-14 py-20 border-t border-[#234060] text-center">
-        <Reveal>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Reviews</p>
-          <h2 className="font-serif text-3xl md:text-4xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            {L("Wat vinden anderen van Vivace?", "What do others think of Vivace?")}
-          </h2>
-          <p className="text-white/45 text-sm max-w-md mx-auto mb-8">
-            {L("Lees de ervaringen van anderen, of laat zelf weten wat je ervan vindt.", "Read what others think, or tell us what you think yourself.")}
-          </p>
-          {GENERAL_REVIEWS.length > 0 && (
-            <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-4 text-left mb-10">
-              {GENERAL_REVIEWS.slice(0, 2).map((r, i) => (
-                <div key={i} className="border border-[#234060] p-5">
-                  <ReviewStars rating={r.rating} />
-                  <p className="text-white/60 text-sm leading-relaxed mt-3">“{r.text.length > 170 ? r.text.slice(0, r.text.lastIndexOf(" ", 170)) + "…" : r.text}”</p>
-                  <p className="text-white/40 text-xs mt-3">{r.name}</p>
-                </div>
-              ))}
-            </div>
-          )}
-          <Link
-            to="/reviews"
-            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
-          >
-            {L("Bekijk reviews", "See reviews")} <ChevronRight size={14} />
-          </Link>
-        </Reveal>
+      <section className="px-6 md:px-14 py-24">
+        <div className="max-w-6xl mx-auto">
+          <Reveal><h2 className="text-4xl md:text-6xl mb-3" style={serif}>{L("Schenk Vivace op jouw manier", "Pour Vivace your way")}</h2><p className="text-white/55 mb-12">{L("Puur, als spritz of in een cocktail.", "Neat, as a spritz or in a cocktail.")}</p></Reveal>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {recipes.map(([id, img, name], k) => (
+              <Reveal key={id} delay={k * 80}>
+                <Link to={"/blog/" + id} className="group block">
+                  <div className="overflow-hidden aspect-[4/5]"><img src={img} alt={name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
+                  <p className="text-2xl mt-4 group-hover:text-[#D4AF37] transition-colors" style={serif}>{name}</p>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+          <div className="mt-12"><Link to="/blog" className={more}>{L("Alle recepten", "All recipes")} <ChevronRight size={14} /></Link></div>
+        </div>
       </section>
 
+      <section className="px-6 md:px-14 py-24 border-t border-[#D4AF37]/25">
+        <div className="max-w-6xl mx-auto">
+          <Reveal><h2 className="text-4xl md:text-6xl mb-12" style={serif}>{L("Waar te proeven", "Where to taste")}</h2></Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            {shops.map(([img, name, city], k) => (
+              <Reveal key={name} delay={k * 100}>
+                <div className="aspect-[3/4] overflow-hidden"><img src={img} alt={name} loading="lazy" className="w-full h-full object-cover" /></div>
+                <p className="text-2xl mt-4" style={serif}>{name}</p><p className="text-white/50 text-sm">{city}</p>
+              </Reveal>
+            ))}
+          </div>
+          <div className="mt-12"><Link to="/verkooppunten" className={more}>{L("Alle verkooppunten", "All stockists")} <ChevronRight size={14} /></Link></div>
+        </div>
+      </section>
+
+      <ReviewCarousel />
       <style>{`@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }`}</style>
     </div>
   );
@@ -1133,93 +1112,49 @@ function ProductsPage({ cart }) {
   const L = useL();
   useSEO({
     title: "Producten | Vivace Limoncello",
-    description:
-      "Ontdek Vivace Limoncello (30% VOL, 500ml) en de aankomende Vivace Spritz in blik. Premium Italiaans recept, geproduceerd in Nederland.",
+    description: "Ontdek Vivace Limoncello (30% VOL, 500ml) en de aankomende Vivace Spritz in blik. Premium Italiaans recept, geproduceerd in Nederland.",
   });
-
+  const serif = { fontFamily: "'Cormorant Garamond', serif" };
+  const btn = "px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors inline-flex items-center gap-2";
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
-      <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("De Producten", "The Products")}</p>
-        <h1 className="font-serif text-4xl md:text-5xl mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          {L("Twee manieren om Vivace te drinken", "Two ways to enjoy Vivace")}
-        </h1>
-      </Reveal>
-
-      <div className="grid md:grid-cols-2 gap-px bg-white/5">
-        {Object.values(PRODUCTS).map((p, i) => (
-          <Reveal key={p.id} delay={i * 120}>
-            <div className="bg-[#102338] p-10 md:p-12 flex flex-col items-center text-center gap-6 h-full">
-              <div className="w-full max-w-[288px] aspect-square">
-                {p.id === "limoncello" ? (
-                  <img
-                    src="/images/vivace-bottle-hero-v2.jpg"
-                    alt="Vivace Limoncello fles, 500ml, ambachtelijk geproduceerd van biologische Sorrento-citroenen"
-                    className="w-full h-full object-cover rounded-sm shadow-xl shadow-black/30"
-                  />
-                ) : (
-                  <img
-                    src="/images/vivace-can-hero.jpg"
-                    alt="Vivace Limoncello Spritz blikje, kant-en-klare aperitief op basis van limoncello"
-                    className="w-full h-full object-cover rounded-sm shadow-xl shadow-black/30"
-                  />
-                )}
-              </div>
-
-              <div>
-                <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-2">{L(p.type, PRODUCT_EN[p.id].type)}</p>
-                <h3 className="font-serif text-2xl text-[#D4AF37] mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                  {p.name}
-                </h3>
-                <p className="text-white/45 text-sm leading-relaxed mb-4 max-w-xs">{L(p.description, PRODUCT_EN[p.id].description)}</p>
-                <p className="text-[#D4AF37]/60 text-xs italic mb-4">{L(p.backLabel, PRODUCT_EN[p.id].backLabel)}</p>
-                <p className="text-white/20 text-[11px] tracking-wide mb-1">
-                  {p.abv} · {p.size}
-                </p>
-                <p className="text-white/15 text-[10px] tracking-wide mb-6">{L(p.kcal, PRODUCT_EN[p.id].kcal)}</p>
-              </div>
-
-              <div className="w-full">
-                {p.comingSoon ? (
-                  <button
-                    disabled
-                    className="border border-white/15 text-white/35 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] cursor-not-allowed inline-flex items-center gap-2"
-                  >
-                    {L("Binnenkort", "Coming soon")}
-                  </button>
-                ) : p.onlineSellable ? (
-                  <div className="flex items-center justify-center gap-4">
-                    <span className="text-white font-medium">€{p.price.toFixed(2)}</span>
-                    <button
-                      onClick={() => cart.add(p.id)}
-                      className="bg-[#D4AF37] text-black px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#E0C158] transition-colors"
-                    >
-                      Voeg toe
-                    </button>
-                  </div>
-                ) : (
-                  <Link
-                    to="/verkooppunten"
-                    className="border border-[#D4AF37]/40 text-[#D4AF37] px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#D4AF37] hover:text-black transition-colors inline-flex items-center gap-2"
-                  >
-                    {L("Vind in winkel", "Find in store")} <ChevronRight size={14} />
-                  </Link>
-                )}
-              </div>
-              {p.comingSoon && (
-                <p className="text-white/25 text-[10px] max-w-xs min-h-[3rem]">
-                  {L("Vivace Spritz is in ontwikkeling. Binnenkort beschikbaar.", "Vivace Spritz is in development. Available soon.")}
-                </p>
-              )}
-              {!p.onlineSellable && !p.comingSoon && (
-                <p className="text-white/25 text-[10px] max-w-xs min-h-[3rem]">
-                  {L("Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een erkende slijterij. Vivace Limoncello is daarom te koop bij onze partners.", "In the Netherlands, spirits (30% ABV) may only be sold online by a licensed liquor store. Vivace Limoncello is therefore sold through our partners.")}
-                </p>
+    <div>
+      <div className="pt-32 pb-16 px-6 md:px-14 max-w-5xl mx-auto">
+        <Reveal>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("De Producten", "The Products")}</p>
+          <h1 className="font-serif text-4xl md:text-5xl" style={serif}>{L("Twee manieren om Vivace te drinken", "Two ways to enjoy Vivace")}</h1>
+        </Reveal>
+      </div>
+      {Object.values(PRODUCTS).map((p, i) => (
+        <section key={p.id} className="grid md:grid-cols-2">
+          <div className={`relative h-[65svh] md:h-auto md:min-h-[85svh] ${i % 2 ? "md:order-2" : ""}`}>
+            <img src={p.id === "limoncello" ? "/images/vivace-bottle-hero-v2.jpg" : "/images/vivace-can-hero.jpg"} alt={p.id === "limoncello" ? "Vivace Limoncello fles, 500ml, ambachtelijk geproduceerd van biologische Sorrento-citroenen" : "Vivace Limoncello Spritz blikje, kant-en-klare aperitief op basis van limoncello"} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+          </div>
+          <div className="bg-[#102338] flex flex-col justify-center px-6 md:px-16 py-16">
+            <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4AF37] mb-2">{L(p.type, PRODUCT_EN[p.id].type)}</p>
+            <h2 className="font-serif text-4xl md:text-5xl text-[#D4AF37] mb-5" style={serif}>{p.name}</h2>
+            <p className="text-white/60 leading-relaxed mb-5 max-w-md">{L(p.description, PRODUCT_EN[p.id].description)}</p>
+            <p className="text-[#D4AF37]/70 text-sm italic mb-6">{L(p.backLabel, PRODUCT_EN[p.id].backLabel)}</p>
+            <p className="text-white/40 text-xs tracking-wide mb-1">{p.abv} · {p.size}</p>
+            <p className="text-white/30 text-[11px] tracking-wide mb-8">{L(p.kcal, PRODUCT_EN[p.id].kcal)}</p>
+            <div>
+              {p.comingSoon ? (
+                <button disabled className={`${btn} border border-white/15 text-white/35 cursor-not-allowed`}>{L("Binnenkort", "Coming soon")}</button>
+              ) : p.onlineSellable ? (
+                <div className="flex items-center gap-4">
+                  <span className="text-white font-medium">€{p.price.toFixed(2)}</span>
+                  <button onClick={() => cart.add(p.id)} className={`${btn} bg-[#D4AF37] text-black hover:bg-[#E0C158]`}>Voeg toe</button>
+                </div>
+              ) : (
+                <Link to="/verkooppunten" className={`${btn} border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black`}>{L("Vind in winkel", "Find in store")} <ChevronRight size={14} /></Link>
               )}
             </div>
-          </Reveal>
-        ))}
-      </div>
+            {p.comingSoon && <p className="text-white/35 text-[11px] max-w-xs mt-6">{L("Vivace Spritz is in ontwikkeling. Binnenkort beschikbaar.", "Vivace Spritz is in development. Available soon.")}</p>}
+            {!p.onlineSellable && !p.comingSoon && (
+              <p className="text-white/35 text-[11px] max-w-sm mt-6">{L("Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een erkende slijterij. Vivace Limoncello is daarom te koop bij onze partners.", "In the Netherlands, spirits (30% ABV) may only be sold online by a licensed liquor store. Vivace Limoncello is therefore sold through our partners.")}</p>
+            )}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }
@@ -1237,9 +1172,11 @@ function StoresPage() {
     realStockists.filter((s) => typeof s.lat === "number" && typeof s.lng === "number").length >= 2;
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+    <div>
+      <PageBanner imgs={["/images/vivace-plus-winkel.jpg", "/images/vivace-van-dijk-winkel.jpg", "/images/vivace-colins-winkel.jpg"]} pos="50% 30%" />
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Verkooppunten", "Stockists")}</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Verkooppunten", "Stockists")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vind Vivace bij jou in de buurt", "Find Vivace near you")}
         </h1>
@@ -1251,7 +1188,7 @@ function StoresPage() {
       {STOCKISTS.every(isPlaceholderStockist) ? (
         <Reveal delay={50}>
           <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">{L("Binnenkort", "Coming soon")}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
             <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80 mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               {L("Onze eerste verkooppunten worden hier binnenkort zichtbaar.", "Our first stockists will appear here soon.")}
             </p>
@@ -1265,7 +1202,7 @@ function StoresPage() {
           {hasAnyCoords && (
             <Reveal delay={50}>
               <div className="mb-14">
-                <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Alle verkooppunten op de kaart", "All stockists on the map")}</p>
+                <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Alle verkooppunten op de kaart", "All stockists on the map")}</p>
                 <StoresMap stockists={realStockists} />
               </div>
             </Reveal>
@@ -1274,7 +1211,7 @@ function StoresPage() {
           <div className="space-y-10">
             {realStockists.map((s, i) => (
               <Reveal key={s.name} delay={i * 100}>
-                <div className="border border-[#234060] overflow-hidden">
+                <div className="border border-[#D4AF37]/25 overflow-hidden">
                   <div className="p-6 flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                       <MapPin className="text-[#D4AF37] flex-shrink-0" size={22} />
@@ -1287,7 +1224,7 @@ function StoresPage() {
                     </div>
                     <div className="flex items-center gap-3 flex-wrap">
                       {s.products.map((pid) => (
-                        <span key={pid} className="text-[10px] uppercase tracking-wider text-[#C9A04E] border border-[#C9A04E]/30 px-3 py-1">
+                        <span key={pid} className="text-[10px] uppercase tracking-wider text-[#D4AF37] border border-[#D4AF37]/30 px-3 py-1">
                           {PRODUCTS[pid].name}
                         </span>
                       ))}
@@ -1304,7 +1241,7 @@ function StoresPage() {
                   <iframe
                     title={`Kaart ${s.name}`}
                     src={mapsEmbedUrl(s)}
-                    className="w-full h-64 border-t border-[#234060]"
+                    className="w-full h-64 border-t border-[#D4AF37]/25"
                     style={{ border: 0 }}
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
@@ -1324,7 +1261,7 @@ function StoresPage() {
           </Link>.
         </p>
       </Reveal>
-    </div>
+    </div></div>
   );
 }
 
@@ -1337,9 +1274,9 @@ function AboutPage() {
   });
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+    <div><section className="relative h-[55svh] min-h-[360px] overflow-hidden"><img src="/images/vivace-colosseum-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" /><div className="absolute inset-0" style={{background:"linear-gradient(to top,#0a1628,rgba(10,22,40,0.25))"}} /></section><div className="-mt-24 relative pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Ons Verhaal", "Our Story")}</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Ons Verhaal", "Our Story")}</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vivace bestaat om iets terug te geven.", "Vivace exists to give something back.")}
         </h1>
@@ -1369,8 +1306,8 @@ function AboutPage() {
 
       {/* The product itself: real ingredients, real distillery, now that both are settled */}
       <Reveal delay={250}>
-        <div className="border-t border-[#234060] pt-16 mb-20">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("De limoncello zelf", "The limoncello itself")}</p>
+        <div className="border-t border-[#D4AF37]/25 pt-16 mb-20">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("De limoncello zelf", "The limoncello itself")}</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Vier ingrediënten. Geen omwegen.", "Four ingredients. No detours.")}
           </h2>
@@ -1388,17 +1325,17 @@ function AboutPage() {
                 <strong className="text-white/85">{L("iconische Van Nelle Fabriek", "iconic Van Nelle Factory")}</strong>{L(", een voormalige koffie-, thee- en tabaksfabriek en UNESCO-werelderfgoed die inmiddels onderdak biedt aan ambachtelijke makers zoals Stokerij Klopman. Industriële geschiedenis, opnieuw tot leven gebracht, precies de laag die Vivace zijn Rotterdamse hart geeft.", ", a former coffee, tea and tobacco factory and UNESCO World Heritage site that now houses craft makers such as Stokerij Klopman. Industrial history brought back to life, exactly the layer that gives Vivace its Rotterdam heart.")}
               </p>
             </div>
-            <div className="bg-[#0f1f33] border border-[#234060] p-8 space-y-5">
+            <div className="bg-[#0f1f33] border border-[#D4AF37]/25 p-8 space-y-5">
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Ingrediënten", "Ingredients")}</p>
+                <p className="text-[10px] uppercase tracking-wider text-[#D4AF37] mb-1">{L("Ingrediënten", "Ingredients")}</p>
                 <p className="text-white/70 text-sm">{L("Schil van (biologische) Sorrento-citroenen, suiker, graanalcohol en water.", "Zest of (organic) Sorrento lemons, sugar, grain alcohol and water")}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Geproduceerd door", "Produced by")}</p>
+                <p className="text-[10px] uppercase tracking-wider text-[#D4AF37] mb-1">{L("Geproduceerd door", "Produced by")}</p>
                 <p className="text-white/70 text-sm">{L("Stokerij Klopman, Van Nelle Fabriek, Rotterdam", "Stokerij Klopman, Van Nelle Factory, Rotterdam")}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#C9A04E] mb-1">{L("Land van oorsprong", "Country of origin")}</p>
+                <p className="text-[10px] uppercase tracking-wider text-[#D4AF37] mb-1">{L("Land van oorsprong", "Country of origin")}</p>
                 <p className="text-white/70 text-sm">{L("Geproduceerd in Nederland", "Produced in the Netherlands")}</p>
               </div>
             </div>
@@ -1408,7 +1345,7 @@ function AboutPage() {
 
       {/* Impact model lives on its own page now, short teaser + link here */}
       <Reveal delay={300}>
-        <div className="border-t border-[#234060] pt-16 text-center">
+        <div className="border-t border-[#D4AF37]/25 pt-16 text-center">
           <p className="font-serif text-4xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
           <p className="text-[10px] uppercase tracking-wider text-white/35 mb-8">{L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}</p>
           <p className="text-white/55 leading-relaxed text-[15px] max-w-lg mx-auto mb-6">
@@ -1422,7 +1359,7 @@ function AboutPage() {
           </Link>
         </div>
       </Reveal>
-    </div>
+    </div></div>
   );
 }
 
@@ -1435,9 +1372,11 @@ function ImpactPage() {
   });
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+    <div>
+      <PageBanner imgs={["/images/vivace-impact-strand.jpg", "/images/vivace-impact-ambulance.jpg"]} />
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Onze Impact", "Our Impact")}</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Onze Impact", "Our Impact")}</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("€1 per fles. Geen omwegen, geen kleine lettertjes.", "€1 per bottle. No detours, no small print.")}
         </h1>
@@ -1455,14 +1394,14 @@ function ImpactPage() {
       </Reveal>
 
       <Reveal delay={150}>
-        <div className="bg-[#0a1628] border border-[#1c3450] py-16 px-6 mb-16 -mx-6 md:-mx-14">
+        <div className="bg-[#0a1628] border border-[#D4AF37]/25 py-16 px-6 mb-16 -mx-6 md:-mx-14">
           <ImpactCounter />
         </div>
       </Reveal>
 
       <Reveal delay={200}>
-        <div className="border-t border-[#234060] pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Waarom we jaarlijks doneren", "Why we donate yearly")}</p>
+        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Waarom we jaarlijks doneren", "Why we donate yearly")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Eén keer per jaar, in plaats van per verkoop", "Once a year, instead of per sale")}
           </h2>
@@ -1478,8 +1417,8 @@ function ImpactPage() {
       </Reveal>
 
       <Reveal delay={225}>
-        <div className="border-t border-[#234060] pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Ons impactproject", "Our impact project")}</p>
+        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Ons impactproject", "Our impact project")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Vivace steunt Stichting Ambulance Wens", "Vivace supports Stichting Ambulance Wens")}
           </h2>
@@ -1516,8 +1455,8 @@ function ImpactPage() {
       </Reveal>
 
       <Reveal delay={250}>
-        <div className="border-t border-[#234060] pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Waar we nu staan", "Where we stand now")}</p>
+        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Waar we nu staan", "Where we stand now")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Eerlijk over waar we in het proces zitten", "Honest about where we are in the process")}
           </h2>
@@ -1536,8 +1475,8 @@ function ImpactPage() {
       </Reveal>
 
       <Reveal delay={275}>
-        <div className="border-t border-[#234060] pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Waarom premium en impact samengaan", "Why premium and impact go together")}</p>
+        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Waarom premium en impact samengaan", "Why premium and impact go together")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Kwaliteit en betekenis hoeven geen tegenpolen te zijn", "Quality and meaning do not have to be opposites")}
           </h2>
@@ -1553,8 +1492,8 @@ function ImpactPage() {
       </Reveal>
 
       <Reveal delay={300}>
-        <div className="border-t border-[#234060] pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Voor retailers en partners", "For retailers and partners")}</p>
+        <div className="border-t border-[#D4AF37]/25 pt-16 mb-16">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Voor retailers en partners", "For retailers and partners")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Een model waar je op kunt bouwen", "A model you can build on")}
           </h2>
@@ -1583,7 +1522,7 @@ function ImpactPage() {
           </Link>
         </div>
       </Reveal>
-    </div>
+    </div></div>
   );
 }
 
@@ -1608,9 +1547,11 @@ function PressPage() {
   ];
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+    <div>
+      <PageBanner imgs={["/images/vivace-van-nelle-fabriek.jpg"]} />
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Pers & Media", "Press & Media")}</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Pers & Media", "Press & Media")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Alles voor pers en reviewers, op één plek", "Everything for press and reviewers, in one place")}
         </h1>
@@ -1628,8 +1569,8 @@ function PressPage() {
 
       {/* Backgrounder */}
       <Reveal delay={100}>
-        <div className="border-t border-[#234060] mt-16 pt-14">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Backgrounder", "Backgrounder")}</p>
+        <div className="border-t border-[#D4AF37]/25 mt-16 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Backgrounder", "Backgrounder")}</p>
           <div className="space-y-5 text-white/55 leading-relaxed text-[15px] max-w-2xl">
             <p>
               {L("Vivace is een premium Italiaanse limoncello, ambachtelijk geproduceerd door", "Vivace is a premium Italian limoncello, handcrafted by")}{" "}
@@ -1653,8 +1594,8 @@ function PressPage() {
 
       {/* Key facts */}
       <Reveal delay={150}>
-        <div className="border-t border-[#234060] mt-14 pt-14">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">{L("Kernfeiten", "Key facts")}</p>
+        <div className="border-t border-[#D4AF37]/25 mt-14 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Kernfeiten", "Key facts")}</p>
           <div className="grid sm:grid-cols-2 gap-x-10 gap-y-4 max-w-2xl">
             {[
               ["Product", "Vivace Limoncello, 500ml, 30% ALC/VOL"],
@@ -1664,7 +1605,7 @@ function PressPage() {
               [L("Impactmodel", "Impact model"), L("€1 per fles naar Stichting Ambulance Wens", "€1 per bottle to Stichting Ambulance Wens")],
               ["Tagline", L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")],
             ].map(([label, value]) => (
-              <div key={label} className="border-b border-[#1c3450] pb-3">
+              <div key={label} className="border-b border-[#D4AF37]/25 pb-3">
                 <p className="text-[10px] uppercase tracking-wider text-white/35 mb-1">{label}</p>
                 <p className="text-white/75 text-sm">{value}</p>
               </div>
@@ -1675,18 +1616,18 @@ function PressPage() {
 
       {/* Logos */}
       <Reveal delay={200}>
-        <div className="border-t border-[#234060] mt-14 pt-14">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">{L("Logo", "Logo")}</p>
+        <div className="border-t border-[#D4AF37]/25 mt-14 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Logo", "Logo")}</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {logos.map((logo) => (
-              <div key={logo.src} className="border border-[#234060]">
+              <div key={logo.src} className="border border-[#D4AF37]/25">
                 <div className={`flex items-center justify-center p-8 ${logo.src.includes("navy") ? "bg-[#0C1526]" : "bg-white"}`}>
                   <img src={logo.src} alt={logo.label} className="max-h-16 w-auto" />
                 </div>
                 <a
                   href={logo.src}
                   download
-                  className="flex items-center justify-between px-4 py-3 text-[11px] uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#234060]"
+                  className="flex items-center justify-between px-4 py-3 text-[11px] uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#D4AF37]/25"
                 >
                   {logo.label} <ChevronRight size={12} />
                 </a>
@@ -1698,16 +1639,16 @@ function PressPage() {
 
       {/* Photos */}
       <Reveal delay={250}>
-        <div className="border-t border-[#234060] mt-14 pt-14">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">{L("Productfoto's", "Product photos")}</p>
+        <div className="border-t border-[#D4AF37]/25 mt-14 pt-14">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Productfoto's", "Product photos")}</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {photos.map((photo) => (
-              <div key={photo.src} className="border border-[#234060] overflow-hidden">
+              <div key={photo.src} className="border border-[#D4AF37]/25 overflow-hidden">
                 <img src={photo.src} alt={photo.label} className="w-full h-48 object-cover" />
                 <a
                   href={photo.src}
                   download
-                  className="flex items-center justify-between px-4 py-3 text-[11px] uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#234060]"
+                  className="flex items-center justify-between px-4 py-3 text-[11px] uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#D4AF37]/25"
                 >
                   {photo.label} <ChevronRight size={12} />
                 </a>
@@ -1719,7 +1660,7 @@ function PressPage() {
 
       {/* Contact */}
       <Reveal delay={300}>
-        <div className="border-t border-[#234060] mt-14 pt-14 text-center">
+        <div className="border-t border-[#D4AF37]/25 mt-14 pt-14 text-center">
           <p className="font-serif italic text-2xl text-[#D4AF37] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Vragen voor een artikel of review?", "Questions for an article or review?")}
           </p>
@@ -1735,7 +1676,7 @@ function PressPage() {
           </a>
         </div>
       </Reveal>
-    </div>
+    </div></div>
   );
 }
 
@@ -1776,9 +1717,11 @@ function HorecaPage() {
   };
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-2xl mx-auto">
+    <div>
+      <PageBanner imgs={["/images/vivace-spritz-intenso-hero.jpg"]} />
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-2xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Voor horeca & retail", "For hospitality & retail")}</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Voor horeca & retail", "For hospitality & retail")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vivace bij jou in de zaak", "Vivace at your place")}
         </h1>
@@ -1806,8 +1749,8 @@ function HorecaPage() {
 
       <Reveal delay={100}>
         {status === "sent" ? (
-          <div className="border border-[#C9A04E]/30 p-8 text-center">
-            <p className="text-[#C9A04E] font-medium mb-2">{L("Bedankt voor je aanvraag!", "Thank you for your request!")}</p>
+          <div className="border border-[#D4AF37]/30 p-8 text-center">
+            <p className="text-[#D4AF37] font-medium mb-2">{L("Bedankt voor je aanvraag!", "Thank you for your request!")}</p>
             <p className="text-white/40 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
           </div>
         ) : (
@@ -1818,20 +1761,20 @@ function HorecaPage() {
               name="naam"
               placeholder={L("Naam", "Name")}
               required
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <input
               type="text"
               name="zaak"
               placeholder={L("Naam van je zaak", "Name of your business")}
               required
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <select
               name="type_zaak"
               required
               defaultValue=""
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white/70 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white/70 focus:outline-none focus:border-[#D4AF37]/50"
             >
               <option value="" disabled>
                 {L("Type zaak", "Type of business")}
@@ -1847,20 +1790,20 @@ function HorecaPage() {
               name="plaats"
               placeholder={L("Plaats", "City")}
               required
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <input
               type="email"
               name="email"
               placeholder={L("E-mailadres", "Email address")}
               required
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <textarea
               name="bericht"
               placeholder={L("Vertel ons iets over je zaak (optioneel)", "Tell us about your business (optional)")}
               rows={4}
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <button
               type="submit"
@@ -1879,7 +1822,7 @@ function HorecaPage() {
       </Reveal>
 
       <Reveal delay={200}>
-        <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
+        <div className="mt-16 pt-10 border-t border-[#D4AF37]/25 text-white/35 text-sm space-y-1">
           <p>{L("Liever direct mailen? drinkvivace@gmail.com", "Prefer to email directly? drinkvivace@gmail.com")}</p>
           <p>
             {L("Of volg ons op", "Or follow us on")}{" "}
@@ -1894,7 +1837,7 @@ function HorecaPage() {
           </p>
         </div>
       </Reveal>
-    </div>
+    </div></div>
   );
 }
 
@@ -1933,9 +1876,11 @@ function ContactPage() {
   };
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-2xl mx-auto">
+    <div>
+      <PageBanner imgs={["/images/vivace-golden-hour.jpg"]} />
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-2xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Contact", "Contact")}</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Contact", "Contact")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Laten we praten", "Let's talk")}
         </h1>
@@ -1946,8 +1891,8 @@ function ContactPage() {
 
       <Reveal delay={100}>
         {status === "sent" ? (
-          <div className="border border-[#C9A04E]/30 p-8 text-center">
-            <p className="text-[#C9A04E] font-medium mb-2">{L("Bedankt voor je bericht!", "Thank you for your message!")}</p>
+          <div className="border border-[#D4AF37]/30 p-8 text-center">
+            <p className="text-[#D4AF37] font-medium mb-2">{L("Bedankt voor je bericht!", "Thank you for your message!")}</p>
             <p className="text-white/40 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
           </div>
         ) : (
@@ -1957,21 +1902,21 @@ function ContactPage() {
               name="naam"
               placeholder={L("Naam", "Name")}
               required
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <input
               type="email"
               name="email"
               placeholder={L("E-mailadres", "Email address")}
               required
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <textarea
               name="bericht"
               placeholder={L("Je bericht", "Your message")}
               required
               rows={5}
-              className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <button
               type="submit"
@@ -1990,7 +1935,7 @@ function ContactPage() {
       </Reveal>
 
       <Reveal delay={200}>
-        <div className="mt-16 pt-10 border-t border-[#234060] text-white/35 text-sm space-y-1">
+        <div className="mt-16 pt-10 border-t border-[#D4AF37]/25 text-white/35 text-sm space-y-1">
           <p>drinkvivace@gmail.com</p>
           <p>drinkvivace@gmail.com</p>
           <p>{L("Nederland", "The Netherlands")}</p>
@@ -1998,12 +1943,12 @@ function ContactPage() {
       </Reveal>
 
       <Reveal delay={250}>
-        <div className="mt-10 pt-10 border-t border-[#234060]">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">{L("Geleverd door", "Delivered by")}</p>
+        <div className="mt-10 pt-10 border-t border-[#D4AF37]/25">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geleverd door", "Delivered by")}</p>
           <p className="text-white/70 text-sm leading-relaxed mb-6">
             {L("Vivace wordt geëxploiteerd door VVM Trading.", "Vivace is operated by VVM Trading.")}
           </p>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-3">{L("Geproduceerd door", "Produced by")}</p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geproduceerd door", "Produced by")}</p>
           <p className="text-white/45 text-sm leading-relaxed">
             Stokerij Klopman<br />
             Van Nelleweg 1, Kelder 3<br />
@@ -2011,7 +1956,7 @@ function ContactPage() {
           </p>
         </div>
       </Reveal>
-    </div>
+    </div></div>
   );
 }
 
@@ -2020,7 +1965,7 @@ function FAQItem({ q, a }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border-b border-[#234060]">
+    <div className="border-b border-[#D4AF37]/25">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between gap-4 py-5 text-left"
@@ -2173,9 +2118,11 @@ function FAQPage() {
   });
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+    <div>
+      <PageBanner imgs={["/images/vivace-puur-hero.jpg"]} />
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Vragen", "Questions")}</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Vragen", "Questions")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Veelgestelde vragen", "Frequently asked questions")}
         </h1>
@@ -2201,7 +2148,7 @@ function FAQPage() {
       ))}
 
       <Reveal delay={400}>
-        <div className="mt-16 text-center border-t border-[#234060] pt-10">
+        <div className="mt-16 text-center border-t border-[#D4AF37]/25 pt-10">
           <p className="text-white/40 text-sm mb-3">{L("Staat je vraag er niet bij?", "Is your question not listed?")}</p>
           <Link
             to="/contact"
@@ -2212,7 +2159,7 @@ function FAQPage() {
           </Link>
         </div>
       </Reveal>
-    </div>
+    </div></div>
   );
 }
 
@@ -2792,13 +2739,13 @@ function BlogCard({ post }) {
   return (
     <Link
       to={`/blog/${post.id}`}
-      className="text-left border border-[#234060] hover:border-[#D4AF37]/40 transition-colors flex flex-col h-full overflow-hidden"
+      className="text-left border border-[#D4AF37]/25 hover:border-[#D4AF37]/40 transition-colors flex flex-col h-full overflow-hidden"
     >
       {post.image && (
         <img src={post.image} alt={post.title} className="w-full h-44 object-cover" />
       )}
       <div className="p-6 flex flex-col gap-3 flex-1">
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#C9A04E]">
+        <span className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]">
           {BLOG_CATEGORIES.find((c) => c.id === post.type)?.label || post.type}
         </span>
         <h3 className="font-serif text-xl text-white/90 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -2816,7 +2763,7 @@ function RecipeBody({ post }) {
   const [servings, setServings] = useState(baseServings);
   const unit = post.servingUnit || "Glazen"; // e.g. "Personen" for food recipes like desserts
   return (
-    <div className="bg-[#102338] border border-[#234060] overflow-hidden">
+    <div className="bg-[#102338] border border-[#D4AF37]/25 overflow-hidden">
       {post.image && (
         <img src={post.image} alt={post.title} className="w-full h-auto" />
       )}
@@ -2837,7 +2784,7 @@ function RecipeBody({ post }) {
       <div className="flex items-center justify-end mb-10">
         <div className="flex items-center gap-4">
           <span className="text-white/35 text-[10px] uppercase tracking-[0.15em]">{unit}</span>
-          <div className="flex items-center gap-3 border border-[#234060]">
+          <div className="flex items-center gap-3 border border-[#D4AF37]/25">
             <button
               onClick={() => setServings(Math.max(1, servings - 1))}
               className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-[#D4AF37] transition-colors"
@@ -2861,7 +2808,7 @@ function RecipeBody({ post }) {
 
       <div className="grid md:grid-cols-2 gap-10">
         <div>
-          <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Ingrediënten</p>
+          <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4AF37] mb-4">Ingrediënten</p>
           <ul className="space-y-3">
             {post.ingredients.map((ing, i) =>
               ing.heading ? (
@@ -2869,7 +2816,7 @@ function RecipeBody({ post }) {
                   {ing.heading}
                 </li>
               ) : (
-              <li key={i} className="flex items-baseline justify-between gap-4 text-white/80 text-sm border-b border-[#1c3450] pb-3">
+              <li key={i} className="flex items-baseline justify-between gap-4 text-white/80 text-sm border-b border-[#D4AF37]/25 pb-3">
                 <span>{ing.name}</span>
                 {ing.amount !== null && (
                   <span className="font-serif text-[#D4AF37] whitespace-nowrap" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -2883,7 +2830,7 @@ function RecipeBody({ post }) {
         </div>
 
         <div>
-          <p className="text-[10px] tracking-[0.25em] uppercase text-[#C9A04E] mb-4">Bereiding</p>
+          <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4AF37] mb-4">Bereiding</p>
           <ol className="space-y-4">
             {post.steps.map((step, i) => (
               <li key={i} id={`stap-${i + 1}`} className="flex gap-4 text-sm text-white/55 leading-relaxed scroll-mt-32">
@@ -2897,7 +2844,7 @@ function RecipeBody({ post }) {
         </div>
       </div>
 
-      <div className="text-center mt-12 pt-8 border-t border-[#1c3450]">
+      <div className="text-center mt-12 pt-8 border-t border-[#D4AF37]/25">
         <p className="font-serif italic text-white/40 text-sm" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {post.tip || "Tip: bewaar je Vivace in de vriezer voor het koudste, meest verfrissende resultaat."}
         </p>
@@ -2910,7 +2857,7 @@ function RecipeBody({ post }) {
 
 function ArticleBody({ post }) {
   return (
-    <div className="bg-[#102338] border border-[#234060] overflow-hidden">
+    <div className="bg-[#102338] border border-[#D4AF37]/25 overflow-hidden">
       {post.image && (
         <img src={post.image} alt={post.title} className="w-full h-auto" />
       )}
@@ -3026,7 +2973,7 @@ function BlogPostPage() {
         ← Terug naar blog
       </Link>
       <Reveal>
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#C9A04E]">
+        <span className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]">
           {BLOG_CATEGORIES.find((c) => c.id === post.type)?.label}
         </span>
         <h1 className="font-serif text-3xl md:text-4xl mt-3 mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -3107,9 +3054,11 @@ function ReviewsPage() {
   const average = all.length > 0 ? all.reduce((s, r) => s + r.rating, 0) / all.length : 0;
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+    <div>
+      <PageBanner imgs={["/images/vivace-limoncello-bars-hero.jpg", "/images/vivace-tiramisu-hero.jpg", "/images/vivace-kwarktaart-hero.jpg"]} />
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Reviews</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Reviews</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Wat anderen van Vivace vinden", "What others think of Vivace")}
         </h1>
@@ -3126,7 +3075,7 @@ function ReviewsPage() {
       {all.length === 0 ? (
         <Reveal delay={100}>
           <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center mb-4">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">{L("Binnenkort", "Coming soon")}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
             <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               {L("Hier verschijnen binnenkort de eerste reviews.", "The first reviews will appear here soon.")}
             </p>
@@ -3136,7 +3085,7 @@ function ReviewsPage() {
         <div className="space-y-6">
           {all.map((r, i) => (
             <Reveal key={i} delay={100 + i * 60}>
-              <div className="border border-[#234060] p-5">
+              <div className="border border-[#D4AF37]/25 p-5">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-white/85 text-sm font-medium">{r.name}</span>
                   <ReviewStars rating={r.rating} />
@@ -3145,7 +3094,7 @@ function ReviewsPage() {
                 {r.source && (
                   <Link
                     to={`/blog/${r.sourceId}`}
-                    className="inline-block mt-3 text-[10px] uppercase tracking-wider text-[#C9A04E] hover:text-[#D4AF37] transition-colors"
+                    className="inline-block mt-3 text-[10px] uppercase tracking-wider text-[#D4AF37] hover:text-[#D4AF37] transition-colors"
                   >
                     {L("Over:", "About:")} {r.source} →
                   </Link>
@@ -3159,7 +3108,7 @@ function ReviewsPage() {
       <Reveal delay={150}>
         <ReviewForm post={{ title: "Vivace Limoncello (algemeen)" }} />
       </Reveal>
-    </div>
+    </div></div>
   );
 }
 
@@ -3172,13 +3121,13 @@ function ReviewsDisplay({ post }) {
   if (!post.reviews || post.reviews.length === 0) return null;
 
   return (
-    <div className="mt-12 pt-10 border-t border-[#234060]">
-      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">
+    <div className="mt-12 pt-10 border-t border-[#D4AF37]/25">
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">
         Reviews ({post.reviews.length})
       </p>
       <div className="space-y-6">
         {post.reviews.map((r, i) => (
-          <div key={i} className="border border-[#234060] p-5">
+          <div key={i} className="border border-[#D4AF37]/25 p-5">
             <div className="flex items-center justify-between mb-2">
               <span className="text-white/85 text-sm font-medium">{r.name}</span>
               <ReviewStars rating={r.rating} />
@@ -3222,10 +3171,10 @@ function ReviewForm({ post }) {
   };
 
   return (
-    <div className="mt-12 pt-10 border-t border-[#234060]">
-      <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">{L("Zelf geprobeerd?", "Tried it yourself?")}</p>
+    <div className="mt-12 pt-10 border-t border-[#D4AF37]/25">
+      <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Zelf geprobeerd?", "Tried it yourself?")}</p>
       {status === "sent" ? (
-        <p className="text-[#C9A04E] text-sm">{L("Bedankt voor je review! We plaatsen 'm binnenkort.", "Thank you for your review! We will post it soon.")}</p>
+        <p className="text-[#D4AF37] text-sm">{L("Bedankt voor je review! We plaatsen 'm binnenkort.", "Thank you for your review! We will post it soon.")}</p>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
           <input type="hidden" name="_subject" value={`Nieuwe review — ${post.title}`} />
@@ -3247,14 +3196,14 @@ function ReviewForm({ post }) {
             name="naam"
             placeholder={L("Naam", "Name")}
             required
-            className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
           />
           <textarea
             name="review"
             placeholder={L("Wat vond je ervan?", "What did you think?")}
             required
             rows={3}
-            className="w-full bg-[#102338] border border-[#234060] px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
           />
           <button
             type="submit"
@@ -3281,16 +3230,16 @@ function RelatedPosts({ currentPost }) {
 
   return (
     <Reveal delay={200}>
-      <div className="mt-16 pt-10 border-t border-[#234060]">
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-6">Ontdek ook</p>
+      <div className="mt-16 pt-10 border-t border-[#D4AF37]/25">
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">Ontdek ook</p>
         <div className="grid sm:grid-cols-3 gap-4">
           {related.map((p) => (
             <Link
               key={p.id}
               to={`/blog/${p.id}`}
-              className="border border-[#234060] hover:border-[#D4AF37]/40 transition-colors p-5 flex flex-col gap-2"
+              className="border border-[#D4AF37]/25 hover:border-[#D4AF37]/40 transition-colors p-5 flex flex-col gap-2"
             >
-              <span className="text-[9px] uppercase tracking-[0.2em] text-[#C9A04E]">
+              <span className="text-[9px] uppercase tracking-[0.2em] text-[#D4AF37]">
                 {BLOG_CATEGORIES.find((c) => c.id === p.type)?.label}
               </span>
               <span className="font-serif text-white/85 text-base leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -3316,9 +3265,11 @@ function BlogPage() {
   const filtered = filter === "alle" ? BLOG_POSTS : BLOG_POSTS.filter((p) => p.type === filter);
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
+    <div>
+      <PageBanner imgs={["/images/vivace-spritz-klassiek-hero.jpg", "/images/vivace-tonic-hero.jpg", "/images/vivace-basil-smash-hero.jpg", "/images/vivace-mule-hero.jpg"]} />
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Blog</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Blog</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Recepten, nieuws & verkooppunten
         </h1>
@@ -3337,7 +3288,7 @@ function BlogPage() {
               className={`px-5 py-2 text-[11px] uppercase tracking-[0.14em] border transition-colors ${
                 filter === c.id
                   ? "bg-[#D4AF37] text-black border-[#D4AF37]"
-                  : "text-white/50 border-[#234060] hover:border-[#D4AF37]/40 hover:text-white"
+                  : "text-white/50 border-[#D4AF37]/25 hover:border-[#D4AF37]/40 hover:text-white"
               }`}
             >
               {c.label}
@@ -3349,7 +3300,7 @@ function BlogPage() {
       {filtered.length === 0 ? (
         <Reveal delay={150}>
           <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">Binnenkort</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] mb-3">Binnenkort</p>
             <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Hier verschijnen binnenkort nieuwe updates.
             </p>
@@ -3364,7 +3315,7 @@ function BlogPage() {
           ))}
         </div>
       )}
-    </div>
+    </div></div>
   );
 }
 
@@ -3390,7 +3341,7 @@ function PrivacyPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Juridisch</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Juridisch</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Privacybeleid
         </h1>
@@ -3487,7 +3438,7 @@ function TermsPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">Juridisch</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Juridisch</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Algemene voorwaarden
         </h1>
@@ -3696,7 +3647,7 @@ function MerchGallery({ p, name }) {
               type="button"
               onClick={() => setZoom(false)}
               aria-label={L("Sluiten", "Close")}
-              className="absolute -top-2 -right-2 md:top-2 md:right-2 w-10 h-10 rounded-full bg-[#0a1628] border border-[#1c3450] text-white/80 hover:text-[#D4AF37] text-2xl leading-none"
+              className="absolute -top-2 -right-2 md:top-2 md:right-2 w-10 h-10 rounded-full bg-[#0a1628] border border-[#D4AF37]/25 text-white/80 hover:text-[#D4AF37] text-2xl leading-none"
             >
               ×
             </button>
@@ -3706,7 +3657,7 @@ function MerchGallery({ p, name }) {
                   type="button"
                   onClick={() => setI((x) => (x - 1 + n) % n)}
                   aria-label={L("Vorige foto", "Previous photo")}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#0a1628]/85 border border-[#1c3450] text-white/80 hover:text-[#D4AF37] text-xl"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#0a1628]/85 border border-[#D4AF37]/25 text-white/80 hover:text-[#D4AF37] text-xl"
                 >
                   ‹
                 </button>
@@ -3714,7 +3665,7 @@ function MerchGallery({ p, name }) {
                   type="button"
                   onClick={() => setI((x) => (x + 1) % n)}
                   aria-label={L("Volgende foto", "Next photo")}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#0a1628]/85 border border-[#1c3450] text-white/80 hover:text-[#D4AF37] text-xl"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#0a1628]/85 border border-[#D4AF37]/25 text-white/80 hover:text-[#D4AF37] text-xl"
                 >
                   ›
                 </button>
@@ -3747,10 +3698,10 @@ function SizeChartModal({ product, lang, onClose }) {
       aria-modal="true"
       aria-label={L("Maattabel", "Size guide")}
     >
-      <div className="bg-[#0a1628] border border-[#1c3450] max-w-lg w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-[#0a1628] border border-[#D4AF37]/25 max-w-lg w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between gap-4 mb-5">
           <div>
-            <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-2">{L("Maattabel", "Size guide")}</p>
+            <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-2">{L("Maattabel", "Size guide")}</p>
             <h3 className="font-serif text-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{product.name[lang]}</h3>
           </div>
           <button type="button" onClick={onClose} aria-label={L("Sluiten", "Close")} className="text-white/50 hover:text-white text-2xl leading-none px-2">×</button>
@@ -3758,7 +3709,7 @@ function SizeChartModal({ product, lang, onClose }) {
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-center">
             <thead>
-              <tr className="text-[10px] uppercase tracking-[0.15em] text-white/45 border-b border-[#1c3450]">
+              <tr className="text-[10px] uppercase tracking-[0.15em] text-white/45 border-b border-[#D4AF37]/25">
                 <th className="py-2 pr-2 text-left font-normal">{L("Maat", "Size")}</th>
                 <th className="py-2 px-2 font-normal">{L("Lengte", "Length")}</th>
                 <th className="py-2 px-2 font-normal">{L("Breedte", "Width")}</th>
@@ -3768,7 +3719,7 @@ function SizeChartModal({ product, lang, onClose }) {
             </thead>
             <tbody>
               {rows.map((r) => (
-                <tr key={r.size} className="border-b border-[#1c3450]/60 text-white/70">
+                <tr key={r.size} className="border-b border-[#D4AF37]/25/60 text-white/70">
                   <td className="py-2.5 pr-2 text-left text-[#D4AF37]">{r.size}</td>
                   <td className="py-2.5 px-2">{r.length} cm</td>
                   <td className="py-2.5 px-2">{r.width} cm</td>
@@ -3808,7 +3759,7 @@ function ShippingReturnsModal({ data, onClose }) {
   } catch {
     /* val terug op de landcodes */
   }
-  const h = "text-[11px] tracking-[0.2em] uppercase text-[#C9A04E] mb-2";
+  const h = "text-[11px] tracking-[0.2em] uppercase text-[#D4AF37] mb-2";
   return (
     <div
       className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4"
@@ -3817,7 +3768,7 @@ function ShippingReturnsModal({ data, onClose }) {
       aria-modal="true"
       aria-label={L("Verzending en retour", "Shipping and returns")}
     >
-      <div className="bg-[#0a1628] border border-[#1c3450] max-w-lg w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-[#0a1628] border border-[#D4AF37]/25 max-w-lg w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between gap-4 mb-6">
           <h3 className="font-serif text-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Verzending & retour", "Shipping & returns")}
@@ -3888,7 +3839,7 @@ function MerchPage() {
     description: "Vivace merch: T-shirt en pet in navy en goud. Op bestelling gemaakt. 18+.",
   });
 
-  const [data, setData] = useState(null); // null = laden
+  const [data, setData] = useState(() => { try { return JSON.parse(sessionStorage.getItem("vv-merch") || "null"); } catch { return null; } }); // null = laden
   const [sizes, setSizes] = useState({});
   const [busy, setBusy] = useState(null);
   const [error, setError] = useState("");
@@ -3899,7 +3850,7 @@ function MerchPage() {
     let off = false;
     fetch("/api/products")
       .then((r) => (r.ok ? r.json() : { products: [] }))
-      .then((d) => !off && setData(d))
+      .then((d) => { if (off) return; setData(d); try { if (d.products && d.products.length) sessionStorage.setItem("vv-merch", JSON.stringify(d)); } catch { /* geen opslag */ } })
       .catch(() => !off && setData({ products: [] }));
     return () => {
       off = true;
@@ -3935,7 +3886,7 @@ function MerchPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Merch", "Merch")}</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Merch", "Merch")}</p>
         <h1 className="font-serif italic text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vivace, om te dragen.", "Vivace, to wear.")}
         </h1>
@@ -3951,7 +3902,7 @@ function MerchPage() {
         <Reveal delay={50}>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             {products.map((p) => (
-              <div key={p.id} className="border border-[#1c3450] p-6 flex flex-col items-center text-center">
+              <div key={p.id} className="border border-[#D4AF37]/25 p-6 flex flex-col items-center text-center">
                 <MerchGallery p={p} name={p.name[lang]} />
                 <h2 className="font-serif text-2xl mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {p.name[lang]}
@@ -3968,7 +3919,7 @@ function MerchPage() {
                             type="button"
                             onClick={() => setSizes((x) => ({ ...x, [p.id]: s }))}
                             className={`min-w-[40px] px-2 py-2.5 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
-                              sizes[p.id] === s ? "border-[#D4AF37] text-[#D4AF37]" : "border-[#1c3450] text-white/50 hover:text-white"
+                              sizes[p.id] === s ? "border-[#D4AF37] text-[#D4AF37]" : "border-[#D4AF37]/25 text-white/50 hover:text-white"
                             }`}
                           >
                             {s}
@@ -4020,19 +3971,19 @@ function MerchPage() {
         </Reveal>
       ) : (
         <Reveal delay={50}>
-          <div className="grid md:grid-cols-2 gap-6 mb-14">
+          {data === null ? (<div className="grid md:grid-cols-2 gap-6 mb-14">{[0, 1].map((k) => (<div key={k} className="border border-[#D4AF37]/25 h-80 animate-pulse bg-[#D4AF37]/5" />))}</div>) : (<div className="grid md:grid-cols-2 gap-6 mb-14">
             {[
               { k: "pet", art: <MerchCap />, n: L("Vivace pet", "Vivace cap") },
               { k: "shirt", art: <MerchShirt />, n: L("Vivace T-shirt", "Vivace T-shirt") },
             ].map((p) => (
-              <div key={p.k} className="border border-[#1c3450] p-8 flex flex-col items-center text-center">
+              <div key={p.k} className="border border-[#D4AF37]/25 p-8 flex flex-col items-center text-center">
                 <div className="mb-6">{p.art}</div>
                 <h2 className="font-serif text-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{p.n}</h2>
               </div>
             ))}
-          </div>
+          </div>)}
           <div className="border border-dashed border-[#D4AF37]/30 p-10 text-center mb-14">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#C9A04E] mb-3">{L("Binnenkort", "Coming soon")}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
             <p className="font-serif italic text-xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               {data === null ? "" : L("De merchshop opent binnenkort.", "The merch shop opens soon.")}
             </p>
@@ -4044,7 +3995,7 @@ function MerchPage() {
       {info && <ShippingReturnsModal data={data} onClose={() => setInfo(false)} />}
 
       <Reveal delay={100}>
-        <div className="border-t border-[#1c3450] pt-8 text-center">
+        <div className="border-t border-[#D4AF37]/25 pt-8 text-center">
           <p className="text-white/45 text-sm max-w-md mx-auto mb-4">
             {L(
               "Vivace Limoncello koop je niet online. De fles is verkrijgbaar bij onze verkooppunten.",
@@ -4074,7 +4025,7 @@ function MerchThanksPage() {
   return (
     <div className="pt-40 pb-24 px-6 md:px-14 max-w-xl mx-auto text-center">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#C9A04E] mb-4">{L("Bestelling ontvangen", "Order received")}</p>
+        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Bestelling ontvangen", "Order received")}</p>
         <h1 className="font-serif italic text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Bedankt!", "Thank you!")}
         </h1>
@@ -4126,7 +4077,7 @@ function Footer() {
   ];
 
   return (
-    <footer className="border-t border-[#1c3450] px-6 md:px-14 pt-16 pb-10">
+    <footer className="border-t border-[#D4AF37]/25 px-6 md:px-14 pt-16 pb-10">
       <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-x-8 gap-y-12">
         <div className="col-span-2 md:col-span-1">
           <Link to="/" className="inline-block" aria-label="Vivace, naar de homepage">
@@ -4176,7 +4127,7 @@ function Footer() {
         ))}
       </div>
 
-      <div className="max-w-6xl mx-auto mt-14 pt-8 border-t border-[#1c3450] flex flex-col md:flex-row md:justify-between gap-3 text-xs text-white/45">
+      <div className="max-w-6xl mx-auto mt-14 pt-8 border-t border-[#D4AF37]/25 flex flex-col md:flex-row md:justify-between gap-3 text-xs text-white/45">
         <p>
           {L("Impactpartner:", "Impact partner:")}{" "}
           <a
@@ -4245,6 +4196,7 @@ function AppShell() {
   return (
     <LangContext.Provider value={{ lang, setLang }}>
     <div className="bg-[#0a1628] text-white min-h-screen font-sans" style={{ fontFamily: "'DM Sans', sans-serif", backgroundColor: "#0a1628" }}>
+      <style>{`html{scroll-behavior:smooth}:focus-visible{outline:2px solid #D4AF37;outline-offset:3px}::selection{background:#D4AF37;color:#0a1628}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}`}</style>
       <ScrollToTop />
       {showWelcome && <WelcomeBanner onClose={() => setShowWelcome(false)} />}
       <Nav />
@@ -4274,7 +4226,7 @@ function AppShell() {
       {ageConfirmed === false && <UnderageBlock />}
 
       {lang === "en" && !["/", "/producten", "/onze-impact", "/over-ons", "/verkooppunten", "/contact", "/horeca", "/pers", "/faq", "/reviews", "/merch", "/merch/bedankt"].includes(location.pathname) && (
-        <div className="fixed bottom-0 inset-x-0 z-40 bg-[#102338] border-t border-[#234060] text-center text-xs text-white/70 py-3 px-4">
+        <div className="fixed bottom-0 inset-x-0 z-40 bg-[#102338] border-t border-[#D4AF37]/25 text-center text-xs text-white/70 py-3 px-4">
           This page is currently available in Dutch only. English version coming soon.
         </div>
       )}
