@@ -1200,7 +1200,7 @@ function StoresPage() {
   const photos = {
     "PLUS Rick Hoogendoorn": "/images/vivace-plus-winkel.jpg",
     "Wijnhandel Van Dijk": "/images/vivace-van-dijk-winkel.jpg",
-    "Colins Slijterij": "/images/vivace-colins-winkel.jpg",
+    "Colins Slijterij & Wijnwinkel": "/images/vivace-colins-winkel.jpg",
   };
   const realStockists = STOCKISTS.filter((s) => !isPlaceholderStockist(s));
 
