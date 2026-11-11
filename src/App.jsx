@@ -384,7 +384,7 @@ function StoresMap({ stockists }) {
     <div>
       <div ref={mapRef} className="w-full h-96 border border-[#D4AF37]/25" style={{ background: "#102338" }} />
       {!hasAnyCoords && (
-        <p className="text-white/25 text-xs mt-3 italic">
+        <p className="text-white/50 text-xs mt-3 italic">
           Kaart vult zich automatisch zodra er lat/lng-coördinaten zijn ingevuld bij je
           verkooppunten (zie de STOCKISTS-lijst in de code).
         </p>
@@ -484,7 +484,7 @@ function LanguageSwitch() {
     <div className="flex items-center gap-2 text-[11px] tracking-[0.16em]" role="group" aria-label="Language">
       {["nl", "en"].map((l, i) => (
         <React.Fragment key={l}>
-          {i > 0 && <span className="text-white/20">|</span>}
+          {i > 0 && <span className="text-white/50">|</span>}
           <button
             onClick={() => setLang(l)}
             aria-pressed={lang === l}
@@ -529,7 +529,7 @@ function Nav() {
     >
       <div className="w-full flex items-center justify-between px-6 md:px-14 py-5">
         <Link to="/" className="h-8 flex items-center" aria-label="Vivace, naar de homepage">
-          <img src="/images/vivace-logo-transparent.png" alt="Vivace" className="h-6 w-auto" />
+          <img width="883" height="188" decoding="async" src="/images/vivace-logo-transparent.png" alt="Vivace" className="h-6 w-auto" />
         </Link>
 
         <ul className="hidden md:flex items-center gap-7 lg:gap-9">
@@ -594,6 +594,12 @@ function Nav() {
 
 // ---------- Cart Drawer ----------
 function CartDrawer({ open, onClose, cart }) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
   if (!open) return null;
   const entries = Object.entries(cart.items);
 
@@ -612,7 +618,7 @@ function CartDrawer({ open, onClose, cart }) {
 
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {entries.length === 0 && (
-            <p className="text-white/40 text-sm">Je winkelwagen is leeg. Online bestellen volgt binnenkort.</p>
+            <p className="text-white/50 text-sm">Je winkelwagen is leeg. Online bestellen volgt binnenkort.</p>
           )}
           {entries.map(([id, qty]) => {
             const p = PRODUCTS[id];
@@ -620,13 +626,13 @@ function CartDrawer({ open, onClose, cart }) {
               <div key={id} className="flex gap-4 items-center">
                 <div className="flex-shrink-0">
                   {id === "limoncello" ? (
-                    <img
+                    <img width="3648" height="4128" decoding="async" loading="lazy"
                       src="/images/vivace-bottle-hero-v2.jpg"
                       alt="Vivace Limoncello"
                       className="w-10 h-10 object-cover rounded-sm"
                     />
                   ) : (
-                    <img
+                    <img width="1024" height="1024" decoding="async" loading="lazy"
                       src="/images/vivace-can-hero.jpg"
                       alt="Vivace Limoncello Spritz"
                       className="w-10 h-10 object-cover rounded-sm"
@@ -635,7 +641,7 @@ function CartDrawer({ open, onClose, cart }) {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-white/90">{p.name}</p>
-                  <p className="text-xs text-white/40">€{p.price.toFixed(2)}</p>
+                  <p className="text-xs text-white/50">€{p.price.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -684,7 +690,7 @@ function AgeGate({ onConfirm }) {
           Vivace
         </p>
         <p className="text-white/70 text-sm mb-2">{L("Ben je 18 jaar of ouder?", "Are you 18 or older?")}</p>
-        <p className="text-white/30 text-xs mb-8">{L("We vragen dit omdat onze producten alcohol bevatten.", "We ask because our products contain alcohol.")}</p>
+        <p className="text-white/50 text-xs mb-8">{L("We vragen dit omdat onze producten alcohol bevatten.", "We ask because our products contain alcohol.")}</p>
         <div className="flex gap-4 justify-center">
           <button
             onClick={() => onConfirm(true)}
@@ -810,7 +816,7 @@ function ImpactCounter() {
           >
             {bottlesPurchased.toLocaleString("nl-NL")}
           </p>
-          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">{L("Flessen in onze eerste batch", "Bottles in our first batch")}</p>
+          <p className="text-white/50 text-[11px] uppercase tracking-wider mt-2">{L("Flessen in onze eerste batch", "Bottles in our first batch")}</p>
         </div>
         <div>
           <p
@@ -819,13 +825,13 @@ function ImpactCounter() {
           >
             {`€${totalDonated.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`}
           </p>
-          <p className="text-white/35 text-[11px] uppercase tracking-wider mt-2">{L("Gereserveerd voor Stichting Ambulance Wens", "Reserved for Stichting Ambulance Wens")}</p>
+          <p className="text-white/50 text-[11px] uppercase tracking-wider mt-2">{L("Gereserveerd voor Stichting Ambulance Wens", "Reserved for Stichting Ambulance Wens")}</p>
         </div>
       </div>
-      <p className="text-white/35 text-sm mt-8 max-w-sm mx-auto">
+      <p className="text-white/50 text-sm mt-8 max-w-sm mx-auto">
         {L("€1 per fles, rechtstreeks naar Stichting Ambulance Wens.", "€1 per bottle, straight to Stichting Ambulance Wens.")}
       </p>
-      <p className="text-white/45 text-[11px] mt-3 italic">
+      <p className="text-white/50 text-[11px] mt-3 italic">
         {L("We werken dit per batch bij en maken het bedrag aan het einde van het jaar in één keer over.", "We update this per batch and transfer the amount in one go at the end of the year.")}
       </p>
     </div>
@@ -913,7 +919,7 @@ function USPStrip() {
                 <Icon size={28} color="#D4AF37" strokeWidth={1.5} />
                 <div>
                   <p className="text-white/85 text-[13px] font-medium leading-snug">{L(item.title, USPS_EN[i][0])}</p>
-                  <p className="text-white/40 text-[11px] mt-1">{L(item.subtitle, USPS_EN[i][1])}</p>
+                  <p className="text-white/50 text-[11px] mt-1">{L(item.subtitle, USPS_EN[i][1])}</p>
                 </div>
               </div>
             </Reveal>
@@ -1012,14 +1018,14 @@ function HomePage() {
             </Link>
             <Link
               to="/over-ons"
-              className="text-white/45 text-[11px] uppercase tracking-[0.14em] border-b border-white/20 pb-1 hover:text-white hover:border-white transition-colors"
+              className="text-white/50 text-[11px] uppercase tracking-[0.14em] border-b border-white/20 pb-1 hover:text-white hover:border-white transition-colors"
             >
               {L("Ons verhaal", "Our story")}
             </Link>
           </div>
         </div>
         <div className="relative h-[75svh] md:h-auto">
-          <img src="/images/vivace-bottle-hero-v2.jpg" fetchPriority="high" alt={L("Vivace Limoncello fles met citroenen en uitzicht op de Amalfikust", "Vivace Limoncello bottle with lemons and a view of the Amalfi Coast")} className="absolute inset-0 w-full h-full object-cover" />
+          <img width="3648" height="4128" decoding="async" src="/images/vivace-bottle-hero-v2.jpg" fetchPriority="high" alt={L("Vivace Limoncello fles met citroenen en uitzicht op de Amalfikust", "Vivace Limoncello bottle with lemons and a view of the Amalfi Coast")} className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 hidden md:block" style={{ background: "linear-gradient(to right, #0a1628, transparent 22%)" }} />
         </div>
       </section>
@@ -1047,7 +1053,7 @@ function HomePage() {
           <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(72px, 11vw, 130px)", lineHeight: 0.85 }}>
             €1
           </span>
-          <p className="text-black/50 text-[13px] font-semibold tracking-[0.3em] uppercase mt-4">
+          <p className="text-black/70 text-[13px] font-semibold tracking-[0.3em] uppercase mt-4">
             {L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}
           </p>
           <Link
@@ -1060,7 +1066,7 @@ function HomePage() {
       </div>
 
 <section className="relative overflow-hidden min-h-[75svh] flex items-center">
-        <img src="/images/vivace-van-nelle-fabriek.jpg" alt="Van Nelle Fabriek" className="absolute inset-0 w-full h-full object-cover" />
+        <img width="1380" height="752" decoding="async" loading="lazy" src="/images/vivace-van-nelle-fabriek.jpg" alt="Van Nelle Fabriek" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(10,22,40,0.94) 15%, rgba(10,22,40,0.35) 70%, rgba(10,22,40,0.1))" }} />
         <div className="relative px-6 md:px-14 py-24 max-w-2xl">
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Geproduceerd in Rotterdam", "Produced in Rotterdam")}</p>
@@ -1077,7 +1083,7 @@ function HomePage() {
             {recipes.map(([id, img, name], k) => (
               <Reveal key={id} delay={k * 80}>
                 <Link to={"/blog/" + id} className="group block">
-                  <div className="overflow-hidden aspect-[4/5]"><img src={img} alt={name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
+                  <div className="overflow-hidden aspect-[4/5]"><img decoding="async" src={img} alt={name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
                   <p className="text-2xl mt-4 group-hover:text-[#D4AF37] transition-colors" style={serif}>{name}</p>
                 </Link>
               </Reveal>
@@ -1093,7 +1099,7 @@ function HomePage() {
           <div className="grid md:grid-cols-3 gap-6">
             {shops.map(([img, name, city], k) => (
               <Reveal key={name} delay={k * 100}>
-                <div className="aspect-[3/4] overflow-hidden"><img src={img} alt={name} loading="lazy" className="w-full h-full object-cover" /></div>
+                <div className="aspect-[3/4] overflow-hidden"><img decoding="async" src={img} alt={name} loading="lazy" className="w-full h-full object-cover" /></div>
                 <p className="text-2xl mt-4" style={serif}>{name}</p><p className="text-white/50 text-sm">{city}</p>
               </Reveal>
             ))}
@@ -1127,18 +1133,18 @@ function ProductsPage({ cart }) {
       {Object.values(PRODUCTS).map((p, i) => (
         <section key={p.id} className="grid md:grid-cols-2">
           <div className={`relative h-[65svh] md:h-auto md:min-h-[85svh] ${i % 2 ? "md:order-2" : ""}`}>
-            <img src={p.id === "limoncello" ? "/images/vivace-bottle-hero-v2.jpg" : "/images/vivace-can-hero.jpg"} alt={p.id === "limoncello" ? "Vivace Limoncello fles, 500ml, ambachtelijk geproduceerd van biologische Sorrento-citroenen" : "Vivace Limoncello Spritz blikje, kant-en-klare aperitief op basis van limoncello"} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+            <img decoding="async" src={p.id === "limoncello" ? "/images/vivace-bottle-hero-v2.jpg" : "/images/vivace-can-hero.jpg"} alt={p.id === "limoncello" ? "Vivace Limoncello fles, 500ml, ambachtelijk geproduceerd van biologische Sorrento-citroenen" : "Vivace Limoncello Spritz blikje, kant-en-klare aperitief op basis van limoncello"} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
           </div>
           <div className="bg-[#102338] flex flex-col justify-center px-6 md:px-16 py-16">
             <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4AF37] mb-2">{L(p.type, PRODUCT_EN[p.id].type)}</p>
             <h2 className="font-serif text-4xl md:text-5xl text-[#D4AF37] mb-5" style={serif}>{p.name}</h2>
             <p className="text-white/60 leading-relaxed mb-5 max-w-md">{L(p.description, PRODUCT_EN[p.id].description)}</p>
             <p className="text-[#D4AF37]/70 text-sm italic mb-6">{L(p.backLabel, PRODUCT_EN[p.id].backLabel)}</p>
-            <p className="text-white/40 text-xs tracking-wide mb-1">{p.abv} · {p.size}</p>
-            <p className="text-white/30 text-[11px] tracking-wide mb-8">{L(p.kcal, PRODUCT_EN[p.id].kcal)}</p>
+            <p className="text-white/50 text-xs tracking-wide mb-1">{p.abv} · {p.size}</p>
+            <p className="text-white/50 text-[11px] tracking-wide mb-8">{L(p.kcal, PRODUCT_EN[p.id].kcal)}</p>
             <div>
               {p.comingSoon ? (
-                <button disabled className={`${btn} border border-white/15 text-white/35 cursor-not-allowed`}>{L("Binnenkort", "Coming soon")}</button>
+                <button disabled className={`${btn} border border-white/15 text-white/50 cursor-not-allowed`}>{L("Binnenkort", "Coming soon")}</button>
               ) : p.onlineSellable ? (
                 <div className="flex items-center gap-4">
                   <span className="text-white font-medium">€{p.price.toFixed(2)}</span>
@@ -1148,9 +1154,9 @@ function ProductsPage({ cart }) {
                 <Link to="/verkooppunten" className={`${btn} border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black`}>{L("Vind in winkel", "Find in store")} <ChevronRight size={14} /></Link>
               )}
             </div>
-            {p.comingSoon && <p className="text-white/35 text-[11px] max-w-xs mt-6">{L("Vivace Spritz is in ontwikkeling. Binnenkort beschikbaar.", "Vivace Spritz is in development. Available soon.")}</p>}
+            {p.comingSoon && <p className="text-white/50 text-[11px] max-w-xs mt-6">{L("Vivace Spritz is in ontwikkeling. Binnenkort beschikbaar.", "Vivace Spritz is in development. Available soon.")}</p>}
             {!p.onlineSellable && !p.comingSoon && (
-              <p className="text-white/35 text-[11px] max-w-sm mt-6">{L("Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een erkende slijterij. Vivace Limoncello is daarom te koop bij onze partners.", "In the Netherlands, spirits (30% ABV) may only be sold online by a licensed liquor store. Vivace Limoncello is therefore sold through our partners.")}</p>
+              <p className="text-white/50 text-[11px] max-w-sm mt-6">{L("Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een erkende slijterij. Vivace Limoncello is daarom te koop bij onze partners.", "In the Netherlands, spirits (30% ABV) may only be sold online by a licensed liquor store. Vivace Limoncello is therefore sold through our partners.")}</p>
             )}
           </div>
         </section>
@@ -1180,7 +1186,7 @@ function StoresPage() {
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vind Vivace bij jou in de buurt", "Find Vivace near you")}
         </h1>
-        <p className="text-white/45 max-w-lg mb-14">
+        <p className="text-white/50 max-w-lg mb-14">
           {L("Vivace Limoncello is te koop bij supermarkten, slijterijen en restaurants. Vivace Spritz in blik is in ontwikkeling en volgt later.", "Vivace Limoncello is sold at supermarkets, liquor stores and restaurants. Vivace Spritz in a can is in development and will follow later.")}
         </p>
       </Reveal>
@@ -1192,7 +1198,7 @@ function StoresPage() {
             <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80 mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               {L("Onze eerste verkooppunten worden hier binnenkort zichtbaar.", "Our first stockists will appear here soon.")}
             </p>
-            <p className="text-white/35 text-sm max-w-md mx-auto">
+            <p className="text-white/50 text-sm max-w-md mx-auto">
               {L("We werken aan onze eerste plekken bij supermarkten, slijterijen en restaurants. Zodra deze bekend zijn, vind je ze hier terug, inclusief een overzichtskaart.", "We are working on our first locations at supermarkets, liquor stores and restaurants. As soon as they are known, you will find them here, including an overview map.")}
             </p>
           </div>
@@ -1217,7 +1223,7 @@ function StoresPage() {
                       <MapPin className="text-[#D4AF37] flex-shrink-0" size={22} />
                       <div>
                         <p className="text-white/90 font-medium">{s.name}</p>
-                        <p className="text-white/40 text-sm">
+                        <p className="text-white/50 text-sm">
                           {s.type} · {s.address}, {s.postcode} {s.city}
                         </p>
                       </div>
@@ -1254,7 +1260,7 @@ function StoresPage() {
       )}
 
       <Reveal delay={200}>
-        <p className="text-white/25 text-xs mt-10 italic">
+        <p className="text-white/50 text-xs mt-10 italic">
           {L("Sta je hier nog niet bij en wil je Vivace verkopen?", "Not on the list yet and want to sell Vivace?")}{" "}
           <Link to="/horeca" className="text-[#D4AF37]/70 not-italic border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
             {L("Meld je aan als verkooppunt", "Sign up as a stockist")}
@@ -1274,7 +1280,7 @@ function AboutPage() {
   });
 
   return (
-    <div><section className="relative h-[55svh] min-h-[360px] overflow-hidden"><img src="/images/vivace-colosseum-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" /><div className="absolute inset-0" style={{background:"linear-gradient(to top,#0a1628,rgba(10,22,40,0.25))"}} /></section><div className="-mt-24 relative pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+    <div><section className="relative h-[55svh] min-h-[360px] overflow-hidden"><img width="1920" height="900" decoding="async" loading="lazy" src="/images/vivace-colosseum-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" /><div className="absolute inset-0" style={{background:"linear-gradient(to top,#0a1628,rgba(10,22,40,0.25))"}} /></section><div className="-mt-24 relative pb-24 px-6 md:px-14 max-w-4xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Ons Verhaal", "Our Story")}</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -1347,7 +1353,7 @@ function AboutPage() {
       <Reveal delay={300}>
         <div className="border-t border-[#D4AF37]/25 pt-16 text-center">
           <p className="font-serif text-4xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
-          <p className="text-[10px] uppercase tracking-wider text-white/35 mb-8">{L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}</p>
+          <p className="text-[10px] uppercase tracking-wider text-white/50 mb-8">{L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}</p>
           <p className="text-white/55 leading-relaxed text-[15px] max-w-lg mx-auto mb-6">
             {L("Waarom we voor een vast bedrag per fles kozen, wie Stichting Ambulance Wens is, en waar we nu in dat proces staan. Dat staat allemaal op onze Impact-pagina.", "Why we chose a fixed amount per bottle, who Stichting Ambulance Wens is, and where we stand in that process. It is all on our Impact page.")}
           </p>
@@ -1424,7 +1430,7 @@ function ImpactPage() {
           </h2>
 
           <div className="bg-[#f7f3e8] p-8 md:p-10 flex flex-col sm:flex-row items-center gap-8 mb-8">
-            <img
+            <img decoding="async"
               src={IMPACT_PARTNER.logo}
               alt="Logo Stichting Ambulance Wens"
               className="w-full max-w-[200px] sm:max-w-[180px] h-auto flex-shrink-0"
@@ -1513,7 +1519,7 @@ function ImpactPage() {
           <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")}
           </p>
-          <p className="text-white/40 text-sm mb-6">{L("Vragen over ons impactmodel? We beantwoorden ze graag.", "Questions about our impact model? We are happy to answer them.")}</p>
+          <p className="text-white/50 text-sm mb-6">{L("Vragen over ons impactmodel? We beantwoorden ze graag.", "Questions about our impact model? We are happy to answer them.")}</p>
           <Link
             to="/contact"
             className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
@@ -1555,7 +1561,7 @@ function PressPage() {
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Alles voor pers en reviewers, op één plek", "Everything for press and reviewers, in one place")}
         </h1>
-        <p className="text-white/45 max-w-lg mb-10">
+        <p className="text-white/50 max-w-lg mb-10">
           {L("Logo's, productfoto's en een korte brand backgrounder, vrij te gebruiken bij het schrijven over Vivace. Liever alles in één keer? Download de volledige perskit hieronder.", "Logos, product photos and a short brand backgrounder, free to use when writing about Vivace. Prefer everything in one go? Download the full press kit below.")}
         </p>
         <a
@@ -1606,7 +1612,7 @@ function PressPage() {
               ["Tagline", L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")],
             ].map(([label, value]) => (
               <div key={label} className="border-b border-[#D4AF37]/25 pb-3">
-                <p className="text-[10px] uppercase tracking-wider text-white/35 mb-1">{label}</p>
+                <p className="text-[10px] uppercase tracking-wider text-white/50 mb-1">{label}</p>
                 <p className="text-white/75 text-sm">{value}</p>
               </div>
             ))}
@@ -1622,7 +1628,7 @@ function PressPage() {
             {logos.map((logo) => (
               <div key={logo.src} className="border border-[#D4AF37]/25">
                 <div className={`flex items-center justify-center p-8 ${logo.src.includes("navy") ? "bg-[#0C1526]" : "bg-white"}`}>
-                  <img src={logo.src} alt={logo.label} className="max-h-16 w-auto" />
+                  <img decoding="async" src={logo.src} alt={logo.label} className="max-h-16 w-auto" />
                 </div>
                 <a
                   href={logo.src}
@@ -1644,7 +1650,7 @@ function PressPage() {
           <div className="grid sm:grid-cols-2 gap-4">
             {photos.map((photo) => (
               <div key={photo.src} className="border border-[#D4AF37]/25 overflow-hidden">
-                <img src={photo.src} alt={photo.label} className="w-full h-48 object-cover" />
+                <img decoding="async" src={photo.src} alt={photo.label} className="w-full h-48 object-cover" />
                 <a
                   href={photo.src}
                   download
@@ -1664,13 +1670,13 @@ function PressPage() {
           <p className="font-serif italic text-2xl text-[#D4AF37] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Vragen voor een artikel of review?", "Questions for an article or review?")}
           </p>
-          <p className="text-white/40 text-sm mb-2">drinkvivace@gmail.com</p>
-          <p className="text-white/40 text-sm">+31 6 12 33 94 85</p>
+          <p className="text-white/50 text-sm mb-2">drinkvivace@gmail.com</p>
+          <p className="text-white/50 text-sm">+31 6 12 33 94 85</p>
           <a
             href={LINKEDIN_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-white/40 text-sm mt-4 hover:text-[#D4AF37] transition-colors"
+            className="inline-flex items-center gap-2 text-white/50 text-sm mt-4 hover:text-[#D4AF37] transition-colors"
           >
             <LinkedInIcon size={16} /> {L("Vivace op LinkedIn", "Vivace on LinkedIn")}
           </a>
@@ -1725,7 +1731,7 @@ function HorecaPage() {
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vivace bij jou in de zaak", "Vivace at your place")}
         </h1>
-        <p className="text-white/45 mb-6">
+        <p className="text-white/50 mb-6">
           {L("Restaurant, bar, slijterij of supermarkt en interesse om Vivace te serveren of te verkopen? Vul onderstaand formulier in. We nemen binnen een paar dagen contact met je op.", "A restaurant, bar, liquor store or supermarket interested in serving or selling Vivace? Fill in the form below. We will get back to you within a few days.")}
         </p>
         <a
@@ -1739,7 +1745,7 @@ function HorecaPage() {
           </svg>
           {L("Liever appen?", "Prefer WhatsApp?")}
         </a>
-        <p className="text-white/35 text-sm mb-12 -mt-8">
+        <p className="text-white/50 text-sm mb-12 -mt-8">
           {L("Benieuwd hoe Vivace wordt gemaakt?", "Curious how Vivace is made?")}{" "}
           <Link to="/blog/achter-de-schermen-productie" className="text-[#D4AF37]/80 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
             {L("Lees ons verhaal over Stokerij Klopman en de Van Nelle Fabriek", "Read our story about Stokerij Klopman and the Van Nelle Factory")}
@@ -1751,7 +1757,7 @@ function HorecaPage() {
         {status === "sent" ? (
           <div className="border border-[#D4AF37]/30 p-8 text-center">
             <p className="text-[#D4AF37] font-medium mb-2">{L("Bedankt voor je aanvraag!", "Thank you for your request!")}</p>
-            <p className="text-white/40 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
+            <p className="text-white/50 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -1822,7 +1828,7 @@ function HorecaPage() {
       </Reveal>
 
       <Reveal delay={200}>
-        <div className="mt-16 pt-10 border-t border-[#D4AF37]/25 text-white/35 text-sm space-y-1">
+        <div className="mt-16 pt-10 border-t border-[#D4AF37]/25 text-white/50 text-sm space-y-1">
           <p>{L("Liever direct mailen? drinkvivace@gmail.com", "Prefer to email directly? drinkvivace@gmail.com")}</p>
           <p>
             {L("Of volg ons op", "Or follow us on")}{" "}
@@ -1884,7 +1890,7 @@ function ContactPage() {
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Laten we praten", "Let's talk")}
         </h1>
-        <p className="text-white/45 mb-12">
+        <p className="text-white/50 mb-12">
           {L("Vragen over Vivace, interesse als verkooppunt, of gewoon nieuwsgierig? Stuur een bericht.", "Questions about Vivace, interest as a stockist, or just curious? Send a message.")}
         </p>
       </Reveal>
@@ -1893,7 +1899,7 @@ function ContactPage() {
         {status === "sent" ? (
           <div className="border border-[#D4AF37]/30 p-8 text-center">
             <p className="text-[#D4AF37] font-medium mb-2">{L("Bedankt voor je bericht!", "Thank you for your message!")}</p>
-            <p className="text-white/40 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
+            <p className="text-white/50 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -1935,7 +1941,7 @@ function ContactPage() {
       </Reveal>
 
       <Reveal delay={200}>
-        <div className="mt-16 pt-10 border-t border-[#D4AF37]/25 text-white/35 text-sm space-y-1">
+        <div className="mt-16 pt-10 border-t border-[#D4AF37]/25 text-white/50 text-sm space-y-1">
           <p>drinkvivace@gmail.com</p>
           <p>drinkvivace@gmail.com</p>
           <p>{L("Nederland", "The Netherlands")}</p>
@@ -1949,7 +1955,7 @@ function ContactPage() {
             {L("Vivace wordt geëxploiteerd door VVM Trading.", "Vivace is operated by VVM Trading.")}
           </p>
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geproduceerd door", "Produced by")}</p>
-          <p className="text-white/45 text-sm leading-relaxed">
+          <p className="text-white/50 text-sm leading-relaxed">
             Stokerij Klopman<br />
             Van Nelleweg 1, Kelder 3<br />
             3044 BC Rotterdam
@@ -1982,7 +1988,7 @@ function FAQItem({ q, a }) {
           open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <p className="pb-6 pr-8 text-white/45 text-sm md:text-base leading-relaxed">
+        <p className="pb-6 pr-8 text-white/50 text-sm md:text-base leading-relaxed">
           {a}
         </p>
       </div>
@@ -2126,7 +2132,7 @@ function FAQPage() {
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Veelgestelde vragen", "Frequently asked questions")}
         </h1>
-        <p className="text-white/45 max-w-lg mb-14">
+        <p className="text-white/50 max-w-lg mb-14">
           {L("Alles wat je wilt weten over Vivace, van het product tot ons donatiemodel.", "Everything you want to know about Vivace, from the product to our donation model.")}
         </p>
       </Reveal>
@@ -2149,7 +2155,7 @@ function FAQPage() {
 
       <Reveal delay={400}>
         <div className="mt-16 text-center border-t border-[#D4AF37]/25 pt-10">
-          <p className="text-white/40 text-sm mb-3">{L("Staat je vraag er niet bij?", "Is your question not listed?")}</p>
+          <p className="text-white/50 text-sm mb-3">{L("Staat je vraag er niet bij?", "Is your question not listed?")}</p>
           <Link
             to="/contact"
             className="text-[#D4AF37] font-serif italic text-lg border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors"
@@ -2742,7 +2748,7 @@ function BlogCard({ post }) {
       className="text-left border border-[#D4AF37]/25 hover:border-[#D4AF37]/40 transition-colors flex flex-col h-full overflow-hidden"
     >
       {post.image && (
-        <img src={post.image} alt={post.title} className="w-full h-44 object-cover" />
+        <img decoding="async" src={post.image} alt={post.title} className="w-full h-44 object-cover" />
       )}
       <div className="p-6 flex flex-col gap-3 flex-1">
         <span className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]">
@@ -2751,8 +2757,8 @@ function BlogCard({ post }) {
         <h3 className="font-serif text-xl text-white/90 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {post.title}
         </h3>
-        <p className="text-white/45 text-sm leading-relaxed flex-1">{post.excerpt}</p>
-        <span className="text-white/25 text-xs">{formatBlogDate(post.date)}</span>
+        <p className="text-white/50 text-sm leading-relaxed flex-1">{post.excerpt}</p>
+        <span className="text-white/50 text-xs">{formatBlogDate(post.date)}</span>
       </div>
     </Link>
   );
@@ -2765,10 +2771,10 @@ function RecipeBody({ post }) {
   return (
     <div className="bg-[#102338] border border-[#D4AF37]/25 overflow-hidden">
       {post.image && (
-        <img src={post.image} alt={post.title} className="w-full h-auto" />
+        <img decoding="async" src={post.image} alt={post.title} className="w-full h-auto" />
       )}
       {post.photoCredit && (
-        <p className="px-8 md:px-12 pt-3 text-[11px] text-white/35">
+        <p className="px-8 md:px-12 pt-3 text-[11px] text-white/50">
           Foto:{" "}
           <a
             href={`https://www.instagram.com/${post.photoCredit.replace("@", "")}/`}
@@ -2783,7 +2789,7 @@ function RecipeBody({ post }) {
       <div className="p-8 md:p-12">
       <div className="flex items-center justify-end mb-10">
         <div className="flex items-center gap-4">
-          <span className="text-white/35 text-[10px] uppercase tracking-[0.15em]">{unit}</span>
+          <span className="text-white/50 text-[10px] uppercase tracking-[0.15em]">{unit}</span>
           <div className="flex items-center gap-3 border border-[#D4AF37]/25">
             <button
               onClick={() => setServings(Math.max(1, servings - 1))}
@@ -2812,7 +2818,7 @@ function RecipeBody({ post }) {
           <ul className="space-y-3">
             {post.ingredients.map((ing, i) =>
               ing.heading ? (
-                <li key={i} className={`text-[10px] tracking-[0.2em] uppercase text-white/35 ${i > 0 ? "pt-4" : ""}`}>
+                <li key={i} className={`text-[10px] tracking-[0.2em] uppercase text-white/50 ${i > 0 ? "pt-4" : ""}`}>
                   {ing.heading}
                 </li>
               ) : (
@@ -2845,10 +2851,10 @@ function RecipeBody({ post }) {
       </div>
 
       <div className="text-center mt-12 pt-8 border-t border-[#D4AF37]/25">
-        <p className="font-serif italic text-white/40 text-sm" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <p className="font-serif italic text-white/50 text-sm" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {post.tip || "Tip: bewaar je Vivace in de vriezer voor het koudste, meest verfrissende resultaat."}
         </p>
-        <p className="text-white/20 text-[11px] mt-4">Drink met aandacht, drink met mate. 18+.</p>
+        <p className="text-white/50 text-[11px] mt-4">Drink met aandacht, drink met mate. 18+.</p>
       </div>
       </div>
     </div>
@@ -2859,10 +2865,10 @@ function ArticleBody({ post }) {
   return (
     <div className="bg-[#102338] border border-[#D4AF37]/25 overflow-hidden">
       {post.image && (
-        <img src={post.image} alt={post.title} className="w-full h-auto" />
+        <img decoding="async" src={post.image} alt={post.title} className="w-full h-auto" />
       )}
       {post.photoCredit && (
-        <p className="px-8 md:px-12 pt-3 text-[11px] text-white/35">
+        <p className="px-8 md:px-12 pt-3 text-[11px] text-white/50">
           Foto:{" "}
           <a
             href={`https://www.instagram.com/${post.photoCredit.replace("@", "")}/`}
@@ -2884,7 +2890,7 @@ function ArticleBody({ post }) {
       {post.gallery && post.gallery.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 sm:gap-1.5 px-1 sm:px-1.5 pb-1 sm:pb-1.5">
           {post.gallery.map((src, i) => (
-            <img
+            <img decoding="async"
               key={i}
               src={src}
               alt={`${post.title}, foto ${i + 2}`}
@@ -2956,7 +2962,7 @@ function BlogPostPage() {
   if (!post) {
     return (
       <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto text-center">
-        <p className="text-white/45 mb-6">Deze pagina kon niet worden gevonden.</p>
+        <p className="text-white/50 mb-6">Deze pagina kon niet worden gevonden.</p>
         <Link to="/blog" className="text-[#D4AF37] text-[11px] uppercase tracking-wider border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
           ← Terug naar blog
         </Link>
@@ -2968,7 +2974,7 @@ function BlogPostPage() {
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Link
         to="/blog"
-        className="text-white/40 text-[11px] uppercase tracking-wider mb-10 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
+        className="text-white/50 text-[11px] uppercase tracking-wider mb-10 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
       >
         ← Terug naar blog
       </Link>
@@ -2979,7 +2985,7 @@ function BlogPostPage() {
         <h1 className="font-serif text-3xl md:text-4xl mt-3 mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {post.title}
         </h1>
-        <p className="text-white/30 text-xs mb-10">{formatBlogDate(post.date)}</p>
+        <p className="text-white/50 text-xs mb-10">{formatBlogDate(post.date)}</p>
       </Reveal>
       <Reveal delay={100}>
         {post.type === "recept" ? <RecipeBody post={post} /> : <ArticleBody post={post} />}
@@ -3180,7 +3186,7 @@ function ReviewForm({ post }) {
           <input type="hidden" name="_subject" value={`Nieuwe review — ${post.title}`} />
           <input type="hidden" name="recept" value={post.title} />
           <div className="flex items-center gap-3">
-            <span className="text-white/40 text-xs uppercase tracking-wider">{L("Jouw beoordeling", "Your rating")}</span>
+            <span className="text-white/50 text-xs uppercase tracking-wider">{L("Jouw beoordeling", "Your rating")}</span>
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((n) => (
                 <button key={n} type="button" onClick={() => setRating(n)} aria-label={`${n} sterren`}>
@@ -3273,7 +3279,7 @@ function BlogPage() {
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Recepten, nieuws & verkooppunten
         </h1>
-        <p className="text-white/45 max-w-lg mb-12">
+        <p className="text-white/50 max-w-lg mb-12">
           Alles op één plek: nieuwe manieren om Vivace te serveren, updates over ons impactmodel, en
           waar je Vivace als eerste kunt vinden.
         </p>
@@ -3345,7 +3351,7 @@ function PrivacyPage() {
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Privacybeleid
         </h1>
-        <p className="text-white/45 max-w-lg mb-14">
+        <p className="text-white/50 max-w-lg mb-14">
           Laatst bijgewerkt: 28 juni 2026. Dit privacybeleid legt uit welke gegevens Vivace verzamelt,
           waarom, en welke rechten je hebt.
         </p>
@@ -3442,7 +3448,7 @@ function TermsPage() {
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Algemene voorwaarden
         </h1>
-        <p className="text-white/45 max-w-lg mb-14">
+        <p className="text-white/50 max-w-lg mb-14">
           Laatst bijgewerkt: 2 oktober 2026. Deze voorwaarden zijn van toepassing op het gebruik van deze
           website en op de informatie die hierop wordt aangeboden.
         </p>
@@ -3614,7 +3620,7 @@ function MerchGallery({ p, name }) {
         aria-label={`${L("Vergroot foto", "Enlarge photo")}: ${name}`}
         className="block w-full bg-[#F4F0E4] aspect-square overflow-hidden cursor-zoom-in"
       >
-        <img src={imgs[i]} alt={name} loading="lazy" className="w-full h-full object-contain" />
+        <img decoding="async" src={imgs[i]} alt={name} loading="lazy" className="w-full h-full object-contain" />
       </button>
       {n > 1 && (
         <div className="flex justify-center gap-2 mt-3">
@@ -3626,7 +3632,7 @@ function MerchGallery({ p, name }) {
               aria-label={`${name} ${k + 1}`}
               className={`w-12 h-12 bg-[#F4F0E4] overflow-hidden border transition-colors ${k === i ? "border-[#D4AF37]" : "border-transparent hover:border-[#D4AF37]/50"}`}
             >
-              <img src={src} alt="" className="w-full h-full object-contain" />
+              <img decoding="async" src={src} alt="" className="w-full h-full object-contain" />
             </button>
           ))}
         </div>
@@ -3641,7 +3647,7 @@ function MerchGallery({ p, name }) {
         >
           <div className="relative w-full max-w-3xl" onClick={(e) => e.stopPropagation()}>
             <div className="bg-[#F4F0E4] aspect-square max-h-[85vh] mx-auto">
-              <img src={imgs[i]} alt={name} className="w-full h-full object-contain" />
+              <img decoding="async" src={imgs[i]} alt={name} className="w-full h-full object-contain" />
             </div>
             <button
               type="button"
@@ -3709,7 +3715,7 @@ function SizeChartModal({ product, lang, onClose }) {
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-center">
             <thead>
-              <tr className="text-[10px] uppercase tracking-[0.15em] text-white/45 border-b border-[#D4AF37]/25">
+              <tr className="text-[10px] uppercase tracking-[0.15em] text-white/50 border-b border-[#D4AF37]/25">
                 <th className="py-2 pr-2 text-left font-normal">{L("Maat", "Size")}</th>
                 <th className="py-2 px-2 font-normal">{L("Lengte", "Length")}</th>
                 <th className="py-2 px-2 font-normal">{L("Breedte", "Width")}</th>
@@ -3730,7 +3736,7 @@ function SizeChartModal({ product, lang, onClose }) {
             </tbody>
           </table>
         </div>
-        <div className="text-white/45 text-xs mt-5 space-y-2">
+        <div className="text-white/50 text-xs mt-5 space-y-2">
           <p>
             {L(
               "Leg een T-shirt dat je goed vindt zitten plat neer en vergelijk: breedte meet je van oksel tot oksel, lengte vanaf het hoogste punt van de schouder tot de onderrand. Borst is de omtrek van je eigen borst.",
@@ -3890,7 +3896,7 @@ function MerchPage() {
         <h1 className="font-serif italic text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vivace, om te dragen.", "Vivace, to wear.")}
         </h1>
-        <p className="text-white/45 max-w-lg mb-14">
+        <p className="text-white/50 max-w-lg mb-14">
           {L(
             "Een kleine collectie in navy en goud, rustig en tijdloos. Alles wordt op bestelling gemaakt.",
             "A small collection in navy and gold, calm and timeless. Everything is made to order."
@@ -3907,7 +3913,7 @@ function MerchPage() {
                 <h2 className="font-serif text-2xl mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {p.name[lang]}
                 </h2>
-                <p className="text-white/45 text-sm max-w-xs mb-4 flex-1">{p.description[lang]}</p>
+                <p className="text-white/50 text-sm max-w-xs mb-4 flex-1">{p.description[lang]}</p>
                 <div className="w-full flex flex-col items-center mt-auto">
                   <p className="text-[#D4AF37] mb-5">{euro(p.price_cents)}</p>
                   <div className="min-h-[84px] flex flex-col items-center justify-start mb-4">
@@ -3959,7 +3965,7 @@ function MerchPage() {
             ))}
           </div>
           {error && <p className="text-center text-sm text-[#e0a0a0] mb-6" role="alert">{error}</p>}
-          <p className="text-center text-white/45 text-xs mb-14">
+          <p className="text-center text-white/50 text-xs mb-14">
             {L(
               `Verzendkosten ${euro(data.shipping_cents)}. Levering binnen ongeveer 5 tot 10 werkdagen. Alle prijzen zijn inclusief btw. `,
               `Shipping ${euro(data.shipping_cents)}. Delivery in about 5 to 10 working days. All prices include VAT. `
@@ -3996,7 +4002,7 @@ function MerchPage() {
 
       <Reveal delay={100}>
         <div className="border-t border-[#D4AF37]/25 pt-8 text-center">
-          <p className="text-white/45 text-sm max-w-md mx-auto mb-4">
+          <p className="text-white/50 text-sm max-w-md mx-auto mb-4">
             {L(
               "Vivace Limoncello koop je niet online. De fles is verkrijgbaar bij onze verkooppunten.",
               "Vivace Limoncello is not sold online. The bottle is available at our stockists."
@@ -4006,11 +4012,11 @@ function MerchPage() {
             {L("Bekijk de verkooppunten", "See where to buy")}
           </Link>
           {live && (
-            <p className="text-white/35 text-xs max-w-lg mx-auto mt-10">
+            <p className="text-white/50 text-xs max-w-lg mx-auto mt-10">
               VVM Trading, KVK 86618806, Loevestein 18, 3171 JD Poortugaal. drinkvivace@gmail.com
             </p>
           )}
-          <p className="text-white/30 text-xs mt-8">
+          <p className="text-white/50 text-xs mt-8">
             {L("Vivace is een alcoholmerk. Deze pagina is bedoeld voor 18 jaar en ouder. Geniet bewust.", "Vivace is an alcohol brand. This page is intended for people aged 18 and over. Enjoy responsibly.")}
           </p>
         </div>
@@ -4029,7 +4035,7 @@ function MerchThanksPage() {
         <h1 className="font-serif italic text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Bedankt!", "Thank you!")}
         </h1>
-        <p className="text-white/45 mb-10">
+        <p className="text-white/50 mb-10">
           {L(
             "Je betaling is gelukt. Je krijgt een bevestiging per e-mail. Je bestelling wordt voor je gemaakt en je ontvangt een track-and-trace zodra hij onderweg is.",
             "Your payment went through. You will receive a confirmation by email. Your order is made for you and you will get tracking details as soon as it ships."
@@ -4081,7 +4087,7 @@ function Footer() {
       <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-x-8 gap-y-12">
         <div className="col-span-2 md:col-span-1">
           <Link to="/" className="inline-block" aria-label="Vivace, naar de homepage">
-            <img src="/images/vivace-logo-transparent.png" alt="Vivace" className="h-6 w-auto" />
+            <img width="883" height="188" decoding="async" src="/images/vivace-logo-transparent.png" alt="Vivace" className="h-6 w-auto" />
           </Link>
           <p
             className="font-serif italic text-base text-white/60 mt-4 mb-6"
@@ -4127,7 +4133,7 @@ function Footer() {
         ))}
       </div>
 
-      <div className="max-w-6xl mx-auto mt-14 pt-8 border-t border-[#D4AF37]/25 flex flex-col md:flex-row md:justify-between gap-3 text-xs text-white/45">
+      <div className="max-w-6xl mx-auto mt-14 pt-8 border-t border-[#D4AF37]/25 flex flex-col md:flex-row md:justify-between gap-3 text-xs text-white/50">
         <p>
           {L("Impactpartner:", "Impact partner:")}{" "}
           <a
