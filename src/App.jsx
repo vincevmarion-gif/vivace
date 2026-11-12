@@ -3090,18 +3090,19 @@ function ReviewsPage() {
   return (
     <div>
       <PageBanner imgs={["/images/vivace-limoncello-bars-hero.jpg", "/images/vivace-tiramisu-hero.jpg", "/images/vivace-kwarktaart-hero.jpg"]} />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Reviews</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Wat anderen van Vivace vinden", "What others think of Vivace")}
         </h1>
         {all.length > 0 && (
-          <div className="flex items-center gap-3 mb-10">
-            <ReviewStars rating={Math.round(average)} size={18} />
-            <span className="text-white/50 text-sm">
-              {average.toFixed(1)} · {all.length} {all.length === 1 ? "review" : "reviews"}
-            </span>
+          <div className="flex items-end gap-6 mb-14">
+            <span className="font-serif text-7xl md:text-8xl text-[#D4AF37] leading-none" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{average.toFixed(1)}</span>
+            <div className="pb-2">
+              <ReviewStars rating={Math.round(average)} size={20} />
+              <p className="text-white/55 text-sm mt-2">{all.length} {all.length === 1 ? "review" : "reviews"}</p>
+            </div>
           </div>
         )}
       </Reveal>
@@ -3116,32 +3117,28 @@ function ReviewsPage() {
           </div>
         </Reveal>
       ) : (
-        <div className="space-y-6">
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-6">
           {all.map((r, i) => (
-            <Reveal key={i} delay={100 + i * 60}>
-              <div className="border border-[#D4AF37]/25 p-5">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-white/85 text-sm font-medium">{r.name}</span>
-                  <ReviewStars rating={r.rating} />
-                </div>
-                <p className="text-white/50 text-sm leading-relaxed">{r.text}</p>
-                {r.source && (
-                  <Link
-                    to={`/blog/${r.sourceId}`}
-                    className="inline-block mt-3 text-[10px] uppercase tracking-wider text-[#D4AF37] hover:text-[#D4AF37] transition-colors"
-                  >
-                    {L("Over:", "About:")} {r.source} →
-                  </Link>
-                )}
+            <div key={i} className="border border-[#D4AF37]/25 bg-[#102338] p-7 mb-6" style={{ breakInside: "avoid" }}>
+              <span className="font-serif text-5xl text-[#D4AF37] leading-none block h-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>“</span>
+              <p className="font-serif italic text-lg text-white/85 leading-snug mb-5" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{r.text}</p>
+              <div className="flex items-center justify-between border-t border-[#D4AF37]/25 pt-4">
+                <span className="text-white/70 text-sm">{r.name}</span>
+                <ReviewStars rating={r.rating} />
               </div>
-            </Reveal>
+              {r.source && (
+                <Link to={`/blog/${r.sourceId}`} className="inline-block mt-3 text-[10px] uppercase tracking-wider text-[#D4AF37]">
+                  {L("Over:", "About:")} {r.source} →
+                </Link>
+              )}
+            </div>
           ))}
         </div>
       )}
 
-      <Reveal delay={150}>
+      <div className="mt-20 max-w-2xl mx-auto">
         <ReviewForm post={{ title: "Vivace Limoncello (algemeen)" }} />
-      </Reveal>
+      </div>
     </div></div>
   );
 }
