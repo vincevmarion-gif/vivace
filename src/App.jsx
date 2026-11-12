@@ -303,7 +303,7 @@ const STOCKISTS = [
     products: ["limoncello"],
   },
     {
-    name: "Colins Slijterij",
+    name: "Colins Slijterij & Wijnwinkel",
     type: "Slijterij",
     address: "De Loper 22",
     postcode: "3136 CN",
@@ -1003,7 +1003,7 @@ function HomePage() {
   const serif = { fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 };
   const more = "inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] uppercase tracking-[0.2em] border-b border-[#D4AF37]/40 pb-1 hover:border-[#D4AF37] transition-colors";
   const recipes = [["spritz-klassiek", "/images/vivace-spritz-klassiek-hero.jpg", "Limoncello Spritz"], ["vivace-tonic", "/images/vivace-tonic-hero.jpg", "Vivace Tonic"], ["vivace-basil-smash", "/images/vivace-basil-smash-hero.jpg", "Basil Smash"], ["vivace-mule", "/images/vivace-mule-hero.jpg", "Vivace Mule"]];
-  const shops = [["/images/vivace-plus-winkel.jpg", "PLUS Rick Hoogendoorn", "Poortugaal"], ["/images/vivace-van-dijk-winkel.jpg", "Wijnhandel Van Dijk", "Schiedam"], ["/images/vivace-colins-winkel.jpg", "Colins Slijterij", "Vlaardingen"]];
+  const shops = [["/images/vivace-plus-winkel.jpg", "PLUS Rick Hoogendoorn", "Poortugaal"], ["/images/vivace-van-dijk-winkel.jpg", "Wijnhandel Van Dijk", "Schiedam"], ["/images/vivace-colins-winkel.jpg", "Colins Slijterij & Wijnwinkel", "Vlaardingen"]];
   return (
     <div>
       <section className="grid md:grid-cols-2 md:min-h-[100svh] relative overflow-hidden">
@@ -1200,7 +1200,7 @@ function StoresPage() {
   const photos = {
     "PLUS Rick Hoogendoorn": "/images/vivace-plus-winkel.jpg",
     "Wijnhandel Van Dijk": "/images/vivace-van-dijk-winkel.jpg",
-    "Colins Slijterij": "/images/vivace-colins-winkel.jpg",
+    "Colins Slijterij & Wijnwinkel": "/images/vivace-colins-winkel.jpg",
   };
   const realStockists = STOCKISTS.filter((s) => !isPlaceholderStockist(s));
 
@@ -1747,7 +1747,7 @@ function HorecaPage() {
           {[
             [L("Een verhaal om te vertellen", "A story to tell"), L("Ambachtelijk gemaakt in de Van Nelle Fabriek, met €1 per fles voor Stichting Ambulance Wens.", "Handcrafted in the Van Nelle Factory, with €1 per bottle for Stichting Ambulance Wens.")],
             [L("Klaar voor de kaart", "Ready for your menu"), L("Recepten voor spritz, tonic, mule en meer staan al klaar.", "Recipes for spritz, tonic, mule and more are ready.")],
-            [L("Al in de winkel", "Already in stores"), L("Te vinden bij PLUS Rick Hoogendoorn, Wijnhandel Van Dijk en Colins Slijterij.", "Found at PLUS Rick Hoogendoorn, Wijnhandel Van Dijk and Colins Slijter.")],
+            [L("Al in de winkel", "Already in stores"), L("Te vinden bij PLUS Rick Hoogendoorn, Wijnhandel Van Dijk en Colins Slijterij & Wijnwinkel.", "Found at PLUS Rick Hoogendoorn, Wijnhandel Van Dijk and Colins Slijterij & Wijnwinkel.")],
           ].map(([t, d]) => (
             <li key={t} className="border-l border-[#D4AF37]/40 pl-5">
               <p className="font-serif text-2xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{t}</p>
