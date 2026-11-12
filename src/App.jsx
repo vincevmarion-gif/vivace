@@ -2150,7 +2150,7 @@ function FAQPage() {
   return (
     <div>
       <PageBanner imgs={["/images/vivace-puur-hero.jpg"]} />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-3xl mx-auto">
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Vragen", "Questions")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -2161,13 +2161,29 @@ function FAQPage() {
         </p>
       </Reveal>
 
+      <div className="grid md:grid-cols-[220px_1fr] gap-10 md:gap-20 items-start">
+        <aside className="md:sticky md:top-28">
+          <nav className="flex md:flex-col flex-wrap gap-x-6 gap-y-3 md:border-l md:border-[#D4AF37]/25 md:pl-6">
+            {FAQ_SECTIONS.map((section, i) => (
+              <a
+                key={section.title}
+                href={`#faq-${i}`}
+                onClick={(e) => { e.preventDefault(); document.getElementById(`faq-${i}`)?.scrollIntoView({ behavior: "smooth" }); }}
+                className="text-white/60 hover:text-[#D4AF37] text-sm transition-colors"
+              >
+                {L(section.title, FAQ_EN[i].title)}
+              </a>
+            ))}
+          </nav>
+        </aside>
+        <div>
       {FAQ_SECTIONS.map((section, i) => (
         <Reveal key={section.title} delay={i * 100}>
-          <div className={i > 0 ? "mt-12" : ""}>
-            <h2 className="font-serif text-2xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          <div id={`faq-${i}`} className={`scroll-mt-28 ${i > 0 ? "mt-14" : ""}`}>
+            <h2 className="font-serif text-3xl text-[#D4AF37] mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               {L(section.title, FAQ_EN[i].title)}
             </h2>
-            <div className="h-px w-full bg-[#1c3450] mb-2" />
+            <div className="h-px w-full bg-[#D4AF37]/25 mb-2" />
             <div>
               {section.items.map((item, j) => (
                 <FAQItem key={item.q} q={L(item.q, FAQ_EN[i].items[j].q)} a={L(item.a, FAQ_EN[i].items[j].a)} />
@@ -2176,6 +2192,8 @@ function FAQPage() {
           </div>
         </Reveal>
       ))}
+        </div>
+      </div>
 
       <Reveal delay={400}>
         <div className="mt-16 text-center border-t border-[#D4AF37]/25 pt-10">
