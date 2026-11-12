@@ -3955,10 +3955,10 @@ function MerchPage() {
   const live = products.length > 0;
 
   return (
-    <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
+    <div className="pt-32 pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Merch", "Merch")}</p>
-        <h1 className="font-serif italic text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <h1 className="font-serif italic text-5xl md:text-7xl leading-[1.02] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vivace, om te dragen.", "Vivace, to wear.")}
         </h1>
         <p className="text-white/50 max-w-lg mb-14">
@@ -3973,14 +3973,14 @@ function MerchPage() {
         <Reveal delay={50}>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             {products.map((p) => (
-              <div key={p.id} className="border border-[#D4AF37]/25 p-6 flex flex-col items-center text-center">
+              <div key={p.id} className="bg-[#102338] border border-[#D4AF37]/25 hover:border-[#D4AF37]/60 transition-colors p-8 flex flex-col items-center text-center">
                 <MerchGallery p={p} name={p.name[lang]} />
-                <h2 className="font-serif text-2xl mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                <h2 className="font-serif text-3xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {p.name[lang]}
                 </h2>
                 <p className="text-white/50 text-sm max-w-xs mb-4 flex-1">{p.description[lang]}</p>
                 <div className="w-full flex flex-col items-center mt-auto">
-                  <p className="text-[#D4AF37] mb-5">{euro(p.price_cents)}</p>
+                  <p className="text-white text-xl mb-5">{euro(p.price_cents)}</p>
                   <div className="min-h-[84px] flex flex-col items-center justify-start mb-4">
                     {p.sizes.length > 1 ? (
                       <div className="flex flex-nowrap justify-center gap-1.5" role="group" aria-label={L("Maat", "Size")}>
@@ -3990,7 +3990,7 @@ function MerchPage() {
                             type="button"
                             onClick={() => setSizes((x) => ({ ...x, [p.id]: s }))}
                             className={`min-w-[40px] px-2 py-2.5 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
-                              sizes[p.id] === s ? "border-[#D4AF37] text-[#D4AF37]" : "border-[#D4AF37]/25 text-white/50 hover:text-white"
+                              sizes[p.id] === s ? "border-[#D4AF37] bg-[#D4AF37] text-[#0a1628]" : "border-[#D4AF37]/25 text-white/60 hover:text-white hover:border-[#D4AF37]/60"
                             }`}
                           >
                             {s}
@@ -4014,7 +4014,7 @@ function MerchPage() {
                     type="button"
                     disabled={busy === p.id}
                     onClick={() => buy(p)}
-                    className="border border-[#D4AF37] text-[#D4AF37] px-8 py-3 text-[11px] uppercase tracking-[0.2em] hover:bg-[#D4AF37] hover:text-[#0a1628] transition-colors disabled:opacity-50"
+                    className="bg-[#D4AF37] text-[#0a1628] px-10 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
                   >
                     {busy === p.id ? L("Even geduld...", "One moment...") : L("Bestellen", "Order")}
                   </button>
@@ -4030,7 +4030,7 @@ function MerchPage() {
             ))}
           </div>
           {error && <p className="text-center text-sm text-[#e0a0a0] mb-6" role="alert">{error}</p>}
-          <p className="text-center text-white/50 text-xs mb-14">
+          <p className="text-center text-white/60 text-xs mb-14 border border-[#D4AF37]/25 py-4 px-6">
             {L(
               `Verzendkosten ${euro(data.shipping_cents)}. Levering binnen ongeveer 5 tot 10 werkdagen. Alle prijzen zijn inclusief btw. `,
               `Shipping ${euro(data.shipping_cents)}. Delivery in about 5 to 10 working days. All prices include VAT. `
