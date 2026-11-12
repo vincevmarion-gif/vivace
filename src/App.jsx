@@ -1563,7 +1563,7 @@ function PressPage() {
   return (
     <div>
       <PageBanner imgs={["/images/vivace-van-nelle-fabriek.jpg"]} />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Pers & Media", "Press & Media")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -1581,9 +1581,10 @@ function PressPage() {
         </a>
       </Reveal>
 
+      <div className="grid md:grid-cols-2 gap-x-16 gap-y-14 mt-16 border-t border-[#D4AF37]/25 pt-14">
       {/* Backgrounder */}
       <Reveal delay={100}>
-        <div className="border-t border-[#D4AF37]/25 mt-16 pt-14">
+        <div>
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Backgrounder", "Backgrounder")}</p>
           <div className="space-y-5 text-white/55 leading-relaxed text-[15px] max-w-2xl">
             <p>
@@ -1608,9 +1609,9 @@ function PressPage() {
 
       {/* Key facts */}
       <Reveal delay={150}>
-        <div className="border-t border-[#D4AF37]/25 mt-14 pt-14">
+        <div>
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Kernfeiten", "Key facts")}</p>
-          <div className="grid sm:grid-cols-2 gap-x-10 gap-y-4 max-w-2xl">
+          <div className="grid gap-y-4">
             {[
               ["Product", "Vivace Limoncello, 500ml, 30% ALC/VOL"],
               [L("Ingrediënten", "Ingredients"), L("Biologische Sorrento-citroenen, suiker, graanalcohol en water", "Organic Sorrento lemons, sugar, grain alcohol and water")],
@@ -1627,6 +1628,8 @@ function PressPage() {
           </div>
         </div>
       </Reveal>
+
+      </div>
 
       {/* Logos */}
       <Reveal delay={200}>
@@ -1655,10 +1658,10 @@ function PressPage() {
       <Reveal delay={250}>
         <div className="border-t border-[#D4AF37]/25 mt-14 pt-14">
           <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Productfoto's", "Product photos")}</p>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {photos.map((photo) => (
               <div key={photo.src} className="border border-[#D4AF37]/25 overflow-hidden">
-                <img decoding="async" src={photo.src} alt={photo.label} className="w-full h-48 object-cover" />
+                <img decoding="async" src={photo.src} alt={photo.label} className="w-full aspect-[4/3] object-cover" />
                 <a
                   href={photo.src}
                   download
@@ -1908,17 +1911,42 @@ function ContactPage() {
   return (
     <div>
       <PageBanner imgs={["/images/vivace-golden-hour.jpg"]} />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-2xl mx-auto">
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
+        <div>
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Contact", "Contact")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Laten we praten", "Let's talk")}
         </h1>
-        <p className="text-white/50 mb-12">
+        <p className="text-white/55 mb-8">
           {L("Vragen over Vivace, interesse als verkooppunt, of gewoon nieuwsgierig? Stuur een bericht.", "Questions about Vivace, interest as a stockist, or just curious? Send a message.")}
         </p>
       </Reveal>
 
+      <Reveal delay={200}>
+        <div className="mt-10 pt-8 border-t border-[#D4AF37]/25 text-white/50 text-sm space-y-1">
+          <p>drinkvivace@gmail.com</p>
+          <p>{L("Nederland", "The Netherlands")}</p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={250}>
+        <div className="mt-10 pt-10 border-t border-[#D4AF37]/25">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geleverd door", "Delivered by")}</p>
+          <p className="text-white/70 text-sm leading-relaxed mb-6">
+            {L("Vivace wordt geëxploiteerd door VVM Trading.", "Vivace is operated by VVM Trading.")}
+          </p>
+          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geproduceerd door", "Produced by")}</p>
+          <p className="text-white/50 text-sm leading-relaxed">
+            Stokerij Klopman<br />
+            Van Nelleweg 1, Kelder 3<br />
+            3044 BC Rotterdam
+          </p>
+        </div>
+      </Reveal>
+        </div>
+        <div className="border border-[#D4AF37]/25 p-6 md:p-8">
       <Reveal delay={100}>
         {status === "sent" ? (
           <div className="border border-[#D4AF37]/30 p-8 text-center">
@@ -1964,28 +1992,8 @@ function ContactPage() {
         )}
       </Reveal>
 
-      <Reveal delay={200}>
-        <div className="mt-16 pt-10 border-t border-[#D4AF37]/25 text-white/50 text-sm space-y-1">
-          <p>drinkvivace@gmail.com</p>
-          <p>drinkvivace@gmail.com</p>
-          <p>{L("Nederland", "The Netherlands")}</p>
         </div>
-      </Reveal>
-
-      <Reveal delay={250}>
-        <div className="mt-10 pt-10 border-t border-[#D4AF37]/25">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geleverd door", "Delivered by")}</p>
-          <p className="text-white/70 text-sm leading-relaxed mb-6">
-            {L("Vivace wordt geëxploiteerd door VVM Trading.", "Vivace is operated by VVM Trading.")}
-          </p>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geproduceerd door", "Produced by")}</p>
-          <p className="text-white/50 text-sm leading-relaxed">
-            Stokerij Klopman<br />
-            Van Nelleweg 1, Kelder 3<br />
-            3044 BC Rotterdam
-          </p>
-        </div>
-      </Reveal>
+      </div>
     </div></div>
   );
 }
