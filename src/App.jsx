@@ -388,7 +388,7 @@ function StoresMap({ stockists }) {
     markersRef.current = [];
     const goldIcon = window.L.divIcon({
       className: "",
-      html: '<svg width="30" height="40" viewBox="0 0 30 40" style="filter:drop-shadow(0 3px 4px rgba(0,0,0,.45))"><path d="M15 1C7 1 1 7.2 1 15c0 10.5 14 24 14 24s14-13.5 14-24C29 7.2 23 1 15 1z" fill="#D4AF37" stroke="#0C1526" stroke-width="2"/><circle cx="15" cy="15" r="5.5" fill="#0C1526"/></svg>',
+      html: '<svg width="30" height="40" viewBox="0 0 30 40" style="filter:drop-shadow(0 3px 4px rgba(0,0,0,.45))"><path d="M15 1C7 1 1 7.2 1 15c0 10.5 14 24 14 24s14-13.5 14-24C29 7.2 23 1 15 1z" fill="#D4AF37" stroke="#0a1628" stroke-width="2"/><circle cx="15" cy="15" r="5.5" fill="#0a1628"/></svg>',
       iconSize: [30, 40],
       iconAnchor: [15, 40],
       popupAnchor: [0, -36],
@@ -411,7 +411,7 @@ function StoresMap({ stockists }) {
 
   return (
     <>
-      <style>{`.vv-map .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9) saturate(.55)}.vv-map .leaflet-bar a{background:#102338;color:#D4AF37;border-color:rgba(212,175,55,.3)}.vv-map .leaflet-bar a:hover{background:#D4AF37;color:#0C1526}.vv-map .leaflet-popup-content-wrapper{background:#102338;color:#fff;border-radius:0;border:1px solid rgba(212,175,55,.4);font-family:'DM Sans',sans-serif;font-size:13px}.vv-map .leaflet-popup-tip{background:#102338}.vv-map .leaflet-popup-content a{color:#D4AF37}.vv-map .leaflet-control-attribution{background:rgba(10,22,40,.7);color:rgba(255,255,255,.5)}.vv-map .leaflet-control-attribution a{color:rgba(255,255,255,.6)}`}</style>
+      <style>{`.vv-map .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9) saturate(.55)}.vv-map .leaflet-bar a{background:#102338;color:#D4AF37;border-color:rgba(212,175,55,.3)}.vv-map .leaflet-bar a:hover{background:#D4AF37;color:#0a1628}.vv-map .leaflet-popup-content-wrapper{background:#102338;color:#fff;border-radius:0;border:1px solid rgba(212,175,55,.4);font-family:'DM Sans',sans-serif;font-size:13px}.vv-map .leaflet-popup-tip{background:#102338}.vv-map .leaflet-popup-content a{color:#D4AF37}.vv-map .leaflet-control-attribution{background:rgba(10,22,40,.7);color:rgba(255,255,255,.5)}.vv-map .leaflet-control-attribution a{color:rgba(255,255,255,.6)}`}</style>
       <div ref={mapRef} className="vv-map relative z-0 isolate w-full h-[26rem] md:h-[34rem] border border-[#D4AF37]/25" style={{ background: "#102338" }} />
     </>
   );
@@ -1231,7 +1231,7 @@ function StoresPage() {
                 <Reveal key={s.name} delay={i * 100}>
                   <div className="group h-full flex flex-col bg-[#102338] border border-[#D4AF37]/25">
                     <div className="aspect-[4/5] overflow-hidden">
-                      <img src={photos[s.name] || "/images/vivace-golden-hour.jpg"} alt={`Vivace Limoncello bij ${s.name} in ${s.city}`} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: "50% 30%" }} />
+                      <img src={photos[s.name] || "/images/vivace-bottle-hero-v2.jpg"} alt={`Vivace Limoncello bij ${s.name} in ${s.city}`} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: "50% 30%" }} />
                     </div>
                     <div className="p-6 flex flex-col flex-1">
                       <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4AF37] mb-2">{s.type}</p>
@@ -1562,8 +1562,8 @@ function PressPage() {
 
   return (
     <div>
-      <PageBanner imgs={["/images/vivace-van-nelle-fabriek.jpg"]} />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
+      <PageBanner imgs={["/images/vivace-bottle-hero-v2.jpg"]} pos="50% 40%" tall />
+      <div className="-mt-8 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Pers & Media", "Press & Media")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -1638,7 +1638,7 @@ function PressPage() {
           <div className="grid sm:grid-cols-2 gap-4">
             {logos.map((logo) => (
               <div key={logo.src} className="border border-[#D4AF37]/25">
-                <div className={`flex items-center justify-center p-8 ${logo.src.includes("navy") ? "bg-[#0C1526]" : "bg-white"}`}>
+                <div className={`flex items-center justify-center p-8 ${logo.src.includes("navy") ? "bg-[#0a1628]" : "bg-white"}`}>
                   <img decoding="async" src={logo.src} alt={logo.label} className="max-h-16 w-auto" />
                 </div>
                 <a
@@ -1910,8 +1910,8 @@ function ContactPage() {
 
   return (
     <div>
-      <PageBanner imgs={["/images/vivace-golden-hour.jpg"]} />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
+      <PageBanner imgs={["/images/vivace-plus-schap.jpg", "/images/vivace-van-dijk-schap.jpg", "/images/vivace-colins-schap.jpg"]} pos="50% 50%" tall />
+      <div className="-mt-8 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
         <div>
       <Reveal>
@@ -2157,8 +2157,8 @@ function FAQPage() {
 
   return (
     <div>
-      <PageBanner imgs={["/images/vivace-puur-hero.jpg"]} />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
+      <PageBanner imgs={["/images/vivace-colins-schap-02.jpg", "/images/vivace-van-dijk-schap-02.jpg"]} pos="50% 40%" tall />
+      <div className="-mt-8 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Vragen", "Questions")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
