@@ -956,9 +956,14 @@ function USPStrip() {
 
 function PageBanner({ imgs, pos = "50% 50%", tall = false }) {
   return (
-    <section className={`relative overflow-hidden grid ${tall ? "h-[62svh] min-h-[380px]" : "h-[42svh] min-h-[280px]"}`} style={{ gridTemplateColumns: `repeat(${imgs.length}, 1fr)` }}>
-      {imgs.map((src) => (<img key={src} src={src} alt="" decoding="async" className="w-full h-full object-cover" style={{ objectPosition: pos }} />))}
-      <div className="absolute inset-0" style={{ background: tall ? "linear-gradient(to top,#0a1628 0%,rgba(10,22,40,0) 55%)" : "linear-gradient(to top,#0a1628,rgba(10,22,40,0.3))" }} />
+    <section
+      className={`relative overflow-hidden grid grid-cols-1 md:[grid-template-columns:repeat(var(--n),minmax(0,1fr))] ${tall ? "h-[62svh] min-h-[380px]" : "h-[42svh] min-h-[280px]"}`}
+      style={{ "--n": imgs.length }}
+    >
+      {imgs.map((src, i) => (
+        <img key={src} src={src} alt="" decoding="async" className={`w-full h-full object-cover ${i > 0 ? "hidden md:block" : ""}`} style={{ objectPosition: pos }} />
+      ))}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: tall ? "linear-gradient(to top,#0a1628 0%,rgba(10,22,40,0) 22%)" : "linear-gradient(to top,#0a1628,rgba(10,22,40,0.3))" }} />
     </section>
   );
 }
@@ -1271,17 +1276,18 @@ function AboutPage() {
   });
 
   return (
-    <div><section className="relative h-[55svh] min-h-[360px] overflow-hidden"><img width="1920" height="900" decoding="async" loading="lazy" src="/images/vivace-colosseum-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" /><div className="absolute inset-0" style={{background:"linear-gradient(to top,#0a1628,rgba(10,22,40,0.25))"}} /></section><div className="-mt-24 relative pb-24 px-6 md:px-14 max-w-4xl mx-auto">
+    <div><section className="relative h-[55svh] min-h-[360px] overflow-hidden"><img width="1920" height="900" decoding="async" loading="lazy" src="/images/vivace-colosseum-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" /><div className="absolute inset-0" style={{background:"linear-gradient(to top,#0a1628,rgba(10,22,40,0.25))"}} /></section><div className="-mt-24 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
+      <div className="grid md:grid-cols-[1fr_1.7fr] gap-x-16 gap-y-8 mb-20 items-start">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Ons Verhaal", "Our Story")}</p>
-        <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vivace bestaat om iets terug te geven.", "Vivace exists to give something back.")}
         </h1>
       </Reveal>
 
       <Reveal delay={100}>
-        <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16">
-          <p>
+        <div className="space-y-6 text-white/55 leading-relaxed text-[15px]">
+          <p className="font-serif text-2xl md:text-3xl text-white/85 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Het idee is ontstaan tijdens een reis naar Rome, waar het Colosseum en de kennismaking met authentieke Italiaanse limoncello samenkwamen. Maar winst alleen voelde nooit als een goede reden om een merk te starten.", "The idea was born on a trip to Rome, where the Colosseum and a first taste of authentic Italian limoncello came together. But profit alone never felt like a good reason to start a brand.")}
           </p>
           <p>
@@ -1292,11 +1298,13 @@ function AboutPage() {
           </p>
         </div>
       </Reveal>
+      </div>
 
       <Reveal delay={200}>
-        <div className="bg-[#102338] border border-[#D4AF37]/10 p-10 mb-16 text-center">
-          <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            {L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")}
+        <div className="border-y border-[#D4AF37]/25 py-16 mb-20 text-center">
+          <p className="font-serif text-5xl md:text-7xl leading-[1.02]" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+            <span className="block">{L("Drink ", "Drink ")}<em className="italic text-[#D4AF37]">{L("anders.", "different.")}</em></span>
+            <span className="block">{L("Geniet ", "Enjoy ")}<em className="italic text-[#D4AF37]">{L("anders.", "different.")}</em></span>
           </p>
         </div>
       </Reveal>
@@ -1308,6 +1316,7 @@ function AboutPage() {
           <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Vier ingrediënten. Geen omwegen.", "Four ingredients. No detours.")}
           </h2>
+          <img src="/images/vivace-van-nelle-fabriek.jpg" alt="De Van Nelle Fabriek in Rotterdam" loading="lazy" decoding="async" className="w-full aspect-[21/9] object-cover mb-10 border border-[#D4AF37]/25" />
           <div className="grid md:grid-cols-2 gap-10 items-start">
             <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
               <p>
@@ -1343,7 +1352,7 @@ function AboutPage() {
       {/* Impact model lives on its own page now, short teaser + link here */}
       <Reveal delay={300}>
         <div className="border-t border-[#D4AF37]/25 pt-16 text-center">
-          <p className="font-serif text-4xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
+          <p className="font-serif text-7xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
           <p className="text-[10px] uppercase tracking-wider text-white/50 mb-8">{L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}</p>
           <p className="text-white/55 leading-relaxed text-[15px] max-w-lg mx-auto mb-6">
             {L("Waarom we voor een vast bedrag per fles kozen, wie Stichting Ambulance Wens is, en waar we nu in dat proces staan. Dat staat allemaal op onze Impact-pagina.", "Why we chose a fixed amount per bottle, who Stichting Ambulance Wens is, and where we stand in that process. It is all on our Impact page.")}
@@ -1562,7 +1571,7 @@ function PressPage() {
 
   return (
     <div>
-      <PageBanner imgs={["/images/vivace-bottle-hero-v2.jpg"]} pos="50% 40%" tall />
+      <PageBanner imgs={["/images/vivace-bottle-hero-v2.jpg", "/images/vivace-plus-schap.jpg", "/images/vivace-colins-schap.jpg"]} pos="50% 45%" tall />
       <div className="-mt-8 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Pers & Media", "Press & Media")}</p>
@@ -2157,7 +2166,7 @@ function FAQPage() {
 
   return (
     <div>
-      <PageBanner imgs={["/images/vivace-colins-schap-02.jpg", "/images/vivace-van-dijk-schap-02.jpg"]} pos="50% 40%" tall />
+      <PageBanner imgs={["/images/vivace-colins-schap-02.jpg", "/images/vivace-van-dijk-schap-02.jpg", "/images/vivace-van-dijk-schap.jpg"]} pos="50% 45%" tall />
       <div className="-mt-8 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Vragen", "Questions")}</p>
