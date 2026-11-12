@@ -954,11 +954,11 @@ function USPStrip() {
   );
 }
 
-function PageBanner({ imgs, pos = "50% 50%" }) {
+function PageBanner({ imgs, pos = "50% 50%", tall = false }) {
   return (
-    <section className="relative h-[42svh] min-h-[280px] overflow-hidden grid" style={{ gridTemplateColumns: `repeat(${imgs.length}, 1fr)` }}>
+    <section className={`relative overflow-hidden grid ${tall ? "h-[62svh] min-h-[380px]" : "h-[42svh] min-h-[280px]"}`} style={{ gridTemplateColumns: `repeat(${imgs.length}, 1fr)` }}>
       {imgs.map((src) => (<img key={src} src={src} alt="" decoding="async" className="w-full h-full object-cover" style={{ objectPosition: pos }} />))}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(to top,#0a1628,rgba(10,22,40,0.3))" }} />
+      <div className="absolute inset-0" style={{ background: tall ? "linear-gradient(to top,#0a1628 0%,rgba(10,22,40,0) 55%)" : "linear-gradient(to top,#0a1628,rgba(10,22,40,0.3))" }} />
     </section>
   );
 }
@@ -1732,8 +1732,8 @@ function HorecaPage() {
 
   return (
     <div>
-      <PageBanner imgs={["/images/vivace-gin-fizz-hero.jpg"]} pos="50% 55%" />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-5xl mx-auto">
+      <PageBanner imgs={["/images/vivace-gin-fizz-hero.jpg"]} pos="50% 55%" tall />
+      <div className="-mt-8 relative pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Voor horeca & retail", "For hospitality & retail")}</p>
@@ -2765,24 +2765,28 @@ function formatBlogDate(dateStr) {
   return d.toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
 }
 
-function BlogCard({ post }) {
+function BlogCard({ post, featured = false }) {
+  const label = BLOG_CATEGORIES.find((c) => c.id === post.type)?.label || post.type;
   return (
     <Link
       to={`/blog/${post.id}`}
-      className="text-left border border-[#D4AF37]/25 hover:border-[#D4AF37]/40 transition-colors flex flex-col h-full overflow-hidden"
+      className={`group border border-[#D4AF37]/25 hover:border-[#D4AF37]/60 transition-colors overflow-hidden h-full ${featured ? "grid md:grid-cols-2" : "flex flex-col"}`}
     >
       {post.image && (
-        <img decoding="async" src={post.image} alt={post.title} className="w-full h-44 object-cover" />
+        <div className={`overflow-hidden ${featured ? "aspect-[4/3] md:aspect-auto md:min-h-[420px]" : "aspect-[4/3]"}`}>
+          <img decoding="async" src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        </div>
       )}
-      <div className="p-6 flex flex-col gap-3 flex-1">
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]">
-          {BLOG_CATEGORIES.find((c) => c.id === post.type)?.label || post.type}
-        </span>
-        <h3 className="font-serif text-xl text-white/90 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+      <div className={`flex flex-col gap-3 flex-1 ${featured ? "p-8 md:p-12 justify-center" : "p-6"}`}>
+        <span className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]">{label}</span>
+        <h3 className={`font-serif text-white/90 leading-snug ${featured ? "text-3xl md:text-4xl" : "text-2xl"}`} style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {post.title}
         </h3>
-        <p className="text-white/50 text-sm leading-relaxed flex-1">{post.excerpt}</p>
-        <span className="text-white/50 text-xs">{formatBlogDate(post.date)}</span>
+        <p className={`text-white/55 text-sm leading-relaxed ${featured ? "" : "flex-1"}`}>{post.excerpt}</p>
+        <div className="flex items-center justify-between mt-2">
+          <span className="text-white/50 text-xs">{formatBlogDate(post.date)}</span>
+          <span className="text-[11px] uppercase tracking-[0.2em] text-[#D4AF37] flex items-center gap-1">{post.type === "recept" ? "Bekijk recept" : "Lees meer"} <ChevronRight size={14} /></span>
+        </div>
       </div>
     </Link>
   );
@@ -3297,7 +3301,7 @@ function BlogPage() {
   return (
     <div>
       <PageBanner imgs={["/images/vivace-spritz-klassiek-hero.jpg", "/images/vivace-tonic-hero.jpg", "/images/vivace-basil-smash-hero.jpg", "/images/vivace-mule-hero.jpg"]} />
-      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-5xl mx-auto">
+      <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
         <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Blog</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -3337,13 +3341,18 @@ function BlogPage() {
           </div>
         </Reveal>
       ) : (
-        <div className="grid md:grid-cols-2 gap-6">
-          {filtered.map((post, i) => (
-            <Reveal key={post.id} delay={150 + i * 80}>
-              <BlogCard post={post} />
-            </Reveal>
-          ))}
-        </div>
+        <>
+          {filter === "alle" && filtered[0] && (
+            <Reveal delay={150}><BlogCard post={filtered[0]} featured /></Reveal>
+          )}
+          <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-6 ${filter === "alle" ? "mt-6" : ""}`}>
+            {(filter === "alle" ? filtered.slice(1) : filtered).map((post, i) => (
+              <Reveal key={post.id} delay={100 + (i % 3) * 80}>
+                <BlogCard post={post} />
+              </Reveal>
+            ))}
+          </div>
+        </>
       )}
     </div></div>
   );
