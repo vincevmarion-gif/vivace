@@ -3969,6 +3969,56 @@ function MerchPage() {
   const products = data?.products || [];
   const live = products.length > 0;
 
+  // Gegevens voor Google (Search en Shopping): elk product met prijs, voorraad, verzending en retour.
+  const siteUrl = "https://www.drinkvivace.nl";
+  useJsonLd(
+    live
+      ? {
+          "@context": "https://schema.org",
+          "@graph": products.map((p) => ({
+            "@type": "Product",
+            "@id": `${siteUrl}/merch?product=${p.id}`,
+            sku: p.id,
+            name: p.name.nl,
+            description: p.description.nl,
+            image: (p.images && p.images.length ? p.images : [p.image]).filter(Boolean).map((i) => siteUrl + i),
+            brand: { "@type": "Brand", name: "Vivace" },
+            color: "Navy",
+            offers: {
+              "@type": "Offer",
+              url: `${siteUrl}/merch?product=${p.id}`,
+              price: (p.price_cents / 100).toFixed(2),
+              priceCurrency: "EUR",
+              availability: "https://schema.org/InStock",
+              itemCondition: "https://schema.org/NewCondition",
+              seller: { "@type": "Organization", name: "Vivace" },
+              shippingDetails: {
+                "@type": "OfferShippingDetails",
+                shippingRate: { "@type": "MonetaryAmount", value: ((data.shipping_cents || 0) / 100).toFixed(2), currency: "EUR" },
+                shippingDestination: (data.countries || []).map((c) => ({ "@type": "DefinedRegion", addressCountry: c })),
+              },
+              hasMerchantReturnPolicy: {
+                "@type": "MerchantReturnPolicy",
+                applicableCountry: data.countries || ["NL"],
+                returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+                merchantReturnDays: 14,
+                returnMethod: "https://schema.org/ReturnByMail",
+                returnFees: "https://schema.org/ReturnShippingFees",
+                refundType: "https://schema.org/FullRefund",
+              },
+            },
+          })),
+        }
+      : null
+  );
+
+  // Links uit Google en de productfeed (/merch?product=pet) scrollen naar het juiste product.
+  useEffect(() => {
+    if (!live) return;
+    const id = new URLSearchParams(window.location.search).get("product");
+    if (id) document.getElementById("merch-" + id)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [live]);
+
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
@@ -3988,7 +4038,7 @@ function MerchPage() {
         <Reveal delay={50}>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             {products.map((p) => (
-              <div key={p.id} className="bg-[#102338] border border-[#D4AF37]/25 hover:border-[#D4AF37]/60 transition-colors p-8 flex flex-col items-center text-center">
+              <div key={p.id} id={`merch-${p.id}`} className="scroll-mt-28 bg-[#102338] border border-[#D4AF37]/25 hover:border-[#D4AF37]/60 transition-colors p-8 flex flex-col items-center text-center">
                 <MerchGallery p={p} name={p.name[lang]} />
                 <h2 className="font-serif text-3xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {p.name[lang]}
