@@ -1149,6 +1149,21 @@ function ProductsPage({ cart }) {
     title: "Producten | Vivace Limoncello",
     description: "Ontdek Vivace Limoncello (30% VOL, 500ml) en de aankomende Vivace Spritz in blik. Premium Italiaans recept, geproduceerd in Nederland.",
   });
+  // Gegevens voor Google: de Limoncello als product (zonder prijs, want die staat niet op deze pagina)
+  useJsonLd({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: PRODUCTS.limoncello.name,
+    description: PRODUCTS.limoncello.description,
+    image: "https://www.drinkvivace.nl/images/vivace-bottle-hero-v2.jpg",
+    url: "https://www.drinkvivace.nl/producten",
+    category: "Limoncello",
+    brand: { "@type": "Brand", name: "Vivace" },
+    additionalProperty: [
+      { "@type": "PropertyValue", name: "Alcoholpercentage", value: "30% vol." },
+      { "@type": "PropertyValue", name: "Inhoud", value: "500 ml" },
+    ],
+  });
   const serif = { fontFamily: "'Cormorant Garamond', serif" };
   const btn = "px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors inline-flex items-center gap-2";
   return (
