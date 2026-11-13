@@ -1064,7 +1064,7 @@ function HomePage() {
       <div className="bg-[#D4AF37] overflow-hidden">
         <div className="flex whitespace-nowrap py-3" style={{ animation: "ticker 22s linear infinite" }}>
           {[...Array(2)].flatMap((_, rep) =>
-            [L("Drink anders", "Drink different"), L("€1 per fles naar Stichting Ambulance Wens", "€1 per bottle to Stichting Ambulance Wens"), L("Premium Italiaans recept", "Premium Italian recipe"), L("Transparant en schaalbaar", "Transparent and scalable"), L("Italiaanse ziel · Nederlands hart", "Italian soul · Dutch heart"), L("Geniet anders", "Enjoy different")].map(
+            [L("Drink anders", "Drink different"), L("€1 per fles naar Stichting Ambulance Wens", "€1 per bottle to Stichting Ambulance Wens"), L("Premium Italiaans recept", "Premium Italian recipe"), L("Italiaanse ziel · Nederlands hart", "Italian soul · Dutch heart"), L("Geniet anders", "Enjoy different")].map(
               (txt, i) => (
                 <span key={`${rep}-${i}`} className="inline-flex items-center gap-4 px-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-black">
                   {txt}
