@@ -505,7 +505,7 @@ function useJsonLd(data) {
 function LanguageSwitch() {
   const { lang, setLang } = React.useContext(LangContext);
   return (
-    <div className="flex items-center gap-2 text-[11px] tracking-[0.16em]" role="group" aria-label="Language">
+    <div className="flex items-center gap-2 text-xs tracking-[0.16em]" role="group" aria-label="Language">
       {["nl", "en"].map((l, i) => (
         <React.Fragment key={l}>
           {i > 0 && <span className="text-white/50">|</span>}
@@ -561,7 +561,7 @@ function Nav() {
             <li key={l.path}>
               <Link
                 to={l.path}
-                className={`h-8 flex items-center leading-none text-[11px] uppercase tracking-[0.16em] transition-colors ${
+                className={`h-8 flex items-center leading-none text-xs uppercase tracking-[0.16em] transition-colors ${
                   location.pathname === l.path ? "text-[#D4AF37] border-b border-[#D4AF37]" : "text-white/60 border-b border-transparent hover:text-white"
                 }`}
               >
@@ -574,7 +574,7 @@ function Nav() {
         <div className="flex items-center gap-5">
           <Link
             to="/merch"
-            className={`hidden md:inline-flex items-center gap-2 h-8 px-4 border text-[11px] uppercase tracking-[0.16em] transition-colors ${
+            className={`hidden md:inline-flex items-center gap-2 h-8 px-4 border text-xs uppercase tracking-[0.16em] transition-colors ${
               location.pathname.startsWith("/merch")
                 ? "bg-[#D4AF37] border-[#D4AF37] text-[#0a1628]"
                 : "border-[#D4AF37]/60 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0a1628]"
@@ -605,10 +605,10 @@ function Nav() {
           <Link
             to="/merch"
             onClick={() => setMobileOpen(false)}
-            className="self-start inline-flex items-center gap-2 px-4 py-2 border border-[#D4AF37]/60 text-[#D4AF37] text-sm uppercase tracking-wider"
+            className="self-start inline-flex items-center gap-2 px-4 py-2 border border-[#D4AF37]/60 text-[#D4AF37] text-[15px] uppercase tracking-wider"
           >
             Merch
-            {MERCH_NEW && <span className="text-[10px] tracking-[0.2em] opacity-70">{L("Nieuw", "New")}</span>}
+            {MERCH_NEW && <span className="text-xs tracking-[0.2em] opacity-70">{L("Nieuw", "New")}</span>}
           </Link>
         </div>
       )}
@@ -642,7 +642,7 @@ function CartDrawer({ open, onClose, cart }) {
 
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {entries.length === 0 && (
-            <p className="text-white/50 text-sm">Je winkelwagen is leeg. Online bestellen volgt binnenkort.</p>
+            <p className="text-white/50 text-[15px]">Je winkelwagen is leeg. Online bestellen volgt binnenkort.</p>
           )}
           {entries.map(([id, qty]) => {
             const p = PRODUCTS[id];
@@ -664,8 +664,8 @@ function CartDrawer({ open, onClose, cart }) {
                   )}
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm text-white/90">{p.name}</p>
-                  <p className="text-xs text-white/50">€{p.price.toFixed(2)}</p>
+                  <p className="text-[15px] text-white/90">{p.name}</p>
+                  <p className="text-[13px] text-white/50">€{p.price.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -674,7 +674,7 @@ function CartDrawer({ open, onClose, cart }) {
                   >
                     <Minus size={12} />
                   </button>
-                  <span className="text-sm w-4 text-center">{qty}</span>
+                  <span className="text-[15px] w-4 text-center">{qty}</span>
                   <button
                     onClick={() => cart.add(id)}
                     className="w-6 h-6 flex items-center justify-center border border-white/20 text-white/60 hover:border-[#D4AF37] hover:text-[#D4AF37]"
@@ -689,12 +689,12 @@ function CartDrawer({ open, onClose, cart }) {
 
         {entries.length > 0 && (
           <div className="p-6 border-t border-[#D4AF37]/25 space-y-4">
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between text-[15px]">
               <span className="text-white/50">Subtotaal</span>
               <span className="text-white">€{cart.total.toFixed(2)}</span>
             </div>
-            <p className="text-[11px] text-[#D4AF37]/70 italic">€1 per fles naar impactprojecten: €{(cart.count * 1).toFixed(2)} bij deze bestelling.</p>
-            <button className="w-full bg-[#D4AF37] text-black py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-[#E0C158] transition-colors">
+            <p className="text-xs text-[#D4AF37]/70 italic">€1 per fles naar impactprojecten: €{(cart.count * 1).toFixed(2)} bij deze bestelling.</p>
+            <button className="w-full bg-[#D4AF37] text-black py-3 text-[13px] font-semibold uppercase tracking-[0.15em] hover:bg-[#E0C158] transition-colors">
               Afrekenen
             </button>
           </div>
@@ -713,18 +713,18 @@ function AgeGate({ onConfirm }) {
         <p className="font-serif text-3xl text-[#D4AF37] tracking-[0.2em] uppercase mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Vivace
         </p>
-        <p className="text-white/70 text-sm mb-2">{L("Ben je 18 jaar of ouder?", "Are you 18 or older?")}</p>
-        <p className="text-white/50 text-xs mb-8">{L("We vragen dit omdat onze producten alcohol bevatten.", "We ask because our products contain alcohol.")}</p>
+        <p className="text-white/70 text-[15px] mb-2">{L("Ben je 18 jaar of ouder?", "Are you 18 or older?")}</p>
+        <p className="text-white/50 text-[13px] mb-8">{L("We vragen dit omdat onze producten alcohol bevatten.", "We ask because our products contain alcohol.")}</p>
         <div className="flex gap-4 justify-center">
           <button
             onClick={() => onConfirm(true)}
-            className="bg-[#D4AF37] text-black px-8 py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:bg-[#E0C158]"
+            className="bg-[#D4AF37] text-black px-8 py-3 text-[13px] font-semibold uppercase tracking-[0.15em] hover:bg-[#E0C158]"
           >
             {L("Ja, ik ben 18+", "Yes, I am 18+")}
           </button>
           <button
             onClick={() => onConfirm(false)}
-            className="border border-white/20 text-white/50 px-8 py-3 text-xs uppercase tracking-[0.15em]"
+            className="border border-white/20 text-white/50 px-8 py-3 text-[13px] uppercase tracking-[0.15em]"
           >
             {L("Nee", "No")}
           </button>
@@ -738,7 +738,7 @@ function UnderageBlock() {
   const L = useL();
   return (
     <div className="fixed inset-0 z-[200] bg-[#0a1628] flex items-center justify-center px-6 text-center" style={{ backgroundColor: "#0a1628" }}>
-      <p className="text-white/50 text-sm max-w-sm">
+      <p className="text-white/50 text-[15px] max-w-sm">
         {L("Je moet 18 jaar of ouder zijn om deze website te bezoeken. Drink geen alcohol als je jonger bent.", "You must be 18 or older to visit this website. Do not drink alcohol if you are younger.")}
       </p>
     </div>
@@ -799,10 +799,10 @@ function WelcomeBanner({ onClose }) {
           {L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")}
         </p>
 
-        <p className="text-[#0F1F33]/80 text-sm md:text-base leading-relaxed max-w-sm mx-auto mb-2">
+        <p className="text-[#0F1F33]/80 text-[15px] md:text-base leading-relaxed max-w-sm mx-auto mb-2">
           {L("Welkom bij Vivace. Met elke fles Vivace steun je Stichting Ambulance Wens.", "Welcome to Vivace. With every bottle of Vivace you support Stichting Ambulance Wens.")}
         </p>
-        <p className="text-[#0F1F33]/50 text-xs md:text-sm">
+        <p className="text-[#0F1F33]/50 text-[13px] md:text-[15px]">
           {L("€1 per fles, transparant en zonder omwegen.", "€1 per bottle, transparent and straightforward.")}
         </p>
       </div>
@@ -831,7 +831,7 @@ function ImpactCounter() {
 
   return (
     <div className="text-center">
-      <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Actueel", "Current")}</p>
+      <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Actueel", "Current")}</p>
       <div className="grid grid-cols-2 gap-8 max-w-md mx-auto">
         <div>
           <p
@@ -840,7 +840,7 @@ function ImpactCounter() {
           >
             {bottlesPurchased.toLocaleString("nl-NL")}
           </p>
-          <p className="text-white/50 text-[11px] uppercase tracking-wider mt-2">{L("Flessen in onze eerste batch", "Bottles in our first batch")}</p>
+          <p className="text-white/50 text-xs uppercase tracking-wider mt-2">{L("Flessen in onze eerste batch", "Bottles in our first batch")}</p>
         </div>
         <div>
           <p
@@ -849,13 +849,13 @@ function ImpactCounter() {
           >
             {`€${totalDonated.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`}
           </p>
-          <p className="text-white/50 text-[11px] uppercase tracking-wider mt-2">{L("Gereserveerd voor Stichting Ambulance Wens", "Reserved for Stichting Ambulance Wens")}</p>
+          <p className="text-white/50 text-xs uppercase tracking-wider mt-2">{L("Gereserveerd voor Stichting Ambulance Wens", "Reserved for Stichting Ambulance Wens")}</p>
         </div>
       </div>
-      <p className="text-white/50 text-sm mt-8 max-w-sm mx-auto">
+      <p className="text-white/50 text-[15px] mt-8 max-w-sm mx-auto">
         {L("€1 per fles, rechtstreeks naar Stichting Ambulance Wens.", "€1 per bottle, straight to Stichting Ambulance Wens.")}
       </p>
-      <p className="text-white/50 text-[11px] mt-3 italic">
+      <p className="text-white/50 text-xs mt-3 italic">
         {L("We werken dit per batch bij en maken het bedrag aan het einde van het jaar in één keer over.", "We update this per batch and transfer the amount in one go at the end of the year.")}
       </p>
     </div>
@@ -942,8 +942,8 @@ function USPStrip() {
               <div className={`flex flex-col items-center text-center gap-3 ${isLastOdd ? "col-span-2 md:col-span-1" : ""}`}>
                 <Icon size={28} color="#D4AF37" strokeWidth={1.5} />
                 <div>
-                  <p className="text-white/85 text-[13px] font-medium leading-snug">{L(item.title, USPS_EN[i][0])}</p>
-                  <p className="text-white/50 text-[11px] mt-1">{L(item.subtitle, USPS_EN[i][1])}</p>
+                  <p className="text-white/85 text-sm font-medium leading-snug">{L(item.title, USPS_EN[i][0])}</p>
+                  <p className="text-white/50 text-xs mt-1">{L(item.subtitle, USPS_EN[i][1])}</p>
                 </div>
               </div>
             </Reveal>
@@ -981,20 +981,20 @@ function ReviewCarousel() {
   if (!n) return null;
   const r = GENERAL_REVIEWS[i];
   return (
-    <section className="px-6 md:px-14 py-24 border-t border-[#D4AF37]/25 text-center" onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>
+    <section className="px-6 md:px-14 py-24 border-t border-[#D4AF37]/25 text-center bg-[#102338]" onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>
       <style>{"@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}"}</style>
-      <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-8">{L("Wat vinden anderen van Vivace?", "What do others think of Vivace?")}</p>
+      <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-8">{L("Wat vinden anderen van Vivace?", "What do others think of Vivace?")}</p>
       <div key={i} className="max-w-3xl mx-auto min-h-[190px]" style={{ animation: "fadeUp .6s ease both" }}>
         <div className="flex justify-center mb-5"><ReviewStars rating={r.rating} size={16} /></div>
         <p className="italic text-2xl md:text-4xl leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>“{r.text}”</p>
-        <p className="text-white/50 text-sm mt-6">{r.name}</p>
+        <p className="text-white/50 text-[15px] mt-6">{r.name}</p>
       </div>
       <div className="flex justify-center gap-3 mt-8">
         {GENERAL_REVIEWS.map((_, k) => (
           <button key={k} onClick={() => setI(k)} aria-label={`Review ${k + 1}`} className={`h-2 rounded-full transition-all ${k === i ? "w-8 bg-[#D4AF37]" : "w-2 bg-white/25"}`} />
         ))}
       </div>
-      <Link to="/reviews" className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] uppercase tracking-[0.2em] border-b border-[#D4AF37]/40 pb-1 mt-10">{L("Alle reviews", "All reviews")} <ChevronRight size={14} /></Link>
+      <Link to="/reviews" className="inline-flex items-center gap-1.5 text-[#D4AF37] text-xs uppercase tracking-[0.2em] border-b border-[#D4AF37]/40 pb-1 mt-10">{L("Alle reviews", "All reviews")} <ChevronRight size={14} /></Link>
     </section>
   );
 }
@@ -1006,7 +1006,7 @@ function HomePage() {
     description: L("Vivace is premium Italiaanse limoncello, geproduceerd in Nederland. Voor elke fles gaat €1 naar Stichting Ambulance Wens.", "Vivace is premium Italian limoncello, produced in the Netherlands. For every bottle, €1 goes to Stichting Ambulance Wens."),
   });
   const serif = { fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 };
-  const more = "inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] uppercase tracking-[0.2em] border-b border-[#D4AF37]/40 pb-1 hover:border-[#D4AF37] transition-colors";
+  const more = "inline-flex items-center gap-1.5 text-[#D4AF37] text-xs uppercase tracking-[0.2em] border-b border-[#D4AF37]/40 pb-1 hover:border-[#D4AF37] transition-colors";
   const recipes = [["spritz-klassiek", "/images/vivace-spritz-klassiek-hero.jpg", "Limoncello Spritz"], ["vivace-tonic", "/images/vivace-tonic-hero.jpg", "Vivace Tonic"], ["vivace-basil-smash", "/images/vivace-basil-smash-hero.jpg", "Basil Smash"], ["vivace-mule", "/images/vivace-mule-hero.jpg", "Vivace Mule"]];
   const shops = [["/images/vivace-plus-winkel.jpg", "PLUS Rick Hoogendoorn", "Poortugaal"], ["/images/vivace-van-dijk-winkel.jpg", "Wijnhandel Van Dijk", "Schiedam"], ["/images/vivace-colins-winkel.jpg", "Colins Slijterij & Wijnwinkel", "Vlaardingen"]];
   return (
@@ -1014,7 +1014,7 @@ function HomePage() {
       <section className="grid md:grid-cols-2 md:min-h-[100svh] relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 45% 55% at 28% 58%, rgba(255,215,0,0.07) 0%, transparent 65%)" }} />
         <div className="relative z-10 flex flex-col justify-center px-6 md:px-14 pt-32 pb-14 md:py-0">
-          <p className="text-[11px] tracking-[0.35em] uppercase text-[#D4AF37] mb-7">
+          <p className="text-xs tracking-[0.35em] uppercase text-[#D4AF37] mb-7">
             {L("Gemaakt in Nederland · Italiaanse ziel", "Made in the Netherlands · Italian soul")}
           </p>
           <h1
@@ -1028,30 +1028,18 @@ function HomePage() {
               {L("Geniet", "Enjoy")} <em className="italic font-light text-[#D4AF37]">{L("anders.", "different.")}</em>
             </span>
           </h1>
-          <p className="text-white/50 text-base leading-relaxed max-w-md mb-8">
+          <p className="text-white/50 text-base leading-relaxed max-w-md mb-10">
             {L("Vivace is een premium limoncello, gemaakt met een Italiaans recept en een Nederlands hart.", "Vivace is a premium limoncello, made with an Italian recipe and a Dutch heart.")}
             <strong className="text-white/85 font-medium"> {L("€1 per fles gaat naar Stichting Ambulance Wens.", "€1 per bottle goes to Stichting Ambulance Wens.")}</strong>
           </p>
-          <Link
-            to="/onze-impact"
-            className="inline-flex self-start items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1 mb-8"
-          >
-            {L("Ontdek ons impactmodel", "Discover our impact model")} <ChevronRight size={14} />
-          </Link>
           <div className="flex gap-5 items-center flex-wrap">
             <Link
               to="/producten"
-              className="bg-[#D4AF37] text-black px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-[#E0C158] transition-colors"
+              className="bg-[#D4AF37] text-black px-10 py-4 text-xs font-semibold uppercase tracking-[0.18em] hover:bg-[#E0C158] transition-colors"
             >
               {L("Ontdek Vivace", "Discover Vivace")}
             </Link>
-            <Link
-              to="/over-ons"
-              className="text-white/50 text-[11px] uppercase tracking-[0.14em] border-b border-white/20 pb-1 hover:text-white hover:border-white transition-colors"
-            >
-              {L("Ons verhaal", "Our story")}
-            </Link>
-          </div>
+            </div>
         </div>
         <div className="relative h-[75svh] md:h-auto">
           <img width="3648" height="4128" decoding="async" src="/images/vivace-bottle-hero-v2.jpg" fetchPriority="high" alt={L("Vivace Limoncello fles met citroenen en uitzicht op de Amalfikust", "Vivace Limoncello bottle with lemons and a view of the Amalfi Coast")} className="absolute inset-0 w-full h-full object-cover" />
@@ -1066,7 +1054,7 @@ function HomePage() {
           {[...Array(2)].flatMap((_, rep) =>
             [L("Drink anders", "Drink different"), L("€1 per fles naar Stichting Ambulance Wens", "€1 per bottle to Stichting Ambulance Wens"), L("Premium Italiaans recept", "Premium Italian recipe"), L("Italiaanse ziel · Nederlands hart", "Italian soul · Dutch heart"), L("Geniet anders", "Enjoy different")].map(
               (txt, i) => (
-                <span key={`${rep}-${i}`} className="inline-flex items-center gap-4 px-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-black">
+                <span key={`${rep}-${i}`} className="inline-flex items-center gap-4 px-10 text-xs font-semibold uppercase tracking-[0.2em] text-black">
                   {txt}
                   <span className="w-1 h-1 rounded-full bg-black/25" />
                 </span>
@@ -1082,12 +1070,12 @@ function HomePage() {
           <span className="font-serif font-bold text-black block" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(72px, 11vw, 130px)", lineHeight: 0.85 }}>
             €1
           </span>
-          <p className="text-black/70 text-[13px] font-semibold tracking-[0.3em] uppercase mt-4">
+          <p className="text-black/70 text-sm font-semibold tracking-[0.3em] uppercase mt-4">
             {L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}
           </p>
           <Link
             to="/onze-impact"
-            className="inline-flex items-center gap-1.5 text-black text-[11px] font-bold uppercase tracking-[0.14em] border-b-2 border-black/40 hover:border-black transition-colors pb-1 mt-4"
+            className="inline-flex items-center gap-1.5 text-black text-xs font-bold uppercase tracking-[0.14em] border-b-2 border-black/40 hover:border-black transition-colors pb-1 mt-4"
           >
             {L("Lees over ons impactmodel", "Read about our impact model")} <ChevronRight size={14} />
           </Link>
@@ -1098,14 +1086,14 @@ function HomePage() {
         <img width="1380" height="752" decoding="async" loading="lazy" src="/images/vivace-van-nelle-fabriek.jpg" alt="Van Nelle Fabriek" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(10,22,40,0.94) 15%, rgba(10,22,40,0.35) 70%, rgba(10,22,40,0.1))" }} />
         <div className="relative px-6 md:px-14 py-24 max-w-2xl">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Geproduceerd in Rotterdam", "Produced in Rotterdam")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Geproduceerd in Rotterdam", "Produced in Rotterdam")}</p>
           <h2 className="text-5xl md:text-7xl leading-[1.02] mb-6" style={serif}>{L("Gemaakt in een Rotterdams ", "Made in a Rotterdam ")}<em className="italic font-light text-[#D4AF37]">{L("monument.", "landmark.")}</em></h2>
           <p className="text-white/70 text-lg leading-relaxed max-w-md mb-8">{L("Elke fles komt uit de Van Nelle Fabriek, UNESCO-werelderfgoed en een icoon van de Rotterdamse industrie.", "Every bottle comes from the Van Nelle Factory, a UNESCO World Heritage site and an icon of Rotterdam industry.")}</p>
           <Link to="/over-ons" className={more}>{L("Lees ons verhaal", "Read our story")} <ChevronRight size={14} /></Link>
         </div>
       </section>
 
-      <section className="px-6 md:px-14 py-24">
+      <section className="px-6 md:px-14 py-24 bg-[#102338]">
         <div className="max-w-6xl mx-auto">
           <Reveal><h2 className="text-4xl md:text-6xl mb-3" style={serif}>{L("Schenk Vivace op jouw manier", "Pour Vivace your way")}</h2><p className="text-white/55 mb-12">{L("Puur, als spritz of in een cocktail.", "Neat, as a spritz or in a cocktail.")}</p></Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -1128,8 +1116,10 @@ function HomePage() {
           <div className="grid md:grid-cols-3 gap-6">
             {shops.map(([img, name, city], k) => (
               <Reveal key={name} delay={k * 100}>
+                <div className="bg-[#102338] border border-[#D4AF37]/25">
                 <div className="aspect-[3/4] overflow-hidden"><img decoding="async" src={img} alt={name} loading="lazy" className="w-full h-full object-cover" /></div>
-                <p className="text-2xl mt-4" style={serif}>{name}</p><p className="text-white/50 text-sm">{city}</p>
+                <div className="p-5"><p className="text-2xl" style={serif}>{name}</p><p className="text-white/50 text-[15px]">{city}</p></div>
+                </div>
               </Reveal>
             ))}
           </div>
@@ -1165,12 +1155,12 @@ function ProductsPage({ cart }) {
     ],
   });
   const serif = { fontFamily: "'Cormorant Garamond', serif" };
-  const btn = "px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors inline-flex items-center gap-2";
+  const btn = "px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] transition-colors inline-flex items-center gap-2";
   return (
     <div>
       <div className="pt-32 pb-16 px-6 md:px-14 max-w-5xl mx-auto">
         <Reveal>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("De Producten", "The Products")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("De Producten", "The Products")}</p>
           <h1 className="font-serif text-4xl md:text-5xl" style={serif}>{L("Twee manieren om Vivace te drinken", "Two ways to enjoy Vivace")}</h1>
         </Reveal>
       </div>
@@ -1180,12 +1170,12 @@ function ProductsPage({ cart }) {
             <img decoding="async" src={p.id === "limoncello" ? "/images/vivace-bottle-hero-v2.jpg" : "/images/vivace-can-hero.jpg"} alt={p.id === "limoncello" ? "Vivace Limoncello fles, 500ml, ambachtelijk geproduceerd van biologische Sorrento-citroenen" : "Vivace Limoncello Spritz blikje, kant-en-klare aperitief op basis van limoncello"} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
           </div>
           <div className="bg-[#102338] flex flex-col justify-center px-6 md:px-16 py-16">
-            <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4AF37] mb-2">{L(p.type, PRODUCT_EN[p.id].type)}</p>
+            <p className="text-xs tracking-[0.25em] uppercase text-[#D4AF37] mb-2">{L(p.type, PRODUCT_EN[p.id].type)}</p>
             <h2 className="font-serif text-4xl md:text-5xl text-[#D4AF37] mb-5" style={serif}>{p.name}</h2>
             <p className="text-white/60 leading-relaxed mb-5 max-w-md">{L(p.description, PRODUCT_EN[p.id].description)}</p>
-            <p className="text-[#D4AF37]/70 text-sm italic mb-6">{L(p.backLabel, PRODUCT_EN[p.id].backLabel)}</p>
-            <p className="text-white/50 text-xs tracking-wide mb-1">{p.abv} · {p.size}</p>
-            <p className="text-white/50 text-[11px] tracking-wide mb-8">{L(p.kcal, PRODUCT_EN[p.id].kcal)}</p>
+            <p className="text-[#D4AF37]/70 text-[15px] italic mb-6">{L(p.backLabel, PRODUCT_EN[p.id].backLabel)}</p>
+            <p className="text-white/50 text-[13px] tracking-wide mb-1">{p.abv} · {p.size}</p>
+            <p className="text-white/50 text-xs tracking-wide mb-8">{L(p.kcal, PRODUCT_EN[p.id].kcal)}</p>
             <div>
               {p.comingSoon ? (
                 <button disabled className={`${btn} border border-white/15 text-white/50 cursor-not-allowed`}>{L("Binnenkort", "Coming soon")}</button>
@@ -1198,9 +1188,9 @@ function ProductsPage({ cart }) {
                 <Link to="/verkooppunten" className={`${btn} border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black`}>{L("Vind in winkel", "Find in store")} <ChevronRight size={14} /></Link>
               )}
             </div>
-            {p.comingSoon && <p className="text-white/50 text-[11px] max-w-xs mt-6">{L("Vivace Spritz is in ontwikkeling. Binnenkort beschikbaar.", "Vivace Spritz is in development. Available soon.")}</p>}
+            {p.comingSoon && <p className="text-white/50 text-xs max-w-xs mt-6">{L("Vivace Spritz is in ontwikkeling. Binnenkort beschikbaar.", "Vivace Spritz is in development. Available soon.")}</p>}
             {!p.onlineSellable && !p.comingSoon && (
-              <p className="text-white/50 text-[11px] max-w-sm mt-6">{L("Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een erkende slijterij. Vivace Limoncello is daarom te koop bij onze partners.", "In the Netherlands, spirits (30% ABV) may only be sold online by a licensed liquor store. Vivace Limoncello is therefore sold through our partners.")}</p>
+              <p className="text-white/50 text-xs max-w-sm mt-6">{L("Sterke drank (30% VOL) mag in Nederland alleen online verkocht worden door een erkende slijterij. Vivace Limoncello is daarom te koop bij onze partners.", "In the Netherlands, spirits (30% ABV) may only be sold online by a licensed liquor store. Vivace Limoncello is therefore sold through our partners.")}</p>
             )}
           </div>
         </section>
@@ -1229,7 +1219,7 @@ function StoresPage() {
       <PageBanner imgs={["/images/vivace-plus-winkel.jpg", "/images/vivace-van-dijk-winkel.jpg", "/images/vivace-colins-winkel.jpg"]} pos="50% 30%" />
       <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
         <Reveal>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Verkooppunten", "Stockists")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Verkooppunten", "Stockists")}</p>
           <h1 className="font-serif text-4xl md:text-5xl mb-6" style={serif}>{L("Vind Vivace bij jou in de buurt", "Find Vivace near you")}</h1>
           <p className="text-white/60 max-w-lg mb-14">
             {L("Vivace Limoncello is te koop bij supermarkten, slijterijen en restaurants. Vivace Spritz in blik is in ontwikkeling en volgt later.", "Vivace Limoncello is sold at supermarkets, liquor stores and restaurants. Vivace Spritz in a can is in development and will follow later.")}
@@ -1239,13 +1229,13 @@ function StoresPage() {
         {STOCKISTS.every(isPlaceholderStockist) ? (
           <Reveal delay={50}>
             <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
               <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={serif}>{L("Onze eerste verkooppunten worden hier binnenkort zichtbaar.", "Our first stockists will appear here soon.")}</p>
             </div>
           </Reveal>
         ) : (
           <>
-            <Reveal delay={50}><div className="mb-8"><p className="text-white/60 text-sm mb-3">{L("Klik op een pin voor meer informatie over het verkooppunt.", "Click a pin for more information about the stockist.")}</p><StoresMap stockists={realStockists} /></div></Reveal>
+            <Reveal delay={50}><div className="mb-8"><p className="text-white/60 text-[15px] mb-3">{L("Klik op een pin voor meer informatie over het verkooppunt.", "Click a pin for more information about the stockist.")}</p><StoresMap stockists={realStockists} /></div></Reveal>
             <div className="grid md:grid-cols-3 gap-6">
               {realStockists.map((s, i) => (
                 <Reveal key={s.name} delay={i * 100}>
@@ -1254,12 +1244,12 @@ function StoresPage() {
                       <img src={photos[s.name] || "/images/vivace-bottle-hero-v2.jpg"} alt={`Vivace Limoncello bij ${s.name} in ${s.city}`} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: "50% 30%" }} />
                     </div>
                     <div className="p-6 flex flex-col flex-1">
-                      <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4AF37] mb-2">{s.type}</p>
+                      <p className="text-xs tracking-[0.25em] uppercase text-[#D4AF37] mb-2">{s.type}</p>
                       <h2 className="font-serif text-3xl text-[#D4AF37] mb-3" style={serif}>{s.name}</h2>
-                      <p className="text-white/60 text-sm leading-relaxed mb-6">
+                      <p className="text-white/60 text-[15px] leading-relaxed mb-6">
                         {s.address}<br />{`${s.postcode} ${s.city}`.trim()}
                       </p>
-                      <a href={mapsLinkUrl(s)} target="_blank" rel="noopener noreferrer" className="mt-auto self-start px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition-colors inline-flex items-center gap-2">
+                      <a href={mapsLinkUrl(s)} target="_blank" rel="noopener noreferrer" className="mt-auto self-start px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition-colors inline-flex items-center gap-2">
                         {L("Route", "Directions")} <ChevronRight size={14} />
                       </a>
                     </div>
@@ -1274,7 +1264,7 @@ function StoresPage() {
           <div className="mt-16 border border-[#D4AF37]/25 px-6 py-12 text-center">
             <h2 className="font-serif text-3xl md:text-4xl mb-3" style={serif}>{L("Staat jouw zaak er nog niet bij?", "Is your business not on the list yet?")}</h2>
             <p className="text-white/60 mb-8 max-w-md mx-auto">{L("Wil je Vivace verkopen of schenken? Meld je aan als verkooppunt.", "Want to sell or serve Vivace? Sign up as a stockist.")}</p>
-            <Link to="/horeca" className="px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] bg-[#D4AF37] text-black hover:bg-[#E0C158] transition-colors inline-flex items-center gap-2">{L("Word verkooppunt", "Become a stockist")} <ChevronRight size={14} /></Link>
+            <Link to="/horeca" className="px-8 py-3 text-xs font-semibold uppercase tracking-[0.14em] bg-[#D4AF37] text-black hover:bg-[#E0C158] transition-colors inline-flex items-center gap-2">{L("Word verkooppunt", "Become a stockist")} <ChevronRight size={14} /></Link>
           </div>
         </Reveal>
       </div>
@@ -1294,14 +1284,14 @@ function AboutPage() {
     <div><section className="relative h-[55svh] min-h-[360px] overflow-hidden"><img width="1920" height="900" decoding="async" loading="lazy" src="/images/vivace-colosseum-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" /><div className="absolute inset-0" style={{background:"linear-gradient(to top,#0a1628,rgba(10,22,40,0.25))"}} /></section><div className="-mt-24 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <div className="grid md:grid-cols-[1fr_1.7fr] gap-x-16 gap-y-8 mb-20 items-start">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Ons Verhaal", "Our Story")}</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Ons Verhaal", "Our Story")}</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vivace bestaat om iets terug te geven.", "Vivace exists to give something back.")}
         </h1>
       </Reveal>
 
       <Reveal delay={100}>
-        <div className="space-y-6 text-white/55 leading-relaxed text-[15px]">
+        <div className="space-y-6 text-white/55 leading-relaxed text-base">
           <p className="font-serif text-2xl md:text-3xl text-white/85 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Het idee is ontstaan tijdens een reis naar Rome, waar het Colosseum en de kennismaking met authentieke Italiaanse limoncello samenkwamen. Maar winst alleen voelde nooit als een goede reden om een merk te starten.", "The idea was born on a trip to Rome, where the Colosseum and a first taste of authentic Italian limoncello came together. But profit alone never felt like a good reason to start a brand.")}
           </p>
@@ -1327,13 +1317,13 @@ function AboutPage() {
       {/* The product itself: real ingredients, real distillery, now that both are settled */}
       <Reveal delay={250}>
         <div className="border-t border-[#D4AF37]/25 pt-16 mb-20">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("De limoncello zelf", "The limoncello itself")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("De limoncello zelf", "The limoncello itself")}</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Vier ingrediënten. Geen omwegen.", "Four ingredients. No detours.")}
           </h2>
           <img src="/images/vivace-van-nelle-fabriek.jpg" alt="De Van Nelle Fabriek in Rotterdam" loading="lazy" decoding="async" className="w-full aspect-[21/9] object-cover mb-10 border border-[#D4AF37]/25" />
           <div className="grid md:grid-cols-2 gap-10 items-start">
-            <div className="space-y-4 text-white/55 leading-relaxed text-[15px]">
+            <div className="space-y-4 text-white/55 leading-relaxed text-base">
               <p>
                 {L("Vivace bestaat uit de schil van biologische Sorrento-citroenen van de Amalfikust, pure suiker, graanalcohol en water. Geen kunstmatige kleur- of smaakstoffen, geen omwegen, gewoon de citroenschil die het werk doet, zoals in het originele Italiaanse recept.", "Vivace is made from the zest of organic Sorrento lemons from the Amalfi Coast, pure sugar, grain alcohol and water. No artificial colourings or flavourings, no shortcuts, just the lemon zest doing the work, as in the original Italian recipe.")}
               </p>
@@ -1348,16 +1338,16 @@ function AboutPage() {
             </div>
             <div className="bg-[#0f1f33] border border-[#D4AF37]/25 p-8 space-y-5">
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#D4AF37] mb-1">{L("Ingrediënten", "Ingredients")}</p>
-                <p className="text-white/70 text-sm">{L("Schil van (biologische) Sorrento-citroenen, suiker, graanalcohol en water.", "Zest of (organic) Sorrento lemons, sugar, grain alcohol and water")}</p>
+                <p className="text-xs uppercase tracking-wider text-[#D4AF37] mb-1">{L("Ingrediënten", "Ingredients")}</p>
+                <p className="text-white/70 text-[15px]">{L("Schil van (biologische) Sorrento-citroenen, suiker, graanalcohol en water.", "Zest of (organic) Sorrento lemons, sugar, grain alcohol and water")}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#D4AF37] mb-1">{L("Geproduceerd door", "Produced by")}</p>
-                <p className="text-white/70 text-sm">{L("Stokerij Klopman, Van Nelle Fabriek, Rotterdam", "Stokerij Klopman, Van Nelle Factory, Rotterdam")}</p>
+                <p className="text-xs uppercase tracking-wider text-[#D4AF37] mb-1">{L("Geproduceerd door", "Produced by")}</p>
+                <p className="text-white/70 text-[15px]">{L("Stokerij Klopman, Van Nelle Fabriek, Rotterdam", "Stokerij Klopman, Van Nelle Factory, Rotterdam")}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#D4AF37] mb-1">{L("Land van oorsprong", "Country of origin")}</p>
-                <p className="text-white/70 text-sm">{L("Geproduceerd in Nederland", "Produced in the Netherlands")}</p>
+                <p className="text-xs uppercase tracking-wider text-[#D4AF37] mb-1">{L("Land van oorsprong", "Country of origin")}</p>
+                <p className="text-white/70 text-[15px]">{L("Geproduceerd in Nederland", "Produced in the Netherlands")}</p>
               </div>
             </div>
           </div>
@@ -1368,13 +1358,13 @@ function AboutPage() {
       <Reveal delay={300}>
         <div className="border-t border-[#D4AF37]/25 pt-16 text-center">
           <p className="font-serif text-7xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>€1</p>
-          <p className="text-[10px] uppercase tracking-wider text-white/50 mb-8">{L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}</p>
-          <p className="text-white/55 leading-relaxed text-[15px] max-w-lg mx-auto mb-6">
+          <p className="text-xs uppercase tracking-wider text-white/50 mb-8">{L("Per fles, naar Stichting Ambulance Wens", "Per bottle, to Stichting Ambulance Wens")}</p>
+          <p className="text-white/55 leading-relaxed text-base max-w-lg mx-auto mb-6">
             {L("Waarom we voor een vast bedrag per fles kozen, wie Stichting Ambulance Wens is, en waar we nu in dat proces staan. Dat staat allemaal op onze Impact-pagina.", "Why we chose a fixed amount per bottle, who Stichting Ambulance Wens is, and where we stand in that process. It is all on our Impact page.")}
           </p>
           <Link
             to="/onze-impact"
-            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-xs font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
           >
             {L("Bekijk ons impactmodel", "View our impact model")} <ChevronRight size={14} />
           </Link>
@@ -1397,14 +1387,14 @@ function ImpactPage() {
       <PageBanner imgs={["/images/vivace-impact-strand.jpg", "/images/vivace-impact-ambulance.jpg"]} />
       <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Onze Impact", "Our Impact")}</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Onze Impact", "Our Impact")}</p>
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("€1 per fles. Geen omwegen, geen kleine lettertjes.", "€1 per bottle. No detours, no small print.")}
         </h1>
       </Reveal>
 
       <Reveal delay={100}>
-        <div className="space-y-6 text-white/55 leading-relaxed text-[15px] mb-16 max-w-3xl">
+        <div className="space-y-6 text-white/55 leading-relaxed text-base mb-16 max-w-3xl">
           <p className="font-serif text-2xl md:text-3xl text-white/85 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Voor elke fles Vivace leggen we", "For every bottle of Vivace we set aside")} <strong className="text-[#D4AF37] font-normal">{L("€1 opzij voor Stichting Ambulance Wens.", "€1 for Stichting Ambulance Wens.")}</strong> {L("Geen percentage van de winst, geen constructie die verandert als een kwartaal tegenzit: een vast bedrag, per fles, ongeacht de verkoopprijs die een winkel of horecazaak hanteert.", "Not a percentage of profit, not an arrangement that changes when a quarter goes badly: a fixed amount, per bottle, regardless of the retail price a shop or restaurant charges.")}
           </p>
@@ -1423,8 +1413,8 @@ function ImpactPage() {
           ].map(([big, label, text]) => (
             <div key={text} className="bg-[#0a1628] p-8 text-center">
               <p className="font-serif text-5xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{big}</p>
-              <p className="text-[11px] tracking-[0.3em] uppercase text-white/70 mt-2 mb-4">{label}</p>
-              <p className="text-white/55 text-sm">{text}</p>
+              <p className="text-xs tracking-[0.3em] uppercase text-white/70 mt-2 mb-4">{label}</p>
+              <p className="text-white/55 text-[15px]">{text}</p>
             </div>
           ))}
         </div>
@@ -1438,11 +1428,11 @@ function ImpactPage() {
 
       <Reveal delay={200}>
         <div className="border-t border-[#D4AF37]/25 pt-16 mb-16 grid md:grid-cols-[1fr_1.7fr] gap-x-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Waarom we jaarlijks doneren", "Why we donate yearly")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Waarom we jaarlijks doneren", "Why we donate yearly")}</p>
           <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-6 md:col-start-1 md:row-start-2 self-start" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Eén keer per jaar, in plaats van per verkoop", "Once a year, instead of per sale")}
           </h2>
-          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] md:col-start-2 md:row-start-1 md:row-span-3">
+          <div className="space-y-4 text-white/55 leading-relaxed text-base md:col-start-2 md:row-start-1 md:row-span-3">
             <p>
               {L("We zetten die €1 al apart zodra we een batch Vivace inkopen, in een pot die met elke batch groeit. Aan het einde van het jaar tellen we alles op en maken we het volledige bedrag in één keer over aan Stichting Ambulance Wens.", "We set that €1 aside as soon as we buy in a batch of Vivace, in a pot that grows with every batch. At the end of the year we add everything up and transfer the full amount to Stichting Ambulance Wens in one go.")}
             </p>
@@ -1455,7 +1445,7 @@ function ImpactPage() {
 
       <Reveal delay={225}>
         <div className="border-t border-[#D4AF37]/25 pt-16 mb-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Ons impactproject", "Our impact project")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Ons impactproject", "Our impact project")}</p>
           <h2 className="font-serif text-2xl md:text-3xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Vivace steunt Stichting Ambulance Wens", "Vivace supports Stichting Ambulance Wens")}
           </h2>
@@ -1467,12 +1457,12 @@ function ImpactPage() {
               alt="Logo Stichting Ambulance Wens"
               className="w-full max-w-[200px] sm:max-w-[180px] h-auto flex-shrink-0"
             />
-            <p className="text-[#0F1F33]/70 text-sm leading-relaxed">
+            <p className="text-[#0F1F33]/70 text-[15px] leading-relaxed">
               {L("Stichting Ambulance Wens vervult de laatste wens van terminale, bedlegerige patiënten: kosteloos en vaak al binnen één dag. Met speciaal gebouwde ambulances en honderden vrijwilligers brengen zij mensen nog één keer naar de plek die het meest voor hen betekent, het strand, het stadion, of gewoon nog één keer thuis. De stichting draagt het CBF-keurmerk en is aangesloten bij Goede Doelen Nederland.", "Stichting Ambulance Wens fulfils the last wish of terminally ill, bedridden patients: free of charge and often within a single day. With specially built ambulances and hundreds of volunteers, they take people one more time to the place that means the most to them, the beach, the stadium, or simply home one more time. The foundation holds the CBF seal of approval and is a member of Goede Doelen Nederland.")}
             </p>
           </div>
 
-          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] mb-8">
+          <div className="space-y-4 text-white/55 leading-relaxed text-base mb-8">
             <p>
               {L("Deze keuze is bewust. Een laatste wens vervullen, nog één keer naar het strand, het stadion, of gewoon nog één keer thuis, het raakt precies waar Vivace voor staat: het leven vieren en betekenisvolle momenten mogelijk maken, hoe klein of groot ook.", "This choice is deliberate. Fulfilling a last wish, one more time to the beach, the stadium, or simply home one more time, touches exactly what Vivace stands for: celebrating life and making meaningful moments possible, however small or big.")}
             </p>
@@ -1485,7 +1475,7 @@ function ImpactPage() {
             href={IMPACT_PARTNER.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-xs font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
           >
             {L("Bezoek Stichting Ambulance Wens", "Visit Stichting Ambulance Wens")} <ChevronRight size={14} />
           </a>
@@ -1494,11 +1484,11 @@ function ImpactPage() {
 
       <Reveal delay={250}>
         <div className="border-t border-[#D4AF37]/25 pt-16 mb-16 grid md:grid-cols-[1fr_1.7fr] gap-x-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Waar we nu staan", "Where we stand now")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Waar we nu staan", "Where we stand now")}</p>
           <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-6 md:col-start-1 md:row-start-2 self-start" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Eerlijk over waar we in het proces zitten", "Honest about where we are in the process")}
           </h2>
-          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] md:col-start-2 md:row-start-1 md:row-span-3">
+          <div className="space-y-4 text-white/55 leading-relaxed text-base md:col-start-2 md:row-start-1 md:row-span-3">
             <p>
               {L("Vivace is jong, en dat geldt ook voor ons impactmodel. We weten nu wélk project we steunen, maar een eerste donatiebedrag kunnen we nog niet laten zien. Dat komt aan het einde van dit eerste volledige verkoopjaar. Wat we nu al vastleggen is hóe het werkt, zodat we onszelf daar later aan kunnen houden.", "Vivace is young, and so is our impact model. We now know which project we support, but we cannot show a first donation amount yet. That comes at the end of this first full year. What we are already putting in place is how it works, so we can hold ourselves to it later.")}
             </p>
@@ -1514,11 +1504,11 @@ function ImpactPage() {
 
       <Reveal delay={275}>
         <div className="border-t border-[#D4AF37]/25 pt-16 mb-16 grid md:grid-cols-[1fr_1.7fr] gap-x-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Waarom premium en impact samengaan", "Why premium and impact go together")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Waarom premium en impact samengaan", "Why premium and impact go together")}</p>
           <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-6 md:col-start-1 md:row-start-2 self-start" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Kwaliteit en betekenis hoeven geen tegenpolen te zijn", "Quality and meaning do not have to be opposites")}
           </h2>
-          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] md:col-start-2 md:row-start-1 md:row-span-3">
+          <div className="space-y-4 text-white/55 leading-relaxed text-base md:col-start-2 md:row-start-1 md:row-span-3">
             <p>
               {L("Vivace is er niet ondanks het premium karakter van het product, maar juist dankzij een merk dat op eigen kracht kan bestaan. Een zorgvuldig recept, ambachtelijke productie en een eerlijke prijs zijn wat Vivace laat groeien, en die groei is precies wat het mogelijk maakt om structureel iets terug te geven.", "Vivace does not exist despite the premium character of the product, but precisely thanks to a brand that can stand on its own. A careful recipe, craft production and a fair price are what make Vivace grow, and that growth is exactly what makes it possible to give something back in a structural way.")}
             </p>
@@ -1531,11 +1521,11 @@ function ImpactPage() {
 
       <Reveal delay={300}>
         <div className="border-t border-[#D4AF37]/25 pt-16 mb-16 grid md:grid-cols-[1fr_1.7fr] gap-x-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Voor retailers en partners", "For retailers and partners")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4 md:col-start-1 md:row-start-1">{L("Voor retailers en partners", "For retailers and partners")}</p>
           <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-6 md:col-start-1 md:row-start-2 self-start" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Een model waar je op kunt bouwen", "A model you can build on")}
           </h2>
-          <div className="space-y-4 text-white/55 leading-relaxed text-[15px] md:col-start-2 md:row-start-1 md:row-span-3">
+          <div className="space-y-4 text-white/55 leading-relaxed text-base md:col-start-2 md:row-start-1 md:row-span-3">
             <p>
               {L("Voor supermarkten, slijterijen, horecazaken en andere partners is voorspelbaarheid belangrijk. Daarom houden we het donatiemodel eenvoudig en consistent: een vast bedrag per fles, ongeacht de verkoopprijs die jij hanteert, en communicatie die nooit verder gaat dan wat we daadwerkelijk hebben gedaan.", "For supermarkets, liquor stores, restaurants and other partners, predictability matters. That is why we keep the donation model simple and consistent: a fixed amount per bottle, regardless of the retail price you charge, and communication that never goes further than what we have actually done.")}
             </p>
@@ -1551,10 +1541,10 @@ function ImpactPage() {
           <p className="font-serif italic text-2xl md:text-3xl text-[#D4AF37] leading-snug mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")}
           </p>
-          <p className="text-white/50 text-sm mb-6">{L("Vragen over ons impactmodel? We beantwoorden ze graag.", "Questions about our impact model? We are happy to answer them.")}</p>
+          <p className="text-white/50 text-[15px] mb-6">{L("Vragen over ons impactmodel? We beantwoorden ze graag.", "Questions about our impact model? We are happy to answer them.")}</p>
           <Link
             to="/contact"
-            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-[11px] font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] text-xs font-semibold uppercase tracking-[0.14em] border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors pb-1"
           >
             {L("Neem contact op", "Get in touch")} <ChevronRight size={14} />
           </Link>
@@ -1589,7 +1579,7 @@ function PressPage() {
       <PageBanner imgs={["/images/vivace-bottle-hero-v2.jpg", "/images/vivace-plus-schap.jpg", "/images/vivace-colins-schap.jpg"]} pos="50% 45%" tall />
       <div className="-mt-8 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Pers & Media", "Press & Media")}</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Pers & Media", "Press & Media")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Alles voor pers en reviewers, op één plek", "Everything for press and reviewers, in one place")}
         </h1>
@@ -1599,7 +1589,7 @@ function PressPage() {
         <a
           href="/images/vivace-perskit.zip"
           download
-          className="inline-flex items-center gap-2 bg-[#D4AF37] text-black px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors"
+          className="inline-flex items-center gap-2 bg-[#D4AF37] text-black px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors"
         >
           {L("Download volledige perskit (.zip)", "Download full press kit (.zip)")} <ChevronRight size={14} />
         </a>
@@ -1609,8 +1599,8 @@ function PressPage() {
       {/* Backgrounder */}
       <Reveal delay={100}>
         <div>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Backgrounder", "Backgrounder")}</p>
-          <div className="space-y-5 text-white/55 leading-relaxed text-[15px] max-w-2xl">
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Backgrounder", "Backgrounder")}</p>
+          <div className="space-y-5 text-white/55 leading-relaxed text-base max-w-2xl">
             <p>
               {L("Vivace is een premium Italiaanse limoncello, ambachtelijk geproduceerd door", "Vivace is a premium Italian limoncello, handcrafted by")}{" "}
               <strong className="text-white/85">Stokerij Klopman</strong> {L("in de iconische", "in the iconic")}{" "}
@@ -1634,7 +1624,7 @@ function PressPage() {
       {/* Key facts */}
       <Reveal delay={150}>
         <div>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Kernfeiten", "Key facts")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Kernfeiten", "Key facts")}</p>
           <div className="grid gap-y-4">
             {[
               ["Product", "Vivace Limoncello, 500ml, 30% ALC/VOL"],
@@ -1645,8 +1635,8 @@ function PressPage() {
               ["Tagline", L("Drink anders. Geniet anders.", "Drink different. Enjoy different.")],
             ].map(([label, value]) => (
               <div key={label} className="border-b border-[#D4AF37]/25 pb-3">
-                <p className="text-[10px] uppercase tracking-wider text-white/50 mb-1">{label}</p>
-                <p className="text-white/75 text-sm">{value}</p>
+                <p className="text-xs uppercase tracking-wider text-white/50 mb-1">{label}</p>
+                <p className="text-white/75 text-[15px]">{value}</p>
               </div>
             ))}
           </div>
@@ -1658,7 +1648,7 @@ function PressPage() {
       {/* Logos */}
       <Reveal delay={200}>
         <div className="border-t border-[#D4AF37]/25 mt-14 pt-14">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Logo", "Logo")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Logo", "Logo")}</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {logos.map((logo) => (
               <div key={logo.src} className="border border-[#D4AF37]/25">
@@ -1668,7 +1658,7 @@ function PressPage() {
                 <a
                   href={logo.src}
                   download
-                  className="flex items-center justify-between px-4 py-3 text-[11px] uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#D4AF37]/25"
+                  className="flex items-center justify-between px-4 py-3 text-xs uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#D4AF37]/25"
                 >
                   {logo.label} <ChevronRight size={12} />
                 </a>
@@ -1681,7 +1671,7 @@ function PressPage() {
       {/* Photos */}
       <Reveal delay={250}>
         <div className="border-t border-[#D4AF37]/25 mt-14 pt-14">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Productfoto's", "Product photos")}</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Productfoto's", "Product photos")}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {photos.map((photo) => (
               <div key={photo.src} className="border border-[#D4AF37]/25 overflow-hidden">
@@ -1689,7 +1679,7 @@ function PressPage() {
                 <a
                   href={photo.src}
                   download
-                  className="flex items-center justify-between px-4 py-3 text-[11px] uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#D4AF37]/25"
+                  className="flex items-center justify-between px-4 py-3 text-xs uppercase tracking-wider text-white/50 hover:text-[#D4AF37] transition-colors border-t border-[#D4AF37]/25"
                 >
                   {photo.label} <ChevronRight size={12} />
                 </a>
@@ -1705,13 +1695,13 @@ function PressPage() {
           <p className="font-serif italic text-2xl text-[#D4AF37] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {L("Vragen voor een artikel of review?", "Questions for an article or review?")}
           </p>
-          <p className="text-white/50 text-sm mb-2">drinkvivace@gmail.com</p>
-          <p className="text-white/50 text-sm">+31 6 12 33 94 85</p>
+          <p className="text-white/50 text-[15px] mb-2">drinkvivace@gmail.com</p>
+          <p className="text-white/50 text-[15px]">+31 6 12 33 94 85</p>
           <a
             href={LINKEDIN_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-white/50 text-sm mt-4 hover:text-[#D4AF37] transition-colors"
+            className="inline-flex items-center gap-2 text-white/50 text-[15px] mt-4 hover:text-[#D4AF37] transition-colors"
           >
             <LinkedInIcon size={16} /> {L("Vivace op LinkedIn", "Vivace on LinkedIn")}
           </a>
@@ -1763,7 +1753,7 @@ function HorecaPage() {
       <div className="-mt-8 relative pb-24 px-6 md:px-14 max-w-5xl mx-auto">
       <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Voor horeca & retail", "For hospitality & retail")}</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Voor horeca & retail", "For hospitality & retail")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vivace bij jou in de zaak", "Vivace at your place")}
         </h1>
@@ -1778,7 +1768,7 @@ function HorecaPage() {
           ].map(([t, d]) => (
             <li key={t} className="border-l border-[#D4AF37]/40 pl-5">
               <p className="font-serif text-2xl text-[#D4AF37]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{t}</p>
-              <p className="text-white/55 text-sm">{d}</p>
+              <p className="text-white/55 text-[15px]">{d}</p>
             </li>
           ))}
         </ul>
@@ -1786,14 +1776,14 @@ function HorecaPage() {
           href="https://wa.me/31612339485?text=Hoi!%20Ik%20heb%20interesse%20om%20Vivace%20Limoncello%20te%20serveren%2Fverkopen%20in%20mijn%20zaak."
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 border border-[#25D366]/40 text-[#25D366] px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#25D366]/10 transition-colors mb-12"
+          className="inline-flex items-center gap-2 border border-[#25D366]/40 text-[#25D366] px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] hover:bg-[#25D366]/10 transition-colors mb-12"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.83 14.16c-.24.68-1.4 1.3-1.93 1.36-.51.06-1 .26-3.32-.7-2.79-1.16-4.58-4.02-4.72-4.21-.14-.19-1.13-1.5-1.13-2.86 0-1.36.71-2.03.97-2.3.25-.28.55-.34.73-.34.19 0 .37 0 .53.01.17.01.4-.06.62.48.24.58.81 2 .88 2.14.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.16-.29.36-.42.48-.14.14-.28.29-.12.57.16.28.71 1.17 1.52 1.9 1.05.94 1.93 1.23 2.21 1.37.28.14.44.12.61-.07.16-.19.7-.81.89-1.09.19-.28.37-.23.62-.14.26.09 1.63.77 1.91.91.28.14.47.21.53.33.07.12.07.68-.17 1.36z"/>
           </svg>
           {L("Liever appen?", "Prefer WhatsApp?")}
         </a>
-        <p className="text-white/50 text-sm mb-12 -mt-8">
+        <p className="text-white/50 text-[15px] mb-12 -mt-8">
           {L("Benieuwd hoe Vivace wordt gemaakt?", "Curious how Vivace is made?")}{" "}
           <Link to="/blog/achter-de-schermen-productie" className="text-[#D4AF37]/80 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors">
             {L("Lees ons verhaal over Stokerij Klopman en de Van Nelle Fabriek", "Read our story about Stokerij Klopman and the Van Nelle Factory")}
@@ -1806,7 +1796,7 @@ function HorecaPage() {
         {status === "sent" ? (
           <div className="border border-[#D4AF37]/30 p-8 text-center">
             <p className="text-[#D4AF37] font-medium mb-2">{L("Bedankt voor je aanvraag!", "Thank you for your request!")}</p>
-            <p className="text-white/50 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
+            <p className="text-white/50 text-[15px]">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -1816,20 +1806,20 @@ function HorecaPage() {
               name="naam"
               placeholder={L("Naam", "Name")}
               required
-              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <input
               type="text"
               name="zaak"
               placeholder={L("Naam van je zaak", "Name of your business")}
               required
-              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <select
               name="type_zaak"
               required
               defaultValue=""
-              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white/70 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white/70 focus:outline-none focus:border-[#D4AF37]/50"
             >
               <option value="" disabled>
                 {L("Type zaak", "Type of business")}
@@ -1845,30 +1835,30 @@ function HorecaPage() {
               name="plaats"
               placeholder={L("Plaats", "City")}
               required
-              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <input
               type="email"
               name="email"
               placeholder={L("E-mailadres", "Email address")}
               required
-              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <textarea
               name="bericht"
               placeholder={L("Vertel ons iets over je zaak (optioneel)", "Tell us about your business (optional)")}
               rows={4}
-              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <button
               type="submit"
               disabled={status === "sending"}
-              className="bg-[#D4AF37] text-black px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
+              className="bg-[#D4AF37] text-black px-8 py-3 text-xs font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
             >
               {status === "sending" ? L("Versturen...", "Sending...") : L("Verstuur aanvraag", "Send request")}
             </button>
             {status === "error" && (
-              <p className="text-red-400 text-xs">
+              <p className="text-red-400 text-[13px]">
                 {L("Er ging iets mis. Probeer het opnieuw of mail direct naar drinkvivace@gmail.com.", "Something went wrong. Try again or email drinkvivace@gmail.com directly.")}
               </p>
             )}
@@ -1879,7 +1869,7 @@ function HorecaPage() {
       </div>
 
       <Reveal delay={200}>
-        <div className="mt-16 pt-10 border-t border-[#D4AF37]/25 text-white/50 text-sm space-y-1">
+        <div className="mt-16 pt-10 border-t border-[#D4AF37]/25 text-white/50 text-[15px] space-y-1">
           <p>{L("Liever direct mailen? drinkvivace@gmail.com", "Prefer to email directly? drinkvivace@gmail.com")}</p>
           <p>
             {L("Of volg ons op", "Or follow us on")}{" "}
@@ -1939,7 +1929,7 @@ function ContactPage() {
       <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
         <div>
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Contact", "Contact")}</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Contact", "Contact")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Laten we praten", "Let's talk")}
         </h1>
@@ -1949,7 +1939,7 @@ function ContactPage() {
       </Reveal>
 
       <Reveal delay={200}>
-        <div className="mt-10 pt-8 border-t border-[#D4AF37]/25 text-white/50 text-sm space-y-1">
+        <div className="mt-10 pt-8 border-t border-[#D4AF37]/25 text-white/50 text-[15px] space-y-1">
           <p>drinkvivace@gmail.com</p>
           <p>{L("Nederland", "The Netherlands")}</p>
         </div>
@@ -1957,12 +1947,12 @@ function ContactPage() {
 
       <Reveal delay={250}>
         <div className="mt-10 pt-10 border-t border-[#D4AF37]/25">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geleverd door", "Delivered by")}</p>
-          <p className="text-white/70 text-sm leading-relaxed mb-6">
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geleverd door", "Delivered by")}</p>
+          <p className="text-white/70 text-[15px] leading-relaxed mb-6">
             {L("Vivace wordt geëxploiteerd door VVM Trading.", "Vivace is operated by VVM Trading.")}
           </p>
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geproduceerd door", "Produced by")}</p>
-          <p className="text-white/50 text-sm leading-relaxed">
+          <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-3">{L("Geproduceerd door", "Produced by")}</p>
+          <p className="text-white/50 text-[15px] leading-relaxed">
             Stokerij Klopman<br />
             Van Nelleweg 1, Kelder 3<br />
             3044 BC Rotterdam
@@ -1975,7 +1965,7 @@ function ContactPage() {
         {status === "sent" ? (
           <div className="border border-[#D4AF37]/30 p-8 text-center">
             <p className="text-[#D4AF37] font-medium mb-2">{L("Bedankt voor je bericht!", "Thank you for your message!")}</p>
-            <p className="text-white/50 text-sm">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
+            <p className="text-white/50 text-[15px]">{L("We nemen zo snel mogelijk contact met je op.", "We will get back to you as soon as possible.")}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -1984,31 +1974,31 @@ function ContactPage() {
               name="naam"
               placeholder={L("Naam", "Name")}
               required
-              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <input
               type="email"
               name="email"
               placeholder={L("E-mailadres", "Email address")}
               required
-              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <textarea
               name="bericht"
               placeholder={L("Je bericht", "Your message")}
               required
               rows={5}
-              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+              className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
             />
             <button
               type="submit"
               disabled={status === "sending"}
-              className="bg-[#D4AF37] text-black px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
+              className="bg-[#D4AF37] text-black px-8 py-3 text-xs font-semibold uppercase tracking-[0.16em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
             >
               {status === "sending" ? L("Versturen...", "Sending...") : L("Verstuur bericht", "Send message")}
             </button>
             {status === "error" && (
-              <p className="text-red-400 text-xs">
+              <p className="text-red-400 text-[13px]">
                 {L("Er ging iets mis. Probeer het opnieuw of mail direct naar drinkvivace@gmail.com.", "Something went wrong. Try again or email drinkvivace@gmail.com directly.")}
               </p>
             )}
@@ -2044,7 +2034,7 @@ function FAQItem({ q, a }) {
           open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <p className="pb-6 pr-8 text-white/50 text-sm md:text-base leading-relaxed">
+        <p className="pb-6 pr-8 text-white/50 text-[15px] md:text-base leading-relaxed">
           {a}
         </p>
       </div>
@@ -2184,7 +2174,7 @@ function FAQPage() {
       <PageBanner imgs={["/images/vivace-colins-schap-02.jpg", "/images/vivace-van-dijk-schap-02.jpg", "/images/vivace-van-dijk-schap.jpg"]} pos="50% 45%" tall />
       <div className="-mt-8 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Vragen", "Questions")}</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Vragen", "Questions")}</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Veelgestelde vragen", "Frequently asked questions")}
         </h1>
@@ -2201,7 +2191,7 @@ function FAQPage() {
                 key={section.title}
                 href={`#faq-${i}`}
                 onClick={(e) => { e.preventDefault(); document.getElementById(`faq-${i}`)?.scrollIntoView({ behavior: "smooth" }); }}
-                className="text-white/60 hover:text-[#D4AF37] text-sm transition-colors"
+                className="text-white/60 hover:text-[#D4AF37] text-[15px] transition-colors"
               >
                 {L(section.title, FAQ_EN[i].title)}
               </a>
@@ -2229,7 +2219,7 @@ function FAQPage() {
 
       <Reveal delay={400}>
         <div className="mt-16 text-center border-t border-[#D4AF37]/25 pt-10">
-          <p className="text-white/50 text-sm mb-3">{L("Staat je vraag er niet bij?", "Is your question not listed?")}</p>
+          <p className="text-white/50 text-[15px] mb-3">{L("Staat je vraag er niet bij?", "Is your question not listed?")}</p>
           <Link
             to="/contact"
             className="text-[#D4AF37] font-serif italic text-lg border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors"
@@ -2828,14 +2818,14 @@ function BlogCard({ post, featured = false }) {
         </div>
       )}
       <div className={`flex flex-col gap-3 flex-1 ${featured ? "p-8 md:p-12 justify-center" : "p-6"}`}>
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]">{label}</span>
+        <span className="text-xs uppercase tracking-[0.2em] text-[#D4AF37]">{label}</span>
         <h3 className={`font-serif text-white/90 leading-snug ${featured ? "text-3xl md:text-4xl" : "text-2xl"}`} style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {post.title}
         </h3>
-        <p className={`text-white/55 text-sm leading-relaxed ${featured ? "" : "flex-1"}`}>{post.excerpt}</p>
+        <p className={`text-white/55 text-[15px] leading-relaxed ${featured ? "" : "flex-1"}`}>{post.excerpt}</p>
         <div className="flex items-center justify-between mt-2">
-          <span className="text-white/50 text-xs">{formatBlogDate(post.date)}</span>
-          <span className="text-[11px] uppercase tracking-[0.2em] text-[#D4AF37] flex items-center gap-1">{post.type === "recept" ? "Bekijk recept" : "Lees meer"} <ChevronRight size={14} /></span>
+          <span className="text-white/50 text-[13px]">{formatBlogDate(post.date)}</span>
+          <span className="text-xs uppercase tracking-[0.2em] text-[#D4AF37] flex items-center gap-1">{post.type === "recept" ? "Bekijk recept" : "Lees meer"} <ChevronRight size={14} /></span>
         </div>
       </div>
     </Link>
@@ -2852,7 +2842,7 @@ function RecipeBody({ post }) {
         <img decoding="async" src={post.image} alt={post.title} className="w-full h-auto" />
       )}
       {post.photoCredit && (
-        <p className="px-8 md:px-12 pt-3 text-[11px] text-white/50">
+        <p className="px-8 md:px-12 pt-3 text-xs text-white/50">
           Foto:{" "}
           <a
             href={`https://www.instagram.com/${post.photoCredit.replace("@", "")}/`}
@@ -2867,7 +2857,7 @@ function RecipeBody({ post }) {
       <div className="p-8 md:p-12">
       <div className="flex items-center justify-end mb-10">
         <div className="flex items-center gap-4">
-          <span className="text-white/50 text-[10px] uppercase tracking-[0.15em]">{unit}</span>
+          <span className="text-white/50 text-xs uppercase tracking-[0.15em]">{unit}</span>
           <div className="flex items-center gap-3 border border-[#D4AF37]/25">
             <button
               onClick={() => setServings(Math.max(1, servings - 1))}
@@ -2892,15 +2882,15 @@ function RecipeBody({ post }) {
 
       <div className="grid md:grid-cols-2 gap-10">
         <div>
-          <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4AF37] mb-4">Ingrediënten</p>
+          <p className="text-xs tracking-[0.25em] uppercase text-[#D4AF37] mb-4">Ingrediënten</p>
           <ul className="space-y-3">
             {post.ingredients.map((ing, i) =>
               ing.heading ? (
-                <li key={i} className={`text-[10px] tracking-[0.2em] uppercase text-white/50 ${i > 0 ? "pt-4" : ""}`}>
+                <li key={i} className={`text-xs tracking-[0.2em] uppercase text-white/50 ${i > 0 ? "pt-4" : ""}`}>
                   {ing.heading}
                 </li>
               ) : (
-              <li key={i} className="flex items-baseline justify-between gap-4 text-white/80 text-sm border-b border-[#D4AF37]/25 pb-3">
+              <li key={i} className="flex items-baseline justify-between gap-4 text-white/80 text-[15px] border-b border-[#D4AF37]/25 pb-3">
                 <span>{ing.name}</span>
                 {ing.amount !== null && (
                   <span className="font-serif text-[#D4AF37] whitespace-nowrap" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -2914,10 +2904,10 @@ function RecipeBody({ post }) {
         </div>
 
         <div>
-          <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4AF37] mb-4">Bereiding</p>
+          <p className="text-xs tracking-[0.25em] uppercase text-[#D4AF37] mb-4">Bereiding</p>
           <ol className="space-y-4">
             {post.steps.map((step, i) => (
-              <li key={i} id={`stap-${i + 1}`} className="flex gap-4 text-sm text-white/55 leading-relaxed scroll-mt-32">
+              <li key={i} id={`stap-${i + 1}`} className="flex gap-4 text-[15px] text-white/55 leading-relaxed scroll-mt-32">
                 <span className="font-serif text-[#D4AF37] flex-shrink-0" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -2929,10 +2919,10 @@ function RecipeBody({ post }) {
       </div>
 
       <div className="text-center mt-12 pt-8 border-t border-[#D4AF37]/25">
-        <p className="font-serif italic text-white/50 text-sm" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <p className="font-serif italic text-white/50 text-[15px]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {post.tip || "Tip: bewaar je Vivace in de vriezer voor het koudste, meest verfrissende resultaat."}
         </p>
-        <p className="text-white/50 text-[11px] mt-4">Drink met aandacht, drink met mate. 18+.</p>
+        <p className="text-white/50 text-xs mt-4">Drink met aandacht, drink met mate. 18+.</p>
       </div>
       </div>
     </div>
@@ -2946,7 +2936,7 @@ function ArticleBody({ post }) {
         <img decoding="async" src={post.image} alt={post.title} className="w-full h-auto" />
       )}
       {post.photoCredit && (
-        <p className="px-8 md:px-12 pt-3 text-[11px] text-white/50">
+        <p className="px-8 md:px-12 pt-3 text-xs text-white/50">
           Foto:{" "}
           <a
             href={`https://www.instagram.com/${post.photoCredit.replace("@", "")}/`}
@@ -2960,7 +2950,7 @@ function ArticleBody({ post }) {
       )}
       <div className="p-8 md:p-12 space-y-5">
         {post.body.map((para, i) => (
-          <p key={i} className="text-white/55 text-sm leading-relaxed">
+          <p key={i} className="text-white/55 text-[15px] leading-relaxed">
             {para}
           </p>
         ))}
@@ -3041,7 +3031,7 @@ function BlogPostPage() {
     return (
       <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto text-center">
         <p className="text-white/50 mb-6">Deze pagina kon niet worden gevonden.</p>
-        <Link to="/blog" className="text-[#D4AF37] text-[11px] uppercase tracking-wider border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
+        <Link to="/blog" className="text-[#D4AF37] text-xs uppercase tracking-wider border-b border-[#D4AF37]/40 hover:border-[#D4AF37] transition-colors">
           ← Terug naar blog
         </Link>
       </div>
@@ -3052,18 +3042,18 @@ function BlogPostPage() {
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Link
         to="/blog"
-        className="text-white/50 text-[11px] uppercase tracking-wider mb-10 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
+        className="text-white/50 text-xs uppercase tracking-wider mb-10 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-1.5"
       >
         ← Terug naar blog
       </Link>
       <Reveal>
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]">
+        <span className="text-xs uppercase tracking-[0.2em] text-[#D4AF37]">
           {BLOG_CATEGORIES.find((c) => c.id === post.type)?.label}
         </span>
         <h1 className="font-serif text-3xl md:text-4xl mt-3 mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {post.title}
         </h1>
-        <p className="text-white/50 text-xs mb-10">{formatBlogDate(post.date)}</p>
+        <p className="text-white/50 text-[13px] mb-10">{formatBlogDate(post.date)}</p>
       </Reveal>
       <Reveal delay={100}>
         {post.type === "recept" ? <RecipeBody post={post} /> : <ArticleBody post={post} />}
@@ -3142,7 +3132,7 @@ function ReviewsPage() {
       <PageBanner imgs={["/images/vivace-limoncello-bars-hero.jpg", "/images/vivace-tiramisu-hero.jpg", "/images/vivace-kwarktaart-hero.jpg"]} />
       <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Reviews</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Reviews</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Wat anderen van Vivace vinden", "What others think of Vivace")}
         </h1>
@@ -3151,7 +3141,7 @@ function ReviewsPage() {
             <span className="font-serif text-7xl md:text-8xl text-[#D4AF37] leading-none" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{average.toFixed(1)}</span>
             <div className="pb-2">
               <ReviewStars rating={Math.round(average)} size={20} />
-              <p className="text-white/55 text-sm mt-2">{all.length} {all.length === 1 ? "review" : "reviews"}</p>
+              <p className="text-white/55 text-[15px] mt-2">{all.length} {all.length === 1 ? "review" : "reviews"}</p>
             </div>
           </div>
         )}
@@ -3160,7 +3150,7 @@ function ReviewsPage() {
       {all.length === 0 ? (
         <Reveal delay={100}>
           <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center mb-4">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
             <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               {L("Hier verschijnen binnenkort de eerste reviews.", "The first reviews will appear here soon.")}
             </p>
@@ -3173,11 +3163,11 @@ function ReviewsPage() {
               <span className="font-serif text-5xl text-[#D4AF37] leading-none block h-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>“</span>
               <p className="font-serif italic text-lg text-white/85 leading-snug mb-5" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{r.text}</p>
               <div className="flex items-center justify-between border-t border-[#D4AF37]/25 pt-4">
-                <span className="text-white/70 text-sm">{r.name}</span>
+                <span className="text-white/70 text-[15px]">{r.name}</span>
                 <ReviewStars rating={r.rating} />
               </div>
               {r.source && (
-                <Link to={`/blog/${r.sourceId}`} className="inline-block mt-3 text-[10px] uppercase tracking-wider text-[#D4AF37]">
+                <Link to={`/blog/${r.sourceId}`} className="inline-block mt-3 text-xs uppercase tracking-wider text-[#D4AF37]">
                   {L("Over:", "About:")} {r.source} →
                 </Link>
               )}
@@ -3203,17 +3193,17 @@ function ReviewsDisplay({ post }) {
 
   return (
     <div className="mt-12 pt-10 border-t border-[#D4AF37]/25">
-      <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">
+      <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-6">
         Reviews ({post.reviews.length})
       </p>
       <div className="space-y-6">
         {post.reviews.map((r, i) => (
           <div key={i} className="border border-[#D4AF37]/25 p-5">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-white/85 text-sm font-medium">{r.name}</span>
+              <span className="text-white/85 text-[15px] font-medium">{r.name}</span>
               <ReviewStars rating={r.rating} />
             </div>
-            <p className="text-white/50 text-sm leading-relaxed">{r.text}</p>
+            <p className="text-white/50 text-[15px] leading-relaxed">{r.text}</p>
           </div>
         ))}
       </div>
@@ -3253,15 +3243,15 @@ function ReviewForm({ post }) {
 
   return (
     <div className="mt-12 pt-10 border-t border-[#D4AF37]/25">
-      <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Zelf geprobeerd?", "Tried it yourself?")}</p>
+      <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-6">{L("Zelf geprobeerd?", "Tried it yourself?")}</p>
       {status === "sent" ? (
-        <p className="text-[#D4AF37] text-sm">{L("Bedankt voor je review! We plaatsen 'm binnenkort.", "Thank you for your review! We will post it soon.")}</p>
+        <p className="text-[#D4AF37] text-[15px]">{L("Bedankt voor je review! We plaatsen 'm binnenkort.", "Thank you for your review! We will post it soon.")}</p>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
           <input type="hidden" name="_subject" value={`Nieuwe review — ${post.title}`} />
           <input type="hidden" name="recept" value={post.title} />
           <div className="flex items-center gap-3">
-            <span className="text-white/50 text-xs uppercase tracking-wider">{L("Jouw beoordeling", "Your rating")}</span>
+            <span className="text-white/50 text-[13px] uppercase tracking-wider">{L("Jouw beoordeling", "Your rating")}</span>
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((n) => (
                 <button key={n} type="button" onClick={() => setRating(n)} aria-label={`${n} sterren`}>
@@ -3277,24 +3267,24 @@ function ReviewForm({ post }) {
             name="naam"
             placeholder={L("Naam", "Name")}
             required
-            className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
           />
           <textarea
             name="review"
             placeholder={L("Wat vond je ervan?", "What did you think?")}
             required
             rows={3}
-            className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+            className="w-full bg-[#102338] border border-[#D4AF37]/25 px-4 py-3 text-[15px] text-white placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
           />
           <button
             type="submit"
             disabled={status === "sending"}
-            className="bg-[#D4AF37] text-black px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
+            className="bg-[#D4AF37] text-black px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
           >
             {status === "sending" ? L("Versturen...", "Sending...") : L("Verstuur review", "Send review")}
           </button>
           {status === "error" && (
-            <p className="text-red-400 text-xs">{L("Er ging iets mis. Probeer het opnieuw.", "Something went wrong. Please try again.")}</p>
+            <p className="text-red-400 text-[13px]">{L("Er ging iets mis. Probeer het opnieuw.", "Something went wrong. Please try again.")}</p>
           )}
         </form>
       )}
@@ -3312,7 +3302,7 @@ function RelatedPosts({ currentPost }) {
   return (
     <Reveal delay={200}>
       <div className="mt-16 pt-10 border-t border-[#D4AF37]/25">
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-6">Ontdek ook</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-6">Ontdek ook</p>
         <div className="grid sm:grid-cols-3 gap-4">
           {related.map((p) => (
             <Link
@@ -3350,7 +3340,7 @@ function BlogPage() {
       <PageBanner imgs={["/images/vivace-spritz-klassiek-hero.jpg", "/images/vivace-tonic-hero.jpg", "/images/vivace-basil-smash-hero.jpg", "/images/vivace-mule-hero.jpg"]} />
       <div className="-mt-20 relative pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Blog</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Blog</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Recepten, nieuws & verkooppunten
         </h1>
@@ -3366,7 +3356,7 @@ function BlogPage() {
             <button
               key={c.id}
               onClick={() => setFilter(c.id)}
-              className={`px-5 py-2 text-[11px] uppercase tracking-[0.14em] border transition-colors ${
+              className={`px-5 py-2 text-xs uppercase tracking-[0.14em] border transition-colors ${
                 filter === c.id
                   ? "bg-[#D4AF37] text-black border-[#D4AF37]"
                   : "text-white/50 border-[#D4AF37]/25 hover:border-[#D4AF37]/40 hover:text-white"
@@ -3381,7 +3371,7 @@ function BlogPage() {
       {filtered.length === 0 ? (
         <Reveal delay={150}>
           <div className="border border-dashed border-[#D4AF37]/30 p-14 text-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] mb-3">Binnenkort</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-[#D4AF37] mb-3">Binnenkort</p>
             <p className="font-serif italic text-xl md:text-2xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Hier verschijnen binnenkort nieuwe updates.
             </p>
@@ -3411,7 +3401,7 @@ function LegalSection({ title, children }) {
       <h2 className="font-serif text-xl text-[#D4AF37] mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
         {title}
       </h2>
-      <div className="text-white/55 text-sm leading-relaxed space-y-3">
+      <div className="text-white/55 text-[15px] leading-relaxed space-y-3">
         {children}
       </div>
     </div>
@@ -3427,7 +3417,7 @@ function PrivacyPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Juridisch</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Juridisch</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Privacybeleid
         </h1>
@@ -3524,7 +3514,7 @@ function TermsPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-3xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Juridisch</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">Juridisch</p>
         <h1 className="font-serif text-4xl md:text-5xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Algemene voorwaarden
         </h1>
@@ -3755,7 +3745,7 @@ function MerchGallery({ p, name }) {
                 >
                   ›
                 </button>
-                <p className="text-center text-white/60 text-xs tracking-[0.2em] mt-3">
+                <p className="text-center text-white/60 text-[13px] tracking-[0.2em] mt-3">
                   {i + 1} / {n}
                 </p>
               </>
@@ -3787,15 +3777,15 @@ function SizeChartModal({ product, lang, onClose }) {
       <div className="bg-[#0a1628] border border-[#D4AF37]/25 max-w-lg w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between gap-4 mb-5">
           <div>
-            <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-2">{L("Maattabel", "Size guide")}</p>
+            <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-2">{L("Maattabel", "Size guide")}</p>
             <h3 className="font-serif text-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{product.name[lang]}</h3>
           </div>
           <button type="button" onClick={onClose} aria-label={L("Sluiten", "Close")} className="text-white/50 hover:text-white text-2xl leading-none px-2">×</button>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-center">
+          <table className="w-full text-[15px] text-center">
             <thead>
-              <tr className="text-[10px] uppercase tracking-[0.15em] text-white/50 border-b border-[#D4AF37]/25">
+              <tr className="text-xs uppercase tracking-[0.15em] text-white/50 border-b border-[#D4AF37]/25">
                 <th className="py-2 pr-2 text-left font-normal">{L("Maat", "Size")}</th>
                 <th className="py-2 px-2 font-normal">{L("Lengte", "Length")}</th>
                 <th className="py-2 px-2 font-normal">{L("Breedte", "Width")}</th>
@@ -3816,7 +3806,7 @@ function SizeChartModal({ product, lang, onClose }) {
             </tbody>
           </table>
         </div>
-        <div className="text-white/50 text-xs mt-5 space-y-2">
+        <div className="text-white/50 text-[13px] mt-5 space-y-2">
           <p>
             {L(
               "Leg een T-shirt dat je goed vindt zitten plat neer en vergelijk: breedte meet je van oksel tot oksel, lengte vanaf het hoogste punt van de schouder tot de onderrand. Borst is de omtrek van je eigen borst.",
@@ -3845,7 +3835,7 @@ function ShippingReturnsModal({ data, onClose }) {
   } catch {
     /* val terug op de landcodes */
   }
-  const h = "text-[11px] tracking-[0.2em] uppercase text-[#D4AF37] mb-2";
+  const h = "text-xs tracking-[0.2em] uppercase text-[#D4AF37] mb-2";
   return (
     <div
       className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4"
@@ -3861,7 +3851,7 @@ function ShippingReturnsModal({ data, onClose }) {
           </h3>
           <button type="button" onClick={onClose} aria-label={L("Sluiten", "Close")} className="text-white/50 hover:text-white text-2xl leading-none px-2">×</button>
         </div>
-        <div className="text-white/55 text-sm space-y-6">
+        <div className="text-white/55 text-[15px] space-y-6">
           <div>
             <p className={h}>{L("Levering", "Delivery")}</p>
             <p>
@@ -3928,6 +3918,8 @@ function MerchPage() {
   const [data, setData] = useState(() => { try { return JSON.parse(sessionStorage.getItem("vv-merch") || "null"); } catch { return null; } }); // null = laden
   const [sizes, setSizes] = useState({});
   const [busy, setBusy] = useState(null);
+  const [basket, setBasket] = useState(() => { try { return JSON.parse(sessionStorage.getItem("vv-basket") || "[]"); } catch { return []; } });
+  useEffect(() => { try { sessionStorage.setItem("vv-basket", JSON.stringify(basket)); } catch { /* geen opslag */ } }, [basket]);
   const [error, setError] = useState("");
   const [chart, setChart] = useState(null);
   const [info, setInfo] = useState(false);
@@ -3943,19 +3935,33 @@ function MerchPage() {
     };
   }, []);
 
-  async function buy(p) {
+  function addToBasket(p) {
     const size = sizes[p.id] || (p.sizes.length === 1 ? p.sizes[0] : null);
     if (!size) {
       setError(L("Kies eerst een maat.", "Please choose a size first."));
       return;
     }
     setError("");
-    setBusy(p.id);
+    setBasket((b) => {
+      const k = b.findIndex((x) => x.id === p.id && x.size === size);
+      if (k >= 0) return b.map((x, n) => (n === k ? { ...x, qty: Math.min(10, x.qty + 1) } : x));
+      return [...b, { id: p.id, size, qty: 1 }];
+    });
+    setTimeout(() => document.getElementById("merch-basket")?.scrollIntoView({ behavior: "smooth", block: "center" }), 60);
+  }
+
+  function changeQty(id, size, d) {
+    setBasket((b) => b.map((x) => (x.id === id && x.size === size ? { ...x, qty: x.qty + d } : x)).filter((x) => x.qty > 0 && x.qty <= 10));
+  }
+
+  async function checkout(lines) {
+    setError("");
+    setBusy("basket");
     try {
       const r = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: [{ id: p.id, size, qty: 1 }] }),
+        body: JSON.stringify({ items: lines.map((l) => ({ id: l.id, size: l.size, qty: l.qty })) }),
       });
       const d = await r.json();
       if (!r.ok || !d.url) throw new Error(d.error || "checkout");
@@ -3968,6 +3974,11 @@ function MerchPage() {
 
   const products = data?.products || [];
   const live = products.length > 0;
+  const lines = basket
+    .map((x) => ({ ...x, p: products.find((p) => p.id === x.id) }))
+    .filter((l) => l.p && l.p.sizes.includes(l.size));
+  const subtotal = lines.reduce((t, l) => t + l.p.price_cents * l.qty, 0);
+  const shipping = data?.shipping_cents || 0;
 
   // Gegevens voor Google (Search en Shopping): elk product met prijs, voorraad, verzending en retour.
   const siteUrl = "https://www.drinkvivace.nl";
@@ -4022,7 +4033,7 @@ function MerchPage() {
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-6xl mx-auto">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Merch", "Merch")}</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Merch", "Merch")}</p>
         <h1 className="font-serif italic text-5xl md:text-7xl leading-[1.02] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Vivace, om te dragen.", "Vivace, to wear.")}
         </h1>
@@ -4043,7 +4054,7 @@ function MerchPage() {
                 <h2 className="font-serif text-3xl text-[#D4AF37] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {p.name[lang]}
                 </h2>
-                <p className="text-white/50 text-sm max-w-xs mb-4 flex-1">{p.description[lang]}</p>
+                <p className="text-white/50 text-[15px] max-w-xs mb-4 flex-1">{p.description[lang]}</p>
                 <div className="w-full flex flex-col items-center mt-auto">
                   <p className="text-white text-xl mb-5">{euro(p.price_cents)}</p>
                   <div className="min-h-[84px] flex flex-col items-center justify-start mb-4">
@@ -4054,7 +4065,7 @@ function MerchPage() {
                             key={s}
                             type="button"
                             onClick={() => setSizes((x) => ({ ...x, [p.id]: s }))}
-                            className={`min-w-[40px] px-2 py-2.5 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
+                            className={`min-w-[40px] px-2 py-2.5 text-xs uppercase tracking-[0.1em] border transition-colors ${
                               sizes[p.id] === s ? "border-[#D4AF37] bg-[#D4AF37] text-[#0a1628]" : "border-[#D4AF37]/25 text-white/60 hover:text-white hover:border-[#D4AF37]/60"
                             }`}
                           >
@@ -4063,13 +4074,13 @@ function MerchPage() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-white/50 text-[11px] uppercase tracking-[0.15em] py-2">{L("Eén maat, verstelbaar", "One size, adjustable")}</p>
+                      <p className="text-white/50 text-xs uppercase tracking-[0.15em] py-2">{L("Eén maat, verstelbaar", "One size, adjustable")}</p>
                     )}
                     {p.size_chart && (
                       <button
                         type="button"
                         onClick={() => setChart(p)}
-                        className="mt-3 text-[11px] uppercase tracking-[0.15em] text-white/50 underline underline-offset-4 hover:text-[#D4AF37] transition-colors"
+                        className="mt-3 text-xs uppercase tracking-[0.15em] text-white/50 underline underline-offset-4 hover:text-[#D4AF37] transition-colors"
                       >
                         {L("Maattabel", "Size guide")}
                       </button>
@@ -4077,16 +4088,15 @@ function MerchPage() {
                   </div>
                   <button
                     type="button"
-                    disabled={busy === p.id}
-                    onClick={() => buy(p)}
-                    className="bg-[#D4AF37] text-[#0a1628] px-10 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
+                    onClick={() => addToBasket(p)}
+                    className="bg-[#D4AF37] text-[#0a1628] px-10 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
                   >
-                    {busy === p.id ? L("Even geduld...", "One moment...") : L("Bestellen", "Order")}
+                    {L("Toevoegen aan mandje", "Add to basket")}
                   </button>
                   <button
                     type="button"
                     onClick={() => setInfo(true)}
-                    className="mt-4 text-[11px] uppercase tracking-[0.15em] text-white/50 underline underline-offset-4 hover:text-[#D4AF37] transition-colors"
+                    className="mt-4 text-xs uppercase tracking-[0.15em] text-white/50 underline underline-offset-4 hover:text-[#D4AF37] transition-colors"
                   >
                     {L("Verzending & retour", "Shipping & returns")}
                   </button>
@@ -4094,8 +4104,42 @@ function MerchPage() {
               </div>
             ))}
           </div>
-          {error && <p className="text-center text-sm text-[#e0a0a0] mb-6" role="alert">{error}</p>}
-          <p className="text-center text-white/60 text-xs mb-14 border border-[#D4AF37]/25 py-4 px-6">
+          {lines.length > 0 && (
+            <div id="merch-basket" className="scroll-mt-28 border border-[#D4AF37]/40 bg-[#102338] p-6 md:p-8 mb-6">
+              <h2 className="font-serif text-3xl text-[#D4AF37] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{L("Jouw mandje", "Your basket")}</h2>
+              <ul className="divide-y divide-[#D4AF37]/25">
+                {lines.map((l) => (
+                  <li key={l.id + l.size} className="flex flex-wrap items-center gap-4 py-4">
+                    <div className="flex-1 min-w-[160px]">
+                      <p className="text-white">{l.p.name[lang]}{l.p.sizes.length > 1 ? ` · ${l.size}` : ""}</p>
+                      <p className="text-white/60 text-sm">{euro(l.p.price_cents)}</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button type="button" aria-label={L("Minder", "Fewer")} onClick={() => changeQty(l.id, l.size, -1)} className="w-9 h-9 border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0a1628] transition-colors">−</button>
+                      <span className="w-6 text-center text-white">{l.qty}</span>
+                      <button type="button" aria-label={L("Meer", "More")} disabled={l.qty >= 10} onClick={() => changeQty(l.id, l.size, 1)} className="w-9 h-9 border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0a1628] transition-colors disabled:opacity-40">+</button>
+                    </div>
+                    <p className="w-24 text-right text-white">{euro(l.p.price_cents * l.qty)}</p>
+                  </li>
+                ))}
+              </ul>
+              <div className="border-t border-[#D4AF37]/25 pt-5 space-y-2 text-sm">
+                <div className="flex justify-between text-white/60"><span>{L("Subtotaal", "Subtotal")}</span><span>{euro(subtotal)}</span></div>
+                <div className="flex justify-between text-white/60"><span>{L("Verzending (één keer, ook bij meerdere artikelen)", "Shipping (charged once, also for multiple items)")}</span><span>{euro(shipping)}</span></div>
+                <div className="flex justify-between text-white text-lg"><span>{L("Totaal", "Total")}</span><span>{euro(subtotal + shipping)}</span></div>
+              </div>
+              <button
+                type="button"
+                disabled={busy === "basket"}
+                onClick={() => checkout(lines)}
+                className="mt-6 w-full md:w-auto bg-[#D4AF37] text-[#0a1628] px-10 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] hover:bg-[#E0C158] transition-colors disabled:opacity-50"
+              >
+                {busy === "basket" ? L("Even geduld...", "One moment...") : L("Afrekenen", "Check out")}
+              </button>
+            </div>
+          )}
+          {error && <p className="text-center text-[15px] text-[#e0a0a0] mb-6" role="alert">{error}</p>}
+          <p className="text-center text-white/60 text-[13px] mb-14 border border-[#D4AF37]/25 py-4 px-6">
             {L(
               `Verzendkosten ${euro(data.shipping_cents)}. Levering binnen ongeveer 5 tot 10 werkdagen. Alle prijzen zijn inclusief btw. `,
               `Shipping ${euro(data.shipping_cents)}. Delivery in about 5 to 10 working days. All prices include VAT. `
@@ -4119,7 +4163,7 @@ function MerchPage() {
             ))}
           </div>)}
           <div className="border border-dashed border-[#D4AF37]/30 p-10 text-center mb-14">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-[#D4AF37] mb-3">{L("Binnenkort", "Coming soon")}</p>
             <p className="font-serif italic text-xl text-[#D4AF37]/80" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               {data === null ? "" : L("De merchshop opent binnenkort.", "The merch shop opens soon.")}
             </p>
@@ -4132,21 +4176,21 @@ function MerchPage() {
 
       <Reveal delay={100}>
         <div className="border-t border-[#D4AF37]/25 pt-8 text-center">
-          <p className="text-white/50 text-sm max-w-md mx-auto mb-4">
+          <p className="text-white/50 text-[15px] max-w-md mx-auto mb-4">
             {L(
               "Vivace Limoncello koop je niet online. De fles is verkrijgbaar bij onze verkooppunten.",
               "Vivace Limoncello is not sold online. The bottle is available at our stockists."
             )}
           </p>
-          <Link to="/verkooppunten" className="text-[11px] uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
+          <Link to="/verkooppunten" className="text-xs uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
             {L("Bekijk de verkooppunten", "See where to buy")}
           </Link>
           {live && (
-            <p className="text-white/50 text-xs max-w-lg mx-auto mt-10">
+            <p className="text-white/50 text-[13px] max-w-lg mx-auto mt-10">
               VVM Trading, KVK 86618806, Loevestein 18, 3171 JD Poortugaal. drinkvivace@gmail.com
             </p>
           )}
-          <p className="text-white/50 text-xs mt-8">
+          <p className="text-white/50 text-[13px] mt-8">
             {L("Vivace is een alcoholmerk. Deze pagina is bedoeld voor 18 jaar en ouder. Geniet bewust.", "Vivace is an alcohol brand. This page is intended for people aged 18 and over. Enjoy responsibly.")}
           </p>
         </div>
@@ -4161,7 +4205,7 @@ function MerchThanksPage() {
   return (
     <div className="pt-40 pb-24 px-6 md:px-14 max-w-xl mx-auto text-center">
       <Reveal>
-        <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Bestelling ontvangen", "Order received")}</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[#D4AF37] mb-4">{L("Bestelling ontvangen", "Order received")}</p>
         <h1 className="font-serif italic text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           {L("Bedankt!", "Thank you!")}
         </h1>
@@ -4171,7 +4215,7 @@ function MerchThanksPage() {
             "Your payment went through. You will receive a confirmation by email. Your order is made for you and you will get tracking details as soon as it ships."
           )}
         </p>
-        <Link to="/" className="text-[11px] uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
+        <Link to="/" className="text-xs uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
           {L("Terug naar home", "Back to home")}
         </Link>
       </Reveal>
@@ -4249,11 +4293,11 @@ function Footer() {
 
         {columns.map((col) => (
           <div key={col.title}>
-            <p className="text-sm font-medium text-[#D4AF37] mb-4">{col.title}</p>
+            <p className="text-[15px] font-medium text-[#D4AF37] mb-4">{col.title}</p>
             <ul className="space-y-2.5">
               {col.links.map((l) => (
                 <li key={l.path}>
-                  <Link to={l.path} className="text-sm text-white/55 hover:text-[#D4AF37] transition-colors">
+                  <Link to={l.path} className="text-[15px] text-white/55 hover:text-[#D4AF37] transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -4263,7 +4307,7 @@ function Footer() {
         ))}
       </div>
 
-      <div className="max-w-6xl mx-auto mt-14 pt-8 border-t border-[#D4AF37]/25 flex flex-col md:flex-row md:justify-between gap-3 text-xs text-white/50">
+      <div className="max-w-6xl mx-auto mt-14 pt-8 border-t border-[#D4AF37]/25 flex flex-col md:flex-row md:justify-between gap-3 text-[13px] text-white/50">
         <p>
           {L("Impactpartner:", "Impact partner:")}{" "}
           <a
@@ -4362,7 +4406,7 @@ function AppShell() {
       {ageConfirmed === false && <UnderageBlock />}
 
       {lang === "en" && !["/", "/producten", "/onze-impact", "/over-ons", "/verkooppunten", "/contact", "/horeca", "/pers", "/faq", "/reviews", "/merch", "/merch/bedankt"].includes(location.pathname) && (
-        <div className="fixed bottom-0 inset-x-0 z-40 bg-[#102338] border-t border-[#D4AF37]/25 text-center text-xs text-white/70 py-3 px-4">
+        <div className="fixed bottom-0 inset-x-0 z-40 bg-[#102338] border-t border-[#D4AF37]/25 text-center text-[13px] text-white/70 py-3 px-4">
           This page is currently available in Dutch only. English version coming soon.
         </div>
       )}
