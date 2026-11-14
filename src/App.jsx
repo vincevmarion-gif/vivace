@@ -3112,6 +3112,12 @@ const GENERAL_REVIEWS = [
     text: "Ik kan niet anders zeggen dat dit echt het top punt van kwaliteit is, het is dat ik maar 5 sterren kan geven, maar ik raad iedereen Vivace aan, vooral als je echt geeft om kwaliteit!!",
     date: "2026-10-10",
   },
+  {
+    name: "Julian",
+    rating: 5,
+    text: "Limoncello waarbij je geniet van elke slok en meegenomen word door de reis van Vivace. Premium kwaliteit voor een top prijs, aanrader om te proberen.",
+    date: "2026-11-14",
+  },
 ];
 
 function ReviewsPage() {
