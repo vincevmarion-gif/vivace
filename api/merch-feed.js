@@ -14,7 +14,9 @@ const CATEGORY = {
 };
 
 function itemsFor(p) {
-  const images = p.images && p.images.length ? p.images : p.image ? [p.image] : [];
+  // Google Shopping accepteert geen doorzichtige WebP: de feed gebruikt de JPG-versies op wit (public/merch/*.jpg).
+  const toJpg = (path) => path.replace(/\.webp$/i, ".jpg");
+  const images = (p.images && p.images.length ? p.images : p.image ? [p.image] : []).map(toJpg);
   return p.sizes.map((size) => {
     const oneSize = p.sizes.length === 1;
     const id = `${p.id}-${size.toLowerCase().replace(/\s+/g, "-")}`;
