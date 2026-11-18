@@ -33,6 +33,16 @@ function useL() {
 }
 
 const LINKEDIN_URL = "https://www.linkedin.com/company/drinkvivace/";
+// Zet hier het adres van de Facebook-pagina van Vivace. Zolang dit leeg is, wordt er nergens een Facebook-link getoond.
+const FACEBOOK_URL = "";
+
+function FacebookIcon({ size = 18, className = "" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
 
 function LinkedInIcon({ size = 18, className = "" }) {
   return (
@@ -1690,6 +1700,16 @@ function PressPage() {
           >
             <LinkedInIcon size={16} /> {L("Vivace op LinkedIn", "Vivace on LinkedIn")}
           </a>
+          {FACEBOOK_URL && (
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-white/50 text-[15px] mt-4 ml-6 hover:text-[#D4AF37] transition-colors"
+            >
+              <FacebookIcon size={16} /> {L("Vivace op Facebook", "Vivace on Facebook")}
+            </a>
+          )}
         </div>
       </Reveal>
     </div></div>
@@ -1866,6 +1886,19 @@ function HorecaPage() {
             >
               LinkedIn
             </a>
+            {FACEBOOK_URL && (
+              <>
+                {" "}{L("en", "and")}{" "}
+                <a
+                  href={FACEBOOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#D4AF37]/70 border-b border-[#D4AF37]/30 hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors"
+                >
+                  Facebook
+                </a>
+              </>
+            )}
           </p>
         </div>
       </Reveal>
@@ -4279,6 +4312,17 @@ function Footer() {
             >
               <LinkedInIcon size={20} />
             </a>
+            {FACEBOOK_URL && (
+              <a
+                href={FACEBOOK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/55 hover:text-[#D4AF37] transition-colors"
+                aria-label="Vivace op Facebook"
+              >
+                <FacebookIcon size={20} />
+              </a>
+            )}
           </div>
         </div>
 
