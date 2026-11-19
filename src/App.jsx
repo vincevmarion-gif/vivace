@@ -34,7 +34,7 @@ function useL() {
 
 const LINKEDIN_URL = "https://www.linkedin.com/company/drinkvivace/";
 // Zet hier het adres van de Facebook-pagina van Vivace. Zolang dit leeg is, wordt er nergens een Facebook-link getoond.
-const FACEBOOK_URL = "";
+const FACEBOOK_URL = "https://www.facebook.com/share/1FX2kwFkzv/";
 
 function FacebookIcon({ size = 18, className = "" }) {
   return (
