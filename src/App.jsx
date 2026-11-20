@@ -3790,6 +3790,7 @@ function SizeChartModal({ product, lang, onClose }) {
   }, [onClose]);
   const rows = product.size_chart.rows;
   const hasSleeve = rows.some((r) => r.sleeve);
+  const hasChest = rows.some((r) => r.chest);
   return (
     <div
       className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4"
@@ -3814,7 +3815,7 @@ function SizeChartModal({ product, lang, onClose }) {
                 <th className="py-2 px-2 font-normal">{L("Lengte", "Length")}</th>
                 <th className="py-2 px-2 font-normal">{L("Breedte", "Width")}</th>
                 {hasSleeve && <th className="py-2 px-2 font-normal">{L("Mouw", "Sleeve")}</th>}
-                <th className="py-2 pl-2 font-normal">{L("Borst", "Chest")}</th>
+                {hasChest && <th className="py-2 pl-2 font-normal">{L("Borst", "Chest")}</th>}
               </tr>
             </thead>
             <tbody>
@@ -3824,7 +3825,7 @@ function SizeChartModal({ product, lang, onClose }) {
                   <td className="py-2.5 px-2">{r.length} cm</td>
                   <td className="py-2.5 px-2">{r.width} cm</td>
                   {hasSleeve && <td className="py-2.5 px-2">{r.sleeve} cm</td>}
-                  <td className="py-2.5 pl-2">{r.chest} cm</td>
+                  {hasChest && <td className="py-2.5 pl-2">{r.chest} cm</td>}
                 </tr>
               ))}
             </tbody>
