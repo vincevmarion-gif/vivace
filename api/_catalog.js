@@ -11,6 +11,8 @@ export const SHIPPING_CENTS = 595;
 // dus begin dicht bij huis en voeg later landen toe als je de kosten per land kent.
 export const ALLOWED_COUNTRIES = ["NL", "BE", "DE", "LU", "FR", "AT"];
 
+// Let op: hoodie, sportshirt en beanie staan hieronder op "binnenkort" tot hun Printful-variant-ID's (sync_variants)
+// zijn ingevuld. Zolang een waarde null is, blijft het product onzichtbaar in de shop.
 export const PRODUCTS = [
   {
     id: "tshirt",
@@ -102,6 +104,93 @@ export const PRODUCTS = [
       variants: { "One size": null },
       files: [{ type: "embroidery_front", path: "/merch/print/cap-front.png" }],
       options: [], // borduurgaren-instellingen, zie SETUP-MERCH.md
+    },
+  },
+  {
+    id: "hoodie",
+    enabled: true,
+    name: { nl: "Vivace hoodie", en: "Vivace hoodie" },
+    description: {
+      nl: "Premium hoodie in navy met een klein Vivace-woordmerk op de borst en het Colosseum met het Vivace-woordmerk en de slogan in goud op de rug. Op bestelling gemaakt.",
+      en: "Premium hoodie in navy with a small Vivace wordmark on the chest and the Colosseum with the Vivace wordmark and slogan in gold on the back. Made to order.",
+    },
+    price_cents: 4995, // inclusief btw (voorstel: één prijs voor alle maten)
+    art: "shirt",
+    image: "/merch/hoodie-front.webp",
+    images: ["/merch/hoodie-front.webp", "/merch/hoodie-back.webp"],
+    sizes: ["S", "M", "L", "XL", "2XL"],
+    // Maten van de fabrikant (Cotton Heritage M2580, via Printful, omgerekend van inches). Marge tot ongeveer 5 cm.
+    size_chart: {
+      rows: [
+        { size: "S", length: 69, width: 51 },
+        { size: "M", length: 71, width: 53 },
+        { size: "L", length: 74, width: 58 },
+        { size: "XL", length: 76, width: 64 },
+        { size: "2XL", length: 79, width: 67 },
+      ],
+    },
+    supplier: {
+      provider: "printful",
+      // Cotton Heritage M2580, Navy Blazer, ontworpen in Printful.
+      sync_variants: { S: null, M: null, L: null, XL: null, "2XL": null },
+      variants: { S: null, M: null, L: null, XL: null, "2XL": null },
+      files: [],
+      options: [],
+    },
+  },
+  {
+    id: "sportshirt",
+    enabled: true,
+    name: { nl: "Vivace sportshirt", en: "Vivace sports shirt" },
+    description: {
+      nl: "Sportief shirt in navy met raglanmouwen, een klein Vivace-woordmerk op de borst en het Colosseum met het Vivace-woordmerk en de slogan in goud op de rug. Op bestelling gemaakt.",
+      en: "Sporty navy shirt with raglan sleeves, a small Vivace wordmark on the chest and the Colosseum with the Vivace wordmark and slogan in gold on the back. Made to order.",
+    },
+    price_cents: 3450, // inclusief btw (voorstel: één prijs voor alle maten)
+    art: "shirt",
+    image: "/merch/sportshirt-front.webp",
+    images: ["/merch/sportshirt-front.webp", "/merch/sportshirt-back.webp"],
+    sizes: ["S", "M", "L", "XL", "2XL"],
+    // Maten van de fabrikant (SOL'S 11939, via Printful, omgerekend van inches). Marge tot ongeveer 5 cm.
+    size_chart: {
+      rows: [
+        { size: "S", length: 70, width: 50 },
+        { size: "M", length: 72, width: 53 },
+        { size: "L", length: 74, width: 56 },
+        { size: "XL", length: 76, width: 59 },
+        { size: "2XL", length: 78, width: 62 },
+      ],
+    },
+    supplier: {
+      provider: "printful",
+      // SOL'S 11939 Sporty Raglan Sleeve T-Shirt, French Navy, ontworpen in Printful.
+      sync_variants: { S: null, M: null, L: null, XL: null, "2XL": null },
+      variants: { S: null, M: null, L: null, XL: null, "2XL": null },
+      files: [],
+      options: [],
+    },
+  },
+  {
+    id: "beanie",
+    enabled: true,
+    name: { nl: "Vivace beanie", en: "Vivace beanie" },
+    description: {
+      nl: "Ribgebreide beanie in navy met het Vivace-woordmerk in goud op de omslag. Eén maat. Op bestelling gemaakt.",
+      en: "Rib knit beanie in navy with the Vivace wordmark in gold on the cuff. One size. Made to order.",
+    },
+    price_cents: 2250, // inclusief btw
+    art: "cap",
+    image: "/merch/beanie-front.webp",
+    images: ["/merch/beanie-front.webp"],
+    sizes: ["One size"],
+    size_chart: null,
+    supplier: {
+      provider: "printful",
+      // Stanley/Stella STAU295 Rib Knit Beanie 2.0, French Navy, ontworpen in Printful.
+      sync_variants: { "One size": null },
+      variants: { "One size": null },
+      files: [],
+      options: [],
     },
   },
 ];
