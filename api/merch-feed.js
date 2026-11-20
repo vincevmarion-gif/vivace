@@ -11,6 +11,9 @@ const CATEGORY = {
   tshirt: "Apparel & Accessories > Clothing > Shirts & Tops",
   longsleeve: "Apparel & Accessories > Clothing > Shirts & Tops",
   pet: "Apparel & Accessories > Clothing Accessories > Hats",
+  hoodie: "Apparel & Accessories > Clothing",
+  sportshirt: "Apparel & Accessories > Clothing > Shirts & Tops",
+  beanie: "Apparel & Accessories > Clothing Accessories > Hats",
 };
 
 function itemsFor(p) {
