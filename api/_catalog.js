@@ -175,8 +175,8 @@ export const PRODUCTS = [
     enabled: true,
     name: { nl: "Vivace beanie", en: "Vivace beanie" },
     description: {
-      nl: "Ribgebreide beanie in navy met het Vivace-woordmerk in goud op de omslag. Eén maat. Op bestelling gemaakt.",
-      en: "Rib knit beanie in navy with the Vivace wordmark in gold on the cuff. One size. Made to order.",
+      nl: "Geborduurde, ribgebreide beanie in navy met het Vivace-woordmerk in goud op de omslag. Eén maat. Op bestelling gemaakt.",
+      en: "Embroidered rib knit beanie in navy with the Vivace wordmark in gold on the cuff. One size. Made to order.",
     },
     price_cents: 2250, // inclusief btw
     art: "cap",
