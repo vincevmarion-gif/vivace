@@ -3731,6 +3731,7 @@ function MerchGallery({ p, name }) {
           ))}
         </div>
       )}
+      {n === 1 && <div className="mt-3 h-12" aria-hidden="true" />}
       {zoom && (
         <div
           className="fixed inset-0 z-[110] bg-black/85 flex items-center justify-center p-3 md:p-8"
