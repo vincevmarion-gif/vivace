@@ -11,8 +11,6 @@ export const SHIPPING_CENTS = 595;
 // dus begin dicht bij huis en voeg later landen toe als je de kosten per land kent.
 export const ALLOWED_COUNTRIES = ["NL", "BE", "DE", "LU", "FR", "AT"];
 
-// Let op: hoodie, sportshirt en beanie staan hieronder op "binnenkort" tot hun Printful-variant-ID's (sync_variants)
-// zijn ingevuld. Zolang een waarde null is, blijft het product onzichtbaar in de shop.
 export const PRODUCTS = [
   {
     id: "tshirt",
@@ -132,7 +130,7 @@ export const PRODUCTS = [
     supplier: {
       provider: "printful",
       // Cotton Heritage M2580, Navy Blazer, ontworpen in Printful.
-      sync_variants: { S: null, M: null, L: null, XL: null, "2XL": null },
+      sync_variants: { S: 5654230032, M: 5654230033, L: 5654230034, XL: 5654230035, "2XL": 5654230036 },
       variants: { S: null, M: null, L: null, XL: null, "2XL": null },
       files: [],
       options: [],
@@ -164,7 +162,7 @@ export const PRODUCTS = [
     supplier: {
       provider: "printful",
       // SOL'S 11939 Sporty Raglan Sleeve T-Shirt, French Navy, ontworpen in Printful.
-      sync_variants: { S: null, M: null, L: null, XL: null, "2XL": null },
+      sync_variants: { S: 5654225368, M: 5654225369, L: 5654225370, XL: 5654225371, "2XL": 5654225372 },
       variants: { S: null, M: null, L: null, XL: null, "2XL": null },
       files: [],
       options: [],
@@ -187,7 +185,7 @@ export const PRODUCTS = [
     supplier: {
       provider: "printful",
       // Stanley/Stella STAU295 Rib Knit Beanie 2.0, French Navy, ontworpen in Printful.
-      sync_variants: { "One size": null },
+      sync_variants: { "One size": 5654222960 },
       variants: { "One size": null },
       files: [],
       options: [],
