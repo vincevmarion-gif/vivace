@@ -40,7 +40,7 @@ export default async function handler(req, res) {
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            display_name: "Verzending",
+            display_name: "Standaard",
             fixed_amount: { amount: SHIPPING_CENTS, currency: "eur" },
             delivery_estimate: { minimum: { unit: "business_day", value: 5 }, maximum: { unit: "business_day", value: 10 } },
           },
