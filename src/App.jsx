@@ -4033,6 +4033,13 @@ function MerchPage() {
                 "@type": "OfferShippingDetails",
                 shippingRate: { "@type": "MonetaryAmount", value: ((data.shipping_cents || 0) / 100).toFixed(2), currency: "EUR" },
                 shippingDestination: (data.countries || []).map((c) => ({ "@type": "DefinedRegion", addressCountry: c })),
+                // Op bestelling gemaakt: ongeveer 5 tot 10 werkdagen in totaal (2-5 productie + 3-5 transport).
+                // Houd dit gelijk aan de tekst op de merch-pagina en in de voorwaarden.
+                deliveryTime: {
+                  "@type": "ShippingDeliveryTime",
+                  handlingTime: { "@type": "QuantitativeValue", minValue: 2, maxValue: 5, unitCode: "DAY" },
+                  transitTime: { "@type": "QuantitativeValue", minValue: 3, maxValue: 5, unitCode: "DAY" },
+                },
               },
               hasMerchantReturnPolicy: {
                 "@type": "MerchantReturnPolicy",
@@ -4041,6 +4048,8 @@ function MerchPage() {
                 merchantReturnDays: 14,
                 returnMethod: "https://schema.org/ReturnByMail",
                 returnFees: "https://schema.org/ReturnShippingFees",
+                // Retourkosten zijn voor de klant. Pas het bedrag aan op wat een retourzending gemiddeld kost.
+                returnShippingFeesAmount: { "@type": "MonetaryAmount", value: "6.95", currency: "EUR" },
                 refundType: "https://schema.org/FullRefund",
               },
             },
